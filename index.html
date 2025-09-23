@@ -1,59 +1,3452 @@
-import plotly.io as pio
-import plotly.graph_objects as go
-import pandas as pd
 
-# --- Regenerate Sankey from the new dataset to export as PNG preview ---
-def safe_str(x):
-    return "" if pd.isna(x) else str(x).strip()
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_d78296040f9b11422172862238893f4d {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_d78296040f9b11422172862238893f4d" ></div>
+        
+    
+            
+<div style="
+    position: fixed;
+    bottom: 50px;
+    left: 50px;
+    width: auto;
+    height: auto;
+    z-index:9999;
+    background-color: white;
+    border:2px solid grey;
+    padding: 10px;
+    font-size:14px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+">
+<strong>Category Legend</strong><br>
+<i style="background:lightred;width:10px;height:10px;display:inline-block;margin-right:5px;border:1px solid #333;"></i> Trade/Economy<br><i style="background:blue;width:10px;height:10px;display:inline-block;margin-right:5px;border:1px solid #333;"></i> Democracy<br><i style="background:darkred;width:10px;height:10px;display:inline-block;margin-right:5px;border:1px solid #333;"></i> human/fundamental rights<br><i style="background:green;width:10px;height:10px;display:inline-block;margin-right:5px;border:1px solid #333;"></i> energy/climate/sustainability<br><i style="background:black;width:10px;height:10px;display:inline-block;margin-right:5px;border:1px solid #333;"></i> conflict/war<br><i style="background:orange;width:10px;height:10px;display:inline-block;margin-right:5px;border:1px solid #333;"></i> Migration<br><i style="background:cadetblue;width:10px;height:10px;display:inline-block;margin-right:5px;border:1px solid #333;"></i> other (European Inegration)<br><i style="background:gray;width:10px;height:10px;display:inline-block;margin-right:5px;border:1px solid #333;"></i> other<br><i style="background:darkblue;width:10px;height:10px;display:inline-block;margin-right:5px;border:1px solid #333;"></i> digital media<br><i style="background:lightgreen;width:10px;height:10px;display:inline-block;margin-right:5px;border:1px solid #333;"></i> other (religion)<br><i style="background:lightgray;width:10px;height:10px;display:inline-block;margin-right:5px;border:1px solid #333;"></i> other (various consultancy)<br><i style="background:purple;width:10px;height:10px;display:inline-block;margin-right:5px;border:1px solid #333;"></i> other(social cohesion)<br><i style="background:darkpurple;width:10px;height:10px;display:inline-block;margin-right:5px;border:1px solid #333;"></i> other (foreign affairs)<br><i style="background:lightblue;width:10px;height:10px;display:inline-block;margin-right:5px;border:1px solid #333;"></i> other (international exchange)<br></div>
+            
+</body>
+<script>
+    
+    
+            var map_d78296040f9b11422172862238893f4d = L.map(
+                "map_d78296040f9b11422172862238893f4d",
+                {
+                    center: [50.0, 10.0],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 4,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
 
-rows = []
-for _, row in df_newest.iterrows():
-    org = safe_str(row["Name of the Organization"])
-    domains = [d.strip() for d in safe_str(row["Project/Action Domain (select all that apply)"]).split(",") if d and d.strip().lower() != "nan"]
-    addressees = [a.strip() for a in safe_str(row["Main Addressee (Select all that apply)"]).split(",") if a and a.strip().lower() != "nan"]
-    for d in domains:
-        if org:
-            rows.append({"Org": org, "Domain": d})
-        for a in addressees:
-            if d and a:
-                rows.append({"Domain": d, "Addressee": a})
+            
 
-df_long_new = pd.DataFrame(rows)
-org_domain_new = df_long_new.dropna(subset=["Org","Domain"]).groupby(["Org","Domain"]).size().reset_index(name="Count")
-dom_addr_new = df_long_new.dropna(subset=["Domain","Addressee"]).groupby(["Domain","Addressee"]).size().reset_index(name="Count")
+        
+    
+            var tile_layer_6ad5060702016bfe2358f266e5291bba = L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_d78296040f9b11422172862238893f4d);
+        
+    
+            var feature_group_59a5b4f63fb2e6d497a34bd9882f16d0 = L.featureGroup(
+                {}
+            ).addTo(map_d78296040f9b11422172862238893f4d);
+        
+    
+            var marker_f006afb7d1134588e6830a5eec768308 = L.marker(
+                [39.9308, 32.8541],
+                {}
+            ).addTo(feature_group_59a5b4f63fb2e6d497a34bd9882f16d0);
+        
+    
+            var icon_7a984f4a4c2b6197842d265e55d21029 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "lightred", "prefix": "glyphicon"}
+            );
+            marker_f006afb7d1134588e6830a5eec768308.setIcon(icon_7a984f4a4c2b6197842d265e55d21029);
+        
+    
+        var popup_f149cfc816b5dc37b0d03a633b2e77e4 = L.popup({"maxWidth": 300});
 
-labels = pd.unique(
-    pd.concat([org_domain_new["Org"], org_domain_new["Domain"],
-               dom_addr_new["Domain"], dom_addr_new["Addressee"]], ignore_index=True)
-).tolist()
-label_index = {lab:i for i,lab in enumerate(labels)}
+        
+            var html_f21a72652d9cdc8e1dadfe02df645b0b = $(`<div id="html_f21a72652d9cdc8e1dadfe02df645b0b" style="width: 100.0%; height: 100.0%;">         <strong>The Association of Civil Society Development Center </strong><br>         <a href="https://www.sivilsesler.org/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Trade/Economy     </div>`)[0];
+            popup_f149cfc816b5dc37b0d03a633b2e77e4.setContent(html_f21a72652d9cdc8e1dadfe02df645b0b);
+        
 
-sources1 = [label_index[o] for o in org_domain_new["Org"]]
-targets1 = [label_index[d] for d in org_domain_new["Domain"]]
-values1 = org_domain_new["Count"].tolist()
+        marker_f006afb7d1134588e6830a5eec768308.bindPopup(popup_f149cfc816b5dc37b0d03a633b2e77e4)
+        ;
 
-sources2 = [label_index[d] for d in dom_addr_new["Domain"]]
-targets2 = [label_index[a] for a in dom_addr_new["Addressee"]]
-values2 = dom_addr_new["Count"].tolist()
+        
+    
+    
+            marker_f006afb7d1134588e6830a5eec768308.bindTooltip(
+                `<div>
+                     The Association of Civil Society Development Center 
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_100fa28fd512daaec0115825d0c1ef77 = L.marker(
+                [41.016860254037844, 28.9834],
+                {}
+            ).addTo(feature_group_59a5b4f63fb2e6d497a34bd9882f16d0);
+        
+    
+            var icon_f86fc6fed7511e1eb85eca36e51502b0 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "lightred", "prefix": "glyphicon"}
+            );
+            marker_100fa28fd512daaec0115825d0c1ef77.setIcon(icon_f86fc6fed7511e1eb85eca36e51502b0);
+        
+    
+        var popup_3773f21fbc43d01da992193a79350674 = L.popup({"maxWidth": 300});
 
-sources = sources1 + sources2
-targets = targets1 + targets2
-values = values1 + values2
+        
+            var html_9aaa2992693c53f136eb87e01d108798 = $(`<div id="html_9aaa2992693c53f136eb87e01d108798" style="width: 100.0%; height: 100.0%;">         <strong>ECONOMIC DEVELOPMENT FOUNDATION </strong><br>         <a href=" https://www.ikv.org.tr/ikv.asp?ust_id=2&id=10" target="_blank">Visit Website</a><br>         <em>Categories:</em> Trade/Economy     </div>`)[0];
+            popup_3773f21fbc43d01da992193a79350674.setContent(html_9aaa2992693c53f136eb87e01d108798);
+        
 
-fig_sankey = go.Figure(data=[go.Sankey(
-    node=dict(
-        pad=15,
-        thickness=20,
-        line=dict(color="black", width=0.5),
-        label=labels
-    ),
-    link=dict(source=sources, target=targets, value=values)
-)])
+        marker_100fa28fd512daaec0115825d0c1ef77.bindPopup(popup_3773f21fbc43d01da992193a79350674)
+        ;
 
-fig_sankey.update_layout(title_text="Sankey Diagram Preview", font_size=10)
+        
+    
+    
+            marker_100fa28fd512daaec0115825d0c1ef77.bindTooltip(
+                `<div>
+                     ECONOMIC DEVELOPMENT FOUNDATION 
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_1707fd7140a2ebae0f9666feae9d4637 = L.marker(
+                [48.8666, 2.3522],
+                {}
+            ).addTo(feature_group_59a5b4f63fb2e6d497a34bd9882f16d0);
+        
+    
+            var icon_da69e7235369f1ba507bc98656603345 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "lightred", "prefix": "glyphicon"}
+            );
+            marker_1707fd7140a2ebae0f9666feae9d4637.setIcon(icon_da69e7235369f1ba507bc98656603345);
+        
+    
+        var popup_1cfa9c66879c723746889f99b19c175c = L.popup({"maxWidth": 300});
 
-# Export Sankey preview image
-sankey_preview_path = "/mnt/data/sankey_preview.png"
-pio.write_image(fig_sankey, sankey_preview_path, format="png", width=1000, height=600, scale=2)
+        
+            var html_e3687be94ff2e29da9be558356555bfd = $(`<div id="html_e3687be94ff2e29da9be558356555bfd" style="width: 100.0%; height: 100.0%;">         <strong>attac</strong><br>         <a href="www.attac.de - Attac Deutschland - www.attac.de" target="_blank">Visit Website</a><br>         <em>Categories:</em> Trade/Economy     </div>`)[0];
+            popup_1cfa9c66879c723746889f99b19c175c.setContent(html_e3687be94ff2e29da9be558356555bfd);
+        
 
-sankey_preview_path
+        marker_1707fd7140a2ebae0f9666feae9d4637.bindPopup(popup_1cfa9c66879c723746889f99b19c175c)
+        ;
+
+        
+    
+    
+            marker_1707fd7140a2ebae0f9666feae9d4637.bindTooltip(
+                `<div>
+                     attac
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_6e4fcbfde74b51b50e9b93aabd63af1f = L.marker(
+                [52.2297, 21.0222],
+                {}
+            ).addTo(feature_group_59a5b4f63fb2e6d497a34bd9882f16d0);
+        
+    
+            var icon_01fecd5ab32c06f31c91e80444bee2a9 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "lightred", "prefix": "glyphicon"}
+            );
+            marker_6e4fcbfde74b51b50e9b93aabd63af1f.setIcon(icon_01fecd5ab32c06f31c91e80444bee2a9);
+        
+    
+        var popup_5f8d684bba1105d8eaba15dea79135fb = L.popup({"maxWidth": 300});
+
+        
+            var html_5476abbc21f411c820ac50a40b436e65 = $(`<div id="html_5476abbc21f411c820ac50a40b436e65" style="width: 100.0%; height: 100.0%;">         <strong> Institute of Public Affairs (ISP)</strong><br>         <a href="https://www.isp.org.pl/en/about-us" target="_blank">Visit Website</a><br>         <em>Categories:</em> Trade/Economy     </div>`)[0];
+            popup_5f8d684bba1105d8eaba15dea79135fb.setContent(html_5476abbc21f411c820ac50a40b436e65);
+        
+
+        marker_6e4fcbfde74b51b50e9b93aabd63af1f.bindPopup(popup_5f8d684bba1105d8eaba15dea79135fb)
+        ;
+
+        
+    
+    
+            marker_6e4fcbfde74b51b50e9b93aabd63af1f.bindTooltip(
+                `<div>
+                      Institute of Public Affairs (ISP)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_4b9d2fb5ed15e9e0f573d3407c5cc1c0 = L.marker(
+                [52.2247, 21.020860254037846],
+                {}
+            ).addTo(feature_group_59a5b4f63fb2e6d497a34bd9882f16d0);
+        
+    
+            var icon_852051ca0ef35d8d2e6b60f00f0f6cf7 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "lightred", "prefix": "glyphicon"}
+            );
+            marker_4b9d2fb5ed15e9e0f573d3407c5cc1c0.setIcon(icon_852051ca0ef35d8d2e6b60f00f0f6cf7);
+        
+    
+        var popup_8edc8989a7dafc824f3461e917fa5b24 = L.popup({"maxWidth": 300});
+
+        
+            var html_8540883c6efb39d46c9bfc009b6ec90e = $(`<div id="html_8540883c6efb39d46c9bfc009b6ec90e" style="width: 100.0%; height: 100.0%;">         <strong>CASE – Center for Social and Economic Research</strong><br>         <a href="CASE – Center for Social and Economic Research" target="_blank">Visit Website</a><br>         <em>Categories:</em> Trade/Economy     </div>`)[0];
+            popup_8edc8989a7dafc824f3461e917fa5b24.setContent(html_8540883c6efb39d46c9bfc009b6ec90e);
+        
+
+        marker_4b9d2fb5ed15e9e0f573d3407c5cc1c0.bindPopup(popup_8edc8989a7dafc824f3461e917fa5b24)
+        ;
+
+        
+    
+    
+            marker_4b9d2fb5ed15e9e0f573d3407c5cc1c0.bindTooltip(
+                `<div>
+                     CASE – Center for Social and Economic Research
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_9d5b4243f6d75b691572cb2ecd7af791 = L.marker(
+                [52.2222, 20.999209618943233],
+                {}
+            ).addTo(feature_group_59a5b4f63fb2e6d497a34bd9882f16d0);
+        
+    
+            var icon_f839f59f91ecf1890bcf82c937d0a9c0 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "lightred", "prefix": "glyphicon"}
+            );
+            marker_9d5b4243f6d75b691572cb2ecd7af791.setIcon(icon_f839f59f91ecf1890bcf82c937d0a9c0);
+        
+    
+        var popup_86a4058e8af5a48f42358de988cba5f6 = L.popup({"maxWidth": 300});
+
+        
+            var html_5a27e772df77209141f433619ac36236 = $(`<div id="html_5a27e772df77209141f433619ac36236" style="width: 100.0%; height: 100.0%;">         <strong>Amerykańska Izba Handlowa w Polsce (Amerykańska Izba Handlowa w Polsce)</strong><br>         <a href="https://amcham.pl/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Trade/Economy     </div>`)[0];
+            popup_86a4058e8af5a48f42358de988cba5f6.setContent(html_5a27e772df77209141f433619ac36236);
+        
+
+        marker_9d5b4243f6d75b691572cb2ecd7af791.bindPopup(popup_86a4058e8af5a48f42358de988cba5f6)
+        ;
+
+        
+    
+    
+            marker_9d5b4243f6d75b691572cb2ecd7af791.bindTooltip(
+                `<div>
+                     Amerykańska Izba Handlowa w Polsce (Amerykańska Izba Handlowa w Polsce)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var feature_group_a1fe9017329568b2e9b7ce49a0519aa1 = L.featureGroup(
+                {}
+            ).addTo(map_d78296040f9b11422172862238893f4d);
+        
+    
+            var marker_e46008f37df8e29ed6f984ed318e6b07 = L.marker(
+                [41.0182, 28.9784],
+                {}
+            ).addTo(feature_group_a1fe9017329568b2e9b7ce49a0519aa1);
+        
+    
+            var icon_a28844992181c401e855b5142643b3f3 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_e46008f37df8e29ed6f984ed318e6b07.setIcon(icon_a28844992181c401e855b5142643b3f3);
+        
+    
+        var popup_b9ef712ddb6bcecb20a91943925937d0 = L.popup({"maxWidth": 300});
+
+        
+            var html_191a980772260561a009a2e3345f3e09 = $(`<div id="html_191a980772260561a009a2e3345f3e09" style="width: 100.0%; height: 100.0%;">         <strong>Turkish Economic and Social Studies Foundation </strong><br>         <a href="https://www.tesev.org.tr/en/home/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Democracy     </div>`)[0];
+            popup_b9ef712ddb6bcecb20a91943925937d0.setContent(html_191a980772260561a009a2e3345f3e09);
+        
+
+        marker_e46008f37df8e29ed6f984ed318e6b07.bindPopup(popup_b9ef712ddb6bcecb20a91943925937d0)
+        ;
+
+        
+    
+    
+            marker_e46008f37df8e29ed6f984ed318e6b07.bindTooltip(
+                `<div>
+                     Turkish Economic and Social Studies Foundation 
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_57bcad5d59fb1d27dcd0f09855ec4359 = L.marker(
+                [50.860299999999995, 4.3517],
+                {}
+            ).addTo(feature_group_a1fe9017329568b2e9b7ce49a0519aa1);
+        
+    
+            var icon_ba75754311f9f2f8c94775b4a3a30dea = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_57bcad5d59fb1d27dcd0f09855ec4359.setIcon(icon_ba75754311f9f2f8c94775b4a3a30dea);
+        
+    
+        var popup_8018133a7820984cfa6b0b953269af50 = L.popup({"maxWidth": 300});
+
+        
+            var html_5566fa91a181d362a876be97d230ed64 = $(`<div id="html_5566fa91a181d362a876be97d230ed64" style="width: 100.0%; height: 100.0%;">         <strong>Tepsa </strong><br>         <a href="https://tepsa.eu/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Democracy     </div>`)[0];
+            popup_8018133a7820984cfa6b0b953269af50.setContent(html_5566fa91a181d362a876be97d230ed64);
+        
+
+        marker_57bcad5d59fb1d27dcd0f09855ec4359.bindPopup(popup_8018133a7820984cfa6b0b953269af50)
+        ;
+
+        
+    
+    
+            marker_57bcad5d59fb1d27dcd0f09855ec4359.bindTooltip(
+                `<div>
+                     Tepsa 
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_4ba50eca1810422a9712ed4fa93fda8e = L.marker(
+                [50.85896025403784, 4.3567],
+                {}
+            ).addTo(feature_group_a1fe9017329568b2e9b7ce49a0519aa1);
+        
+    
+            var icon_a40287b77920e06ab387523f1c2100fa = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_4ba50eca1810422a9712ed4fa93fda8e.setIcon(icon_a40287b77920e06ab387523f1c2100fa);
+        
+    
+        var popup_b42c2ca9e917409805faff3f04ab76a9 = L.popup({"maxWidth": 300});
+
+        
+            var html_8bc9512235d24881cf1a9062e11026ec = $(`<div id="html_8bc9512235d24881cf1a9062e11026ec" style="width: 100.0%; height: 100.0%;">         <strong>Demsoc</strong><br>         <a href="https://www.demsoc.org/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Democracy     </div>`)[0];
+            popup_b42c2ca9e917409805faff3f04ab76a9.setContent(html_8bc9512235d24881cf1a9062e11026ec);
+        
+
+        marker_4ba50eca1810422a9712ed4fa93fda8e.bindPopup(popup_b42c2ca9e917409805faff3f04ab76a9)
+        ;
+
+        
+    
+    
+            marker_4ba50eca1810422a9712ed4fa93fda8e.bindTooltip(
+                `<div>
+                     Demsoc
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_b4476942926cfb72ce8673cc29975186 = L.marker(
+                [52.2397, 21.0122],
+                {}
+            ).addTo(feature_group_a1fe9017329568b2e9b7ce49a0519aa1);
+        
+    
+            var icon_49aa58888f83ec12e5ee71b40c31bc33 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_b4476942926cfb72ce8673cc29975186.setIcon(icon_49aa58888f83ec12e5ee71b40c31bc33);
+        
+    
+        var popup_e2495294c31e031c56e8ba6a2bac7d87 = L.popup({"maxWidth": 300});
+
+        
+            var html_d79e139b242b4ba2cf9eec2a5accc013 = $(`<div id="html_d79e139b242b4ba2cf9eec2a5accc013" style="width: 100.0%; height: 100.0%;">         <strong>Democracy Otwarty Dialog Foundation (Open Dialogue Foundation): </strong><br>         <a href="https://en.odfoundation.eu/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Democracy     </div>`)[0];
+            popup_e2495294c31e031c56e8ba6a2bac7d87.setContent(html_d79e139b242b4ba2cf9eec2a5accc013);
+        
+
+        marker_b4476942926cfb72ce8673cc29975186.bindPopup(popup_e2495294c31e031c56e8ba6a2bac7d87)
+        ;
+
+        
+    
+    
+            marker_b4476942926cfb72ce8673cc29975186.bindTooltip(
+                `<div>
+                     Democracy Otwarty Dialog Foundation (Open Dialogue Foundation): 
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_92194f1e3056622925023a2896676c5b = L.marker(
+                [52.23836025403784, 21.0172],
+                {}
+            ).addTo(feature_group_a1fe9017329568b2e9b7ce49a0519aa1);
+        
+    
+            var icon_207225a235cd639630c4368b1e4b1a04 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_92194f1e3056622925023a2896676c5b.setIcon(icon_207225a235cd639630c4368b1e4b1a04);
+        
+    
+        var popup_204104e90ecc4beec81543158e3f279c = L.popup({"maxWidth": 300});
+
+        
+            var html_5c8c286e1615f9289dcbf019e788c37b = $(`<div id="html_5c8c286e1615f9289dcbf019e788c37b" style="width: 100.0%; height: 100.0%;">         <strong>Batory Foundation</strong><br>         <a href="https://www.batory.org.pl/en/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Democracy     </div>`)[0];
+            popup_204104e90ecc4beec81543158e3f279c.setContent(html_5c8c286e1615f9289dcbf019e788c37b);
+        
+
+        marker_92194f1e3056622925023a2896676c5b.bindPopup(popup_204104e90ecc4beec81543158e3f279c)
+        ;
+
+        
+    
+    
+            marker_92194f1e3056622925023a2896676c5b.bindTooltip(
+                `<div>
+                     Batory Foundation
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_cd0dc8d01877fdc0726ed35af8b01ebb = L.marker(
+                [52.234700000000004, 21.020860254037846],
+                {}
+            ).addTo(feature_group_a1fe9017329568b2e9b7ce49a0519aa1);
+        
+    
+            var icon_2b68c61adc495304ba11e77e850f3822 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_cd0dc8d01877fdc0726ed35af8b01ebb.setIcon(icon_2b68c61adc495304ba11e77e850f3822);
+        
+    
+        var popup_eb3fec27fd07b824cc2dd9e592321ebb = L.popup({"maxWidth": 300});
+
+        
+            var html_9ef6985914bbdd828726c0c1d9b9cd53 = $(`<div id="html_9ef6985914bbdd828726c0c1d9b9cd53" style="width: 100.0%; height: 100.0%;">         <strong>Fundacja Rozwoju Demokracji Lokalnej (Foundation for the Development of Local Democracy)</strong><br>         <a href="https://frdl.org.pl/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Democracy     </div>`)[0];
+            popup_eb3fec27fd07b824cc2dd9e592321ebb.setContent(html_9ef6985914bbdd828726c0c1d9b9cd53);
+        
+
+        marker_cd0dc8d01877fdc0726ed35af8b01ebb.bindPopup(popup_eb3fec27fd07b824cc2dd9e592321ebb)
+        ;
+
+        
+    
+    
+            marker_cd0dc8d01877fdc0726ed35af8b01ebb.bindTooltip(
+                `<div>
+                     Fundacja Rozwoju Demokracji Lokalnej (Foundation for the Development of Local Democracy)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_20614744d31904cd6824c821eb95b06c = L.marker(
+                [49.4621, 11.0767],
+                {}
+            ).addTo(feature_group_a1fe9017329568b2e9b7ce49a0519aa1);
+        
+    
+            var icon_b6642da1edad934d8a3eed8a32e7a62a = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_20614744d31904cd6824c821eb95b06c.setIcon(icon_b6642da1edad934d8a3eed8a32e7a62a);
+        
+    
+        var popup_e508ef615ab9fe84d0cb47b31f2ce906 = L.popup({"maxWidth": 300});
+
+        
+            var html_c6bbfb4a07c7b11ee9321d3657696f2f = $(`<div id="html_c6bbfb4a07c7b11ee9321d3657696f2f" style="width: 100.0%; height: 100.0%;">         <strong>Alliance against right-wing extremism in Nuremberg (Allianz gegen Rechtsextremismus Nürnberg)</strong><br>         <a href="https://www.allianz-gegen-rechtsextremismus.de/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Democracy     </div>`)[0];
+            popup_e508ef615ab9fe84d0cb47b31f2ce906.setContent(html_c6bbfb4a07c7b11ee9321d3657696f2f);
+        
+
+        marker_20614744d31904cd6824c821eb95b06c.bindPopup(popup_e508ef615ab9fe84d0cb47b31f2ce906)
+        ;
+
+        
+    
+    
+            marker_20614744d31904cd6824c821eb95b06c.bindTooltip(
+                `<div>
+                     Alliance against right-wing extremism in Nuremberg (Allianz gegen Rechtsextremismus Nürnberg)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_bc363224e2e13343819a05fb8ef7ab10 = L.marker(
+                [52.528660254037845, 13.41],
+                {}
+            ).addTo(feature_group_a1fe9017329568b2e9b7ce49a0519aa1);
+        
+    
+            var icon_4ed702c9908a8dbc6d96d45fd56d4961 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_bc363224e2e13343819a05fb8ef7ab10.setIcon(icon_4ed702c9908a8dbc6d96d45fd56d4961);
+        
+    
+        var popup_ae6f456d0716be7cc39b78433ac8c32f = L.popup({"maxWidth": 300});
+
+        
+            var html_d9434c7c9fa2e0838901b7659ac1f001 = $(`<div id="html_d9434c7c9fa2e0838901b7659ac1f001" style="width: 100.0%; height: 100.0%;">         <strong>Antifaschists Germany</strong><br>         <a href="https://antifascisteurope.org/germany/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Democracy     </div>`)[0];
+            popup_ae6f456d0716be7cc39b78433ac8c32f.setContent(html_d9434c7c9fa2e0838901b7659ac1f001);
+        
+
+        marker_bc363224e2e13343819a05fb8ef7ab10.bindPopup(popup_ae6f456d0716be7cc39b78433ac8c32f)
+        ;
+
+        
+    
+    
+            marker_bc363224e2e13343819a05fb8ef7ab10.bindTooltip(
+                `<div>
+                     Antifaschists Germany
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_4fd3c068bfa1f8fbdc86d2a0a31f283f = L.marker(
+                [52.2447, 21.0122],
+                {}
+            ).addTo(feature_group_a1fe9017329568b2e9b7ce49a0519aa1);
+        
+    
+            var icon_f415811fb942d9a257eaf6582480d719 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_4fd3c068bfa1f8fbdc86d2a0a31f283f.setIcon(icon_f415811fb942d9a257eaf6582480d719);
+        
+    
+        var popup_6148298fd7b82966532fe7b1e304b9d8 = L.popup({"maxWidth": 300});
+
+        
+            var html_515e256ca8a758ed7f5a4263382fb43e = $(`<div id="html_515e256ca8a758ed7f5a4263382fb43e" style="width: 100.0%; height: 100.0%;">         <strong>Civil Development Forum Foundation (Fundacja Forum Rozwoju Obywatelskiego)</strong><br>         <a href="https://wolnagospodarka.pl/en/what-we-do/forum-obywatelskiego-rozwoju/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Democracy     </div>`)[0];
+            popup_6148298fd7b82966532fe7b1e304b9d8.setContent(html_515e256ca8a758ed7f5a4263382fb43e);
+        
+
+        marker_4fd3c068bfa1f8fbdc86d2a0a31f283f.bindPopup(popup_6148298fd7b82966532fe7b1e304b9d8)
+        ;
+
+        
+    
+    
+            marker_4fd3c068bfa1f8fbdc86d2a0a31f283f.bindTooltip(
+                `<div>
+                     Civil Development Forum Foundation (Fundacja Forum Rozwoju Obywatelskiego)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_6aeffd1c20e4da26dc43cbb6f08e8664 = L.marker(
+                [52.24269038105677, 21.0197],
+                {}
+            ).addTo(feature_group_a1fe9017329568b2e9b7ce49a0519aa1);
+        
+    
+            var icon_48b6918b7a46b4e034c72eabab242792 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_6aeffd1c20e4da26dc43cbb6f08e8664.setIcon(icon_48b6918b7a46b4e034c72eabab242792);
+        
+    
+        var popup_7e435f0061918319978d60f7e2627671 = L.popup({"maxWidth": 300});
+
+        
+            var html_b2160922fce1ca9845b21054cc075613 = $(`<div id="html_b2160922fce1ca9845b21054cc075613" style="width: 100.0%; height: 100.0%;">         <strong>ePaństwo Foundation (Fundacja ePaństwo)</strong><br>         <a href="https://mojepanstwo.pl/fundacja" target="_blank">Visit Website</a><br>         <em>Categories:</em> Democracy     </div>`)[0];
+            popup_7e435f0061918319978d60f7e2627671.setContent(html_b2160922fce1ca9845b21054cc075613);
+        
+
+        marker_6aeffd1c20e4da26dc43cbb6f08e8664.bindPopup(popup_7e435f0061918319978d60f7e2627671)
+        ;
+
+        
+    
+    
+            marker_6aeffd1c20e4da26dc43cbb6f08e8664.bindTooltip(
+                `<div>
+                     ePaństwo Foundation (Fundacja ePaństwo)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_b979d1b0fb9f52bc9eda34c390830927 = L.marker(
+                [52.2297, 21.0272],
+                {}
+            ).addTo(feature_group_a1fe9017329568b2e9b7ce49a0519aa1);
+        
+    
+            var icon_528d3dfa79fcadb95ac0db2dbfdee942 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_b979d1b0fb9f52bc9eda34c390830927.setIcon(icon_528d3dfa79fcadb95ac0db2dbfdee942);
+        
+    
+        var popup_9a3e87df5292206338e5e089341f2b27 = L.popup({"maxWidth": 300});
+
+        
+            var html_b27d7bb745b29c65f721b90c4f74f970 = $(`<div id="html_b27d7bb745b29c65f721b90c4f74f970" style="width: 100.0%; height: 100.0%;">         <strong>Batory Foundation (Fundacja Batorego)</strong><br>         <a href="https://www.batory.org.pl/en/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Democracy     </div>`)[0];
+            popup_9a3e87df5292206338e5e089341f2b27.setContent(html_b27d7bb745b29c65f721b90c4f74f970);
+        
+
+        marker_b979d1b0fb9f52bc9eda34c390830927.bindPopup(popup_9a3e87df5292206338e5e089341f2b27)
+        ;
+
+        
+    
+    
+            marker_b979d1b0fb9f52bc9eda34c390830927.bindTooltip(
+                `<div>
+                     Batory Foundation (Fundacja Batorego)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_ae1f30464f08ac41438c562ee9b511ff = L.marker(
+                [38.9172, -77.0369],
+                {}
+            ).addTo(feature_group_a1fe9017329568b2e9b7ce49a0519aa1);
+        
+    
+            var icon_32199ff352382f7cef1a606fb80e8dc7 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_ae1f30464f08ac41438c562ee9b511ff.setIcon(icon_32199ff352382f7cef1a606fb80e8dc7);
+        
+    
+        var popup_2bca12e0b1c65f044917a9e60f6b4c93 = L.popup({"maxWidth": 300});
+
+        
+            var html_9dc883b0e40d4faf623e6e2eef429afe = $(`<div id="html_9dc883b0e40d4faf623e6e2eef429afe" style="width: 100.0%; height: 100.0%;">         <strong>Freedom House</strong><br>         <a href="https://freedomhouse.org/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Democracy, human/fundamental rights     </div>`)[0];
+            popup_2bca12e0b1c65f044917a9e60f6b4c93.setContent(html_9dc883b0e40d4faf623e6e2eef429afe);
+        
+
+        marker_ae1f30464f08ac41438c562ee9b511ff.bindPopup(popup_2bca12e0b1c65f044917a9e60f6b4c93)
+        ;
+
+        
+    
+    
+            marker_ae1f30464f08ac41438c562ee9b511ff.bindTooltip(
+                `<div>
+                     Freedom House
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_41e82e45c3af10c0d2e48e739f9af5ea = L.marker(
+                [47.48923974596216, 19.045199999999998],
+                {}
+            ).addTo(feature_group_a1fe9017329568b2e9b7ce49a0519aa1);
+        
+    
+            var icon_8c0c82cd599c2a09e4c620095e90be26 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_41e82e45c3af10c0d2e48e739f9af5ea.setIcon(icon_8c0c82cd599c2a09e4c620095e90be26);
+        
+    
+        var popup_e8a0b6e03736f9922c34265ebb0f929f = L.popup({"maxWidth": 300});
+
+        
+            var html_32b1ffac88578d97887eb1934cf0a589 = $(`<div id="html_32b1ffac88578d97887eb1934cf0a589" style="width: 100.0%; height: 100.0%;">         <strong>Roma Civil Rights Foundation (Roma Polgárjogi Alapítvány )</strong><br>         <a href="http://www.rpa.ingyenweb.hu/keret.cgi?/start.html" target="_blank">Visit Website</a><br>         <em>Categories:</em> Democracy     </div>`)[0];
+            popup_e8a0b6e03736f9922c34265ebb0f929f.setContent(html_32b1ffac88578d97887eb1934cf0a589);
+        
+
+        marker_41e82e45c3af10c0d2e48e739f9af5ea.bindPopup(popup_e8a0b6e03736f9922c34265ebb0f929f)
+        ;
+
+        
+    
+    
+            marker_41e82e45c3af10c0d2e48e739f9af5ea.bindTooltip(
+                `<div>
+                     Roma Civil Rights Foundation (Roma Polgárjogi Alapítvány )
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_bcf9eadfb206a70cde527cac6cec5e4a = L.marker(
+                [52.510000000000005, 13.405],
+                {}
+            ).addTo(feature_group_a1fe9017329568b2e9b7ce49a0519aa1);
+        
+    
+            var icon_df4da29a12dc3b3dc91ae07b7a3a79c9 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_bcf9eadfb206a70cde527cac6cec5e4a.setIcon(icon_df4da29a12dc3b3dc91ae07b7a3a79c9);
+        
+    
+        var popup_0828071d3d91cef8279097161e3b4ad9 = L.popup({"maxWidth": 300});
+
+        
+            var html_5ea4d7bb105cada06b8657f5b9bae829 = $(`<div id="html_5ea4d7bb105cada06b8657f5b9bae829" style="width: 100.0%; height: 100.0%;">         <strong>Bundesnetzwerk Bürgerschaftliches Engagement (BBE)</strong><br>         <a href="https://www.b-b-e.de/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Democracy     </div>`)[0];
+            popup_0828071d3d91cef8279097161e3b4ad9.setContent(html_5ea4d7bb105cada06b8657f5b9bae829);
+        
+
+        marker_bcf9eadfb206a70cde527cac6cec5e4a.bindPopup(popup_0828071d3d91cef8279097161e3b4ad9)
+        ;
+
+        
+    
+    
+            marker_bcf9eadfb206a70cde527cac6cec5e4a.bindTooltip(
+                `<div>
+                     Bundesnetzwerk Bürgerschaftliches Engagement (BBE)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_5b991f0af1f254051a08996af114bf5c = L.marker(
+                [52.51133974596216, 13.399999999999999],
+                {}
+            ).addTo(feature_group_a1fe9017329568b2e9b7ce49a0519aa1);
+        
+    
+            var icon_cf8552d32f46cc8c0b0eb762c8f06462 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_5b991f0af1f254051a08996af114bf5c.setIcon(icon_cf8552d32f46cc8c0b0eb762c8f06462);
+        
+    
+        var popup_496caed37adbb466419b824fe8016b13 = L.popup({"maxWidth": 300});
+
+        
+            var html_46de07472085ee2dc57c955cf93cdaee = $(`<div id="html_46de07472085ee2dc57c955cf93cdaee" style="width: 100.0%; height: 100.0%;">         <strong>Europäische Akademie Berlin e.V. (EAB)</strong><br>         <a href="https://www.eab-berlin.eu/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Democracy     </div>`)[0];
+            popup_496caed37adbb466419b824fe8016b13.setContent(html_46de07472085ee2dc57c955cf93cdaee);
+        
+
+        marker_5b991f0af1f254051a08996af114bf5c.bindPopup(popup_496caed37adbb466419b824fe8016b13)
+        ;
+
+        
+    
+    
+            marker_5b991f0af1f254051a08996af114bf5c.bindTooltip(
+                `<div>
+                     Europäische Akademie Berlin e.V. (EAB)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_9ebb9ef0fd58d685d9a233eba7ce3d69 = L.marker(
+                [51.3497, 12.3731],
+                {}
+            ).addTo(feature_group_a1fe9017329568b2e9b7ce49a0519aa1);
+        
+    
+            var icon_8d12098d49347e370a58a80304a164a4 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_9ebb9ef0fd58d685d9a233eba7ce3d69.setIcon(icon_8d12098d49347e370a58a80304a164a4);
+        
+    
+        var popup_b7f4508e9d75ebe5c9e5101d7d722b5b = L.popup({"maxWidth": 300});
+
+        
+            var html_35cc16797db31ddb4ef5b1e0895ad892 = $(`<div id="html_35cc16797db31ddb4ef5b1e0895ad892" style="width: 100.0%; height: 100.0%;">         <strong>We are Europe! e.V.</strong><br>         <a href="https://we-are-europe.org/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Democracy     </div>`)[0];
+            popup_b7f4508e9d75ebe5c9e5101d7d722b5b.setContent(html_35cc16797db31ddb4ef5b1e0895ad892);
+        
+
+        marker_9ebb9ef0fd58d685d9a233eba7ce3d69.bindPopup(popup_b7f4508e9d75ebe5c9e5101d7d722b5b)
+        ;
+
+        
+    
+    
+            marker_9ebb9ef0fd58d685d9a233eba7ce3d69.bindTooltip(
+                `<div>
+                     We are Europe! e.V.
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_2793c60070854366de2ab782bc5ffb52 = L.marker(
+                [50.1159, 8.690760254037844],
+                {}
+            ).addTo(feature_group_a1fe9017329568b2e9b7ce49a0519aa1);
+        
+    
+            var icon_90f149cfb09e67b8a92dd882311906a1 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_2793c60070854366de2ab782bc5ffb52.setIcon(icon_90f149cfb09e67b8a92dd882311906a1);
+        
+    
+        var popup_709f5eb477ec6d879e6786ac21449554 = L.popup({"maxWidth": 300});
+
+        
+            var html_19799212e040b3b8bd242700ea200aa6 = $(`<div id="html_19799212e040b3b8bd242700ea200aa6" style="width: 100.0%; height: 100.0%;">         <strong>Pulse of Europe</strong><br>         <a href="https://pulseofeurope.eu/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Democracy     </div>`)[0];
+            popup_709f5eb477ec6d879e6786ac21449554.setContent(html_19799212e040b3b8bd242700ea200aa6);
+        
+
+        marker_2793c60070854366de2ab782bc5ffb52.bindPopup(popup_709f5eb477ec6d879e6786ac21449554)
+        ;
+
+        
+    
+    
+            marker_2793c60070854366de2ab782bc5ffb52.bindTooltip(
+                `<div>
+                     Pulse of Europe
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_b45bc00e9158b1e638527c87a393cbc9 = L.marker(
+                [52.535000000000004, 13.405],
+                {}
+            ).addTo(feature_group_a1fe9017329568b2e9b7ce49a0519aa1);
+        
+    
+            var icon_82a1165b2ed8460e6cca0d38508be218 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_b45bc00e9158b1e638527c87a393cbc9.setIcon(icon_82a1165b2ed8460e6cca0d38508be218);
+        
+    
+        var popup_c018a3862a92cb5d923995840d20f472 = L.popup({"maxWidth": 300});
+
+        
+            var html_5de75d56a64e1814176c731bd623a10a = $(`<div id="html_5de75d56a64e1814176c731bd623a10a" style="width: 100.0%; height: 100.0%;">         <strong>Europa-Union Deutschland (EUD)</strong><br>         <a href="https://www.europa-union.de/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Democracy     </div>`)[0];
+            popup_c018a3862a92cb5d923995840d20f472.setContent(html_5de75d56a64e1814176c731bd623a10a);
+        
+
+        marker_b45bc00e9158b1e638527c87a393cbc9.bindPopup(popup_c018a3862a92cb5d923995840d20f472)
+        ;
+
+        
+    
+    
+            marker_b45bc00e9158b1e638527c87a393cbc9.bindTooltip(
+                `<div>
+                     Europa-Union Deutschland (EUD)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_2a140551a54cac6e8573f267f4185995 = L.marker(
+                [52.53299038105677, 13.4125],
+                {}
+            ).addTo(feature_group_a1fe9017329568b2e9b7ce49a0519aa1);
+        
+    
+            var icon_5884a7ca0b31e1654889ee2a8e1a3e73 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_2a140551a54cac6e8573f267f4185995.setIcon(icon_5884a7ca0b31e1654889ee2a8e1a3e73);
+        
+    
+        var popup_986012b28e002ff4746c452db0e2d1cf = L.popup({"maxWidth": 300});
+
+        
+            var html_02a90b9ae0291a4334ae0468667b0a63 = $(`<div id="html_02a90b9ae0291a4334ae0468667b0a63" style="width: 100.0%; height: 100.0%;">         <strong>Junge Europäische Förderalist:innen (JEF)</strong><br>         <a href="https://www.jef.de/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Democracy     </div>`)[0];
+            popup_986012b28e002ff4746c452db0e2d1cf.setContent(html_02a90b9ae0291a4334ae0468667b0a63);
+        
+
+        marker_2a140551a54cac6e8573f267f4185995.bindPopup(popup_986012b28e002ff4746c452db0e2d1cf)
+        ;
+
+        
+    
+    
+            marker_2a140551a54cac6e8573f267f4185995.bindTooltip(
+                `<div>
+                     Junge Europäische Förderalist:innen (JEF)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_26f5915634f36bab52f32a708f91f5fe = L.marker(
+                [52.5125, 13.417990381056766],
+                {}
+            ).addTo(feature_group_a1fe9017329568b2e9b7ce49a0519aa1);
+        
+    
+            var icon_ddafee3e0bdb959517e02c2289955cb4 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_26f5915634f36bab52f32a708f91f5fe.setIcon(icon_ddafee3e0bdb959517e02c2289955cb4);
+        
+    
+        var popup_07754ef27b2193282febe0480fd73d56 = L.popup({"maxWidth": 300});
+
+        
+            var html_af5d287b208297fa6a23c9db4f2d128f = $(`<div id="html_af5d287b208297fa6a23c9db4f2d128f" style="width: 100.0%; height: 100.0%;">         <strong>Citizens of Europe e.V.</strong><br>         <a href="https://citizens-of-europe.eu/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Democracy     </div>`)[0];
+            popup_07754ef27b2193282febe0480fd73d56.setContent(html_af5d287b208297fa6a23c9db4f2d128f);
+        
+
+        marker_26f5915634f36bab52f32a708f91f5fe.bindPopup(popup_07754ef27b2193282febe0480fd73d56)
+        ;
+
+        
+    
+    
+            marker_26f5915634f36bab52f32a708f91f5fe.bindTooltip(
+                `<div>
+                     Citizens of Europe e.V.
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var feature_group_f73d90206f51f069904baa884078e661 = L.featureGroup(
+                {}
+            ).addTo(map_d78296040f9b11422172862238893f4d);
+        
+    
+            var marker_b1a629ad94465e61571b2ebabf2fa54e = L.marker(
+                [41.013200000000005, 28.987060254037846],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_eac3f80249b353179c671c11838e5c70 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_b1a629ad94465e61571b2ebabf2fa54e.setIcon(icon_eac3f80249b353179c671c11838e5c70);
+        
+    
+        var popup_63841f437e4560cc98d5bf9c7a3f1bf3 = L.popup({"maxWidth": 300});
+
+        
+            var html_3fc6f9a1a1613feedbe99b37f3788443 = $(`<div id="html_3fc6f9a1a1613feedbe99b37f3788443" style="width: 100.0%; height: 100.0%;">         <strong>Hrant Dink Foundation </strong><br>         <a href="https://hrantdink.org/en/" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights, other     </div>`)[0];
+            popup_63841f437e4560cc98d5bf9c7a3f1bf3.setContent(html_3fc6f9a1a1613feedbe99b37f3788443);
+        
+
+        marker_b1a629ad94465e61571b2ebabf2fa54e.bindPopup(popup_63841f437e4560cc98d5bf9c7a3f1bf3)
+        ;
+
+        
+    
+    
+            marker_b1a629ad94465e61571b2ebabf2fa54e.bindTooltip(
+                `<div>
+                     Hrant Dink Foundation 
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_de25dfaa4ef37f6901ed288ded40284f = L.marker(
+                [52.2297, 21.0022],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_dc863a95be25a6711a5315651490092b = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_de25dfaa4ef37f6901ed288ded40284f.setIcon(icon_dc863a95be25a6711a5315651490092b);
+        
+    
+        var popup_6d7b668857840f94f849ac22cecacb74 = L.popup({"maxWidth": 300});
+
+        
+            var html_23136c925bd5653b631268b864f7c3d5 = $(`<div id="html_23136c925bd5653b631268b864f7c3d5" style="width: 100.0%; height: 100.0%;">         <strong>Helsinki Foundation for Human Rights (HFHR)</strong><br>         <a href="https://hfhr.pl/en" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_6d7b668857840f94f849ac22cecacb74.setContent(html_23136c925bd5653b631268b864f7c3d5);
+        
+
+        marker_de25dfaa4ef37f6901ed288ded40284f.bindPopup(popup_6d7b668857840f94f849ac22cecacb74)
+        ;
+
+        
+    
+    
+            marker_de25dfaa4ef37f6901ed288ded40284f.bindTooltip(
+                `<div>
+                     Helsinki Foundation for Human Rights (HFHR)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_6febfeec68aa9b04dea14f745edbdae1 = L.marker(
+                [52.234700000000004, 21.003539745962154],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_bb32f604447f98b679b9438b7b35e3ec = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_6febfeec68aa9b04dea14f745edbdae1.setIcon(icon_bb32f604447f98b679b9438b7b35e3ec);
+        
+    
+        var popup_91bd9a49b54fffab6da1e3c213e6e005 = L.popup({"maxWidth": 300});
+
+        
+            var html_67e18925c663332516f07e1a796582e8 = $(`<div id="html_67e18925c663332516f07e1a796582e8" style="width: 100.0%; height: 100.0%;">         <strong>Amnesty International Poland</strong><br>         <a href="https://www.amnesty.org/en/location/europe-and-central-asia/western-central-and-south-eastern-europe/poland/" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_91bd9a49b54fffab6da1e3c213e6e005.setContent(html_67e18925c663332516f07e1a796582e8);
+        
+
+        marker_6febfeec68aa9b04dea14f745edbdae1.bindPopup(popup_91bd9a49b54fffab6da1e3c213e6e005)
+        ;
+
+        
+    
+    
+            marker_6febfeec68aa9b04dea14f745edbdae1.bindTooltip(
+                `<div>
+                     Amnesty International Poland
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_98ac116ce4ffd12524a07ddcf6400be5 = L.marker(
+                [52.23836025403784, 21.0072],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_65ac2a91901afc27cf2746b01c2a849a = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_98ac116ce4ffd12524a07ddcf6400be5.setIcon(icon_65ac2a91901afc27cf2746b01c2a849a);
+        
+    
+        var popup_86086ac018141cfdcd928f7dacff9de1 = L.popup({"maxWidth": 300});
+
+        
+            var html_0e536d6d5f3e240fb6a6083042ccab56 = $(`<div id="html_0e536d6d5f3e240fb6a6083042ccab56" style="width: 100.0%; height: 100.0%;">         <strong> Campaign Against Homophobia (KPH)</strong><br>         <a href="https://kph.org.pl/en/" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_86086ac018141cfdcd928f7dacff9de1.setContent(html_0e536d6d5f3e240fb6a6083042ccab56);
+        
+
+        marker_98ac116ce4ffd12524a07ddcf6400be5.bindPopup(popup_86086ac018141cfdcd928f7dacff9de1)
+        ;
+
+        
+    
+    
+            marker_98ac116ce4ffd12524a07ddcf6400be5.bindTooltip(
+                `<div>
+                      Campaign Against Homophobia (KPH)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_31ff95ab5f77f3e9e644048771c79f6b = L.marker(
+                [43.779599999999995, 11.2558],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_01cc7dd756588208a2e47c4ac23fe32b = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_31ff95ab5f77f3e9e644048771c79f6b.setIcon(icon_01cc7dd756588208a2e47c4ac23fe32b);
+        
+    
+        var popup_50cdb449e50682420df413d7ea1df4c5 = L.popup({"maxWidth": 300});
+
+        
+            var html_4fcac342f1f30cb1a9d3d18a11e895ec = $(`<div id="html_4fcac342f1f30cb1a9d3d18a11e895ec" style="width: 100.0%; height: 100.0%;">         <strong>COSPE</strong><br>         <a href="https://www.cospe.org/" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights, conflict/war, energy/climate/sustainability     </div>`)[0];
+            popup_50cdb449e50682420df413d7ea1df4c5.setContent(html_4fcac342f1f30cb1a9d3d18a11e895ec);
+        
+
+        marker_31ff95ab5f77f3e9e644048771c79f6b.bindPopup(popup_50cdb449e50682420df413d7ea1df4c5)
+        ;
+
+        
+    
+    
+            marker_31ff95ab5f77f3e9e644048771c79f6b.bindTooltip(
+                `<div>
+                     COSPE
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_34ca6328ad530ae314c9f654bd3cf55f = L.marker(
+                [44.5049, 11.3426],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_890d605edf852bdab61ea836bd510c6f = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_34ca6328ad530ae314c9f654bd3cf55f.setIcon(icon_890d605edf852bdab61ea836bd510c6f);
+        
+    
+        var popup_20b0ce5d0a3217a0312d63631ab65135 = L.popup({"maxWidth": 300});
+
+        
+            var html_0026643a24c45da53bcafd5f3fd7dadf = $(`<div id="html_0026643a24c45da53bcafd5f3fd7dadf" style="width: 100.0%; height: 100.0%;">         <strong>Amnesty International Fierenze</strong><br>         <a href="https://amnestyfirenze.wordpress.com/" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_20b0ce5d0a3217a0312d63631ab65135.setContent(html_0026643a24c45da53bcafd5f3fd7dadf);
+        
+
+        marker_34ca6328ad530ae314c9f654bd3cf55f.bindPopup(popup_20b0ce5d0a3217a0312d63631ab65135)
+        ;
+
+        
+    
+    
+            marker_34ca6328ad530ae314c9f654bd3cf55f.bindTooltip(
+                `<div>
+                     Amnesty International Fierenze
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_03b4154c1a7ad992b030dd171217ca91 = L.marker(
+                [43.77826025403784, 11.260800000000001],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_4583e95c5d227dab9c0f4a81e8089d7e = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_03b4154c1a7ad992b030dd171217ca91.setIcon(icon_4583e95c5d227dab9c0f4a81e8089d7e);
+        
+    
+        var popup_f1e7e526ad3fea96fa0bcb767c46c175 = L.popup({"maxWidth": 300});
+
+        
+            var html_efdd8c84d0d898066df4f8f510dc8329 = $(`<div id="html_efdd8c84d0d898066df4f8f510dc8329" style="width: 100.0%; height: 100.0%;">         <strong>ARCIGAY</strong><br>         <a href="https://www.arcigayfirenze.it/" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_f1e7e526ad3fea96fa0bcb767c46c175.setContent(html_efdd8c84d0d898066df4f8f510dc8329);
+        
+
+        marker_03b4154c1a7ad992b030dd171217ca91.bindPopup(popup_f1e7e526ad3fea96fa0bcb767c46c175)
+        ;
+
+        
+    
+    
+            marker_03b4154c1a7ad992b030dd171217ca91.bindTooltip(
+                `<div>
+                     ARCIGAY
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_be820cae8f2e827adcd7ffcd3b6fae9f = L.marker(
+                [43.7746, 11.264460254037845],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_f57b01847750c407400c4e53a8d10aac = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_be820cae8f2e827adcd7ffcd3b6fae9f.setIcon(icon_f57b01847750c407400c4e53a8d10aac);
+        
+    
+        var popup_9c58446090bc7c96eba8de838aea240e = L.popup({"maxWidth": 300});
+
+        
+            var html_9c9328a5b677646ab8165dea13d98a2f = $(`<div id="html_9c9328a5b677646ab8165dea13d98a2f" style="width: 100.0%; height: 100.0%;">         <strong>IREOS</strong><br>         <a href="https://www.ireos.org/" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_9c58446090bc7c96eba8de838aea240e.setContent(html_9c9328a5b677646ab8165dea13d98a2f);
+        
+
+        marker_be820cae8f2e827adcd7ffcd3b6fae9f.bindPopup(popup_9c58446090bc7c96eba8de838aea240e)
+        ;
+
+        
+    
+    
+            marker_be820cae8f2e827adcd7ffcd3b6fae9f.bindTooltip(
+                `<div>
+                     IREOS
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_29b0f84417bcd5edff128feb0e5d6e33 = L.marker(
+                [43.7696, 11.2658],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_ac9263896dcc05b10d55294541a3f8bb = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_29b0f84417bcd5edff128feb0e5d6e33.setIcon(icon_ac9263896dcc05b10d55294541a3f8bb);
+        
+    
+        var popup_6bcc3f922b146c237e1d1c76090de3ca = L.popup({"maxWidth": 300});
+
+        
+            var html_0c881c2a83bb3af45503d6925370fbfd = $(`<div id="html_0c881c2a83bb3af45503d6925370fbfd" style="width: 100.0%; height: 100.0%;">         <strong>Black History Month Florence</strong><br>         <a href="http://www.blackhistorymonthflorence.com/" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_6bcc3f922b146c237e1d1c76090de3ca.setContent(html_0c881c2a83bb3af45503d6925370fbfd);
+        
+
+        marker_29b0f84417bcd5edff128feb0e5d6e33.bindPopup(popup_6bcc3f922b146c237e1d1c76090de3ca)
+        ;
+
+        
+    
+    
+            marker_29b0f84417bcd5edff128feb0e5d6e33.bindTooltip(
+                `<div>
+                     Black History Month Florence
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_6e55ade4a20d1f8e3ebfc51d24e3f790 = L.marker(
+                [43.7328, 10.4017],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_45f40ae574a2038ccd24c6e019fb2ceb = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_6e55ade4a20d1f8e3ebfc51d24e3f790.setIcon(icon_45f40ae574a2038ccd24c6e019fb2ceb);
+        
+    
+        var popup_013d5c4958b3156e82a7cce7bd7a6513 = L.popup({"maxWidth": 300});
+
+        
+            var html_d9178d465a28600317212731e1a84f49 = $(`<div id="html_d9178d465a28600317212731e1a84f49" style="width: 100.0%; height: 100.0%;">         <strong>Casa della Donna Fierenze</strong><br>         <a href="https://www.comune.fi.it/comunicati-stampa/firenze-ha-la-sua-la-casa-delle-donne" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_013d5c4958b3156e82a7cce7bd7a6513.setContent(html_d9178d465a28600317212731e1a84f49);
+        
+
+        marker_6e55ade4a20d1f8e3ebfc51d24e3f790.bindPopup(popup_013d5c4958b3156e82a7cce7bd7a6513)
+        ;
+
+        
+    
+    
+            marker_6e55ade4a20d1f8e3ebfc51d24e3f790.bindTooltip(
+                `<div>
+                     Casa della Donna Fierenze
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_9c683c8f650746b4faa6ecd373e71d17 = L.marker(
+                [43.7596, 11.2558],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_8434a2270aa81c897b31fbbdf62c2718 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_9c683c8f650746b4faa6ecd373e71d17.setIcon(icon_8434a2270aa81c897b31fbbdf62c2718);
+        
+    
+        var popup_98e0cf9fee3ed2189e60b9d8c45838aa = L.popup({"maxWidth": 300});
+
+        
+            var html_9ae9657da16cec308091c252caf9f836 = $(`<div id="html_9ae9657da16cec308091c252caf9f836" style="width: 100.0%; height: 100.0%;">         <strong>Nostros para Ellas, A.C.</strong><br>         <a href="https://www.girlsnotbrides.org/our-partnership/member-directory/nosotras-para-ellas-ac/" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_98e0cf9fee3ed2189e60b9d8c45838aa.setContent(html_9ae9657da16cec308091c252caf9f836);
+        
+
+        marker_9c683c8f650746b4faa6ecd373e71d17.bindPopup(popup_98e0cf9fee3ed2189e60b9d8c45838aa)
+        ;
+
+        
+    
+    
+            marker_9c683c8f650746b4faa6ecd373e71d17.bindTooltip(
+                `<div>
+                     Nostros para Ellas, A.C.
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_a187f160140af2a878c289786d6896a5 = L.marker(
+                [38.125699999999995, 13.3615],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_bc12a7e497174892c2c1f03d7a1e3269 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_a187f160140af2a878c289786d6896a5.setIcon(icon_bc12a7e497174892c2c1f03d7a1e3269);
+        
+    
+        var popup_bb303dfe8ef4b4dd3da81107df6e2ddb = L.popup({"maxWidth": 300});
+
+        
+            var html_cc1d983dfd73bdd32bfd76329538b823 = $(`<div id="html_cc1d983dfd73bdd32bfd76329538b823" style="width: 100.0%; height: 100.0%;">         <strong>From the Sea to the City – “A consortium of civil society organizations for a welcoming Europe”</strong><br>         <a href="https://fromseatocity.eu/" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights, Migration     </div>`)[0];
+            popup_bb303dfe8ef4b4dd3da81107df6e2ddb.setContent(html_cc1d983dfd73bdd32bfd76329538b823);
+        
+
+        marker_a187f160140af2a878c289786d6896a5.bindPopup(popup_bb303dfe8ef4b4dd3da81107df6e2ddb)
+        ;
+
+        
+    
+    
+            marker_a187f160140af2a878c289786d6896a5.bindTooltip(
+                `<div>
+                     From the Sea to the City – “A consortium of civil society organizations for a welcoming Europe”
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_bcb595f0afa0ba841a90551a02c01538 = L.marker(
+                [43.232, 76.8512],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_63b2af33bf563f05df2cefc14234e052 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_bcb595f0afa0ba841a90551a02c01538.setIcon(icon_63b2af33bf563f05df2cefc14234e052);
+        
+    
+        var popup_1ec130db7ae9a09ba69c69a1370ff509 = L.popup({"maxWidth": 300});
+
+        
+            var html_208527749375f5370f199bf078d7144a = $(`<div id="html_208527749375f5370f199bf078d7144a" style="width: 100.0%; height: 100.0%;">         <strong>Legal Policy Research Center (Almaty, Kazakhstan)</strong><br>         <a href="lprc.kz" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_1ec130db7ae9a09ba69c69a1370ff509.setContent(html_208527749375f5370f199bf078d7144a);
+        
+
+        marker_bcb595f0afa0ba841a90551a02c01538.bindPopup(popup_1ec130db7ae9a09ba69c69a1370ff509)
+        ;
+
+        
+    
+    
+            marker_bcb595f0afa0ba841a90551a02c01538.bindTooltip(
+                `<div>
+                     Legal Policy Research Center (Almaty, Kazakhstan)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_384c0ebd1dd5dbf44181e66c14a5c5cf = L.marker(
+                [52.525000000000006, 13.413660254037843],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_3f74d95c675b78559d498026da4db505 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_384c0ebd1dd5dbf44181e66c14a5c5cf.setIcon(icon_3f74d95c675b78559d498026da4db505);
+        
+    
+        var popup_f26edea4ca204732c807755358f44bd6 = L.popup({"maxWidth": 300});
+
+        
+            var html_bc13195317e0a2b96f9595e1489ff29d = $(`<div id="html_bc13195317e0a2b96f9595e1489ff29d" style="width: 100.0%; height: 100.0%;">         <strong>Amnesty International</strong><br>         <a href="https://www.amnesty.de/" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_f26edea4ca204732c807755358f44bd6.setContent(html_bc13195317e0a2b96f9595e1489ff29d);
+        
+
+        marker_384c0ebd1dd5dbf44181e66c14a5c5cf.bindPopup(popup_f26edea4ca204732c807755358f44bd6)
+        ;
+
+        
+    
+    
+            marker_384c0ebd1dd5dbf44181e66c14a5c5cf.bindTooltip(
+                `<div>
+                     Amnesty International
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_8c0cb38629a842fb208b61387da5bba0 = L.marker(
+                [52.2372, 21.025190381056767],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_9650dd440625e8cdb38e7c1a4023a02c = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_8c0cb38629a842fb208b61387da5bba0.setIcon(icon_9650dd440625e8cdb38e7c1a4023a02c);
+        
+    
+        var popup_29a5c5b2b7b53d620be8797718621318 = L.popup({"maxWidth": 300});
+
+        
+            var html_ee5ce2229239133eaf25c8123aa43102 = $(`<div id="html_ee5ce2229239133eaf25c8123aa43102" style="width: 100.0%; height: 100.0%;">         <strong>Amnesty InternationalPoland</strong><br>         <a href="Amnesty International - Bronimy praw człowieka" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_29a5c5b2b7b53d620be8797718621318.setContent(html_ee5ce2229239133eaf25c8123aa43102);
+        
+
+        marker_8c0cb38629a842fb208b61387da5bba0.bindPopup(popup_29a5c5b2b7b53d620be8797718621318)
+        ;
+
+        
+    
+    
+            marker_8c0cb38629a842fb208b61387da5bba0.bindTooltip(
+                `<div>
+                     Amnesty InternationalPoland
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_bb1bc736bff256054ddd0d6fec9a9f41 = L.marker(
+                [52.2222, 21.025190381056767],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_0b7c06941d7a0d19aeb84ddc9e6c2930 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_bb1bc736bff256054ddd0d6fec9a9f41.setIcon(icon_0b7c06941d7a0d19aeb84ddc9e6c2930);
+        
+    
+        var popup_b1cd1f0f11eafd1b9534bdadf07bee85 = L.popup({"maxWidth": 300});
+
+        
+            var html_303e47274333ca5ec19dc5a0f8fc1331 = $(`<div id="html_303e47274333ca5ec19dc5a0f8fc1331" style="width: 100.0%; height: 100.0%;">         <strong> Helsinki Foundation for Human Rights (Helsińska Fundacja Praw Człowieka, HFPC)</strong><br>         <a href="https://hfhr.pl/en" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_b1cd1f0f11eafd1b9534bdadf07bee85.setContent(html_303e47274333ca5ec19dc5a0f8fc1331);
+        
+
+        marker_bb1bc736bff256054ddd0d6fec9a9f41.bindPopup(popup_b1cd1f0f11eafd1b9534bdadf07bee85)
+        ;
+
+        
+    
+    
+            marker_bb1bc736bff256054ddd0d6fec9a9f41.bindTooltip(
+                `<div>
+                      Helsinki Foundation for Human Rights (Helsińska Fundacja Praw Człowieka, HFPC)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_0d489fe1045dbc49ffa98f37c8d68fd5 = L.marker(
+                [47.5079, 19.0402],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_e9fe63a45c38808bb6384024dfa9de97 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_0d489fe1045dbc49ffa98f37c8d68fd5.setIcon(icon_e9fe63a45c38808bb6384024dfa9de97);
+        
+    
+        var popup_ad4cb0c9588e7ee8c2303f7cee22d839 = L.popup({"maxWidth": 300});
+
+        
+            var html_f742323d6bd94910e3a7f6a7c03a856a = $(`<div id="html_f742323d6bd94910e3a7f6a7c03a856a" style="width: 100.0%; height: 100.0%;">         <strong> European Roma Rights Center</strong><br>         <a href="https://www.errc.org/" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_ad4cb0c9588e7ee8c2303f7cee22d839.setContent(html_f742323d6bd94910e3a7f6a7c03a856a);
+        
+
+        marker_0d489fe1045dbc49ffa98f37c8d68fd5.bindPopup(popup_ad4cb0c9588e7ee8c2303f7cee22d839)
+        ;
+
+        
+    
+    
+            marker_0d489fe1045dbc49ffa98f37c8d68fd5.bindTooltip(
+                `<div>
+                      European Roma Rights Center
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_5266dfd36739578163abee2e42bfec85 = L.marker(
+                [40.7228, -74.006],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_e49e7d63c3f478d33cfb7250c600c922 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_5266dfd36739578163abee2e42bfec85.setIcon(icon_e49e7d63c3f478d33cfb7250c600c922);
+        
+    
+        var popup_e8f41ff4ee6abd9d36c1c9214ec738b0 = L.popup({"maxWidth": 300});
+
+        
+            var html_fdc06a4f9da710d5e19690a041e82432 = $(`<div id="html_fdc06a4f9da710d5e19690a041e82432" style="width: 100.0%; height: 100.0%;">         <strong>Human Rights First</strong><br>         <a href="https://humanrightsfirst.org/" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_e8f41ff4ee6abd9d36c1c9214ec738b0.setContent(html_fdc06a4f9da710d5e19690a041e82432);
+        
+
+        marker_5266dfd36739578163abee2e42bfec85.bindPopup(popup_e8f41ff4ee6abd9d36c1c9214ec738b0)
+        ;
+
+        
+    
+    
+            marker_5266dfd36739578163abee2e42bfec85.bindTooltip(
+                `<div>
+                     Human Rights First
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_3cb989c7bdcf03897b158007a2491f18 = L.marker(
+                [52.2297, 20.9972],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_e88e79ba810533e5627eba3476d5b2f2 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_3cb989c7bdcf03897b158007a2491f18.setIcon(icon_e88e79ba810533e5627eba3476d5b2f2);
+        
+    
+        var popup_03dbec9844a7c753041a6d70f70cb034 = L.popup({"maxWidth": 300});
+
+        
+            var html_2502ef3d3fd8aadb0a268645663ee6aa = $(`<div id="html_2502ef3d3fd8aadb0a268645663ee6aa" style="width: 100.0%; height: 100.0%;">         <strong>Campaign Against Homophobia (Kampania Przeciw Homofobii)</strong><br>         <a href="https://kph.org.pl/" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_03dbec9844a7c753041a6d70f70cb034.setContent(html_2502ef3d3fd8aadb0a268645663ee6aa);
+        
+
+        marker_3cb989c7bdcf03897b158007a2491f18.bindPopup(popup_03dbec9844a7c753041a6d70f70cb034)
+        ;
+
+        
+    
+    
+            marker_3cb989c7bdcf03897b158007a2491f18.bindTooltip(
+                `<div>
+                     Campaign Against Homophobia (Kampania Przeciw Homofobii)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_b76d5004e2b0cc480e7bab93b1213f55 = L.marker(
+                [59.3393, 18.0686],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_9489025c554acf6826c027acc9b6395d = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_b76d5004e2b0cc480e7bab93b1213f55.setIcon(icon_9489025c554acf6826c027acc9b6395d);
+        
+    
+        var popup_d157efd34c79374d8badd3b7be59a5e3 = L.popup({"maxWidth": 300});
+
+        
+            var html_d70eb4289aae8761973fd0e06b93be5d = $(`<div id="html_d70eb4289aae8761973fd0e06b93be5d" style="width: 100.0%; height: 100.0%;">         <strong>Civil Rights Defenders</strong><br>         <a href="https://crd.org/" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_d157efd34c79374d8badd3b7be59a5e3.setContent(html_d70eb4289aae8761973fd0e06b93be5d);
+        
+
+        marker_b76d5004e2b0cc480e7bab93b1213f55.bindPopup(popup_d157efd34c79374d8badd3b7be59a5e3)
+        ;
+
+        
+    
+    
+            marker_b76d5004e2b0cc480e7bab93b1213f55.bindTooltip(
+                `<div>
+                     Civil Rights Defenders
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_57ecce164fe07ef5b678abe0b7e55080 = L.marker(
+                [48.86526025403784, 2.3571999999999997],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_faf84c0310b137d8f1734b5bc9f10174 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_57ecce164fe07ef5b678abe0b7e55080.setIcon(icon_faf84c0310b137d8f1734b5bc9f10174);
+        
+    
+        var popup_1a78ec4b6a886baadd042de110768dc5 = L.popup({"maxWidth": 300});
+
+        
+            var html_047f17a8a29b7786c94d252420e7306e = $(`<div id="html_047f17a8a29b7786c94d252420e7306e" style="width: 100.0%; height: 100.0%;">         <strong>FEMEN</strong><br>         <a href="https://femen.org/" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_1a78ec4b6a886baadd042de110768dc5.setContent(html_047f17a8a29b7786c94d252420e7306e);
+        
+
+        marker_57ecce164fe07ef5b678abe0b7e55080.bindPopup(popup_1a78ec4b6a886baadd042de110768dc5)
+        ;
+
+        
+    
+    
+            marker_57ecce164fe07ef5b678abe0b7e55080.bindTooltip(
+                `<div>
+                     FEMEN
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_4490e26f8c2bc6296751715969650066 = L.marker(
+                [47.502900000000004, 19.048860254037844],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_e7b35c79f2998f89de88fdedeb0279d7 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_4490e26f8c2bc6296751715969650066.setIcon(icon_e7b35c79f2998f89de88fdedeb0279d7);
+        
+    
+        var popup_967fd3820ad967c2de471b0cbac5c516 = L.popup({"maxWidth": 300});
+
+        
+            var html_f047c4513305417fdc06890d31b0944c = $(`<div id="html_f047c4513305417fdc06890d31b0944c" style="width: 100.0%; height: 100.0%;">         <strong>Hungarian Civil Liberties Union (Társaság a Szabadságjogokért, TASZ)</strong><br>         <a href="https://tasz.hu/" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_967fd3820ad967c2de471b0cbac5c516.setContent(html_f047c4513305417fdc06890d31b0944c);
+        
+
+        marker_4490e26f8c2bc6296751715969650066.bindPopup(popup_967fd3820ad967c2de471b0cbac5c516)
+        ;
+
+        
+    
+    
+            marker_4490e26f8c2bc6296751715969650066.bindTooltip(
+                `<div>
+                     Hungarian Civil Liberties Union (Társaság a Szabadságjogokért, TASZ)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_ac564e9961dad3131fe7d33178ea3ea3 = L.marker(
+                [47.4979, 19.0502],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_f41bfce377bf042bf6b68b3ca66ea601 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_ac564e9961dad3131fe7d33178ea3ea3.setIcon(icon_f41bfce377bf042bf6b68b3ca66ea601);
+        
+    
+        var popup_e55ea2cc47af09b9e45ad39dccf6aa1e = L.popup({"maxWidth": 300});
+
+        
+            var html_22389a178e1bbe16f8d71489d5b403e9 = $(`<div id="html_22389a178e1bbe16f8d71489d5b403e9" style="width: 100.0%; height: 100.0%;">         <strong>Hungarian Helsinki Committee (Magyar Helsinki Bizottság, MHB)</strong><br>         <a href="https://helsinki.hu/" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_e55ea2cc47af09b9e45ad39dccf6aa1e.setContent(html_22389a178e1bbe16f8d71489d5b403e9);
+        
+
+        marker_ac564e9961dad3131fe7d33178ea3ea3.bindPopup(popup_e55ea2cc47af09b9e45ad39dccf6aa1e)
+        ;
+
+        
+    
+    
+            marker_ac564e9961dad3131fe7d33178ea3ea3.bindTooltip(
+                `<div>
+                     Hungarian Helsinki Committee (Magyar Helsinki Bizottság, MHB)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_7ff96300c97859f110dfb758f875efd0 = L.marker(
+                [52.2372, 20.999209618943233],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_02c1ecc86057bf383f8b99828fb5216c = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_7ff96300c97859f110dfb758f875efd0.setIcon(icon_02c1ecc86057bf383f8b99828fb5216c);
+        
+    
+        var popup_aeb00306b47e3639553bb73f20199c13 = L.popup({"maxWidth": 300});
+
+        
+            var html_6600bca6d50fc891bc07fb97f61a97a3 = $(`<div id="html_6600bca6d50fc891bc07fb97f61a97a3" style="width: 100.0%; height: 100.0%;">         <strong>Iustitia Association of Polish Judges (Stowarzyszenie Sędziów Polskich Iustitia, Iustitia)</strong><br>         <a href="https://iustitia.pl/" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_aeb00306b47e3639553bb73f20199c13.setContent(html_6600bca6d50fc891bc07fb97f61a97a3);
+        
+
+        marker_7ff96300c97859f110dfb758f875efd0.bindPopup(popup_aeb00306b47e3639553bb73f20199c13)
+        ;
+
+        
+    
+    
+            marker_7ff96300c97859f110dfb758f875efd0.bindTooltip(
+                `<div>
+                     Iustitia Association of Polish Judges (Stowarzyszenie Sędziów Polskich Iustitia, Iustitia)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_8f9655e208119b996735316fa361c478 = L.marker(
+                [55.6811, 12.576960254037845],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_d30deb11814b940898fc2da40e270aeb = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_8f9655e208119b996735316fa361c478.setIcon(icon_d30deb11814b940898fc2da40e270aeb);
+        
+    
+        var popup_60645f6068b0150ddcd04b16fd8e16e1 = L.popup({"maxWidth": 300});
+
+        
+            var html_d5a18a4e05191af1f14d86ef8d3de102 = $(`<div id="html_d5a18a4e05191af1f14d86ef8d3de102" style="width: 100.0%; height: 100.0%;">         <strong>Save the Children Denmark (Red Barnet)</strong><br>         <a href="https://redbarnet.dk/stoet/" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_60645f6068b0150ddcd04b16fd8e16e1.setContent(html_d5a18a4e05191af1f14d86ef8d3de102);
+        
+
+        marker_8f9655e208119b996735316fa361c478.bindPopup(popup_60645f6068b0150ddcd04b16fd8e16e1)
+        ;
+
+        
+    
+    
+            marker_8f9655e208119b996735316fa361c478.bindTooltip(
+                `<div>
+                     Save the Children Denmark (Red Barnet)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_2fa29a058563e96a22ef7a086a56924f = L.marker(
+                [59.337960254037846, 18.0736],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_e4d0591eddcc068eb83297e9d4c6ac6a = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_2fa29a058563e96a22ef7a086a56924f.setIcon(icon_e4d0591eddcc068eb83297e9d4c6ac6a);
+        
+    
+        var popup_cd1feec648eb93b52490def646227064 = L.popup({"maxWidth": 300});
+
+        
+            var html_7b8c90dcd9274bea75b029746e38d496 = $(`<div id="html_7b8c90dcd9274bea75b029746e38d496" style="width: 100.0%; height: 100.0%;">         <strong>Swedish Federation for Lesbian, Gay, Bisexual and Transgender Rights (Riksförbundet för homosexuellas, bisexuellas, transpersoners, queeras och intersexpersoners rättigheter, RFSL)</strong><br>         <a href="https://www.rfsl.se/en/" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_cd1feec648eb93b52490def646227064.setContent(html_7b8c90dcd9274bea75b029746e38d496);
+        
+
+        marker_2fa29a058563e96a22ef7a086a56924f.bindPopup(popup_cd1feec648eb93b52490def646227064)
+        ;
+
+        
+    
+    
+            marker_2fa29a058563e96a22ef7a086a56924f.bindTooltip(
+                `<div>
+                     Swedish Federation for Lesbian, Gay, Bisexual and Transgender Rights (Riksförbundet för homosexuellas, bisexuellas, transpersoners, queeras och intersexpersoners rättigheter, RFSL)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_b0d22bdd8b30a5987dbdffa3b29a9234 = L.marker(
+                [59.334300000000006, 18.077260254037846],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_18a619722c52ef0ced21891196db875e = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_b0d22bdd8b30a5987dbdffa3b29a9234.setIcon(icon_18a619722c52ef0ced21891196db875e);
+        
+    
+        var popup_f0a67b42b97561ecdafffabe9ef6c2c2 = L.popup({"maxWidth": 300});
+
+        
+            var html_179184f1de917ecb1a72b5e7ac67883d = $(`<div id="html_179184f1de917ecb1a72b5e7ac67883d" style="width: 100.0%; height: 100.0%;">         <strong>Stockholm Pride</strong><br>         <a href="https://www.stockholmpride.org/en/" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_f0a67b42b97561ecdafffabe9ef6c2c2.setContent(html_179184f1de917ecb1a72b5e7ac67883d);
+        
+
+        marker_b0d22bdd8b30a5987dbdffa3b29a9234.bindPopup(popup_f0a67b42b97561ecdafffabe9ef6c2c2)
+        ;
+
+        
+    
+    
+            marker_b0d22bdd8b30a5987dbdffa3b29a9234.bindTooltip(
+                `<div>
+                     Stockholm Pride
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_0f6ca60998c266fc342d8bcf57e82ab0 = L.marker(
+                [59.3293, 18.0786],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_89d7f9d9e6f0487551a96ff225119390 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_0f6ca60998c266fc342d8bcf57e82ab0.setIcon(icon_89d7f9d9e6f0487551a96ff225119390);
+        
+    
+        var popup_36ec26d55e763a21cb8464348eb0fff9 = L.popup({"maxWidth": 300});
+
+        
+            var html_86c5f50fa52b542ebe747d3eaafef642 = $(`<div id="html_86c5f50fa52b542ebe747d3eaafef642" style="width: 100.0%; height: 100.0%;">         <strong>The Nobel Foundation (Nobelstiftelsen)</strong><br>         <a href="https://www.nobelprize.org/the-nobel-prize-organisation/the-nobel-foundation/" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_36ec26d55e763a21cb8464348eb0fff9.setContent(html_86c5f50fa52b542ebe747d3eaafef642);
+        
+
+        marker_0f6ca60998c266fc342d8bcf57e82ab0.bindPopup(popup_36ec26d55e763a21cb8464348eb0fff9)
+        ;
+
+        
+    
+    
+            marker_0f6ca60998c266fc342d8bcf57e82ab0.bindTooltip(
+                `<div>
+                     The Nobel Foundation (Nobelstiftelsen)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_392376cb52ccee3ea1683e2e2705d6c5 = L.marker(
+                [52.24269038105677, 21.0047],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_4e523340e878dd88297ff14ac6a54dd5 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_392376cb52ccee3ea1683e2e2705d6c5.setIcon(icon_4e523340e878dd88297ff14ac6a54dd5);
+        
+    
+        var popup_4e32bf2bf63362c66dcc6ebc0e730e9c = L.popup({"maxWidth": 300});
+
+        
+            var html_70051126cfb4c29178309cd1d0999174 = $(`<div id="html_70051126cfb4c29178309cd1d0999174" style="width: 100.0%; height: 100.0%;">         <strong>Themis Judges' Association (Stowarzyszenie Sędziów Themis, Themis)</strong><br>         <a href="https://themis-sedziowie.eu/statut/" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_4e32bf2bf63362c66dcc6ebc0e730e9c.setContent(html_70051126cfb4c29178309cd1d0999174);
+        
+
+        marker_392376cb52ccee3ea1683e2e2705d6c5.bindPopup(popup_4e32bf2bf63362c66dcc6ebc0e730e9c)
+        ;
+
+        
+    
+    
+            marker_392376cb52ccee3ea1683e2e2705d6c5.bindTooltip(
+                `<div>
+                     Themis Judges' Association (Stowarzyszenie Sędziów Themis, Themis)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_1ba44ae9abeba234d4d8b8344d36aa37 = L.marker(
+                [52.52, 13.395],
+                {}
+            ).addTo(feature_group_f73d90206f51f069904baa884078e661);
+        
+    
+            var icon_cdecdaad6879d970bffcb458c0af54ee = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkred", "prefix": "glyphicon"}
+            );
+            marker_1ba44ae9abeba234d4d8b8344d36aa37.setIcon(icon_cdecdaad6879d970bffcb458c0af54ee);
+        
+    
+        var popup_860a6df732c86331500c7fb405976f24 = L.popup({"maxWidth": 300});
+
+        
+            var html_9d70a6b8bc1f7aee23d0b2e48c742664 = $(`<div id="html_9d70a6b8bc1f7aee23d0b2e48c742664" style="width: 100.0%; height: 100.0%;">         <strong>Civil Liberties Union for Europe (Liberties)</strong><br>         <a href="https://www.liberties.eu/en" target="_blank">Visit Website</a><br>         <em>Categories:</em> human/fundamental rights     </div>`)[0];
+            popup_860a6df732c86331500c7fb405976f24.setContent(html_9d70a6b8bc1f7aee23d0b2e48c742664);
+        
+
+        marker_1ba44ae9abeba234d4d8b8344d36aa37.bindPopup(popup_860a6df732c86331500c7fb405976f24)
+        ;
+
+        
+    
+    
+            marker_1ba44ae9abeba234d4d8b8344d36aa37.bindTooltip(
+                `<div>
+                     Civil Liberties Union for Europe (Liberties)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var feature_group_874df1f8175734ca7319c59de28e0f69 = L.featureGroup(
+                {}
+            ).addTo(map_d78296040f9b11422172862238893f4d);
+        
+    
+            var marker_cdfd783e58db9a551e5ce55d1e01001e = L.marker(
+                [31.2101, 29.9187],
+                {}
+            ).addTo(feature_group_874df1f8175734ca7319c59de28e0f69);
+        
+    
+            var icon_3b72462007600ee12e249ea1733b9d1b = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_cdfd783e58db9a551e5ce55d1e01001e.setIcon(icon_3b72462007600ee12e249ea1733b9d1b);
+        
+    
+        var popup_79f3a7a817136fc174db5799862e8c39 = L.popup({"maxWidth": 300});
+
+        
+            var html_68471c508481c24622597514f262b905 = $(`<div id="html_68471c508481c24622597514f262b905" style="width: 100.0%; height: 100.0%;">         <strong>Crude Accountability</strong><br>         <a href="https://crudeaccountability.org/" target="_blank">Visit Website</a><br>         <em>Categories:</em> energy/climate/sustainability     </div>`)[0];
+            popup_79f3a7a817136fc174db5799862e8c39.setContent(html_68471c508481c24622597514f262b905);
+        
+
+        marker_cdfd783e58db9a551e5ce55d1e01001e.bindPopup(popup_79f3a7a817136fc174db5799862e8c39)
+        ;
+
+        
+    
+    
+            marker_cdfd783e58db9a551e5ce55d1e01001e.bindTooltip(
+                `<div>
+                     Crude Accountability
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_4619684d74cde2e2b53058fb7bc215c8 = L.marker(
+                [52.53, 13.405],
+                {}
+            ).addTo(feature_group_874df1f8175734ca7319c59de28e0f69);
+        
+    
+            var icon_89e6e653bdb16ad1da02a60c03f014ab = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_4619684d74cde2e2b53058fb7bc215c8.setIcon(icon_89e6e653bdb16ad1da02a60c03f014ab);
+        
+    
+        var popup_34a6f9e9308e0e1905ab7b21daf87868 = L.popup({"maxWidth": 300});
+
+        
+            var html_93df919f8c98bca01185e24f04eb5dfd = $(`<div id="html_93df919f8c98bca01185e24f04eb5dfd" style="width: 100.0%; height: 100.0%;">         <strong>Fridays for future</strong><br>         <a href="https://fridaysforfuture.de/" target="_blank">Visit Website</a><br>         <em>Categories:</em> energy/climate/sustainability     </div>`)[0];
+            popup_34a6f9e9308e0e1905ab7b21daf87868.setContent(html_93df919f8c98bca01185e24f04eb5dfd);
+        
+
+        marker_4619684d74cde2e2b53058fb7bc215c8.bindPopup(popup_34a6f9e9308e0e1905ab7b21daf87868)
+        ;
+
+        
+    
+    
+            marker_4619684d74cde2e2b53058fb7bc215c8.bindTooltip(
+                `<div>
+                     Fridays for future
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_97772548de736a9a6fe93e769aa5259b = L.marker(
+                [50.0747, 19.945],
+                {}
+            ).addTo(feature_group_874df1f8175734ca7319c59de28e0f69);
+        
+    
+            var icon_2eddb08f9ba846f42872b426b4396ed4 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_97772548de736a9a6fe93e769aa5259b.setIcon(icon_2eddb08f9ba846f42872b426b4396ed4);
+        
+    
+        var popup_1fd680dc7c9843daa7c2ee82bb92f384 = L.popup({"maxWidth": 300});
+
+        
+            var html_a92e08f9a90aa312af152b68bf6a00f7 = $(`<div id="html_a92e08f9a90aa312af152b68bf6a00f7" style="width: 100.0%; height: 100.0%;">         <strong>Polish Green Network</strong><br>         <a href="https://zielonasiec.pl/en/home-2/" target="_blank">Visit Website</a><br>         <em>Categories:</em> energy/climate/sustainability     </div>`)[0];
+            popup_1fd680dc7c9843daa7c2ee82bb92f384.setContent(html_a92e08f9a90aa312af152b68bf6a00f7);
+        
+
+        marker_97772548de736a9a6fe93e769aa5259b.bindPopup(popup_1fd680dc7c9843daa7c2ee82bb92f384)
+        ;
+
+        
+    
+    
+            marker_97772548de736a9a6fe93e769aa5259b.bindTooltip(
+                `<div>
+                     Polish Green Network
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_1a025b4e4b2b207ed1691636d63abeac = L.marker(
+                [52.22103974596216, 21.0172],
+                {}
+            ).addTo(feature_group_874df1f8175734ca7319c59de28e0f69);
+        
+    
+            var icon_0b952e7ebc7a3c4f9c6dbe2b89c172d1 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_1a025b4e4b2b207ed1691636d63abeac.setIcon(icon_0b952e7ebc7a3c4f9c6dbe2b89c172d1);
+        
+    
+        var popup_efa6d119e0d98e9180d76e0ca73bc67e = L.popup({"maxWidth": 300});
+
+        
+            var html_4e37a79e2f6749ecd046929c565703e5 = $(`<div id="html_4e37a79e2f6749ecd046929c565703e5" style="width: 100.0%; height: 100.0%;">         <strong> ClientEarth Poland</strong><br>         <a href="https://www.clientearth.pl/" target="_blank">Visit Website</a><br>         <em>Categories:</em> energy/climate/sustainability     </div>`)[0];
+            popup_efa6d119e0d98e9180d76e0ca73bc67e.setContent(html_4e37a79e2f6749ecd046929c565703e5);
+        
+
+        marker_1a025b4e4b2b207ed1691636d63abeac.bindPopup(popup_efa6d119e0d98e9180d76e0ca73bc67e)
+        ;
+
+        
+    
+    
+            marker_1a025b4e4b2b207ed1691636d63abeac.bindTooltip(
+                `<div>
+                      ClientEarth Poland
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_1cb5f45cfe44f9d26e8a1c2a801ed9e5 = L.marker(
+                [45.474199999999996, 9.19],
+                {}
+            ).addTo(feature_group_874df1f8175734ca7319c59de28e0f69);
+        
+    
+            var icon_2699fafe45b11f85cb579b495b57475e = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_1cb5f45cfe44f9d26e8a1c2a801ed9e5.setIcon(icon_2699fafe45b11f85cb579b495b57475e);
+        
+    
+        var popup_3638b1902f84aa1cf7908e15c19a27b7 = L.popup({"maxWidth": 300});
+
+        
+            var html_71f59e9403ec3d834720ffd0276bb37b = $(`<div id="html_71f59e9403ec3d834720ffd0276bb37b" style="width: 100.0%; height: 100.0%;">         <strong>Italian Climate Network</strong><br>         <a href="https://www.italiaclima.org/en/home_en/" target="_blank">Visit Website</a><br>         <em>Categories:</em> energy/climate/sustainability     </div>`)[0];
+            popup_3638b1902f84aa1cf7908e15c19a27b7.setContent(html_71f59e9403ec3d834720ffd0276bb37b);
+        
+
+        marker_1cb5f45cfe44f9d26e8a1c2a801ed9e5.bindPopup(popup_3638b1902f84aa1cf7908e15c19a27b7)
+        ;
+
+        
+    
+    
+            marker_1cb5f45cfe44f9d26e8a1c2a801ed9e5.bindTooltip(
+                `<div>
+                     Italian Climate Network
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_f2053e5221c2d606e558f06f0e6d8ab3 = L.marker(
+                [43.764599999999994, 11.264460254037845],
+                {}
+            ).addTo(feature_group_874df1f8175734ca7319c59de28e0f69);
+        
+    
+            var icon_665d34e97f6918d61bc7c1bc36015f66 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_f2053e5221c2d606e558f06f0e6d8ab3.setIcon(icon_665d34e97f6918d61bc7c1bc36015f66);
+        
+    
+        var popup_210d60b5061296c8617eedb844cffa62 = L.popup({"maxWidth": 300});
+
+        
+            var html_b43ee64eae13dde5ebc6b0dfe1aea3f5 = $(`<div id="html_b43ee64eae13dde5ebc6b0dfe1aea3f5" style="width: 100.0%; height: 100.0%;">         <strong>Legambiente Firenze</strong><br>         <a href="https://www.legambientefirenze.it/" target="_blank">Visit Website</a><br>         <em>Categories:</em> energy/climate/sustainability     </div>`)[0];
+            popup_210d60b5061296c8617eedb844cffa62.setContent(html_b43ee64eae13dde5ebc6b0dfe1aea3f5);
+        
+
+        marker_f2053e5221c2d606e558f06f0e6d8ab3.bindPopup(popup_210d60b5061296c8617eedb844cffa62)
+        ;
+
+        
+    
+    
+            marker_f2053e5221c2d606e558f06f0e6d8ab3.bindTooltip(
+                `<div>
+                     Legambiente Firenze
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_b811e11855aaf7b7c510a5b06fe65ed6 = L.marker(
+                [43.767599999999995, 11.1833],
+                {}
+            ).addTo(feature_group_874df1f8175734ca7319c59de28e0f69);
+        
+    
+            var icon_1a06e26ccc25f0d154d748f5531bba0f = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_b811e11855aaf7b7c510a5b06fe65ed6.setIcon(icon_1a06e26ccc25f0d154d748f5531bba0f);
+        
+    
+        var popup_76fb924aafcc9c702d2a672f3e7a08ff = L.popup({"maxWidth": 300});
+
+        
+            var html_fa4afb07fa48ccb65b573c7e210a3285 = $(`<div id="html_fa4afb07fa48ccb65b573c7e210a3285" style="width: 100.0%; height: 100.0%;">         <strong>Rete Semi Rurali</strong><br>         <a href="https://rsr.bio/" target="_blank">Visit Website</a><br>         <em>Categories:</em> energy/climate/sustainability     </div>`)[0];
+            popup_76fb924aafcc9c702d2a672f3e7a08ff.setContent(html_fa4afb07fa48ccb65b573c7e210a3285);
+        
+
+        marker_b811e11855aaf7b7c510a5b06fe65ed6.bindPopup(popup_76fb924aafcc9c702d2a672f3e7a08ff)
+        ;
+
+        
+    
+    
+            marker_b811e11855aaf7b7c510a5b06fe65ed6.bindTooltip(
+                `<div>
+                     Rete Semi Rurali
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_5bb462c33cf0a4acc5bd4d44672245a9 = L.marker(
+                [52.525000000000006, 13.396339745962155],
+                {}
+            ).addTo(feature_group_874df1f8175734ca7319c59de28e0f69);
+        
+    
+            var icon_cbd78147f70b937fe07eefa740882a0e = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_5bb462c33cf0a4acc5bd4d44672245a9.setIcon(icon_cbd78147f70b937fe07eefa740882a0e);
+        
+    
+        var popup_dc0c9c2f01a5482c680daec7d1fdce58 = L.popup({"maxWidth": 300});
+
+        
+            var html_646ccfdb850f42acc705e28b46b1c083 = $(`<div id="html_646ccfdb850f42acc705e28b46b1c083" style="width: 100.0%; height: 100.0%;">         <strong>Ecologic Institut</strong><br>         <a href="https://www.ecologic.eu/de" target="_blank">Visit Website</a><br>         <em>Categories:</em> energy/climate/sustainability     </div>`)[0];
+            popup_dc0c9c2f01a5482c680daec7d1fdce58.setContent(html_646ccfdb850f42acc705e28b46b1c083);
+        
+
+        marker_5bb462c33cf0a4acc5bd4d44672245a9.bindPopup(popup_dc0c9c2f01a5482c680daec7d1fdce58)
+        ;
+
+        
+    
+    
+            marker_5bb462c33cf0a4acc5bd4d44672245a9.bindTooltip(
+                `<div>
+                     Ecologic Institut
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_27ea102d129e9b5e228a9e828350e9a5 = L.marker(
+                [49.5956, 6.9944],
+                {}
+            ).addTo(feature_group_874df1f8175734ca7319c59de28e0f69);
+        
+    
+            var icon_e680ef43cc9369c24a0f88aafd010bdf = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_27ea102d129e9b5e228a9e828350e9a5.setIcon(icon_e680ef43cc9369c24a0f88aafd010bdf);
+        
+    
+        var popup_5e922b2b22b02a558b32d56f1bacba0f = L.popup({"maxWidth": 300});
+
+        
+            var html_a479fb778c64cdd2c7ad391d9a6dac76 = $(`<div id="html_a479fb778c64cdd2c7ad391d9a6dac76" style="width: 100.0%; height: 100.0%;">         <strong>Europäische Akademie Otzenhausen</strong><br>         <a href="https://www.eao-otzenhausen.de/" target="_blank">Visit Website</a><br>         <em>Categories:</em> energy/climate/sustainability     </div>`)[0];
+            popup_5e922b2b22b02a558b32d56f1bacba0f.setContent(html_a479fb778c64cdd2c7ad391d9a6dac76);
+        
+
+        marker_27ea102d129e9b5e228a9e828350e9a5.bindPopup(popup_5e922b2b22b02a558b32d56f1bacba0f)
+        ;
+
+        
+    
+    
+            marker_27ea102d129e9b5e228a9e828350e9a5.bindTooltip(
+                `<div>
+                     Europäische Akademie Otzenhausen
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_2403aafcec8a8de37258398828704a04 = L.marker(
+                [52.528660254037845, 13.399999999999999],
+                {}
+            ).addTo(feature_group_874df1f8175734ca7319c59de28e0f69);
+        
+    
+            var icon_1fc4640f1f5d725018646b3e76e97690 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_2403aafcec8a8de37258398828704a04.setIcon(icon_1fc4640f1f5d725018646b3e76e97690);
+        
+    
+        var popup_d09577c6c204e1fc6bec0bf3b6f66acc = L.popup({"maxWidth": 300});
+
+        
+            var html_b90112fdb779ce474f2ddfa477215b55 = $(`<div id="html_b90112fdb779ce474f2ddfa477215b55" style="width: 100.0%; height: 100.0%;">         <strong>Heinrich-Böll-Stiftung</strong><br>         <a href="https://www.boell.de/de" target="_blank">Visit Website</a><br>         <em>Categories:</em> energy/climate/sustainability, Democracy, human/fundamental rights     </div>`)[0];
+            popup_d09577c6c204e1fc6bec0bf3b6f66acc.setContent(html_b90112fdb779ce474f2ddfa477215b55);
+        
+
+        marker_2403aafcec8a8de37258398828704a04.bindPopup(popup_d09577c6c204e1fc6bec0bf3b6f66acc)
+        ;
+
+        
+    
+    
+            marker_2403aafcec8a8de37258398828704a04.bindTooltip(
+                `<div>
+                     Heinrich-Böll-Stiftung
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var feature_group_2b3b158e0165f1c2e89a5c14cbdce501 = L.featureGroup(
+                {}
+            ).addTo(map_d78296040f9b11422172862238893f4d);
+        
+    
+            var marker_2080eac04c5277f269d8b591a37ca630 = L.marker(
+                [52.2197, 21.0122],
+                {}
+            ).addTo(feature_group_2b3b158e0165f1c2e89a5c14cbdce501);
+        
+    
+            var icon_5568266ab7d53e923f2d051bb233d41d = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "black", "prefix": "glyphicon"}
+            );
+            marker_2080eac04c5277f269d8b591a37ca630.setIcon(icon_5568266ab7d53e923f2d051bb233d41d);
+        
+    
+        var popup_3ad4e3dfd82ab57814612f8ea71b2318 = L.popup({"maxWidth": 300});
+
+        
+            var html_153d078c8f953d5f970f1e9d294b2ee8 = $(`<div id="html_153d078c8f953d5f970f1e9d294b2ee8" style="width: 100.0%; height: 100.0%;">         <strong>Polska Akcja Humanitarna (PAH)</strong><br>         <a href="https://www.pah.org.pl/" target="_blank">Visit Website</a><br>         <em>Categories:</em> conflict/war     </div>`)[0];
+            popup_3ad4e3dfd82ab57814612f8ea71b2318.setContent(html_153d078c8f953d5f970f1e9d294b2ee8);
+        
+
+        marker_2080eac04c5277f269d8b591a37ca630.bindPopup(popup_3ad4e3dfd82ab57814612f8ea71b2318)
+        ;
+
+        
+    
+    
+            marker_2080eac04c5277f269d8b591a37ca630.bindTooltip(
+                `<div>
+                     Polska Akcja Humanitarna (PAH)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_ef187a3a1dbd536772a841602cb4dbc7 = L.marker(
+                [41.91146025403784, 12.5014],
+                {}
+            ).addTo(feature_group_2b3b158e0165f1c2e89a5c14cbdce501);
+        
+    
+            var icon_d211ec9447a2c5892302c9e411be5e7b = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "black", "prefix": "glyphicon"}
+            );
+            marker_ef187a3a1dbd536772a841602cb4dbc7.setIcon(icon_d211ec9447a2c5892302c9e411be5e7b);
+        
+    
+        var popup_64344e819ad30e8b6f90c89c5abb390c = L.popup({"maxWidth": 300});
+
+        
+            var html_ebb09983e8a3e89d08144586ccd42e85 = $(`<div id="html_ebb09983e8a3e89d08144586ccd42e85" style="width: 100.0%; height: 100.0%;">         <strong>EuropaNow</strong><br>         <a href=" https://www.europanow.eu/" target="_blank">Visit Website</a><br>         <em>Categories:</em> conflict/war, Democracy, human/fundamental rights     </div>`)[0];
+            popup_64344e819ad30e8b6f90c89c5abb390c.setContent(html_ebb09983e8a3e89d08144586ccd42e85);
+        
+
+        marker_ef187a3a1dbd536772a841602cb4dbc7.bindPopup(popup_64344e819ad30e8b6f90c89c5abb390c)
+        ;
+
+        
+    
+    
+            marker_ef187a3a1dbd536772a841602cb4dbc7.bindTooltip(
+                `<div>
+                     EuropaNow
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var feature_group_ed931a44a00165b5efb8077c5d07b5eb = L.featureGroup(
+                {}
+            ).addTo(map_d78296040f9b11422172862238893f4d);
+        
+    
+            var marker_f323fdcc42abfba71211933e0abc5eb6 = L.marker(
+                [52.22103974596216, 21.0072],
+                {}
+            ).addTo(feature_group_ed931a44a00165b5efb8077c5d07b5eb);
+        
+    
+            var icon_308857691a38fa8f9df4d3c9586217ee = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_f323fdcc42abfba71211933e0abc5eb6.setIcon(icon_308857691a38fa8f9df4d3c9586217ee);
+        
+    
+        var popup_8ae3a2028c15496aa8071853b1baab53 = L.popup({"maxWidth": 300});
+
+        
+            var html_59c1a5e68abb483e61dbcf60e205304a = $(`<div id="html_59c1a5e68abb483e61dbcf60e205304a" style="width: 100.0%; height: 100.0%;">         <strong> Fundacja Ocalenie</strong><br>         <a href="https://ocalenie.org.pl/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Migration     </div>`)[0];
+            popup_8ae3a2028c15496aa8071853b1baab53.setContent(html_59c1a5e68abb483e61dbcf60e205304a);
+        
+
+        marker_f323fdcc42abfba71211933e0abc5eb6.bindPopup(popup_8ae3a2028c15496aa8071853b1baab53)
+        ;
+
+        
+    
+    
+            marker_f323fdcc42abfba71211933e0abc5eb6.bindTooltip(
+                `<div>
+                      Fundacja Ocalenie
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_2a15b640a0e5cc633a6f4721fcf3b331 = L.marker(
+                [52.2247, 21.003539745962154],
+                {}
+            ).addTo(feature_group_ed931a44a00165b5efb8077c5d07b5eb);
+        
+    
+            var icon_76590466b244547ad862e68c681c697c = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_2a15b640a0e5cc633a6f4721fcf3b331.setIcon(icon_76590466b244547ad862e68c681c697c);
+        
+    
+        var popup_58805debc20fff937b56d36982f076de = L.popup({"maxWidth": 300});
+
+        
+            var html_6beda66d464e1699cf2696c9b581d35f = $(`<div id="html_6beda66d464e1699cf2696c9b581d35f" style="width: 100.0%; height: 100.0%;">         <strong>Stowarzyszenie Interwencji Prawnej</strong><br>         <a href="https://interwencjaprawna.pl/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Migration     </div>`)[0];
+            popup_58805debc20fff937b56d36982f076de.setContent(html_6beda66d464e1699cf2696c9b581d35f);
+        
+
+        marker_2a15b640a0e5cc633a6f4721fcf3b331.bindPopup(popup_58805debc20fff937b56d36982f076de)
+        ;
+
+        
+    
+    
+            marker_2a15b640a0e5cc633a6f4721fcf3b331.bindTooltip(
+                `<div>
+                     Stowarzyszenie Interwencji Prawnej
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_5fb9948b453545d52b805a13e61c85d5 = L.marker(
+                [41.9128, 12.4964],
+                {}
+            ).addTo(feature_group_ed931a44a00165b5efb8077c5d07b5eb);
+        
+    
+            var icon_46d621635e0db4f5f8cf2cb27cddecb1 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_5fb9948b453545d52b805a13e61c85d5.setIcon(icon_46d621635e0db4f5f8cf2cb27cddecb1);
+        
+    
+        var popup_8382e640672d6146300f9570e42b1f0c = L.popup({"maxWidth": 300});
+
+        
+            var html_f582622119ac9a42c316afb599c0f803 = $(`<div id="html_f582622119ac9a42c316afb599c0f803" style="width: 100.0%; height: 100.0%;">         <strong>Italiani senza cittadinanza</strong><br>         <a href="Movimento Italiani senza cittadinanza" target="_blank">Visit Website</a><br>         <em>Categories:</em> Migration     </div>`)[0];
+            popup_8382e640672d6146300f9570e42b1f0c.setContent(html_f582622119ac9a42c316afb599c0f803);
+        
+
+        marker_5fb9948b453545d52b805a13e61c85d5.bindPopup(popup_8382e640672d6146300f9570e42b1f0c)
+        ;
+
+        
+    
+    
+            marker_5fb9948b453545d52b805a13e61c85d5.bindTooltip(
+                `<div>
+                     Italiani senza cittadinanza
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_0b4b4b030b7ae8adc67ca9f75327755d = L.marker(
+                [43.760939745962155, 11.260800000000001],
+                {}
+            ).addTo(feature_group_ed931a44a00165b5efb8077c5d07b5eb);
+        
+    
+            var icon_e2b7deac4f0de7f59c1137230af19319 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_0b4b4b030b7ae8adc67ca9f75327755d.setIcon(icon_e2b7deac4f0de7f59c1137230af19319);
+        
+    
+        var popup_ae48fea3bacede7de4aa3f6910275912 = L.popup({"maxWidth": 300});
+
+        
+            var html_9ac33b6c071bcb01281c143b48d7dedb = $(`<div id="html_9ac33b6c071bcb01281c143b48d7dedb" style="width: 100.0%; height: 100.0%;">         <strong>Florence Must Act</strong><br>         <a href="https://firenzeurbanlifestyle.com/florence-must-act-un-gommone-in-arno-per-richiedere-accoglienza-per-tutti/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Migration     </div>`)[0];
+            popup_ae48fea3bacede7de4aa3f6910275912.setContent(html_9ac33b6c071bcb01281c143b48d7dedb);
+        
+
+        marker_0b4b4b030b7ae8adc67ca9f75327755d.bindPopup(popup_ae48fea3bacede7de4aa3f6910275912)
+        ;
+
+        
+    
+    
+            marker_0b4b4b030b7ae8adc67ca9f75327755d.bindTooltip(
+                `<div>
+                     Florence Must Act
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_a8613f1bbadf3ae7d14c1dbf1e67295a = L.marker(
+                [37.9938, 23.7275],
+                {}
+            ).addTo(feature_group_ed931a44a00165b5efb8077c5d07b5eb);
+        
+    
+            var icon_cefad0c7a51fe212842567f3a24a14a2 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_a8613f1bbadf3ae7d14c1dbf1e67295a.setIcon(icon_cefad0c7a51fe212842567f3a24a14a2);
+        
+    
+        var popup_2c1b0a26ca5e39e234224ca65bdca12f = L.popup({"maxWidth": 300});
+
+        
+            var html_20f71e46b755ef60ac12335428212b2e = $(`<div id="html_20f71e46b755ef60ac12335428212b2e" style="width: 100.0%; height: 100.0%;">         <strong>Europe Must Act</strong><br>         <a href="https://www.europemustact.org/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Migration     </div>`)[0];
+            popup_2c1b0a26ca5e39e234224ca65bdca12f.setContent(html_20f71e46b755ef60ac12335428212b2e);
+        
+
+        marker_a8613f1bbadf3ae7d14c1dbf1e67295a.bindPopup(popup_2c1b0a26ca5e39e234224ca65bdca12f)
+        ;
+
+        
+    
+    
+            marker_a8613f1bbadf3ae7d14c1dbf1e67295a.bindTooltip(
+                `<div>
+                     Europe Must Act
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_f76dbe515a9aa22b0283b5b23bd80191 = L.marker(
+                [55.686099999999996, 12.5683],
+                {}
+            ).addTo(feature_group_ed931a44a00165b5efb8077c5d07b5eb);
+        
+    
+            var icon_e5248a32011db393b588cd6939da0582 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_f76dbe515a9aa22b0283b5b23bd80191.setIcon(icon_e5248a32011db393b588cd6939da0582);
+        
+    
+        var popup_fa7cf88838343c31986c73134f260062 = L.popup({"maxWidth": 300});
+
+        
+            var html_803a666e3d5abda618ef43632f7c891b = $(`<div id="html_803a666e3d5abda618ef43632f7c891b" style="width: 100.0%; height: 100.0%;">         <strong>Danish Refugee Council (Dansk Flygtningehjælp)</strong><br>         <a href="https://drc.ngo/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Migration     </div>`)[0];
+            popup_fa7cf88838343c31986c73134f260062.setContent(html_803a666e3d5abda618ef43632f7c891b);
+        
+
+        marker_f76dbe515a9aa22b0283b5b23bd80191.bindPopup(popup_fa7cf88838343c31986c73134f260062)
+        ;
+
+        
+    
+    
+            marker_f76dbe515a9aa22b0283b5b23bd80191.bindTooltip(
+                `<div>
+                     Danish Refugee Council (Dansk Flygtningehjælp)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_71b43ad14cb7b5a3be25b89abc26da5e = L.marker(
+                [50.1209, 8.6821],
+                {}
+            ).addTo(feature_group_ed931a44a00165b5efb8077c5d07b5eb);
+        
+    
+            var icon_fd266ff5517c6e66f458831425c353eb = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_71b43ad14cb7b5a3be25b89abc26da5e.setIcon(icon_fd266ff5517c6e66f458831425c353eb);
+        
+    
+        var popup_c4f83d863ebf00fe47724bf17458fd3e = L.popup({"maxWidth": 300});
+
+        
+            var html_7afdd03553ea97c46082a44157f95994 = $(`<div id="html_7afdd03553ea97c46082a44157f95994" style="width: 100.0%; height: 100.0%;">         <strong>PRO ASYL</strong><br>         <a href="https://www.proasyl.de/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Migration     </div>`)[0];
+            popup_c4f83d863ebf00fe47724bf17458fd3e.setContent(html_7afdd03553ea97c46082a44157f95994);
+        
+
+        marker_71b43ad14cb7b5a3be25b89abc26da5e.bindPopup(popup_c4f83d863ebf00fe47724bf17458fd3e)
+        ;
+
+        
+    
+    
+            marker_71b43ad14cb7b5a3be25b89abc26da5e.bindTooltip(
+                `<div>
+                     PRO ASYL
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_e6aef2d58088baa5422122ed85c04224 = L.marker(
+                [47.4929, 19.048860254037844],
+                {}
+            ).addTo(feature_group_ed931a44a00165b5efb8077c5d07b5eb);
+        
+    
+            var icon_f4cd715b778d7b558a8905f2a8c89f55 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_e6aef2d58088baa5422122ed85c04224.setIcon(icon_f4cd715b778d7b558a8905f2a8c89f55);
+        
+    
+        var popup_d2cace858e78e7b2f272ff33ef85faf8 = L.popup({"maxWidth": 300});
+
+        
+            var html_11c4859064786a5a3c0a9f898bc8f966 = $(`<div id="html_11c4859064786a5a3c0a9f898bc8f966" style="width: 100.0%; height: 100.0%;">         <strong>Migration Aid (Hungarian civil organization)</strong><br>         <a href="https://migaid.org/en/" target="_blank">Visit Website</a><br>         <em>Categories:</em> Migration     </div>`)[0];
+            popup_d2cace858e78e7b2f272ff33ef85faf8.setContent(html_11c4859064786a5a3c0a9f898bc8f966);
+        
+
+        marker_e6aef2d58088baa5422122ed85c04224.bindPopup(popup_d2cace858e78e7b2f272ff33ef85faf8)
+        ;
+
+        
+    
+    
+            marker_e6aef2d58088baa5422122ed85c04224.bindTooltip(
+                `<div>
+                     Migration Aid (Hungarian civil organization)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var feature_group_6d1a45bf11b87e40c4cbdcbc6dff5db4 = L.featureGroup(
+                {}
+            ).addTo(map_d78296040f9b11422172862238893f4d);
+        
+    
+            var marker_8c0fa33bde5227e8ef7187f701ce8495 = L.marker(
+                [52.5275, 13.417990381056766],
+                {}
+            ).addTo(feature_group_6d1a45bf11b87e40c4cbdcbc6dff5db4);
+        
+    
+            var icon_ce44147c62771e5f664d87bc7379f1a9 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "cadetblue", "prefix": "glyphicon"}
+            );
+            marker_8c0fa33bde5227e8ef7187f701ce8495.setIcon(icon_ce44147c62771e5f664d87bc7379f1a9);
+        
+    
+        var popup_a26fdccb105e7c4b13645cc13088198c = L.popup({"maxWidth": 300});
+
+        
+            var html_84a92b2e9a94989da6e67497403f7326 = $(`<div id="html_84a92b2e9a94989da6e67497403f7326" style="width: 100.0%; height: 100.0%;">         <strong>Institut für Europäische Politik e.V. (IEP)</strong><br>         <a href="https://iep-berlin.de/" target="_blank">Visit Website</a><br>         <em>Categories:</em> other (European Inegration)     </div>`)[0];
+            popup_a26fdccb105e7c4b13645cc13088198c.setContent(html_84a92b2e9a94989da6e67497403f7326);
+        
+
+        marker_8c0fa33bde5227e8ef7187f701ce8495.bindPopup(popup_a26fdccb105e7c4b13645cc13088198c)
+        ;
+
+        
+    
+    
+            marker_8c0fa33bde5227e8ef7187f701ce8495.bindTooltip(
+                `<div>
+                     Institut für Europäische Politik e.V. (IEP)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_cbca37322c83436c2d611a05040915a5 = L.marker(
+                [52.52, 13.42],
+                {}
+            ).addTo(feature_group_6d1a45bf11b87e40c4cbdcbc6dff5db4);
+        
+    
+            var icon_5888e083573a7663542bd1f5234601fe = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "cadetblue", "prefix": "glyphicon"}
+            );
+            marker_cbca37322c83436c2d611a05040915a5.setIcon(icon_5888e083573a7663542bd1f5234601fe);
+        
+    
+        var popup_029383b4a3ee4027819b2d75ff99df6b = L.popup({"maxWidth": 300});
+
+        
+            var html_40aa4b6e7ecda85ca60285a59c0b0501 = $(`<div id="html_40aa4b6e7ecda85ca60285a59c0b0501" style="width: 100.0%; height: 100.0%;">         <strong>United Europe e.V.</strong><br>         <a href="https://www.united-europe.eu/de/" target="_blank">Visit Website</a><br>         <em>Categories:</em> other (European Inegration)     </div>`)[0];
+            popup_029383b4a3ee4027819b2d75ff99df6b.setContent(html_40aa4b6e7ecda85ca60285a59c0b0501);
+        
+
+        marker_cbca37322c83436c2d611a05040915a5.bindPopup(popup_029383b4a3ee4027819b2d75ff99df6b)
+        ;
+
+        
+    
+    
+            marker_cbca37322c83436c2d611a05040915a5.bindTooltip(
+                `<div>
+                     United Europe e.V.
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var feature_group_38862233049034bef7b96c68d28975bc = L.featureGroup(
+                {}
+            ).addTo(map_d78296040f9b11422172862238893f4d);
+        
+    
+            var marker_2c741bf027b38082b541ae944341437d = L.marker(
+                [44.8562, 7.7174],
+                {}
+            ).addTo(feature_group_38862233049034bef7b96c68d28975bc);
+        
+    
+            var icon_d1eb3dc1b2a780e16e513e0854f07d9d = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "gray", "prefix": "glyphicon"}
+            );
+            marker_2c741bf027b38082b541ae944341437d.setIcon(icon_d1eb3dc1b2a780e16e513e0854f07d9d);
+        
+    
+        var popup_d6a5bb1347245b6d036f19b08428076c = L.popup({"maxWidth": 300});
+
+        
+            var html_b587fc09f1e5f755d2610af22a68c158 = $(`<div id="html_b587fc09f1e5f755d2610af22a68c158" style="width: 100.0%; height: 100.0%;">         <strong>Recosol (Rete dei Comuni Solidali, Italy)</strong><br>         <a href="https://www.comunitasolidali.org/" target="_blank">Visit Website</a><br>         <em>Categories:</em> other     </div>`)[0];
+            popup_d6a5bb1347245b6d036f19b08428076c.setContent(html_b587fc09f1e5f755d2610af22a68c158);
+        
+
+        marker_2c741bf027b38082b541ae944341437d.bindPopup(popup_d6a5bb1347245b6d036f19b08428076c)
+        ;
+
+        
+    
+    
+            marker_2c741bf027b38082b541ae944341437d.bindTooltip(
+                `<div>
+                     Recosol (Rete dei Comuni Solidali, Italy)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_e77b80c9449286d32507dbb5f37faec1 = L.marker(
+                [50.8553, 4.360360254037844],
+                {}
+            ).addTo(feature_group_38862233049034bef7b96c68d28975bc);
+        
+    
+            var icon_4661effc87e20f691e7cc1d08931d7f1 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "gray", "prefix": "glyphicon"}
+            );
+            marker_e77b80c9449286d32507dbb5f37faec1.setIcon(icon_4661effc87e20f691e7cc1d08931d7f1);
+        
+    
+        var popup_6bd0d654350bf89f3f45ee81c825df89 = L.popup({"maxWidth": 300});
+
+        
+            var html_5bf47ad9bed50320f0f3608b829da36c = $(`<div id="html_5bf47ad9bed50320f0f3608b829da36c" style="width: 100.0%; height: 100.0%;">         <strong>Eastern Partnership Civil Society Forum</strong><br>         <a href=" https://eap-csf.eu/" target="_blank">Visit Website</a><br>         <em>Categories:</em> other     </div>`)[0];
+            popup_6bd0d654350bf89f3f45ee81c825df89.setContent(html_5bf47ad9bed50320f0f3608b829da36c);
+        
+
+        marker_e77b80c9449286d32507dbb5f37faec1.bindPopup(popup_6bd0d654350bf89f3f45ee81c825df89)
+        ;
+
+        
+    
+    
+            marker_e77b80c9449286d32507dbb5f37faec1.bindTooltip(
+                `<div>
+                     Eastern Partnership Civil Society Forum
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_d50c19adad68a8e7e8aeaa633f58d832 = L.marker(
+                [52.515, 13.413660254037843],
+                {}
+            ).addTo(feature_group_38862233049034bef7b96c68d28975bc);
+        
+    
+            var icon_2cdd4142bd071659b579ce483c4e8913 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "gray", "prefix": "glyphicon"}
+            );
+            marker_d50c19adad68a8e7e8aeaa633f58d832.setIcon(icon_2cdd4142bd071659b579ce483c4e8913);
+        
+    
+        var popup_2bb88463f4684b5c0dabe9ba352879b3 = L.popup({"maxWidth": 300});
+
+        
+            var html_55d763be67261341d4bb89cecaa80b9b = $(`<div id="html_55d763be67261341d4bb89cecaa80b9b" style="width: 100.0%; height: 100.0%;">         <strong>International Auschwitz Committee</strong><br>         <a href="https://www.auschwitz.info/en/welcome.html" target="_blank">Visit Website</a><br>         <em>Categories:</em> other     </div>`)[0];
+            popup_2bb88463f4684b5c0dabe9ba352879b3.setContent(html_55d763be67261341d4bb89cecaa80b9b);
+        
+
+        marker_d50c19adad68a8e7e8aeaa633f58d832.bindPopup(popup_2bb88463f4684b5c0dabe9ba352879b3)
+        ;
+
+        
+    
+    
+            marker_d50c19adad68a8e7e8aeaa633f58d832.bindTooltip(
+                `<div>
+                     International Auschwitz Committee
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var feature_group_53ea08da94a7c2a17a5ba6e0e1adbf75 = L.featureGroup(
+                {}
+            ).addTo(map_d78296040f9b11422172862238893f4d);
+        
+    
+            var marker_b0c291b542fe49eb06d6ac70e0e4d712 = L.marker(
+                [51.1705, 71.4704],
+                {}
+            ).addTo(feature_group_53ea08da94a7c2a17a5ba6e0e1adbf75);
+        
+    
+            var icon_0a4d1f74854925d2cb659e3845d90c3a = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkblue", "prefix": "glyphicon"}
+            );
+            marker_b0c291b542fe49eb06d6ac70e0e4d712.setIcon(icon_0a4d1f74854925d2cb659e3845d90c3a);
+        
+    
+        var popup_ce396c53bffbeddfdbe3ff61e312e2b4 = L.popup({"maxWidth": 300});
+
+        
+            var html_bcfc5e707107c6ac3dd7e9d3727f38e0 = $(`<div id="html_bcfc5e707107c6ac3dd7e9d3727f38e0" style="width: 100.0%; height: 100.0%;">         <strong>Legal Media Center (Astana, Kazakhstan)</strong><br>         <a href="lmc.kz" target="_blank">Visit Website</a><br>         <em>Categories:</em> digital media     </div>`)[0];
+            popup_ce396c53bffbeddfdbe3ff61e312e2b4.setContent(html_bcfc5e707107c6ac3dd7e9d3727f38e0);
+        
+
+        marker_b0c291b542fe49eb06d6ac70e0e4d712.bindPopup(popup_ce396c53bffbeddfdbe3ff61e312e2b4)
+        ;
+
+        
+    
+    
+            marker_b0c291b542fe49eb06d6ac70e0e4d712.bindTooltip(
+                `<div>
+                     Legal Media Center (Astana, Kazakhstan)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_37c8cb18476104fc8a43036c4705176e = L.marker(
+                [52.216709618943234, 21.0197],
+                {}
+            ).addTo(feature_group_53ea08da94a7c2a17a5ba6e0e1adbf75);
+        
+    
+            var icon_a95d70026b09eb87b7e118a17e70eeae = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkblue", "prefix": "glyphicon"}
+            );
+            marker_37c8cb18476104fc8a43036c4705176e.setIcon(icon_a95d70026b09eb87b7e118a17e70eeae);
+        
+    
+        var popup_2f8908790281d0dbcdfc97a4ff8a697e = L.popup({"maxWidth": 300});
+
+        
+            var html_538354b39ec57bc0b10d4f470b14ad0a = $(`<div id="html_538354b39ec57bc0b10d4f470b14ad0a" style="width: 100.0%; height: 100.0%;">         <strong>Panoptykon Foundation (Fundacja Panoptykon)</strong><br>         <a href="https://en.panoptykon.org/" target="_blank">Visit Website</a><br>         <em>Categories:</em> digital media, human/fundamental rights     </div>`)[0];
+            popup_2f8908790281d0dbcdfc97a4ff8a697e.setContent(html_538354b39ec57bc0b10d4f470b14ad0a);
+        
+
+        marker_37c8cb18476104fc8a43036c4705176e.bindPopup(popup_2f8908790281d0dbcdfc97a4ff8a697e)
+        ;
+
+        
+    
+    
+            marker_37c8cb18476104fc8a43036c4705176e.bindTooltip(
+                `<div>
+                     Panoptykon Foundation (Fundacja Panoptykon)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_e1263b651ea807114a2600dfd6c8af65 = L.marker(
+                [52.2147, 21.0122],
+                {}
+            ).addTo(feature_group_53ea08da94a7c2a17a5ba6e0e1adbf75);
+        
+    
+            var icon_f30bffc363ea02d5ed08b78f9d38e864 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkblue", "prefix": "glyphicon"}
+            );
+            marker_e1263b651ea807114a2600dfd6c8af65.setIcon(icon_f30bffc363ea02d5ed08b78f9d38e864);
+        
+    
+        var popup_c47506f0084c8a9c501282db8d7a6c57 = L.popup({"maxWidth": 300});
+
+        
+            var html_99c2b65f09a5595dafc291fa4f4dfd8b = $(`<div id="html_99c2b65f09a5595dafc291fa4f4dfd8b" style="width: 100.0%; height: 100.0%;">         <strong>Digital Center Foundation (Fundacja Centrum Cyfrowe)</strong><br>         <a href="https://centrumcyfrowe.pl/en/homepage/" target="_blank">Visit Website</a><br>         <em>Categories:</em> digital media     </div>`)[0];
+            popup_c47506f0084c8a9c501282db8d7a6c57.setContent(html_99c2b65f09a5595dafc291fa4f4dfd8b);
+        
+
+        marker_e1263b651ea807114a2600dfd6c8af65.bindPopup(popup_c47506f0084c8a9c501282db8d7a6c57)
+        ;
+
+        
+    
+    
+            marker_e1263b651ea807114a2600dfd6c8af65.bindTooltip(
+                `<div>
+                     Digital Center Foundation (Fundacja Centrum Cyfrowe)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_fb7bb983b29e9e0a9dc9c736837b44e7 = L.marker(
+                [52.216709618943234, 21.0047],
+                {}
+            ).addTo(feature_group_53ea08da94a7c2a17a5ba6e0e1adbf75);
+        
+    
+            var icon_da42253e1ef22ab81e2e3b7a6889c3b4 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkblue", "prefix": "glyphicon"}
+            );
+            marker_fb7bb983b29e9e0a9dc9c736837b44e7.setIcon(icon_da42253e1ef22ab81e2e3b7a6889c3b4);
+        
+    
+        var popup_6ea0a5f7aa30092c321e69f0c44c89b4 = L.popup({"maxWidth": 300});
+
+        
+            var html_0751a39c9451998892ea295cf3adc436 = $(`<div id="html_0751a39c9451998892ea295cf3adc436" style="width: 100.0%; height: 100.0%;">         <strong>Polish Chamber of Information Technology and Telecommunications (Polska Izba Informatyki i Telekomunikacji, PIIT)</strong><br>         <a href="https://www.piit.org.pl/" target="_blank">Visit Website</a><br>         <em>Categories:</em> digital media     </div>`)[0];
+            popup_6ea0a5f7aa30092c321e69f0c44c89b4.setContent(html_0751a39c9451998892ea295cf3adc436);
+        
+
+        marker_fb7bb983b29e9e0a9dc9c736837b44e7.bindPopup(popup_6ea0a5f7aa30092c321e69f0c44c89b4)
+        ;
+
+        
+    
+    
+            marker_fb7bb983b29e9e0a9dc9c736837b44e7.bindTooltip(
+                `<div>
+                     Polish Chamber of Information Technology and Telecommunications (Polska Izba Informatyki i Telekomunikacji, PIIT)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_22030e4d8e323fd511503cf891bd1ff8 = L.marker(
+                [48.218199999999996, 16.3738],
+                {}
+            ).addTo(feature_group_53ea08da94a7c2a17a5ba6e0e1adbf75);
+        
+    
+            var icon_6211b202c38bcbdb2da0ef63781f2829 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkblue", "prefix": "glyphicon"}
+            );
+            marker_22030e4d8e323fd511503cf891bd1ff8.setIcon(icon_6211b202c38bcbdb2da0ef63781f2829);
+        
+    
+        var popup_695575e9970377b8412baa2c8168d324 = L.popup({"maxWidth": 300});
+
+        
+            var html_b06b4110bcb6454ccd06de8b0fbc3870 = $(`<div id="html_b06b4110bcb6454ccd06de8b0fbc3870" style="width: 100.0%; height: 100.0%;">         <strong>Association of European Journalists</strong><br>         <a href="https://aej.org/" target="_blank">Visit Website</a><br>         <em>Categories:</em> digital media, human/fundamental rights     </div>`)[0];
+            popup_695575e9970377b8412baa2c8168d324.setContent(html_b06b4110bcb6454ccd06de8b0fbc3870);
+        
+
+        marker_22030e4d8e323fd511503cf891bd1ff8.bindPopup(popup_695575e9970377b8412baa2c8168d324)
+        ;
+
+        
+    
+    
+            marker_22030e4d8e323fd511503cf891bd1ff8.bindTooltip(
+                `<div>
+                     Association of European Journalists
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_f4eac5673b98e6caf0b1b779f22e3d46 = L.marker(
+                [50.8503, 4.3617],
+                {}
+            ).addTo(feature_group_53ea08da94a7c2a17a5ba6e0e1adbf75);
+        
+    
+            var icon_5a13d066319953392ead3614d9ae4bc4 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkblue", "prefix": "glyphicon"}
+            );
+            marker_f4eac5673b98e6caf0b1b779f22e3d46.setIcon(icon_5a13d066319953392ead3614d9ae4bc4);
+        
+    
+        var popup_62f0342708043534c7595d95a416aa71 = L.popup({"maxWidth": 300});
+
+        
+            var html_a02d1eda194dd7fec4e741779edcd81a = $(`<div id="html_a02d1eda194dd7fec4e741779edcd81a" style="width: 100.0%; height: 100.0%;">         <strong>European Federation of Journalists</strong><br>         <a href="https://europeanjournalists.org/" target="_blank">Visit Website</a><br>         <em>Categories:</em> digital media, human/fundamental rights     </div>`)[0];
+            popup_62f0342708043534c7595d95a416aa71.setContent(html_a02d1eda194dd7fec4e741779edcd81a);
+        
+
+        marker_f4eac5673b98e6caf0b1b779f22e3d46.bindPopup(popup_62f0342708043534c7595d95a416aa71)
+        ;
+
+        
+    
+    
+            marker_f4eac5673b98e6caf0b1b779f22e3d46.bindTooltip(
+                `<div>
+                     European Federation of Journalists
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_caeafec1fe9df3e27ef93273515ef56f = L.marker(
+                [48.8616, 2.3608602540378443],
+                {}
+            ).addTo(feature_group_53ea08da94a7c2a17a5ba6e0e1adbf75);
+        
+    
+            var icon_11eca2e7d3ecfc785fdc2898cea7fb46 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkblue", "prefix": "glyphicon"}
+            );
+            marker_caeafec1fe9df3e27ef93273515ef56f.setIcon(icon_11eca2e7d3ecfc785fdc2898cea7fb46);
+        
+    
+        var popup_2d5d226fa10294aa6935f17066f01a03 = L.popup({"maxWidth": 300});
+
+        
+            var html_821f3dc884f7bf6591d6576f2da484c6 = $(`<div id="html_821f3dc884f7bf6591d6576f2da484c6" style="width: 100.0%; height: 100.0%;">         <strong>Reporters Without Borders (RSF)</strong><br>         <a href="https://rsf.org/en" target="_blank">Visit Website</a><br>         <em>Categories:</em> digital media, human/fundamental rights     </div>`)[0];
+            popup_2d5d226fa10294aa6935f17066f01a03.setContent(html_821f3dc884f7bf6591d6576f2da484c6);
+        
+
+        marker_caeafec1fe9df3e27ef93273515ef56f.bindPopup(popup_2d5d226fa10294aa6935f17066f01a03)
+        ;
+
+        
+    
+    
+            marker_caeafec1fe9df3e27ef93273515ef56f.bindTooltip(
+                `<div>
+                     Reporters Without Borders (RSF)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_c58fb9354c1012e9bf9875561cf591b9 = L.marker(
+                [48.21686025403784, 16.3788],
+                {}
+            ).addTo(feature_group_53ea08da94a7c2a17a5ba6e0e1adbf75);
+        
+    
+            var icon_75ac6dd192798f1886ab69906058a101 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkblue", "prefix": "glyphicon"}
+            );
+            marker_c58fb9354c1012e9bf9875561cf591b9.setIcon(icon_75ac6dd192798f1886ab69906058a101);
+        
+    
+        var popup_bfd369bd3f3a6f6f0dbe2152b02d98dc = L.popup({"maxWidth": 300});
+
+        
+            var html_05729d4befba97632833495e7045dd63 = $(`<div id="html_05729d4befba97632833495e7045dd63" style="width: 100.0%; height: 100.0%;">         <strong>South-East Europe Media Organization (SEEMO)</strong><br>         <a href="https://seemo.org/" target="_blank">Visit Website</a><br>         <em>Categories:</em> digital media, human/fundamental rights     </div>`)[0];
+            popup_bfd369bd3f3a6f6f0dbe2152b02d98dc.setContent(html_05729d4befba97632833495e7045dd63);
+        
+
+        marker_c58fb9354c1012e9bf9875561cf591b9.bindPopup(popup_bfd369bd3f3a6f6f0dbe2152b02d98dc)
+        ;
+
+        
+    
+    
+            marker_c58fb9354c1012e9bf9875561cf591b9.bindTooltip(
+                `<div>
+                     South-East Europe Media Organization (SEEMO)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_03ed0a6ac109700508bfb5de73b46cbf = L.marker(
+                [48.2132, 16.382460254037845],
+                {}
+            ).addTo(feature_group_53ea08da94a7c2a17a5ba6e0e1adbf75);
+        
+    
+            var icon_f8a7f5108c5857accac2288dbaa3de83 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkblue", "prefix": "glyphicon"}
+            );
+            marker_03ed0a6ac109700508bfb5de73b46cbf.setIcon(icon_f8a7f5108c5857accac2288dbaa3de83);
+        
+    
+        var popup_586c198871ff858ec3cc56ddb4a94093 = L.popup({"maxWidth": 300});
+
+        
+            var html_1aab8b509bb94ebf99576301d3abc99c = $(`<div id="html_1aab8b509bb94ebf99576301d3abc99c" style="width: 100.0%; height: 100.0%;">         <strong>International Press Institute (IPI)</strong><br>         <a href="https://ipi.media/" target="_blank">Visit Website</a><br>         <em>Categories:</em> digital media, human/fundamental rights     </div>`)[0];
+            popup_586c198871ff858ec3cc56ddb4a94093.setContent(html_1aab8b509bb94ebf99576301d3abc99c);
+        
+
+        marker_03ed0a6ac109700508bfb5de73b46cbf.bindPopup(popup_586c198871ff858ec3cc56ddb4a94093)
+        ;
+
+        
+    
+    
+            marker_03ed0a6ac109700508bfb5de73b46cbf.bindTooltip(
+                `<div>
+                     International Press Institute (IPI)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_a924273deac2055b088ee211171f9395 = L.marker(
+                [40.4268, -3.7038],
+                {}
+            ).addTo(feature_group_53ea08da94a7c2a17a5ba6e0e1adbf75);
+        
+    
+            var icon_7ca47acbf82647eefbe6f3a85e53a5c0 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkblue", "prefix": "glyphicon"}
+            );
+            marker_a924273deac2055b088ee211171f9395.setIcon(icon_7ca47acbf82647eefbe6f3a85e53a5c0);
+        
+    
+        var popup_e6fc4aaacf53700bae05c90cfebd8508 = L.popup({"maxWidth": 300});
+
+        
+            var html_74d2ebcf8af61759f063323cea6bedec = $(`<div id="html_74d2ebcf8af61759f063323cea6bedec" style="width: 100.0%; height: 100.0%;">         <strong>Spanish federation of journalists' association (FAPE)</strong><br>         <a href="https://fape.es/" target="_blank">Visit Website</a><br>         <em>Categories:</em> digital media, human/fundamental rights     </div>`)[0];
+            popup_e6fc4aaacf53700bae05c90cfebd8508.setContent(html_74d2ebcf8af61759f063323cea6bedec);
+        
+
+        marker_a924273deac2055b088ee211171f9395.bindPopup(popup_e6fc4aaacf53700bae05c90cfebd8508)
+        ;
+
+        
+    
+    
+            marker_a924273deac2055b088ee211171f9395.bindTooltip(
+                `<div>
+                     Spanish federation of journalists' association (FAPE)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var feature_group_f9640369d552d8866fd3e8354a3fe0d6 = L.featureGroup(
+                {}
+            ).addTo(map_d78296040f9b11422172862238893f4d);
+        
+    
+            var marker_4109205442403b6d6b829648a111a12b = L.marker(
+                [50.9475, 6.9603],
+                {}
+            ).addTo(feature_group_f9640369d552d8866fd3e8354a3fe0d6);
+        
+    
+            var icon_8090e3ba22e731e30e4b738a3b726e43 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "lightgreen", "prefix": "glyphicon"}
+            );
+            marker_4109205442403b6d6b829648a111a12b.setIcon(icon_8090e3ba22e731e30e4b738a3b726e43);
+        
+    
+        var popup_410a0011f1ffd9ac42bcc5c5f79d4de4 = L.popup({"maxWidth": 300});
+
+        
+            var html_b0bea38797a170acd475ba7383405b22 = $(`<div id="html_b0bea38797a170acd475ba7383405b22" style="width: 100.0%; height: 100.0%;">         <strong>Central Council for Muslims in Germany </strong><br>         <a href="https://zentralrat.de/3037.php" target="_blank">Visit Website</a><br>         <em>Categories:</em> other (religion)     </div>`)[0];
+            popup_410a0011f1ffd9ac42bcc5c5f79d4de4.setContent(html_b0bea38797a170acd475ba7383405b22);
+        
+
+        marker_4109205442403b6d6b829648a111a12b.bindPopup(popup_410a0011f1ffd9ac42bcc5c5f79d4de4)
+        ;
+
+        
+    
+    
+            marker_4109205442403b6d6b829648a111a12b.bindTooltip(
+                `<div>
+                     Central Council for Muslims in Germany 
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_2b43e5e81c8a45eb301cd747f068c6b2 = L.marker(
+                [52.52, 13.415],
+                {}
+            ).addTo(feature_group_f9640369d552d8866fd3e8354a3fe0d6);
+        
+    
+            var icon_416679d823df4630abc7d8dd40173070 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "lightgreen", "prefix": "glyphicon"}
+            );
+            marker_2b43e5e81c8a45eb301cd747f068c6b2.setIcon(icon_416679d823df4630abc7d8dd40173070);
+        
+    
+        var popup_569ffe9389474062d0eefcf67455ce2c = L.popup({"maxWidth": 300});
+
+        
+            var html_5b0bd73af86cf7b7221a9459a0efb301 = $(`<div id="html_5b0bd73af86cf7b7221a9459a0efb301" style="width: 100.0%; height: 100.0%;">         <strong>Central Council of Jews in Germany</strong><br>         <a href="https://www.zentralratderjuden.de/" target="_blank">Visit Website</a><br>         <em>Categories:</em> other (religion)     </div>`)[0];
+            popup_569ffe9389474062d0eefcf67455ce2c.setContent(html_5b0bd73af86cf7b7221a9459a0efb301);
+        
+
+        marker_2b43e5e81c8a45eb301cd747f068c6b2.bindPopup(popup_569ffe9389474062d0eefcf67455ce2c)
+        ;
+
+        
+    
+    
+            marker_2b43e5e81c8a45eb301cd747f068c6b2.bindTooltip(
+                `<div>
+                     Central Council of Jews in Germany
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_a85e9ac1a2ea4d9c97d914e92aa18077 = L.marker(
+                [47.50656025403784, 19.045199999999998],
+                {}
+            ).addTo(feature_group_f9640369d552d8866fd3e8354a3fe0d6);
+        
+    
+            var icon_4f55ab0b33947cfb14964e593b662004 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "lightgreen", "prefix": "glyphicon"}
+            );
+            marker_a85e9ac1a2ea4d9c97d914e92aa18077.setIcon(icon_4f55ab0b33947cfb14964e593b662004);
+        
+    
+        var popup_16671b77189b391daa2f97b656d71a54 = L.popup({"maxWidth": 300});
+
+        
+            var html_e697972166d4cd5a1d0a11cfcfa5d795 = $(`<div id="html_e697972166d4cd5a1d0a11cfcfa5d795" style="width: 100.0%; height: 100.0%;">         <strong>Federation of Hungarian Jewish Communities (Magyarországi Zsidó Hitközségek Szövetsége, MAZSIHISZ)</strong><br>         <a href="https://mazsihisz.hu/en" target="_blank">Visit Website</a><br>         <em>Categories:</em> other (religion)     </div>`)[0];
+            popup_16671b77189b391daa2f97b656d71a54.setContent(html_e697972166d4cd5a1d0a11cfcfa5d795);
+        
+
+        marker_a85e9ac1a2ea4d9c97d914e92aa18077.bindPopup(popup_16671b77189b391daa2f97b656d71a54)
+        ;
+
+        
+    
+    
+            marker_a85e9ac1a2ea4d9c97d914e92aa18077.bindTooltip(
+                `<div>
+                     Federation of Hungarian Jewish Communities (Magyarországi Zsidó Hitközségek Szövetsége, MAZSIHISZ)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_d89a9be0b91169011e845bf7be9b9d31 = L.marker(
+                [52.51133974596216, 13.41],
+                {}
+            ).addTo(feature_group_f9640369d552d8866fd3e8354a3fe0d6);
+        
+    
+            var icon_73fd2623532bb74dfa0b6b5d0853929e = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "lightgreen", "prefix": "glyphicon"}
+            );
+            marker_d89a9be0b91169011e845bf7be9b9d31.setIcon(icon_73fd2623532bb74dfa0b6b5d0853929e);
+        
+    
+        var popup_71c96f840f0a1e83975ff346e801b3bd = L.popup({"maxWidth": 300});
+
+        
+            var html_c0583d5956d1dc72d3458869dc92e208 = $(`<div id="html_c0583d5956d1dc72d3458869dc92e208" style="width: 100.0%; height: 100.0%;">         <strong>Jewish Central Council</strong><br>         <a href="https://jfst.se/for-english-speakers/history-of-the-jewish-community/" target="_blank">Visit Website</a><br>         <em>Categories:</em> other (religion)     </div>`)[0];
+            popup_71c96f840f0a1e83975ff346e801b3bd.setContent(html_c0583d5956d1dc72d3458869dc92e208);
+        
+
+        marker_d89a9be0b91169011e845bf7be9b9d31.bindPopup(popup_71c96f840f0a1e83975ff346e801b3bd)
+        ;
+
+        
+    
+    
+            marker_d89a9be0b91169011e845bf7be9b9d31.bindTooltip(
+                `<div>
+                     Jewish Central Council
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var feature_group_04721d43f8839a3b8cbc8e81649228aa = L.featureGroup(
+                {}
+            ).addTo(map_d78296040f9b11422172862238893f4d);
+        
+    
+            var marker_5691332fa15397a7d09e04359be42394 = L.marker(
+                [55.68476025403784, 12.573300000000001],
+                {}
+            ).addTo(feature_group_04721d43f8839a3b8cbc8e81649228aa);
+        
+    
+            var icon_aba8da3b9c7f0e753bc969f2f4dbb092 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "lightgray", "prefix": "glyphicon"}
+            );
+            marker_5691332fa15397a7d09e04359be42394.setIcon(icon_aba8da3b9c7f0e753bc969f2f4dbb092);
+        
+    
+        var popup_e3e19f2a4a525ddc2e62b7f4ba9bc64b = L.popup({"maxWidth": 300});
+
+        
+            var html_ff8906442f1a87233f76f773d6a917e3 = $(`<div id="html_ff8906442f1a87233f76f773d6a917e3" style="width: 100.0%; height: 100.0%;">         <strong>CEPOS</strong><br>         <a href="https://cepos.dk/english/" target="_blank">Visit Website</a><br>         <em>Categories:</em> other (various consultancy)     </div>`)[0];
+            popup_e3e19f2a4a525ddc2e62b7f4ba9bc64b.setContent(html_ff8906442f1a87233f76f773d6a917e3);
+        
+
+        marker_5691332fa15397a7d09e04359be42394.bindPopup(popup_e3e19f2a4a525ddc2e62b7f4ba9bc64b)
+        ;
+
+        
+    
+    
+            marker_5691332fa15397a7d09e04359be42394.bindTooltip(
+                `<div>
+                     CEPOS
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var feature_group_5ddb2946d3b8b0573b6777ccab1b0ef6 = L.featureGroup(
+                {}
+            ).addTo(map_d78296040f9b11422172862238893f4d);
+        
+    
+            var marker_d48a36a006c3029170a435d2f88b127b = L.marker(
+                [50.11956025403784, 8.687100000000001],
+                {}
+            ).addTo(feature_group_5ddb2946d3b8b0573b6777ccab1b0ef6);
+        
+    
+            var icon_f4a9a2a30dc2a767f254c3ad02c98283 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "purple", "prefix": "glyphicon"}
+            );
+            marker_d48a36a006c3029170a435d2f88b127b.setIcon(icon_f4a9a2a30dc2a767f254c3ad02c98283);
+        
+    
+        var popup_662cac139eefb784d22dd3bed1e4aa42 = L.popup({"maxWidth": 300});
+
+        
+            var html_495c9b11d400d1048d82d7d4e70960f4 = $(`<div id="html_495c9b11d400d1048d82d7d4e70960f4" style="width: 100.0%; height: 100.0%;">         <strong> Intercultural Council (Interkulturelles Rat)</strong><br>         <a href="nan" target="_blank">Visit Website</a><br>         <em>Categories:</em> other(social cohesion)     </div>`)[0];
+            popup_662cac139eefb784d22dd3bed1e4aa42.setContent(html_495c9b11d400d1048d82d7d4e70960f4);
+        
+
+        marker_d48a36a006c3029170a435d2f88b127b.bindPopup(popup_662cac139eefb784d22dd3bed1e4aa42)
+        ;
+
+        
+    
+    
+            marker_d48a36a006c3029170a435d2f88b127b.bindTooltip(
+                `<div>
+                      Intercultural Council (Interkulturelles Rat)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var feature_group_4b91b4cb2a11f43fd2560ffb3e7579a7 = L.featureGroup(
+                {}
+            ).addTo(map_d78296040f9b11422172862238893f4d);
+        
+    
+            var marker_6209df8b3766ed5d3e4092d39c8a2a6b = L.marker(
+                [52.515, 13.396339745962155],
+                {}
+            ).addTo(feature_group_4b91b4cb2a11f43fd2560ffb3e7579a7);
+        
+    
+            var icon_5eacc42d11c164306df64fe9bb273806 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "darkpurple", "prefix": "glyphicon"}
+            );
+            marker_6209df8b3766ed5d3e4092d39c8a2a6b.setIcon(icon_5eacc42d11c164306df64fe9bb273806);
+        
+    
+        var popup_75af1d0346a1348a07ef5e58babd574d = L.popup({"maxWidth": 300});
+
+        
+            var html_bcbde9040a9558f421fa46788c9f16b6 = $(`<div id="html_bcbde9040a9558f421fa46788c9f16b6" style="width: 100.0%; height: 100.0%;">         <strong>European Council on Foreign Relations e.V. (ECFR)</strong><br>         <a href="https://ecfr.eu/" target="_blank">Visit Website</a><br>         <em>Categories:</em> other (foreign affairs)     </div>`)[0];
+            popup_75af1d0346a1348a07ef5e58babd574d.setContent(html_bcbde9040a9558f421fa46788c9f16b6);
+        
+
+        marker_6209df8b3766ed5d3e4092d39c8a2a6b.bindPopup(popup_75af1d0346a1348a07ef5e58babd574d)
+        ;
+
+        
+    
+    
+            marker_6209df8b3766ed5d3e4092d39c8a2a6b.bindTooltip(
+                `<div>
+                     European Council on Foreign Relations e.V. (ECFR)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var feature_group_ef0cd2144a64bf5305db462f1e7f0766 = L.featureGroup(
+                {}
+            ).addTo(map_d78296040f9b11422172862238893f4d);
+        
+    
+            var marker_e3b38c4c22fadb24024c431fdb819ad8 = L.marker(
+                [48.009, 7.8421],
+                {}
+            ).addTo(feature_group_ef0cd2144a64bf5305db462f1e7f0766);
+        
+    
+            var icon_d278a3036957cb9aeb4ad657fffb5666 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "lightblue", "prefix": "glyphicon"}
+            );
+            marker_e3b38c4c22fadb24024c431fdb819ad8.setIcon(icon_d278a3036957cb9aeb4ad657fffb5666);
+        
+    
+        var popup_646cd412624d9912d5b114645ec6c877 = L.popup({"maxWidth": 300});
+
+        
+            var html_da052a0ab23278724a54a15dc8616394 = $(`<div id="html_da052a0ab23278724a54a15dc8616394" style="width: 100.0%; height: 100.0%;">         <strong>Gemeinschaft für studentischen Austausch in Mittel- und Osteuropa e.V. (GFPS)</strong><br>         <a href="https://www.gfps.org/" target="_blank">Visit Website</a><br>         <em>Categories:</em> other (international exchange)     </div>`)[0];
+            popup_646cd412624d9912d5b114645ec6c877.setContent(html_da052a0ab23278724a54a15dc8616394);
+        
+
+        marker_e3b38c4c22fadb24024c431fdb819ad8.bindPopup(popup_646cd412624d9912d5b114645ec6c877)
+        ;
+
+        
+    
+    
+            marker_e3b38c4c22fadb24024c431fdb819ad8.bindTooltip(
+                `<div>
+                     Gemeinschaft für studentischen Austausch in Mittel- und Osteuropa e.V. (GFPS)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var layer_control_32ca5cd228531f5e4fb5c4785cb47117 = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_6ad5060702016bfe2358f266e5291bba,
+                },
+                overlays :  {
+                    "Trade/Economy" : feature_group_59a5b4f63fb2e6d497a34bd9882f16d0,
+                    "Democracy" : feature_group_a1fe9017329568b2e9b7ce49a0519aa1,
+                    "human/fundamental rights" : feature_group_f73d90206f51f069904baa884078e661,
+                    "energy/climate/sustainability" : feature_group_874df1f8175734ca7319c59de28e0f69,
+                    "conflict/war" : feature_group_2b3b158e0165f1c2e89a5c14cbdce501,
+                    "Migration" : feature_group_ed931a44a00165b5efb8077c5d07b5eb,
+                    "other (European Inegration)" : feature_group_6d1a45bf11b87e40c4cbdcbc6dff5db4,
+                    "other" : feature_group_38862233049034bef7b96c68d28975bc,
+                    "digital media" : feature_group_53ea08da94a7c2a17a5ba6e0e1adbf75,
+                    "other (religion)" : feature_group_f9640369d552d8866fd3e8354a3fe0d6,
+                    "other (various consultancy)" : feature_group_04721d43f8839a3b8cbc8e81649228aa,
+                    "other(social cohesion)" : feature_group_5ddb2946d3b8b0573b6777ccab1b0ef6,
+                    "other (foreign affairs)" : feature_group_4b91b4cb2a11f43fd2560ffb3e7579a7,
+                    "other (international exchange)" : feature_group_ef0cd2144a64bf5305db462f1e7f0766,
+                },
+            };
+            L.control.layers(
+                layer_control_32ca5cd228531f5e4fb5c4785cb47117.base_layers,
+                layer_control_32ca5cd228531f5e4fb5c4785cb47117.overlays,
+                {"autoZIndex": true, "collapsed": false, "position": "topright"}
+            ).addTo(map_d78296040f9b11422172862238893f4d);
+        
+</script>
+</html>
