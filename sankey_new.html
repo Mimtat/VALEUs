@@ -1,16 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Sankey Diagram</title>
-  <style>
-    body { margin:0; font-family: Arial, sans-serif; }
-    h1 { text-align:center; color:#003366; margin:1em 0; }
-    iframe { width:100%; height:90vh; border:none; }
-  </style>
-</head>
-<body>
-  <h1>🔗 Sankey Diagram</h1>
-  <iframe src="sankey_new.html"></iframe>
-</body>
-</html>
+import plotly.graph_objects as go
+
+# Build rows for Sankey link counts (from newest dataset)
+def safe_str(x):
+    return "" if pd.isna(x) else str(x).strip()
+
+rows = []
+for _, row in df_newest.iterrows():
+    org = safe_str(row["Name of the Organization"])
+    domains = [d.strip() for d in safe_str(row["Project/Action Domain (select all that apply)"]).split(",") if d and d.strip().lower() != "nan"]
+    addressees = [a.strip() for a in safe_str(row["Main Addressee (Select all that apply)"]).split(",") if a and a.strip().lower() != "nan"]
+    for d in domains:
+        if org:
+            rows.append({"Org": org, "Domain": d})
+        for a in addressees:
+            if d and a:
+                rows.append({"Domain": d, "Addressee": a})
+
+df_long_new = pd.DataFrame(rows)
+
+# Org → Domain counts
+org_domain_new = df_long_new.dropna(subset=["Org","Domain"]).groupby(["Org","Domain"]).size().reset_index(name="Count")
+
+# Domain → Addressee counts
+dom_addr_new = df_long_new.dropna(subset=["Domain","Addressee"]).groupby(["Domain","Addressee"]).size().reset_index(name="Count")
+
+# Save to files
+org_domain_new_path = "/mnt/data/sankey_links_org_domain_new.csv"
+dom_addr_new_path = "/mnt/data/sankey_links_domain_addressee_new.csv"
+
+org_domain_new.to_csv(org_domain_new_path, index=False)
+dom_addr_new.to_csv(dom_addr_new_path, index=False)
+
+# Build Sankey diagram
+labels = pd.unique(
+    pd.concat([org_domain_new["Org"], org_domain_new["Domain"],
+               dom_addr_new["Domain"], dom_addr_new["Addressee"]], ignore_index=True)
+).tolist()
+label_index = {lab:i for i,lab in enumerate(labels)}
+
+# Links Org→Domain
+sources1 = [label_index[o] for o in org_domain_new["Org"]]
+targets1 = [label_index[d] for d in org_domain_new["Domain"]]
+values1 = org_domain_new["Count"].tolist()
+
+# Links Domain→Addressee
+sources2 = [label_index[d] for d in dom_addr_new["Domain"]]
+targets2 = [label_index[a] for a in dom_addr_new["Addressee"]]
+values2 = dom_addr_new["Count"].tolist()
+
+sources = sources1 + sources2
+targets = targets1 + targets2
+values = values1 + values2
+
+fig = go.Figure(data=[go.Sankey(
+    node=dict(
+        pad=15,
+        thickness=20,
+        line=dict(color="black", width=0.5),
+        label=labels
+    ),
+    link=dict(
+        source=sources,
+        target=targets,
+        value=values
+    )
+)])
+
+fig.update_layout(title_text="EU Policy Reach: Organisations → Domains → Addressees (new dataset)", font_size=10)
+sankey_new_path = "/mnt/data/sankey_new.html"
+fig.write_html(sankey_new_path)
+
+org_domain_new_path, dom_addr_new_path, sankey_new_path
