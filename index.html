@@ -1,85 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Civil Society EU Engagement Visualisations</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f7fa;
-      margin: 0;
-      padding: 2em;
-    }
-    h1 {
-      text-align: center;
-      color: #003366;
-      margin-bottom: 1em;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 1.5em;
-      max-width: 900px;
-      margin: auto;
-    }
-    .card {
-      background: #fff;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      overflow: hidden;
-      transition: transform 0.2s ease;
-      text-align: center;
-    }
-    .card:hover {
-      transform: translateY(-4px);
-    }
-    .card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      background: #e6f0ff;
-    }
-    .card-title {
-      font-size: 1.1em;
-      font-weight: bold;
-      color: #003366;
-      margin: 0.8em 0;
-    }
-    .card a {
-      display: block;
-      padding: 0.8em;
-      background: #003366;
-      color: #fff;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 0 0 8px 8px;
-    }
-    .card a:hover {
-      background: #0055aa;
-    }
-  </style>
-</head>
-<body>
-  <h1>Civil Society EU Engagement Visualisations</h1>
-  <div class="grid">
+import plotly.io as pio
+import plotly.graph_objects as go
+import pandas as pd
 
-    <!-- Flow maps -->
-    <div class="card">
-      <img src="assets/img/Flow-preview.png" alt="Flow Maps Preview">
-      <div class="card-title">🌍 Flow Maps</div>
-      <a href="flow_map_mapbox_interactive.html" target="_blank">Open HQ → Engagement</a>
-      <a href="global_flow_map_actions_aggregated.html" target="_blank">Open Aggregated by Action</a>
-      <a href="index (1).html" target="_blank">Open Original</a>
-    </div>
+# --- Regenerate Sankey from the new dataset to export as PNG preview ---
+def safe_str(x):
+    return "" if pd.isna(x) else str(x).strip()
 
-    <!-- Sankey diagram -->
-    <div class="card">
-      <img src="assets/img/Sanky-preview.png" alt="Sankey Diagram Preview">
-      <div class="card-title">🔗 Sankey Diagram</div>
-      <a href="sankey_new.html" target="_blank">Open Sankey</a>
-    </div>
+rows = []
+for _, row in df_newest.iterrows():
+    org = safe_str(row["Name of the Organization"])
+    domains = [d.strip() for d in safe_str(row["Project/Action Domain (select all that apply)"]).split(",") if d and d.strip().lower() != "nan"]
+    addressees = [a.strip() for a in safe_str(row["Main Addressee (Select all that apply)"]).split(",") if a and a.strip().lower() != "nan"]
+    for d in domains:
+        if org:
+            rows.append({"Org": org, "Domain": d})
+        for a in addressees:
+            if d and a:
+                rows.append({"Domain": d, "Addressee": a})
 
-  </div>
-</body>
-</html>
+df_long_new = pd.DataFrame(rows)
+org_domain_new = df_long_new.dropna(subset=["Org","Domain"]).groupby(["Org","Domain"]).size().reset_index(name="Count")
+dom_addr_new = df_long_new.dropna(subset=["Domain","Addressee"]).groupby(["Domain","Addressee"]).size().reset_index(name="Count")
+
+labels = pd.unique(
+    pd.concat([org_domain_new["Org"], org_domain_new["Domain"],
+               dom_addr_new["Domain"], dom_addr_new["Addressee"]], ignore_index=True)
+).tolist()
+label_index = {lab:i for i,lab in enumerate(labels)}
+
+sources1 = [label_index[o] for o in org_domain_new["Org"]]
+targets1 = [label_index[d] for d in org_domain_new["Domain"]]
+values1 = org_domain_new["Count"].tolist()
+
+sources2 = [label_index[d] for d in dom_addr_new["Domain"]]
+targets2 = [label_index[a] for a in dom_addr_new["Addressee"]]
+values2 = dom_addr_new["Count"].tolist()
+
+sources = sources1 + sources2
+targets = targets1 + targets2
+values = values1 + values2
+
+fig_sankey = go.Figure(data=[go.Sankey(
+    node=dict(
+        pad=15,
+        thickness=20,
+        line=dict(color="black", width=0.5),
+        label=labels
+    ),
+    link=dict(source=sources, target=targets, value=values)
+)])
+
+fig_sankey.update_layout(title_text="Sankey Diagram Preview", font_size=10)
+
+# Export Sankey preview image
+sankey_preview_path = "/mnt/data/sankey_preview.png"
+pio.write_image(fig_sankey, sankey_preview_path, format="png", width=1000, height=600, scale=2)
+
+sankey_preview_path
