@@ -1,0 +1,91 @@
+Source;Target;Type;Id;Label;Weight;relation
+VoxUkraine;GenderRecovery;Directed;0;;1;implements
+VoxUkraine;StateDigital;Directed;1;;1;implements
+VoxUkraine;AccessionYear;Directed;2;;1;implements
+GenderRecovery;Ukraine;Directed;3;;1;engages
+GenderRecovery;Citizens;Directed;4;;1;targets
+GenderRecovery;NationalInstitutions;Directed;5;;1;targets
+StateDigital;Ukraine;Directed;6;;1;engages
+StateDigital;Estonia;Directed;7;;1;engages
+StateDigital;Sweden;Directed;8;;1;engages
+StateDigital;Switzerland;Directed;9;;1;engages
+StateDigital;EUinstitutions;Directed;10;;1;targets
+StateDigital;NationalInstitutions;Directed;11;;1;targets
+StateDigital;Citizens;Directed;12;;1;targets
+StateDigital;Media;Directed;13;;1;targets
+AccessionYear;Ukraine;Directed;14;;1;engages
+AccessionYear;EUinstitutions;Directed;15;;1;targets
+AccessionYear;NationalInstitutions;Directed;16;;1;targets
+Democracy;GenderRecovery;Undirected;17;;1;engages
+Human/Fundamental Rights;GenderRecovery;Undirected;18;;1;engages
+Energy/Climate/Sustainability;StateDigital;Undirected;19;;1;engages
+Digital Technology;StateDigital;Undirected;20;;1;engages
+Democracy;AccessionYear;Undirected;21;;1;engages
+Human/Fundamental Rights;AccessionYear;Undirected;22;;1;engages
+Europe without Barriers;MediaCoverage V4;Directed;23;;1;implements
+MediaCoverage V4;Poland;Directed;24;;1;targets
+MediaCoverage V4;Slovakia;Directed;25;;1;targets
+MediaCoverage V4;Hungary;Directed;26;;1;targets
+MediaCoverage V4;Czech Republic;Directed;27;;1;targets
+MediaCoverage V4;Ukraine;Undirected;28;;1;engages
+Human/Fundamental Rights;MediaCoverage V4;Undirected;29;;1;engages
+Trade/economy;MediaCoverage V4;Undirected;30;;1;engages
+Europe without Barriers;SafeBorder;Directed;31;;1;implements
+SafeBorder;Poland;Directed;32;;1;targets
+SafeBorder;Ukraine;Directed;33;;1;engages
+Trade/economy;SafeBorder;Undirected;34;;1;engages
+Migration;SafeBorder;Undirected;35;;1;engages
+Europe without Barriers;Bordermng;Directed;36;;1;implements
+Bordermng;Poland;Directed;37;;1;targets
+Bordermng;Germany;Directed;38;;1;targets
+Bordermng;Sweden;Directed;39;;1;targets
+Bordermng;Ukraine;Directed;40;;1;engages
+Democracy;Bordermng;Undirected;41;;1;engages
+Human/Fundamental Rights;Bordermng;Undirected;42;;1;engages
+Trade/economy;Bordermng;Undirected;44;;1;engages
+MediaCoverage V4;NationalInstitutions;Directed;45;;1;targets
+MediaCoverage V5;EUinstitutions;Directed;46;;1;targets
+Bordermng;Citizens;Directed;47;;1;targets
+Bordermng;NationalInstitutions;Directed;48;;1;targets
+SafeBorder;NationalInstitutions;Directed;49;;1;targets
+SafeBorder;EUinstitutions;Directed;50;;1;targets
+"The ""New Europe Center"" ";The Euromap: profiles of regions;Directed;51;;1;implements
+The Euromap: profiles of regions;Citizens;Directed;52;;1;targets
+The Euromap: profiles of regions;NationalInstitutions;Directed;53;;1;targets
+The Euromap: profiles of regions;EUinstitutions;Directed;54;;1;targets
+The Euromap: profiles of regions;Ukraine;Directed;55;;1;engages
+Democracy;The Euromap: profiles of regions;Undirected;56;;1;engages
+Europe without Barriers;The Euromap: profiles of regions;Undirected;57;;1;engages
+Trade/economy;The Euromap: profiles of regions;Undirected;58;;1;engages
+Human/Fundamental Rights;The Euromap: profiles of regions;Undirected;59;;1;engages
+"The ""New Europe Center"" ";RespaJapon;Directed;60;;1;implements
+RespaJapon;Japon;Directed;61;;1;targets
+RespaJapon;Ukraine;Directed;62;;1;engages
+Democracy;RespaJapon;Directed;63;;1;engages
+Conflict/War;RespaJapon;Directed;64;;1;engages
+Energy/Climate/Sustainability;RespaJapon;Directed;65;;1;engages
+RespaJapon;NationalInstitutions;Directed;66;;1;targets
+RespaJapon;Media;Directed;67;;1;targets
+"The ""New Europe Center"" ";EUAXF;Directed;68;;;implements
+EUAXF;Moldova;Directed;69;;;targets
+EUAXF;Romania;Directed;70;;;targets
+EUAXF;Slovakia;Directed;71;;;targets
+EUAXF;Slovenia;Directed;72;;;targets
+EUAXF;Bulgaria;Directed;73;;;targets
+Democracy;EUAXF;Undirected;74;;;engages
+Human/Fundamental Rights;EUAXF;Undirected;75;;;engages
+EUAXF;EUinstitutions;Directed;76;;;targets
+EUAXF;NationalInstitutions;Directed;77;;;targets
+EUAXF;Ukraine;Directed;78;;;engages
+ Kazakhstan International Bureau for Human Rights and Rule of Law;InpokazEU;Directed;79;;;implements
+InpokazEU;Kazakhstan;Directed;80;;;engages
+InpokazEU;EUinstitutions;Directed;81;;;targets
+Human/Fundamental Rights;InpokazEU;Undirected;82;;;engages
+YUCOM: Lawyers' Committee for Human Rights ;Stronger Together;Directed;83;;;implements
+Stronger Together;Serbia;Directed;84;;;engages
+Stronger Together;NationalInstitutions;Directed;85;;;targets
+Human/Fundamental Rights;Stronger Together;Undirected;86;;;engages
+Stronger Together;National and international courts;Directed;87;;;targets
+Stronger Together;Media;Directed;88;;;targets
+Stronger Together;Human Rights Defenders;Directed;89;;;targets
+Stronger Together;NationalInstitutions;Directed;90;;;targets
