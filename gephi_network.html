@@ -4,29 +4,33 @@
   <meta charset="utf-8">
   <title>Gephi Network with Sigma.js</title>
   <style>
-    #container {
+    html, body, #container {
+      margin: 0;
+      padding: 0;
       width: 100%;
-      height: 100vh;
+      height: 100%;
     }
   </style>
 </head>
 <body>
   <div id="container"></div>
 
-  <!-- Always load core first -->
-  <script src="https://unpkg.com/sigma@1.2.1/build/sigma.min.js"></script>
+  <!-- Load your local Sigma.js build -->
+  <script src="libs/sigma.min.js"></script>
 
-  <!-- Then load gexf.js dependency -->
-  <script src="https://unpkg.com/sigma@1.2.1/plugins/sigma.parsers.gexf/gexf.js"></script>
+  <!-- Load GEXF parser dependencies -->
+  <script src="libs/gexf.js"></script>
+  <script src="libs/sigma.parsers.gexf.js"></script>
 
-  <!-- Finally load parser -->
-  <script src="https://unpkg.com/sigma@1.2.1/plugins/sigma.parsers.gexf/sigma.parsers.gexf.js"></script>
-
+  <!-- Initialize the graph -->
   <script>
     sigma.parsers.gexf(
-      "PrjAdd-2509.gexf",   // must match your repo filename
+      "PrjAdd-2509.gexf",   // make sure this file is in the same folder as gephi_network.html
       {
         container: 'container'
+      },
+      function(s) {
+        console.log("Graph loaded:", s);
       }
     );
   </script>
