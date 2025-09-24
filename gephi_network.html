@@ -1,138 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>EU Engagement Network (GEXF → Sigma)</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- Make the canvas fill the page -->
+  <meta charset="UTF-8">
+  <title>Civil Society EU Engagement — Network (GEXF)</title>
   <style>
-    html, body {
-      height: 100%;
+    body, html {
       margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
       font-family: Arial, sans-serif;
-      background: #f4f7fa;
     }
-    header {
+    #sigma-container {
+      width: 100%;
+      height: 100%;
+    }
+    #titlebar {
       background: #003366;
-      color: #fff;
-      padding: 10px 16px;
-      font-size: 16px;
-    }
-    #container {
-      position: absolute;
-      top: 48px;   /* header height */
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: #cfe2f3; /* light blue so you can see it's alive even before draw */
-    }
-    .hint {
-      opacity: .8;
-      font-size: 12px;
+      color: white;
+      padding: 8px 16px;
+      font-size: 18px;
     }
   </style>
 </head>
 <body>
-  <header>
-    Civil Society EU Engagement — Network (GEXF)
-    <span class="hint"> · pan: drag • zoom: wheel</span>
-  </header>
-  <div id="container"></div>
+  <div id="titlebar">
+    Civil Society EU Engagement — Network (GEXF) · pan: drag · zoom: wheel
+  </div>
+  <div id="sigma-container"></div>
 
-  <!-- Your local copies (already in your repo under /libs/) -->
-  <script src="libs/sigma.min.js"></script>
-  <script src="libs/gexf.js"></script>
+  <!-- Sigma.js v2 -->
+  <script src="https://cdn.jsdelivr.net/npm/graphology@0.25.1/dist/graphology.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sigma@2.4.0/build/sigma.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/graphology-gexf/browser.js"></script>
 
   <script>
-    // 1) Create Sigma instance, targeting the #container div
-    var s = sigma.init(document.getElementById('container'))
-      .drawingProperties({
-        defaultLabelSize: 12,
-        labelThreshold: 8,          // show labels for bigger nodes first
-        defaultLabelColor: '#000',
-        font: 'Arial'
-      })
-      .graphProperties({
-        minNodeSize: 1,
-        maxNodeSize: 30,
-        minEdgeSize: 0.5,
-        maxEdgeSize: 6
-      })
-      .mouseProperties({
-        maxRatio: 32,      // how far you can zoom in
-        minRatio: 1        // and out
-      });
-
-    // 2) Fetch your GEXF file (ensure it's saved as UTF-8 *without BOM*)
+    // Load GEXF file
     fetch('PrjAdd-2509.gexf')
-      .then(function(res) { return res.text(); })
-      .then(function(xmlText) {
-        // Parse XML safely
-        var xml = new window.DOMParser().parseFromString(xmlText, 'application/xml');
+      .then(res => res.text())
+      .then(gexf => {
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(gexf, "application/xml");
 
-        // Optional: detect XML parser errors (helps if BOM/encoding breaks it)
-        var parserError = xml.getElementsByTagName('parsererror');
-        if (parserError && parserError.length) {
-          console.error('XML parser error:', parserError[0].textContent);
-          alert('Could not parse the GEXF file. Make sure it is UTF-8 without BOM and has no stray characters before <?xml …?>.');
-          return;
-        }
+        // Parse with graphology-gexf
+        const graph = graphologyGexf.parse(xml);
 
-        // 3) Convert GEXF → plain JS graph {nodes:[...], edges:[...]}
-        var graph = gexf.parse(xml);
-
-        // 4) Load into Sigma and render
-        s.graph.read(graph);
-        s.refresh();
-
-        // 5) Optional: initial zoom-to-fit
-        fitToScreen();
+        // Render with Sigma
+        const container = document.getElementById("sigma-container");
+        new sigma.Sigma(graph, container);
       })
-      .catch(function(err) {
-        console.error(err);
-        alert('Failed to load the GEXF file. Open the browser console for details.');
-      });
-
-    // Simple zoom-to-fit (approx) using Sigma’s computed borders
-    function fitToScreen() {
-      s.draw(); // ensure borders are computed
-      var borders = s._core.graph.borders;
-      if (!borders) return;
-
-      var stage = s._core.mousecaptor;
-      var w = s._core.domElements.nodes.width;
-      var h = s._core.domElements.nodes.height;
-
-      var graphW = borders.maxX - borders.minX;
-      var graphH = borders.maxY - borders.minY;
-
-      // Fit while leaving a small margin
-      var margin = 50;
-      var scaleX = (w - margin * 2) / graphW;
-      var scaleY = (h - margin * 2) / graphH;
-      var scale  = Math.min(scaleX, scaleY);
-
-      // Clamp to mousecaptor bounds
-      scale = Math.max(stage.config('minRatio'), Math.min(scale, stage.config('maxRatio')));
-
-      // Centered stageX, stageY for the fit
-      var centerX = (borders.maxX + borders.minX) / 2;
-      var centerY = (borders.maxY + borders.minY) / 2;
-
-      stage.interpolate(
-        // pan so that graph center is at canvas center at chosen scale
-        (centerX * scale) - (w / 2),
-        (centerY * scale) - (h / 2),
-        scale
-      );
-    }
-
-    // Keep canvas responsive
-    window.addEventListener('resize', function() {
-      s.resize();  // sigma recalculates internal canvases
-      s.refresh();
-    });
+      .catch(err => console.error("Error loading GEXF:", err));
   </script>
 </body>
 </html>
