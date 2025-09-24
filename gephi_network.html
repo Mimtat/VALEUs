@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>Interactive Gephi Network</title>
+  <!-- Sigma.js core (v1) -->
   <script src="https://cdn.jsdelivr.net/npm/sigma@1.2.1/build/sigma.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sigma@1.2.1/plugins/sigma.parsers.gexf.min.js"></script>
-
+  <!-- GEXF parser plugin -->
+  <script src="https://cdn.jsdelivr.net/npm/sigma@1.2.1/plugins/sigma.parsers.gexf.min.js"></script>
   <style>
     html, body, #container {
       margin: 0;
@@ -19,19 +20,20 @@
 <body>
   <div id="container"></div>
   <script>
+    // Load the GEXF file (must be in the same folder as this HTML)
     sigma.parsers.gexf(
-  'PrjAdd-2509.gexf',
-  { container: 'container' },
-  function(s) {
-    s.settings({
-      defaultNodeColor: '#003366',
-      labelThreshold: 6,
-      zoomingRatio: 1.5,
-      doubleClickEnabled: false
-    });
-    s.refresh();
-  }
-);
+      'PrjAdd-2509.gexf',
+      { container: 'container' },
+      function(s) {
+        s.settings({
+          defaultNodeColor: '#003366',
+          labelThreshold: 6,
+          zoomingRatio: 1.5,
+          doubleClickEnabled: false
+        });
+        s.refresh();
+      }
+    );
   </script>
 </body>
 </html>
