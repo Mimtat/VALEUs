@@ -1,0 +1,911 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<gexf xmlns="http://gexf.net/1.3" version="1.3" xmlns:viz="http://gexf.net/1.3/viz" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://gexf.net/1.3 http://gexf.net/1.3/gexf.xsd">
+  <meta lastmodifieddate="2025-09-24">
+    <creator>Gephi 0.10.1</creator>
+    <title></title>
+    <description></description>
+  </meta>
+  <graph mode="static">
+    <attributes class="node" mode="static">
+      <attribute id="type" title="type" type="string"/>
+    </attributes>
+    <attributes class="edge" mode="static">
+      <attribute id="relation" title="relation" type="string"/>
+    </attributes>
+    <nodes>
+      <node id="VoxUkraine" label="VoxUkraine">
+        <attvalues>
+          <attvalue for="type" value="Organization"/>
+        </attvalues>
+        <viz:size value="16.767021"/>
+        <viz:position x="-448.65427" y="-532.09216"/>
+        <viz:color r="204" g="255" b="255"/>
+      </node>
+      <node id="GenderRecovery" label="Gender Balance in Ukraine's Recovery">
+        <attvalues>
+          <attvalue for="type" value="Project"/>
+        </attvalues>
+        <viz:size value="17.5"/>
+        <viz:position x="99.48844" y="-338.8111"/>
+        <viz:color r="204" g="204" b="204"/>
+      </node>
+      <node id="StateDigital" label="State Digital Transformation 2019 2024">
+        <attvalues>
+          <attvalue for="type" value="Project"/>
+        </attvalues>
+        <viz:size value="27.0"/>
+        <viz:position x="-335.4323" y="-360.86703"/>
+        <viz:color r="204" g="204" b="204"/>
+      </node>
+      <node id="AccessionYear" label="A Year Since EU Accession Negotiations Began">
+        <attvalues>
+          <attvalue for="type" value="Project"/>
+        </attvalues>
+        <viz:size value="17.5"/>
+        <viz:position x="-155.30437" y="-13.7562065"/>
+        <viz:color r="204" g="204" b="204"/>
+      </node>
+      <node id="Ukraine" label="Ukraine">
+        <attvalues>
+          <attvalue for="type" value="Country"/>
+        </attvalues>
+        <viz:size value="18.232979"/>
+        <viz:position x="0.019688964" y="-0.033879075"/>
+        <viz:color r="204" g="0" b="51"/>
+      </node>
+      <node id="Estonia" label="Estonia">
+        <attvalues>
+          <attvalue for="type" value="Country"/>
+        </attvalues>
+        <viz:size value="8.0"/>
+        <viz:position x="-545.6339" y="-391.6865"/>
+        <viz:color r="204" g="0" b="51"/>
+      </node>
+      <node id="Sweden" label="Sweden">
+        <attvalues>
+          <attvalue for="type" value="Country"/>
+        </attvalues>
+        <viz:size value="15.360605"/>
+        <viz:position x="473.8389" y="-601.10547"/>
+        <viz:color r="204" g="0" b="51"/>
+      </node>
+      <node id="Switzerland" label="Switzerland">
+        <attvalues>
+          <attvalue for="type" value="Country"/>
+        </attvalues>
+        <viz:size value="8.0"/>
+        <viz:position x="-443.8508" y="-343.01135"/>
+        <viz:color r="204" g="0" b="51"/>
+      </node>
+      <node id="EUinstitutions" label="EU institutions">
+        <attvalues>
+          <attvalue for="type" value="Addressee"/>
+        </attvalues>
+        <viz:size value="17.522928"/>
+        <viz:position x="-0.66007805" y="522.62"/>
+        <viz:color r="0" g="153" b="255"/>
+      </node>
+      <node id="Citizens" label="Citizens">
+        <attvalues>
+          <attvalue for="type" value="Addressee"/>
+        </attvalues>
+        <viz:size value="17.305676"/>
+        <viz:position x="396.06644" y="-387.52487"/>
+        <viz:color r="0" g="153" b="255"/>
+      </node>
+      <node id="NationalInstitutions" label="National political institutions">
+        <attvalues>
+          <attvalue for="type" value="Addressee"/>
+        </attvalues>
+        <viz:size value="19.639393"/>
+        <viz:position x="267.04538" y="-189.28079"/>
+        <viz:color r="0" g="153" b="255"/>
+      </node>
+      <node id="Media" label="Media">
+        <attvalues>
+          <attvalue for="type" value="Addressee"/>
+        </attvalues>
+        <viz:size value="16.767021"/>
+        <viz:position x="-188.26706" y="-489.9523"/>
+        <viz:color r="0" g="153" b="255"/>
+      </node>
+      <node id="Democracy" label="Democracy">
+        <attvalues>
+          <attvalue for="type" value="Action Domain"/>
+        </attvalues>
+        <viz:size value="17.5"/>
+        <viz:position x="72.57064" y="-118.081795"/>
+        <viz:color r="0" g="204" b="204"/>
+      </node>
+      <node id="Human/Fundamental Rights" label="Human/Fundamental Rights">
+        <attvalues>
+          <attvalue for="type" value="Action Domain"/>
+        </attvalues>
+        <viz:size value="17.694323"/>
+        <viz:position x="52.439304" y="261.2078"/>
+        <viz:color r="0" g="204" b="204"/>
+      </node>
+      <node id="Energy/Climate/Sustainability" label="Energy/Climate/Sustainability">
+        <attvalues>
+          <attvalue for="type" value="Action Domain"/>
+        </attvalues>
+        <viz:size value="15.360605"/>
+        <viz:position x="-218.54352" y="-320.2529"/>
+        <viz:color r="0" g="204" b="204"/>
+      </node>
+      <node id="Digital Technology" label="Digital Technology">
+        <attvalues>
+          <attvalue for="type" value="Action Domain"/>
+        </attvalues>
+        <viz:size value="8.0"/>
+        <viz:position x="-571.6294" y="-274.2094"/>
+        <viz:color r="0" g="204" b="204"/>
+      </node>
+      <node id="Europe without Barriers" label="Europe without Barriers">
+        <attvalues>
+          <attvalue for="type" value="Organization"/>
+        </attvalues>
+        <viz:size value="17.305676"/>
+        <viz:position x="612.0749" y="65.55553"/>
+        <viz:color r="204" g="255" b="255"/>
+      </node>
+      <node id="MediaCoverage V4" label="MediaCoverage V4">
+        <attvalues>
+          <attvalue for="type" value="Project"/>
+        </attvalues>
+        <viz:size value="19.639393"/>
+        <viz:position x="288.2671" y="428.2627"/>
+        <viz:color r="204" g="204" b="204"/>
+      </node>
+      <node id="Trade/economy" label="Trade/economy">
+        <attvalues>
+          <attvalue for="type" value="Action Domain"/>
+        </attvalues>
+        <viz:size value="17.305676"/>
+        <viz:position x="421.08234" y="172.23152"/>
+        <viz:color r="0" g="204" b="204"/>
+      </node>
+      <node id="SafeBorder" label="SafeBorder">
+        <attvalues>
+          <attvalue for="type" value="Project"/>
+        </attvalues>
+        <viz:size value="17.522928"/>
+        <viz:position x="557.08417" y="261.06088"/>
+        <viz:color r="204" g="204" b="204"/>
+      </node>
+      <node id="Migration" label="Migration">
+        <attvalues>
+          <attvalue for="type" value="Action Domain"/>
+        </attvalues>
+        <viz:size value="8.0"/>
+        <viz:position x="726.027" y="342.88202"/>
+        <viz:color r="0" g="204" b="204"/>
+      </node>
+      <node id="Bordermng" label="Bordermng">
+        <attvalues>
+          <attvalue for="type" value="Project"/>
+        </attvalues>
+        <viz:size value="19.639393"/>
+        <viz:position x="722.78687" y="-210.37083"/>
+        <viz:color r="204" g="204" b="204"/>
+      </node>
+      <node id="Poland" label="Poland">
+        <attvalues>
+          <attvalue for="type" value="Country"/>
+        </attvalues>
+        <viz:size value="16.767021"/>
+        <viz:position x="568.85254" y="406.96945"/>
+        <viz:color r="204" g="0" b="51"/>
+      </node>
+      <node id="Germany" label="Germany">
+        <attvalues>
+          <attvalue for="type" value="Country"/>
+        </attvalues>
+        <viz:size value="8.0"/>
+        <viz:position x="956.9196" y="-333.11298"/>
+        <viz:color r="204" g="0" b="51"/>
+      </node>
+      <node id="Hungary" label="Hungary">
+        <attvalues>
+          <attvalue for="type" value="Country"/>
+        </attvalues>
+        <viz:size value="8.0"/>
+        <viz:position x="286.9327" y="639.184"/>
+        <viz:color r="204" g="0" b="51"/>
+      </node>
+      <node id="Slovakia" label="Slovakia">
+        <attvalues>
+          <attvalue for="type" value="Country"/>
+        </attvalues>
+        <viz:size value="15.360605"/>
+        <viz:position x="-130.17426" y="431.39294"/>
+        <viz:color r="204" g="0" b="51"/>
+      </node>
+      <node id="The &quot;New Europe Center&quot;" label="The &quot;New Europe Center&quot;">
+        <attvalues>
+          <attvalue for="type" value="Organization"/>
+        </attvalues>
+        <viz:size value="16.767021"/>
+        <viz:position x="72.57306" y="115.543304"/>
+        <viz:color r="204" g="255" b="255"/>
+      </node>
+      <node id="The Euromap: profiles of regions" label="The Euromap: profiles of regions">
+        <attvalues>
+          <attvalue for="type" value="Project"/>
+        </attvalues>
+        <viz:size value="18.232979"/>
+        <viz:position x="274.8406" y="43.455048"/>
+        <viz:color r="204" g="204" b="204"/>
+      </node>
+      <node id="Conflict/War" label="Conflict/War">
+        <attvalues>
+          <attvalue for="type" value="Action Domain"/>
+        </attvalues>
+        <viz:size value="8.0"/>
+        <viz:position x="-206.51678" y="-172.94589"/>
+        <viz:color r="0" g="204" b="204"/>
+      </node>
+      <node id="RespaJapon" label="RespaJapon">
+        <attvalues>
+          <attvalue for="type" value="Project"/>
+        </attvalues>
+        <viz:size value="17.694323"/>
+        <viz:position x="-91.36577" y="-211.09709"/>
+        <viz:color r="204" g="204" b="204"/>
+      </node>
+      <node id="Japon" label="Japon">
+        <attvalues>
+          <attvalue for="type" value="Country"/>
+        </attvalues>
+        <viz:size value="8.0"/>
+        <viz:position x="-133.34436" y="-120.38477"/>
+        <viz:color r="204" g="0" b="51"/>
+      </node>
+      <node id="EUAXF" label="EUAXF">
+        <attvalues>
+          <attvalue for="type" value="Project"/>
+        </attvalues>
+        <viz:size value="27.0"/>
+        <viz:position x="-234.19751" y="303.29712"/>
+        <viz:color r="204" g="204" b="204"/>
+      </node>
+      <node id="Moldova" label="Moldova">
+        <attvalues>
+          <attvalue for="type" value="Country"/>
+        </attvalues>
+        <viz:size value="8.0"/>
+        <viz:position x="-345.63776" y="312.9394"/>
+        <viz:color r="204" g="0" b="51"/>
+      </node>
+      <node id="Romania" label="Romania">
+        <attvalues>
+          <attvalue for="type" value="Country"/>
+        </attvalues>
+        <viz:size value="8.0"/>
+        <viz:position x="-322.13846" y="409.65884"/>
+        <viz:color r="204" g="0" b="51"/>
+      </node>
+      <node id="Slovenia" label="Slovenia">
+        <attvalues>
+          <attvalue for="type" value="Country"/>
+        </attvalues>
+        <viz:size value="8.0"/>
+        <viz:position x="-437.55008" y="255.80621"/>
+        <viz:color r="204" g="0" b="51"/>
+      </node>
+      <node id="Bulgaria" label="Bulgaria">
+        <attvalues>
+          <attvalue for="type" value="Country"/>
+        </attvalues>
+        <viz:size value="8.0"/>
+        <viz:position x="-437.1365" y="361.63007"/>
+        <viz:color r="204" g="0" b="51"/>
+      </node>
+      <node id="Kazakhstan International Bureau for Human Rights and Rule of Law" label="Kazakhstan International Bureau for Human Rights and Rule of Law">
+        <attvalues>
+          <attvalue for="type" value="Organization"/>
+        </attvalues>
+        <viz:size value="8.0"/>
+        <viz:position x="-271.57117" y="879.0744"/>
+        <viz:color r="204" g="255" b="255"/>
+      </node>
+      <node id="Kazakhstan" label="Kazakhstan">
+        <attvalues>
+          <attvalue for="type" value="Country"/>
+        </attvalues>
+        <viz:size value="8.0"/>
+        <viz:position x="-362.28308" y="860.81995"/>
+        <viz:color r="204" g="0" b="51"/>
+      </node>
+      <node id="InpokazEU" label="InpokazEU">
+        <attvalues>
+          <attvalue for="type" value="Project"/>
+        </attvalues>
+        <viz:size value="17.305676"/>
+        <viz:position x="-245.72424" y="782.9822"/>
+        <viz:color r="204" g="204" b="204"/>
+      </node>
+      <node id="YUCOM: Lawyers' Committee for Human Rights" label="YUCOM: Lawyers' Committee for Human Rights">
+        <attvalues>
+          <attvalue for="type" value="Organization"/>
+        </attvalues>
+        <viz:size value="8.0"/>
+        <viz:position x="40.139008" y="-734.2653"/>
+        <viz:color r="204" g="255" b="255"/>
+      </node>
+      <node id="Serbia" label="Serbia">
+        <attvalues>
+          <attvalue for="type" value="Country"/>
+        </attvalues>
+        <viz:size value="8.0"/>
+        <viz:position x="-79.99509" y="-871.34485"/>
+        <viz:color r="204" g="0" b="51"/>
+      </node>
+      <node id="Stronger Together" label="Stronger Together">
+        <attvalues>
+          <attvalue for="type" value="Project"/>
+        </attvalues>
+        <viz:size value="17.522928"/>
+        <viz:position x="-62.46644" y="-728.02527"/>
+        <viz:color r="204" g="204" b="204"/>
+      </node>
+      <node id="National and international courts" label="National and international courts">
+        <attvalues>
+          <attvalue for="type" value="Addressee"/>
+        </attvalues>
+        <viz:size value="8.0"/>
+        <viz:position x="-173.47456" y="-849.6646"/>
+        <viz:color r="0" g="153" b="255"/>
+      </node>
+      <node id="Human Rights Defenders" label="Human Rights Defenders">
+        <attvalues>
+          <attvalue for="type" value="Addressee"/>
+        </attvalues>
+        <viz:size value="8.0"/>
+        <viz:position x="16.726448" y="-856.08026"/>
+        <viz:color r="0" g="153" b="255"/>
+      </node>
+      <node id="Czech Republic" label="Czech Republic">
+        <attvalues>
+          <attvalue for="type" value="Country"/>
+        </attvalues>
+        <viz:size value="8.0"/>
+        <viz:position x="394.8624" y="671.84576"/>
+        <viz:color r="204" g="0" b="51"/>
+      </node>
+    </nodes>
+    <edges>
+      <edge id="0" source="VoxUkraine" target="GenderRecovery" type="directed">
+        <viz:color r="40" g="179" b="106"/>
+        <attvalues>
+          <attvalue for="relation" value="implements"/>
+        </attvalues>
+      </edge>
+      <edge id="1" source="VoxUkraine" target="StateDigital" type="directed">
+        <viz:color r="40" g="179" b="106"/>
+        <attvalues>
+          <attvalue for="relation" value="implements"/>
+        </attvalues>
+      </edge>
+      <edge id="2" source="VoxUkraine" target="AccessionYear" type="directed">
+        <viz:color r="40" g="179" b="106"/>
+        <attvalues>
+          <attvalue for="relation" value="implements"/>
+        </attvalues>
+      </edge>
+      <edge id="3" source="GenderRecovery" target="Ukraine" type="directed">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="4" source="GenderRecovery" target="Citizens" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="5" source="GenderRecovery" target="NationalInstitutions" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="6" source="StateDigital" target="Ukraine" type="directed">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="7" source="StateDigital" target="Estonia" type="directed">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="8" source="StateDigital" target="Sweden" type="directed">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="9" source="StateDigital" target="Switzerland" type="directed">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="10" source="StateDigital" target="EUinstitutions" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="11" source="StateDigital" target="NationalInstitutions" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="12" source="StateDigital" target="Citizens" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="13" source="StateDigital" target="Media" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="14" source="AccessionYear" target="Ukraine" type="directed">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="15" source="AccessionYear" target="EUinstitutions" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="16" source="AccessionYear" target="NationalInstitutions" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="17" source="Democracy" target="GenderRecovery" type="undirected">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="18" source="Human/Fundamental Rights" target="GenderRecovery" type="undirected">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="19" source="Energy/Climate/Sustainability" target="StateDigital" type="undirected">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="20" source="Digital Technology" target="StateDigital" type="undirected">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="21" source="Democracy" target="AccessionYear" type="undirected">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="22" source="Human/Fundamental Rights" target="AccessionYear" type="undirected">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="23" source="Europe without Barriers" target="MediaCoverage V4" type="directed">
+        <viz:color r="40" g="179" b="106"/>
+        <attvalues>
+          <attvalue for="relation" value="implements"/>
+        </attvalues>
+      </edge>
+      <edge id="24" source="MediaCoverage V4" target="Poland" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="25" source="MediaCoverage V4" target="Slovakia" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="26" source="MediaCoverage V4" target="Hungary" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="27" source="MediaCoverage V4" target="Czech Republic" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="28" source="MediaCoverage V4" target="Ukraine" type="undirected">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="29" source="Human/Fundamental Rights" target="MediaCoverage V4" type="undirected">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="30" source="Trade/economy" target="MediaCoverage V4" type="undirected">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="31" source="Europe without Barriers" target="SafeBorder" type="directed">
+        <viz:color r="40" g="179" b="106"/>
+        <attvalues>
+          <attvalue for="relation" value="implements"/>
+        </attvalues>
+      </edge>
+      <edge id="32" source="SafeBorder" target="Poland" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="33" source="SafeBorder" target="Ukraine" type="directed">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="34" source="Trade/economy" target="SafeBorder" type="undirected">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="35" source="Migration" target="SafeBorder" type="undirected">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="36" source="Europe without Barriers" target="Bordermng" type="directed">
+        <viz:color r="40" g="179" b="106"/>
+        <attvalues>
+          <attvalue for="relation" value="implements"/>
+        </attvalues>
+      </edge>
+      <edge id="37" source="Bordermng" target="Poland" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="38" source="Bordermng" target="Germany" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="39" source="Bordermng" target="Sweden" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="40" source="Bordermng" target="Ukraine" type="directed">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="41" source="Democracy" target="Bordermng" type="undirected">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="42" source="Human/Fundamental Rights" target="Bordermng" type="undirected">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="44" source="Trade/economy" target="Bordermng" type="undirected">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="45" source="MediaCoverage V4" target="NationalInstitutions" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="47" source="Bordermng" target="Citizens" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="48" source="Bordermng" target="NationalInstitutions" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="49" source="SafeBorder" target="NationalInstitutions" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="50" source="SafeBorder" target="EUinstitutions" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="51" source="The &quot;New Europe Center&quot;" target="The Euromap: profiles of regions" type="directed">
+        <viz:color r="40" g="179" b="106"/>
+        <attvalues>
+          <attvalue for="relation" value="implements"/>
+        </attvalues>
+      </edge>
+      <edge id="52" source="The Euromap: profiles of regions" target="Citizens" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="53" source="The Euromap: profiles of regions" target="NationalInstitutions" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="54" source="The Euromap: profiles of regions" target="EUinstitutions" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="55" source="The Euromap: profiles of regions" target="Ukraine" type="directed">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="56" source="Democracy" target="The Euromap: profiles of regions" type="undirected">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="57" source="Europe without Barriers" target="The Euromap: profiles of regions" type="undirected">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="58" source="Trade/economy" target="The Euromap: profiles of regions" type="undirected">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="59" source="Human/Fundamental Rights" target="The Euromap: profiles of regions" type="undirected">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="60" source="The &quot;New Europe Center&quot;" target="RespaJapon" type="directed">
+        <viz:color r="40" g="179" b="106"/>
+        <attvalues>
+          <attvalue for="relation" value="implements"/>
+        </attvalues>
+      </edge>
+      <edge id="61" source="RespaJapon" target="Japon" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="62" source="RespaJapon" target="Ukraine" type="directed">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="63" source="Democracy" target="RespaJapon" type="directed">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="64" source="Conflict/War" target="RespaJapon" type="directed">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="65" source="Energy/Climate/Sustainability" target="RespaJapon" type="directed">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="66" source="RespaJapon" target="NationalInstitutions" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="67" source="RespaJapon" target="Media" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="68" source="The &quot;New Europe Center&quot;" target="EUAXF" type="directed">
+        <viz:color r="40" g="179" b="106"/>
+        <attvalues>
+          <attvalue for="relation" value="implements"/>
+        </attvalues>
+      </edge>
+      <edge id="69" source="EUAXF" target="Moldova" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="70" source="EUAXF" target="Romania" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="71" source="EUAXF" target="Slovakia" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="72" source="EUAXF" target="Slovenia" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="73" source="EUAXF" target="Bulgaria" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="74" source="Democracy" target="EUAXF" type="undirected">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="75" source="Human/Fundamental Rights" target="EUAXF" type="undirected">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="76" source="EUAXF" target="EUinstitutions" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="77" source="EUAXF" target="NationalInstitutions" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="78" source="EUAXF" target="Ukraine" type="directed">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="79" source="Kazakhstan International Bureau for Human Rights and Rule of Law" target="InpokazEU" type="directed">
+        <viz:color r="40" g="179" b="106"/>
+        <attvalues>
+          <attvalue for="relation" value="implements"/>
+        </attvalues>
+      </edge>
+      <edge id="80" source="InpokazEU" target="Kazakhstan" type="directed">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="81" source="InpokazEU" target="EUinstitutions" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="82" source="Human/Fundamental Rights" target="InpokazEU" type="undirected">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="83" source="YUCOM: Lawyers' Committee for Human Rights" target="Stronger Together" type="directed">
+        <viz:color r="40" g="179" b="106"/>
+        <attvalues>
+          <attvalue for="relation" value="implements"/>
+        </attvalues>
+      </edge>
+      <edge id="84" source="Stronger Together" target="Serbia" type="directed">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="85" source="Stronger Together" target="NationalInstitutions" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="86" source="Human/Fundamental Rights" target="Stronger Together" type="undirected">
+        <viz:color r="249" g="119" b="67"/>
+        <attvalues>
+          <attvalue for="relation" value="engages"/>
+        </attvalues>
+      </edge>
+      <edge id="87" source="Stronger Together" target="National and international courts" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="88" source="Stronger Together" target="Media" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="89" source="Stronger Together" target="Human Rights Defenders" type="directed">
+        <viz:color r="154" g="150" b="229"/>
+        <attvalues>
+          <attvalue for="relation" value="targets"/>
+        </attvalues>
+      </edge>
+      <edge id="90" source="MediaCoverage V4" target="EUinstitutions" type="undirected">
+        <attvalues/>
+      </edge>
+    </edges>
+  </graph>
+</gexf>
