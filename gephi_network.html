@@ -14,6 +14,7 @@
     #sigma-container {
       width: 100%;
       height: 100%;
+      position: relative;
     }
     #titlebar {
       background: #003366;
@@ -21,33 +22,142 @@
       padding: 8px 16px;
       font-size: 18px;
     }
+    #tooltip {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.85);
+      color: white;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 14px;
+      pointer-events: none;
+      display: none;
+      z-index: 10;
+      max-width: 300px;
+      word-wrap: break-word;
+    }
+    #legend {
+      position: absolute;
+      top: 50px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 8px 12px;
+      font-size: 14px;
+      z-index: 5;
+    }
+    #legend h4 {
+      margin: 0 0 6px 0;
+      font-size: 14px;
+      color: #003366;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    .legend-color {
+      width: 14px;
+      height: 14px;
+      margin-right: 6px;
+      border: 1px solid #333;
+    }
   </style>
 </head>
 <body>
   <div id="titlebar">
     Civil Society EU Engagement — Network (GEXF) · pan: drag · zoom: wheel
   </div>
-  <div id="sigma-container"></div>
+  <div id="sigma-container">
+    <div id="tooltip"></div>
+    <div id="legend">
+      <h4>Edge Colors</h4>
+      <div class="legend-item">
+        <div class="legend-color" style="background:#28a745"></div> implements
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background:#e74c3c"></div> engages
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background:#3498db"></div> targets
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background:#999"></div> other
+      </div>
+    </div>
+  </div>
 
-  <!-- Sigma.js v2 -->
+  <!-- Dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/graphology@0.25.1/dist/graphology.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sigma@2.4.0/build/sigma.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/graphology-gexf/browser.js"></script>
 
   <script>
-    // Load GEXF file
+    const tooltip = document.getElementById("tooltip");
+
+    // Edge colors by relation type
+    const relationColors = {
+      implements: "#28a745",  // green
+      engages: "#e74c3c",     // red
+      targets: "#3498db"      // blue
+    };
+
     fetch('PrjAdd-2509.gexf')
       .then(res => res.text())
-      .then(gexf => {
+      .then(gexfText => {
         const parser = new DOMParser();
-        const xml = parser.parseFromString(gexf, "application/xml");
+        const xml = parser.parseFromString(gexfText, "application/xml");
+        const graph = gexf.parse(Graph, xml);
 
-        // Parse with graphology-gexf
-        const graph = graphologyGexf.parse(xml);
+        // Normalize nodes
+        graph.forEachNode((node, attrs) => {
+          if (!attrs.label) graph.setNodeAttribute(node, "label", node);
+          graph.setNodeAttribute(node, "size", parseFloat(attrs.size) || 5);
+          graph.setNodeAttribute(node, "color", attrs.color || "#666");
+        });
 
-        // Render with Sigma
+        // Normalize edges with relation colors
+        graph.forEachEdge((edge, attrs) => {
+          const relation = attrs.relation ? attrs.relation.toLowerCase() : null;
+          const color = relationColors[relation] || "#999";
+          graph.setEdgeAttribute(edge, "color", color);
+
+          if (!attrs.label && relation) {
+            graph.setEdgeAttribute(edge, "label", relation);
+          }
+        });
+
         const container = document.getElementById("sigma-container");
-        new sigma.Sigma(graph, container);
+        const renderer = new sigma.Sigma(graph, container);
+
+        // Node hover → tooltip
+        renderer.on("enterNode", ({ node }) => {
+          const attrs = graph.getNodeAttributes(node);
+          tooltip.innerHTML = `<b>Node:</b> ${attrs.label}<br>
+            Type: ${attrs.type || "N/A"}<br>
+            Size: ${attrs.size || "N/A"}<br>
+            Color: ${attrs.color || "N/A"}`;
+          tooltip.style.display = "block";
+        });
+        renderer.on("leaveNode", () => { tooltip.style.display = "none"; });
+
+        // Edge hover → tooltip
+        renderer.on("enterEdge", ({ edge }) => {
+          const attrs = graph.getEdgeAttributes(edge);
+          const source = graph.source(edge);
+          const target = graph.target(edge);
+          tooltip.innerHTML = `<b>Edge:</b> ${attrs.label || "N/A"}<br>
+            <b>Source:</b> ${graph.getNodeAttribute(source, "label")}<br>
+            <b>Target:</b> ${graph.getNodeAttribute(target, "label")}`;
+          tooltip.style.display = "block";
+        });
+        renderer.on("leaveEdge", () => { tooltip.style.display = "none"; });
+
+        // Move tooltip with mouse
+        container.addEventListener("mousemove", e => {
+          tooltip.style.left = e.clientX + 15 + "px";
+          tooltip.style.top = e.clientY + 15 + "px";
+        });
       })
       .catch(err => console.error("Error loading GEXF:", err));
   </script>
