@@ -13,17 +13,17 @@
 <body>
   <div id="container"></div>
 
-  <!-- Sigma core -->
-  <script src="libs/sigma.min.js"></script>
-
-  <!-- GEXF parser dependencies -->
-  <script src="libs/gexf.js"></script>
-  <script src="libs/sigma.parsers.gexf.js"></script>
+  <!-- Sigma.js core -->
+  <script src="https://unpkg.com/sigma@1.2.1/build/sigma.min.js"></script>
+  <!-- GEXF parser plugin -->
+  <script src="https://unpkg.com/sigma@1.2.1/plugins/sigma.parsers.gexf/sigma.parsers.gexf.js"></script>
 
   <script>
     sigma.parsers.gexf(
-      "PrjAdd-2509.gexf",   // make sure this filename matches exactly
-      { container: "container" }
+      "PrjAdd-2509.gexf",   // <-- replace with your GEXF file name
+      {
+        container: 'container'
+      }
     );
   </script>
 </body>
