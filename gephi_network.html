@@ -13,14 +13,18 @@
 <body>
   <div id="container"></div>
 
-  <!-- Sigma.js core -->
+  <!-- Always load core first -->
   <script src="https://unpkg.com/sigma@1.2.1/build/sigma.min.js"></script>
-  <!-- GEXF parser plugin -->
+
+  <!-- Then load gexf.js dependency -->
+  <script src="https://unpkg.com/sigma@1.2.1/plugins/sigma.parsers.gexf/gexf.js"></script>
+
+  <!-- Finally load parser -->
   <script src="https://unpkg.com/sigma@1.2.1/plugins/sigma.parsers.gexf/sigma.parsers.gexf.js"></script>
 
   <script>
     sigma.parsers.gexf(
-      "PrjAdd-2509.gexf",   // <-- replace with your GEXF file name
+      "PrjAdd-2509.gexf",   // must match your repo filename
       {
         container: 'container'
       }
