@@ -20,13 +20,16 @@
 <body>
   <div id="container"></div>
   <script>
-    // Load the GEXF file (must be in the same folder as this HTML)
+    // Load your GEXF file (must be in same folder as this HTML)
     sigma.parsers.gexf(
       'PrjAdd-2509.gexf',
       { container: 'container' },
       function(s) {
+        // Basic settings
         s.settings({
           defaultNodeColor: '#003366',
+          edgeColor: 'default',
+          defaultEdgeColor: '#ccc',
           labelThreshold: 6,
           zoomingRatio: 1.5,
           doubleClickEnabled: false
