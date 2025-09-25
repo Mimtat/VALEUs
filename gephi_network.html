@@ -16,19 +16,27 @@
       height: 100vh;
       background: #fafafa;
     }
-    #controls {
+    #controls, #filters {
       position: fixed;
       top: 10px;
       left: 10px;
       z-index: 9999;
-      background: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.95);
       padding: 8px 12px;
       border-radius: 6px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
       font-family: sans-serif;
+      font-size: 14px;
+    }
+    #filters {
+      top: 60px; /* below pause/resume button */
+    }
+    label {
+      display: block;
+      margin: 2px 0;
     }
     button {
-      margin: 2px;
+      margin: 2px 0;
       padding: 6px 10px;
       cursor: pointer;
     }
@@ -38,6 +46,16 @@
   <div id="controls">
     <button id="toggle">⏸ Pause layout</button>
   </div>
+
+  <div id="filters">
+    <strong>Filter by type:</strong><br>
+    <label><input type="checkbox" value="Country" checked> Country</label>
+    <label><input type="checkbox" value="Project" checked> Project</label>
+    <label><input type="checkbox" value="Addressee" checked> Addressee</label>
+    <label><input type="checkbox" value="Organization" checked> Organization</label>
+    <label><input type="checkbox" value="Action Domain" checked> Action Domain</label>
+  </div>
+
   <div id="container"></div>
 
   <script type="module">
@@ -51,7 +69,7 @@
         .then(data => {
           const g = new Graph();
 
-          // Nodes
+          // Add nodes
           data.nodes.forEach(n => {
             g.addNode(n.key, {
               label: n.attributes.label,
@@ -64,7 +82,7 @@
             });
           });
 
-          // Edges
+          // Add edges
           data.edges.forEach((e, i) => {
             if (!g.hasEdge(e.source, e.target)) {
               g.addEdgeWithKey(e.key || "e" + i, e.source, e.target, {
@@ -75,7 +93,7 @@
             }
           });
 
-          // Render
+          // Render Sigma
           const container = document.getElementById("container");
           const renderer = new Sigma(g, container, { allowInvalidContainer: true });
 
@@ -97,6 +115,36 @@
             running = !running;
             btn.textContent = running ? "⏸ Pause layout" : "▶ Resume layout";
           };
+
+          // --- Filtering ---
+          let activeTypes = new Set(["Country","Project","Addressee","Organization","Action Domain"]);
+
+          // Hook checkboxes
+          document.querySelectorAll("#filters input").forEach(cb => {
+            cb.addEventListener("change", () => {
+              if (cb.checked) activeTypes.add(cb.value);
+              else activeTypes.delete(cb.value);
+              renderer.refresh();
+            });
+          });
+
+          // Hide nodes not matching filter
+          renderer.setSetting("nodeReducer", (node, data) => {
+            const res = { ...data };
+            if (!activeTypes.has(data.metaType)) res.hidden = true;
+            return res;
+          });
+
+          // Hide edges if either side hidden
+          renderer.setSetting("edgeReducer", (edge, data) => {
+            const res = { ...data };
+            const sourceType = g.getNodeAttribute(g.source(edge), "metaType");
+            const targetType = g.getNodeAttribute(g.target(edge), "metaType");
+            if (!activeTypes.has(sourceType) || !activeTypes.has(targetType)) {
+              res.hidden = true;
+            }
+            return res;
+          });
         });
     });
   </script>
