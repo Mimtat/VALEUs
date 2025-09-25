@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Interactive Gephi Diagram</title>
+  <title>Interactive Gephi Diagram (with filtering & branding)</title>
   <style>
     html, body {
       margin: 0;
@@ -14,12 +14,10 @@
     #container {
       width: 100vw;
       height: 100vh;
-      background: #fafafa;
+      background: #ffffff;
     }
     #controls, #filters {
       position: fixed;
-      top: 10px;
-      left: 10px;
       z-index: 9999;
       background: rgba(255,255,255,0.95);
       padding: 8px 12px;
@@ -28,18 +26,11 @@
       font-family: sans-serif;
       font-size: 14px;
     }
-    #filters {
-      top: 60px; /* below pause/resume button */
-    }
-    label {
-      display: block;
-      margin: 2px 0;
-    }
-    button {
-      margin: 2px 0;
-      padding: 6px 10px;
-      cursor: pointer;
-    }
+    #controls { top: 10px; left: 10px; }
+    #filters { top: 60px; left: 10px; }
+    label { display: block; margin: 2px 0; }
+    input[type="checkbox"] { margin-right: 6px; }
+    button { margin: 2px 0; padding: 6px 10px; cursor: pointer; }
   </style>
 </head>
 <body>
@@ -50,7 +41,7 @@
   <div id="filters">
     <strong>Filter by type:</strong><br>
     <label><input type="checkbox" value="Country" checked> Country</label>
-    <label><input type="checkbox" value="Project" checked> Project</label>
+    <label><input type="checkbox" value="Project" checked disabled> Project</label>
     <label><input type="checkbox" value="Addressee" checked> Addressee</label>
     <label><input type="checkbox" value="Organization" checked> Organization</label>
     <label><input type="checkbox" value="Action Domain" checked> Action Domain</label>
@@ -69,15 +60,26 @@
         .then(data => {
           const g = new Graph();
 
-          // Add nodes
+          // Color map per metaType
+          const colorMap = {
+            Country: "#003776",
+            Project: "#FFD617",
+            Organization: "#004494",
+            Addressee: "#707070",
+            "Action Domain": "#F5F5F5"
+          };
+
+          // Add nodes with mapped color
           data.nodes.forEach(n => {
+            const m = n.attributes.metaType || "";
+            const col = colorMap[m] || "#999999";
             g.addNode(n.key, {
               label: n.attributes.label,
               x: Number(n.attributes.x),
               y: Number(n.attributes.y),
               size: Number(n.attributes.size),
-              color: n.attributes.color || "#999",
-              metaType: n.attributes.metaType || "",
+              color: col,
+              metaType: m,
               renderType: "default"
             });
           });
@@ -93,11 +95,10 @@
             }
           });
 
-          // Render Sigma
           const container = document.getElementById("container");
           const renderer = new Sigma(g, container, { allowInvalidContainer: true });
 
-          // Continuous ForceAtlas2
+          // ForceAtlas2 continuous
           let running = true;
           const settings = { slowDown: 50 };
 
@@ -116,11 +117,14 @@
             btn.textContent = running ? "⏸ Pause layout" : "▶ Resume layout";
           };
 
-          // --- Filtering ---
+          // Filtering, but “Project” always active
           let activeTypes = new Set(["Country","Project","Addressee","Organization","Action Domain"]);
 
-          // Hook checkboxes
           document.querySelectorAll("#filters input").forEach(cb => {
+            // disable Project checkbox
+            if (cb.value === "Project") {
+              cb.disabled = true;
+            }
             cb.addEventListener("change", () => {
               if (cb.checked) activeTypes.add(cb.value);
               else activeTypes.delete(cb.value);
@@ -128,19 +132,21 @@
             });
           });
 
-          // Hide nodes not matching filter
           renderer.setSetting("nodeReducer", (node, data) => {
             const res = { ...data };
-            if (!activeTypes.has(data.metaType)) res.hidden = true;
+            if (!activeTypes.has(data.metaType)) {
+              res.hidden = true;
+            }
             return res;
           });
 
-          // Hide edges if either side hidden
           renderer.setSetting("edgeReducer", (edge, data) => {
             const res = { ...data };
-            const sourceType = g.getNodeAttribute(g.source(edge), "metaType");
-            const targetType = g.getNodeAttribute(g.target(edge), "metaType");
-            if (!activeTypes.has(sourceType) || !activeTypes.has(targetType)) {
+            const src = g.source(edge);
+            const tgt = g.target(edge);
+            const srcType = g.getNodeAttribute(src, "metaType");
+            const tgtType = g.getNodeAttribute(tgt, "metaType");
+            if (!activeTypes.has(srcType) || !activeTypes.has(tgtType)) {
               res.hidden = true;
             }
             return res;
