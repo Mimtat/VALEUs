@@ -23,7 +23,7 @@
   </div>
   <div id="graph-container"></div>
 
-  <!-- ✅ Load correct UMD bundles -->
+  <!-- ✅ Correct UMD bundles -->
   <script src="https://unpkg.com/graphology/dist/graphology.umd.min.js"></script>
   <script src="https://unpkg.com/graphology-layout-forceatlas2/umd/graphology-layout-forceatlas2.min.js"></script>
   <script src="https://unpkg.com/graphology-layout-forceatlas2/umd/worker.min.js"></script>
@@ -32,7 +32,7 @@
   <script>
     const container = document.getElementById("graph-container");
 
-    // --- Color palette (combinations of 102,255) ---
+    // --- Bright [102,255] palette ---
     const palette = [
       "rgb(102,255,102)",  // green
       "rgb(102,102,255)",  // blue
@@ -73,10 +73,10 @@
           g.addEdge(e.source, e.target, e.attributes || {});
         });
 
-        // Sigma renderer ✅
+        // Sigma renderer
         const renderer = new Sigma(g, container);
 
-        // ForceAtlas2 ✅
+        // ForceAtlas2
         const fa2 = new forceAtlas2.ForceAtlas2Supervisor(g, { settings: { slowDown: 10 } });
         fa2.start();
 
