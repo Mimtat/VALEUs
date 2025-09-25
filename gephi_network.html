@@ -13,52 +13,80 @@
       width: 100%;
       height: 100vh;
     }
+    #controls {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 8px 12px;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      font-family: sans-serif;
+    }
+    button {
+      margin: 2px;
+      padding: 6px 10px;
+    }
   </style>
 </head>
 <body>
+  <div id="controls">
+    <button id="static">ForceAtlas2 (static)</button>
+    <button id="animate">ForceAtlas2 (animate 5s)</button>
+  </div>
   <div id="container"></div>
+
   <script type="module">
-  import Sigma from "https://cdn.jsdelivr.net/npm/sigma@3.0.2/+esm";
-  import Graph from "https://cdn.jsdelivr.net/npm/graphology@0.25.4/+esm";
-  import forceAtlas2 from "https://cdn.jsdelivr.net/npm/graphology-layout-forceatlas2/+esm";
+    import Sigma from "https://cdn.jsdelivr.net/npm/sigma@3.0.2/+esm";
+    import Graph from "https://cdn.jsdelivr.net/npm/graphology@0.25.4/+esm";
+    import forceAtlas2 from "https://cdn.jsdelivr.net/npm/graphology-layout-forceatlas2/+esm";
+    import FA2 from "https://cdn.jsdelivr.net/npm/graphology-layout-forceatlas2/worker/+esm";
 
-  fetch("PrjAdd-2509.json")
-    .then(res => res.json())
-    .then(data => {
-      const graph = new Graph();
+    // Load JSON
+    fetch("PrjAdd-2509.json")
+      .then(res => res.json())
+      .then(data => {
+        const graph = new Graph();
 
-      // Add nodes
-      data.nodes.forEach(n => {
-        graph.addNode(n.key, {
-          label: n.attributes.label,
-          x: Number(n.attributes.x),
-          y: Number(n.attributes.y),
-          size: Number(n.attributes.size),
-          color: n.attributes.color || "#999",
-          metaType: n.attributes.metaType || "",
-          renderType: "default"
-        });
-      });
-
-      // Add edges
-      data.edges.forEach((e, i) => {
-        if (!graph.hasEdge(e.source, e.target)) {
-          graph.addEdgeWithKey(e.key || "e" + i, e.source, e.target, {
-            size: Number(e.attributes?.weight) || 1,
-            color: e.attributes?.color || "#ccc",
-            label: e.attributes?.relation || ""
+        // Add nodes
+        data.nodes.forEach(n => {
+          graph.addNode(n.key, {
+            label: n.attributes.label,
+            x: Number(n.attributes.x),
+            y: Number(n.attributes.y),
+            size: Number(n.attributes.size),
+            color: n.attributes.color || "#999",
+            metaType: n.attributes.metaType || "",
+            renderType: "default"
           });
-        }
+        });
+
+        // Add edges
+        data.edges.forEach((e, i) => {
+          if (!graph.hasEdge(e.source, e.target)) {
+            graph.addEdgeWithKey(e.key || "e" + i, e.source, e.target, {
+              size: Number(e.attributes?.weight) || 1,
+              color: e.attributes?.color || "#ccc",
+              label: e.attributes?.relation || ""
+            });
+          }
+        });
+
+        // Render
+        const container = document.getElementById("container");
+        const renderer = new Sigma(graph, container);
+
+        // --- Buttons for layout control ---
+        document.getElementById("static").onclick = () => {
+          forceAtlas2.assign(graph, { iterations: 200, settings: { slowDown: 50 } });
+        };
+
+        document.getElementById("animate").onclick = () => {
+          const fa2 = new FA2(graph, { settings: { slowDown: 50 } });
+          fa2.start();
+          setTimeout(() => fa2.stop(), 5000); // stop after 5s
+        };
       });
-
-      // Apply ForceAtlas2 instantly
-      forceAtlas2.assign(graph, { iterations: 200, settings: { slowDown: 50 } });
-
-      // Render with Sigma
-      const container = document.getElementById("container");
-      new Sigma(graph, container);
-    });
-</script>
-
+  </script>
 </body>
 </html>
