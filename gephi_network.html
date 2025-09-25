@@ -26,13 +26,13 @@
     button {
       margin: 2px;
       padding: 6px 10px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
   <div id="controls">
-    <button id="static">ForceAtlas2 (static)</button>
-    <button id="animate">ForceAtlas2 (animate 5s)</button>
+    <button id="toggle">⏸ Pause Layout</button>
   </div>
   <div id="container"></div>
 
@@ -41,7 +41,6 @@
     import Graph from "https://cdn.jsdelivr.net/npm/graphology@0.25.4/+esm";
     import forceAtlas2 from "https://cdn.jsdelivr.net/npm/graphology-layout-forceatlas2/+esm";
 
-    // Load JSON
     fetch("PrjAdd-2509.json")
       .then(res => res.json())
       .then(data => {
@@ -73,22 +72,27 @@
 
         // Render
         const container = document.getElementById("container");
-        const renderer = new Sigma(graph, container);
+        new Sigma(graph, container);
 
-        // --- Button handlers ---
-        // 1) Static layout
-        document.getElementById("static").onclick = () => {
-          forceAtlas2.assign(graph, { iterations: 200, settings: { slowDown: 50 } });
-        };
+        // --- Continuous ForceAtlas2 ---
+        let running = true;
+        let interval = setInterval(() => {
+          forceAtlas2.assign(graph, { iterations: 5, settings: { slowDown: 50 } });
+        }, 100);
 
-        // 2) Animated layout (simulate dynamic)
-        document.getElementById("animate").onclick = () => {
-          let steps = 0;
-          const interval = setInterval(() => {
-            forceAtlas2.assign(graph, { iterations: 5, settings: { slowDown: 50 } });
-            steps++;
-            if (steps > 40) clearInterval(interval); // stop after ~200 iterations
-          }, 100); // every 100ms
+        // --- Pause/Resume button ---
+        const toggleBtn = document.getElementById("toggle");
+        toggleBtn.onclick = () => {
+          if (running) {
+            clearInterval(interval);
+            toggleBtn.textContent = "▶ Resume Layout";
+          } else {
+            interval = setInterval(() => {
+              forceAtlas2.assign(graph, { iterations: 5, settings: { slowDown: 50 } });
+            }, 100);
+            toggleBtn.textContent = "⏸ Pause Layout";
+          }
+          running = !running;
         };
       });
   </script>
