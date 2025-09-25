@@ -12,11 +12,9 @@
       overflow: hidden;
     }
     #container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
+      background: #fafafa;
     }
     #controls {
       position: fixed;
@@ -47,13 +45,13 @@
     import Graph from "https://cdn.jsdelivr.net/npm/graphology@0.25.4/+esm";
     import forceAtlas2 from "https://cdn.jsdelivr.net/npm/graphology-layout-forceatlas2/+esm";
 
-    window.onload = () => {
+    document.addEventListener("DOMContentLoaded", () => {
       fetch("PrjAdd-2509.json")
         .then(r => r.json())
         .then(data => {
           const g = new Graph();
 
-          // Add nodes
+          // Nodes
           data.nodes.forEach(n => {
             g.addNode(n.key, {
               label: n.attributes.label,
@@ -66,7 +64,7 @@
             });
           });
 
-          // Add edges
+          // Edges
           data.edges.forEach((e, i) => {
             if (!g.hasEdge(e.source, e.target)) {
               g.addEdgeWithKey(e.key || "e" + i, e.source, e.target, {
@@ -81,7 +79,7 @@
           const container = document.getElementById("container");
           const renderer = new Sigma(g, container, { allowInvalidContainer: true });
 
-          // --- Continuous ForceAtlas2 with Pause/Resume ---
+          // Continuous ForceAtlas2
           let running = true;
           const settings = { slowDown: 50 };
 
@@ -93,14 +91,14 @@
           }
           requestAnimationFrame(loop);
 
-          // Toggle button
+          // Pause/Resume
           const btn = document.getElementById("toggle");
           btn.onclick = () => {
             running = !running;
             btn.textContent = running ? "⏸ Pause layout" : "▶ Resume layout";
           };
         });
-    };
+    });
   </script>
 </body>
 </html>
