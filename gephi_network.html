@@ -34,12 +34,12 @@
 
     // --- Color palette (combinations of 102,255) ---
     const palette = [
-      "rgb(102,255,102)",
-      "rgb(102,102,255)",
-      "rgb(255,102,102)",
-      "rgb(255,255,102)",
-      "rgb(255,102,255)",
-      "rgb(102,255,255)"
+      "rgb(102,255,102)",  // green
+      "rgb(102,102,255)",  // blue
+      "rgb(255,102,102)",  // red
+      "rgb(255,255,102)",  // yellow
+      "rgb(255,102,255)",  // magenta
+      "rgb(102,255,255)"   // cyan
     ];
     const metaTypes = ["Project","Organization","Addressee","Action Domain"];
     const colorMap = {};
@@ -74,7 +74,7 @@
         });
 
         // Sigma renderer ✅
-        const renderer = new sigma.Sigma(g, container);
+        const renderer = new Sigma(g, container);
 
         // ForceAtlas2 ✅
         const fa2 = new forceatlas2.ForceAtlas2Supervisor(g, { settings: { slowDown: 10 } });
