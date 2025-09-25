@@ -47,52 +47,60 @@
     import Graph from "https://cdn.jsdelivr.net/npm/graphology@0.25.4/+esm";
     import forceAtlas2 from "https://cdn.jsdelivr.net/npm/graphology-layout-forceatlas2/+esm";
 
-    fetch("PrjAdd-2509.json")
-      .then(r => r.json())
-      .then(data => {
-        const g = new Graph();
+    window.onload = () => {
+      fetch("PrjAdd-2509.json")
+        .then(r => r.json())
+        .then(data => {
+          const g = new Graph();
 
-        // Add nodes
-        data.nodes.forEach(n => {
-          g.addNode(n.key, {
-            label: n.attributes.label,
-            x: Number(n.attributes.x),
-            y: Number(n.attributes.y),
-            size: Number(n.attributes.size),
-            color: n.attributes.color || "#999",
-            metaType: n.attributes.metaType || "",
-            renderType: "default"
-          });
-        });
-
-        // Add edges
-        data.edges.forEach((e, i) => {
-          if (!g.hasEdge(e.source, e.target)) {
-            g.addEdgeWithKey(e.key || "e" + i, e.source, e.target, {
-              size: Number(e.attributes?.weight) || 1,
-              color: e.attributes?.color || "#ccc",
-              label: e.attributes?.relation || ""
+          // Add nodes
+          data.nodes.forEach(n => {
+            g.addNode(n.key, {
+              label: n.attributes.label,
+              x: Number(n.attributes.x),
+              y: Number(n.attributes.y),
+              size: Number(n.attributes.size),
+              color: n.attributes.color || "#999",
+              metaType: n.attributes.metaType || "",
+              renderType: "default"
             });
-          }
-        });
+          });
 
-        // Render
-        new Sigma(g, document.getElementById("container"));
+          // Add edges
+          data.edges.forEach((e, i) => {
+            if (!g.hasEdge(e.source, e.target)) {
+              g.addEdgeWithKey(e.key || "e" + i, e.source, e.target, {
+                size: Number(e.attributes?.weight) || 1,
+                color: e.attributes?.color || "#ccc",
+                label: e.attributes?.relation || ""
+              });
+            }
+          });
 
-        // --- Continuous ForceAtlas2 with Pause/Resume ---
-        let running = true;
-        const settings = { slowDown: 50 };
+          // Render
+          const container = document.getElementById("container");
+          const renderer = new Sigma(g, container, { allowInvalidContainer: true });
 
-        function loop() {
-          if (running) {
-            forceAtlas2.assign(g, { iterations: 1, settings });
+          // --- Continuous ForceAtlas2 with Pause/Resume ---
+          let running = true;
+          const settings = { slowDown: 50 };
+
+          function loop() {
+            if (running) {
+              forceAtlas2.assign(g, { iterations: 1, settings });
+            }
+            requestAnimationFrame(loop);
           }
           requestAnimationFrame(loop);
-        }
-        requestAnimationFrame(loop);
 
-        // Toggle button
-        const btn = document.getElementById("toggle");
-        btn.onclick = () => {
-          running = !running;
-          btn.textContent = runni
+          // Toggle button
+          const btn = document.getElementById("toggle");
+          btn.onclick = () => {
+            running = !running;
+            btn.textContent = running ? "⏸ Pause layout" : "▶ Resume layout";
+          };
+        });
+    };
+  </script>
+</body>
+</html>
