@@ -19,31 +19,39 @@
   <div id="container"></div>
   <script type="module">
     import Sigma from "https://cdn.jsdelivr.net/npm/sigma@3.0.2/+esm";
+    import Graph from "https://cdn.jsdelivr.net/npm/graphology@0.25.4/+esm";
 
     fetch("PrjAdd-2509.json")
       .then(res => res.json())
-      .then(graph => {
-        const nodes = graph.nodes.map(n => ({
-          id: n.key,
-          label: n.attributes.label,
-          x: n.attributes.x,
-          y: n.attributes.y,
-          size: n.attributes.size,
-          color: n.attributes.color,
-          ...n.attributes
-        }));
+      .then(graphData => {
+        const graph = new Graph();
 
-        const edges = graph.edges.map(e => ({
-          id: e.key,
-          source: e.source,
-          target: e.target,
-          size: e.attributes.weight,
-          color: e.attributes.color,
-          label: e.attributes.relation
-        }));
+        // Add nodes
+        graphData.nodes.forEach(n => {
+          graph.addNode(n.key, {
+            label: n.attributes.label,
+            x: n.attributes.x,
+            y: n.attributes.y,
+            size: n.attributes.size,
+            color: n.attributes.color,
+            ...n.attributes
+          });
+        });
 
+        // Add edges
+        graphData.edges.forEach(e => {
+          if (!graph.hasEdge(e.key)) {
+            graph.addEdge(e.source, e.target, {
+              size: e.attributes.weight,
+              color: e.attributes.color,
+              label: e.attributes.relation
+            });
+          }
+        });
+
+        // Render graph
         const container = document.getElementById("container");
-        new Sigma({ graph: { nodes, edges }, container });
+        new Sigma(graph, container);
       });
   </script>
 </body>
