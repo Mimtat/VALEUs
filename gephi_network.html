@@ -40,7 +40,6 @@
     import Sigma from "https://cdn.jsdelivr.net/npm/sigma@3.0.2/+esm";
     import Graph from "https://cdn.jsdelivr.net/npm/graphology@0.25.4/+esm";
     import forceAtlas2 from "https://cdn.jsdelivr.net/npm/graphology-layout-forceatlas2/+esm";
-    import FA2 from "https://cdn.jsdelivr.net/npm/graphology-layout-forceatlas2/worker/+esm";
 
     // Load JSON
     fetch("PrjAdd-2509.json")
@@ -76,15 +75,20 @@
         const container = document.getElementById("container");
         const renderer = new Sigma(graph, container);
 
-        // --- Buttons for layout control ---
+        // --- Button handlers ---
+        // 1) Static layout
         document.getElementById("static").onclick = () => {
           forceAtlas2.assign(graph, { iterations: 200, settings: { slowDown: 50 } });
         };
 
+        // 2) Animated layout (simulate dynamic)
         document.getElementById("animate").onclick = () => {
-          const fa2 = new FA2(graph, { settings: { slowDown: 50 } });
-          fa2.start();
-          setTimeout(() => fa2.stop(), 5000); // stop after 5s
+          let steps = 0;
+          const interval = setInterval(() => {
+            forceAtlas2.assign(graph, { iterations: 5, settings: { slowDown: 50 } });
+            steps++;
+            if (steps > 40) clearInterval(interval); // stop after ~200 iterations
+          }, 100); // every 100ms
         };
       });
   </script>
