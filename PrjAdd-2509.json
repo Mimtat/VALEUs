@@ -16,18 +16,20 @@
         "y": -532.09216,
         "size": 16.767021,
         "color": "#ccffff",
-        "type": "Organization"
+        "metaType": "Organization",
+        "renderType": "default"
       }
     },
     {
       "key": "GenderRecovery",
       "attributes": {
-        "label": "Gender Balance in Ukraine\u0027s Recovery",
+        "label": "Gender Balance in Ukraine's Recovery",
         "x": 99.48844,
         "y": -338.8111,
         "size": 17.5,
         "color": "#cccccc",
-        "type": "Project"
+        "metaType": "Project",
+        "renderType": "default"
       }
     },
     {
@@ -38,7 +40,8 @@
         "y": -360.86703,
         "size": 27.0,
         "color": "#cccccc",
-        "type": "Project"
+        "metaType": "Project",
+        "renderType": "default"
       }
     },
     {
@@ -49,7 +52,8 @@
         "y": -13.7562065,
         "size": 17.5,
         "color": "#cccccc",
-        "type": "Project"
+        "metaType": "Project",
+        "renderType": "default"
       }
     },
     {
@@ -60,7 +64,8 @@
         "y": -0.033879075,
         "size": 18.232979,
         "color": "#cc0033",
-        "type": "Country"
+        "metaType": "Country",
+        "renderType": "default"
       }
     },
     {
@@ -71,7 +76,8 @@
         "y": -391.6865,
         "size": 8.0,
         "color": "#cc0033",
-        "type": "Country"
+        "metaType": "Country",
+        "renderType": "default"
       }
     },
     {
@@ -82,7 +88,8 @@
         "y": -601.10547,
         "size": 15.360605,
         "color": "#cc0033",
-        "type": "Country"
+        "metaType": "Country",
+        "renderType": "default"
       }
     },
     {
@@ -93,7 +100,8 @@
         "y": -343.01135,
         "size": 8.0,
         "color": "#cc0033",
-        "type": "Country"
+        "metaType": "Country",
+        "renderType": "default"
       }
     },
     {
@@ -104,7 +112,8 @@
         "y": 522.62,
         "size": 17.522928,
         "color": "#0099ff",
-        "type": "Addressee"
+        "metaType": "Addressee",
+        "renderType": "default"
       }
     },
     {
@@ -115,7 +124,8 @@
         "y": -387.52487,
         "size": 17.305676,
         "color": "#0099ff",
-        "type": "Addressee"
+        "metaType": "Addressee",
+        "renderType": "default"
       }
     },
     {
@@ -126,7 +136,8 @@
         "y": -189.28079,
         "size": 19.639393,
         "color": "#0099ff",
-        "type": "Addressee"
+        "metaType": "Addressee",
+        "renderType": "default"
       }
     },
     {
@@ -137,7 +148,8 @@
         "y": -489.9523,
         "size": 16.767021,
         "color": "#0099ff",
-        "type": "Addressee"
+        "metaType": "Addressee",
+        "renderType": "default"
       }
     },
     {
@@ -148,7 +160,8 @@
         "y": -118.081795,
         "size": 17.5,
         "color": "#00cccc",
-        "type": "Action Domain"
+        "metaType": "Action Domain",
+        "renderType": "default"
       }
     },
     {
@@ -159,7 +172,8 @@
         "y": 261.2078,
         "size": 17.694323,
         "color": "#00cccc",
-        "type": "Action Domain"
+        "metaType": "Action Domain",
+        "renderType": "default"
       }
     },
     {
@@ -170,7 +184,8 @@
         "y": -320.2529,
         "size": 15.360605,
         "color": "#00cccc",
-        "type": "Action Domain"
+        "metaType": "Action Domain",
+        "renderType": "default"
       }
     },
     {
@@ -181,7 +196,8 @@
         "y": -274.2094,
         "size": 8.0,
         "color": "#00cccc",
-        "type": "Action Domain"
+        "metaType": "Action Domain",
+        "renderType": "default"
       }
     },
     {
@@ -192,7 +208,8 @@
         "y": 65.55553,
         "size": 17.305676,
         "color": "#ccffff",
-        "type": "Organization"
+        "metaType": "Organization",
+        "renderType": "default"
       }
     },
     {
@@ -203,7 +220,8 @@
         "y": 428.2627,
         "size": 19.639393,
         "color": "#cccccc",
-        "type": "Project"
+        "metaType": "Project",
+        "renderType": "default"
       }
     },
     {
@@ -214,7 +232,8 @@
         "y": 172.23152,
         "size": 17.305676,
         "color": "#00cccc",
-        "type": "Action Domain"
+        "metaType": "Action Domain",
+        "renderType": "default"
       }
     },
     {
@@ -225,7 +244,8 @@
         "y": 261.06088,
         "size": 17.522928,
         "color": "#cccccc",
-        "type": "Project"
+        "metaType": "Project",
+        "renderType": "default"
       }
     },
     {
@@ -236,7 +256,8 @@
         "y": 342.88202,
         "size": 8.0,
         "color": "#00cccc",
-        "type": "Action Domain"
+        "metaType": "Action Domain",
+        "renderType": "default"
       }
     },
     {
@@ -247,7 +268,8 @@
         "y": -210.37083,
         "size": 19.639393,
         "color": "#cccccc",
-        "type": "Project"
+        "metaType": "Project",
+        "renderType": "default"
       }
     },
     {
@@ -258,7 +280,8 @@
         "y": 406.96945,
         "size": 16.767021,
         "color": "#cc0033",
-        "type": "Country"
+        "metaType": "Country",
+        "renderType": "default"
       }
     },
     {
@@ -269,7 +292,8 @@
         "y": -333.11298,
         "size": 8.0,
         "color": "#cc0033",
-        "type": "Country"
+        "metaType": "Country",
+        "renderType": "default"
       }
     },
     {
@@ -280,7 +304,8 @@
         "y": 639.184,
         "size": 8.0,
         "color": "#cc0033",
-        "type": "Country"
+        "metaType": "Country",
+        "renderType": "default"
       }
     },
     {
@@ -291,7 +316,8 @@
         "y": 431.39294,
         "size": 15.360605,
         "color": "#cc0033",
-        "type": "Country"
+        "metaType": "Country",
+        "renderType": "default"
       }
     },
     {
@@ -302,7 +328,8 @@
         "y": 115.543304,
         "size": 16.767021,
         "color": "#ccffff",
-        "type": "Organization"
+        "metaType": "Organization",
+        "renderType": "default"
       }
     },
     {
@@ -313,7 +340,8 @@
         "y": 43.455048,
         "size": 18.232979,
         "color": "#cccccc",
-        "type": "Project"
+        "metaType": "Project",
+        "renderType": "default"
       }
     },
     {
@@ -324,7 +352,8 @@
         "y": -172.94589,
         "size": 8.0,
         "color": "#00cccc",
-        "type": "Action Domain"
+        "metaType": "Action Domain",
+        "renderType": "default"
       }
     },
     {
@@ -335,7 +364,8 @@
         "y": -211.09709,
         "size": 17.694323,
         "color": "#cccccc",
-        "type": "Project"
+        "metaType": "Project",
+        "renderType": "default"
       }
     },
     {
@@ -346,7 +376,8 @@
         "y": -120.38477,
         "size": 8.0,
         "color": "#cc0033",
-        "type": "Country"
+        "metaType": "Country",
+        "renderType": "default"
       }
     },
     {
@@ -357,7 +388,8 @@
         "y": 303.29712,
         "size": 27.0,
         "color": "#cccccc",
-        "type": "Project"
+        "metaType": "Project",
+        "renderType": "default"
       }
     },
     {
@@ -368,7 +400,8 @@
         "y": 312.9394,
         "size": 8.0,
         "color": "#cc0033",
-        "type": "Country"
+        "metaType": "Country",
+        "renderType": "default"
       }
     },
     {
@@ -379,7 +412,8 @@
         "y": 409.65884,
         "size": 8.0,
         "color": "#cc0033",
-        "type": "Country"
+        "metaType": "Country",
+        "renderType": "default"
       }
     },
     {
@@ -390,7 +424,8 @@
         "y": 255.80621,
         "size": 8.0,
         "color": "#cc0033",
-        "type": "Country"
+        "metaType": "Country",
+        "renderType": "default"
       }
     },
     {
@@ -401,7 +436,8 @@
         "y": 361.63007,
         "size": 8.0,
         "color": "#cc0033",
-        "type": "Country"
+        "metaType": "Country",
+        "renderType": "default"
       }
     },
     {
@@ -412,7 +448,8 @@
         "y": 879.0744,
         "size": 8.0,
         "color": "#ccffff",
-        "type": "Organization"
+        "metaType": "Organization",
+        "renderType": "default"
       }
     },
     {
@@ -423,7 +460,8 @@
         "y": 860.81995,
         "size": 8.0,
         "color": "#cc0033",
-        "type": "Country"
+        "metaType": "Country",
+        "renderType": "default"
       }
     },
     {
@@ -434,18 +472,20 @@
         "y": 782.9822,
         "size": 17.305676,
         "color": "#cccccc",
-        "type": "Project"
+        "metaType": "Project",
+        "renderType": "default"
       }
     },
     {
-      "key": "YUCOM: Lawyers\u0027 Committee for Human Rights",
+      "key": "YUCOM: Lawyers' Committee for Human Rights",
       "attributes": {
-        "label": "YUCOM: Lawyers\u0027 Committee for Human Rights",
+        "label": "YUCOM: Lawyers' Committee for Human Rights",
         "x": 40.139008,
         "y": -734.2653,
         "size": 8.0,
         "color": "#ccffff",
-        "type": "Organization"
+        "metaType": "Organization",
+        "renderType": "default"
       }
     },
     {
@@ -456,7 +496,8 @@
         "y": -871.34485,
         "size": 8.0,
         "color": "#cc0033",
-        "type": "Country"
+        "metaType": "Country",
+        "renderType": "default"
       }
     },
     {
@@ -467,7 +508,8 @@
         "y": -728.02527,
         "size": 17.522928,
         "color": "#cccccc",
-        "type": "Project"
+        "metaType": "Project",
+        "renderType": "default"
       }
     },
     {
@@ -478,7 +520,8 @@
         "y": -849.6646,
         "size": 8.0,
         "color": "#0099ff",
-        "type": "Addressee"
+        "metaType": "Addressee",
+        "renderType": "default"
       }
     },
     {
@@ -489,7 +532,8 @@
         "y": -856.08026,
         "size": 8.0,
         "color": "#0099ff",
-        "type": "Addressee"
+        "metaType": "Addressee",
+        "renderType": "default"
       }
     },
     {
@@ -500,7 +544,68 @@
         "y": 671.84576,
         "size": 8.0,
         "color": "#cc0033",
-        "type": "Country"
+        "metaType": "Country",
+        "renderType": "default"
+      }
+    },
+    {
+      "key": "cat_Country",
+      "attributes": {
+        "label": "Country",
+        "x": 0,
+        "y": 0,
+        "size": 40,
+        "color": "#000000",
+        "renderType": "default",
+        "metaType": "Category"
+      }
+    },
+    {
+      "key": "cat_Organization",
+      "attributes": {
+        "label": "Organization",
+        "x": 0,
+        "y": 0,
+        "size": 40,
+        "color": "#000000",
+        "renderType": "default",
+        "metaType": "Category"
+      }
+    },
+    {
+      "key": "cat_Addressee",
+      "attributes": {
+        "label": "Addressee",
+        "x": 0,
+        "y": 0,
+        "size": 40,
+        "color": "#000000",
+        "renderType": "default",
+        "metaType": "Category"
+      }
+    },
+    {
+      "key": "cat_Project",
+      "attributes": {
+        "label": "Project",
+        "x": 0,
+        "y": 0,
+        "size": 40,
+        "color": "#000000",
+        "renderType": "default",
+        "metaType": "Category"
+      }
+    },
+    {
+      "key": "cat_Action Domain",
+      "attributes": {
+        "label": "Action Domain",
+        "x": 0,
+        "y": 0,
+        "size": 40,
+        "color": "#000000",
+        "renderType": "default",
+        "metaType": "Category"
       }
     }
   ],
@@ -1338,7 +1443,7 @@
     },
     {
       "key": "83",
-      "source": "YUCOM: Lawyers\u0027 Committee for Human Rights",
+      "source": "YUCOM: Lawyers' Committee for Human Rights",
       "target": "Stronger Together",
       "attributes": {
         "color": "#28b36a",
@@ -1416,6 +1521,456 @@
         "color": "#000000",
         "weight": 1.0,
         "relation": "null"
+      }
+    },
+    {
+      "key": "cat_edge_VoxUkraine",
+      "source": "VoxUkraine",
+      "target": "cat_Organization",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_GenderRecovery",
+      "source": "GenderRecovery",
+      "target": "cat_Project",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_StateDigital",
+      "source": "StateDigital",
+      "target": "cat_Project",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_AccessionYear",
+      "source": "AccessionYear",
+      "target": "cat_Project",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Ukraine",
+      "source": "Ukraine",
+      "target": "cat_Country",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Estonia",
+      "source": "Estonia",
+      "target": "cat_Country",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Sweden",
+      "source": "Sweden",
+      "target": "cat_Country",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Switzerland",
+      "source": "Switzerland",
+      "target": "cat_Country",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_EUinstitutions",
+      "source": "EUinstitutions",
+      "target": "cat_Addressee",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Citizens",
+      "source": "Citizens",
+      "target": "cat_Addressee",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_NationalInstitutions",
+      "source": "NationalInstitutions",
+      "target": "cat_Addressee",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Media",
+      "source": "Media",
+      "target": "cat_Addressee",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Democracy",
+      "source": "Democracy",
+      "target": "cat_Action Domain",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Human/Fundamental Rights",
+      "source": "Human/Fundamental Rights",
+      "target": "cat_Action Domain",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Energy/Climate/Sustainability",
+      "source": "Energy/Climate/Sustainability",
+      "target": "cat_Action Domain",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Digital Technology",
+      "source": "Digital Technology",
+      "target": "cat_Action Domain",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Europe without Barriers",
+      "source": "Europe without Barriers",
+      "target": "cat_Organization",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_MediaCoverage V4",
+      "source": "MediaCoverage V4",
+      "target": "cat_Project",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Trade/economy",
+      "source": "Trade/economy",
+      "target": "cat_Action Domain",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_SafeBorder",
+      "source": "SafeBorder",
+      "target": "cat_Project",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Migration",
+      "source": "Migration",
+      "target": "cat_Action Domain",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Bordermng",
+      "source": "Bordermng",
+      "target": "cat_Project",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Poland",
+      "source": "Poland",
+      "target": "cat_Country",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Germany",
+      "source": "Germany",
+      "target": "cat_Country",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Hungary",
+      "source": "Hungary",
+      "target": "cat_Country",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Slovakia",
+      "source": "Slovakia",
+      "target": "cat_Country",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_The \"New Europe Center\"",
+      "source": "The \"New Europe Center\"",
+      "target": "cat_Organization",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_The Euromap: profiles of regions",
+      "source": "The Euromap: profiles of regions",
+      "target": "cat_Project",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Conflict/War",
+      "source": "Conflict/War",
+      "target": "cat_Action Domain",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_RespaJapon",
+      "source": "RespaJapon",
+      "target": "cat_Project",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Japon",
+      "source": "Japon",
+      "target": "cat_Country",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_EUAXF",
+      "source": "EUAXF",
+      "target": "cat_Project",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Moldova",
+      "source": "Moldova",
+      "target": "cat_Country",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Romania",
+      "source": "Romania",
+      "target": "cat_Country",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Slovenia",
+      "source": "Slovenia",
+      "target": "cat_Country",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Bulgaria",
+      "source": "Bulgaria",
+      "target": "cat_Country",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Kazakhstan International Bureau for Human Rights and Rule of Law",
+      "source": "Kazakhstan International Bureau for Human Rights and Rule of Law",
+      "target": "cat_Organization",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Kazakhstan",
+      "source": "Kazakhstan",
+      "target": "cat_Country",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_InpokazEU",
+      "source": "InpokazEU",
+      "target": "cat_Project",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_YUCOM: Lawyers' Committee for Human Rights",
+      "source": "YUCOM: Lawyers' Committee for Human Rights",
+      "target": "cat_Organization",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Serbia",
+      "source": "Serbia",
+      "target": "cat_Country",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Stronger Together",
+      "source": "Stronger Together",
+      "target": "cat_Project",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_National and international courts",
+      "source": "National and international courts",
+      "target": "cat_Addressee",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Human Rights Defenders",
+      "source": "Human Rights Defenders",
+      "target": "cat_Addressee",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
+      }
+    },
+    {
+      "key": "cat_edge_Czech Republic",
+      "source": "Czech Republic",
+      "target": "cat_Country",
+      "attributes": {
+        "color": "#aaaaaa",
+        "weight": 0.5,
+        "relation": "is_a"
       }
     }
   ]
