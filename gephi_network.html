@@ -3,98 +3,79 @@
 <head>
   <meta charset="UTF-8">
   <title>Interactive Gephi Diagram</title>
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-    }
-    #container {
-      width: 100%;
-      height: 100vh;
-    }
-    #controls {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: rgba(255, 255, 255, 0.9);
-      padding: 8px 12px;
-      border-radius: 6px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      font-family: sans-serif;
-    }
-    button {
-      margin: 2px;
-      padding: 6px 10px;
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-  <div id="controls">
-    <button id="toggle">⏸ Pause Layout</button>
-  </div>
-  <div id="container"></div>
+ <style>
+  /* ... keep your existing styles ... */
+  #controls{
+    position: fixed;      /* stays on top-left */
+    top: 10px; left: 10px;
+    z-index: 9999;        /* always above the canvas */
+    background: rgba(255,255,255,.9);
+    padding: 8px 12px; border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.2);
+    font-family: sans-serif;
+  }
+</style>
 
-  <script type="module">
-    import Sigma from "https://cdn.jsdelivr.net/npm/sigma@3.0.2/+esm";
-    import Graph from "https://cdn.jsdelivr.net/npm/graphology@0.25.4/+esm";
-    import forceAtlas2 from "https://cdn.jsdelivr.net/npm/graphology-layout-forceatlas2/+esm";
+<div id="controls">
+  <button id="toggle">⏸ Pause layout</button>
+</div>
+<div id="container"></div>
 
-    fetch("PrjAdd-2509.json")
-      .then(res => res.json())
-      .then(data => {
-        const graph = new Graph();
+<script type="module">
+  import Sigma from "https://cdn.jsdelivr.net/npm/sigma@3.0.2/+esm";
+  import Graph from "https://cdn.jsdelivr.net/npm/graphology@0.25.4/+esm";
+  import forceAtlas2 from "https://cdn.jsdelivr.net/npm/graphology-layout-forceatlas2/+esm";
 
-        // Add nodes
-        data.nodes.forEach(n => {
-          graph.addNode(n.key, {
-            label: n.attributes.label,
-            x: Number(n.attributes.x),
-            y: Number(n.attributes.y),
-            size: Number(n.attributes.size),
-            color: n.attributes.color || "#999",
-            metaType: n.attributes.metaType || "",
-            renderType: "default"
-          });
+  fetch("PrjAdd-2509.json")
+    .then(r => r.json())
+    .then(data => {
+      const g = new Graph();
+
+      // nodes
+      data.nodes.forEach(n => {
+        g.addNode(n.key, {
+          label: n.attributes.label,
+          x: Number(n.attributes.x),
+          y: Number(n.attributes.y),
+          size: Number(n.attributes.size),
+          color: n.attributes.color || "#999",
+          metaType: n.attributes.metaType || "",
+          renderType: "default"
         });
-
-        // Add edges
-        data.edges.forEach((e, i) => {
-          if (!graph.hasEdge(e.source, e.target)) {
-            graph.addEdgeWithKey(e.key || "e" + i, e.source, e.target, {
-              size: Number(e.attributes?.weight) || 1,
-              color: e.attributes?.color || "#ccc",
-              label: e.attributes?.relation || ""
-            });
-          }
-        });
-
-        // Render
-        const container = document.getElementById("container");
-        new Sigma(graph, container);
-
-        // --- Continuous ForceAtlas2 ---
-        let running = true;
-        let interval = setInterval(() => {
-          forceAtlas2.assign(graph, { iterations: 5, settings: { slowDown: 50 } });
-        }, 100);
-
-        // --- Pause/Resume button ---
-        const toggleBtn = document.getElementById("toggle");
-        toggleBtn.onclick = () => {
-          if (running) {
-            clearInterval(interval);
-            toggleBtn.textContent = "▶ Resume Layout";
-          } else {
-            interval = setInterval(() => {
-              forceAtlas2.assign(graph, { iterations: 5, settings: { slowDown: 50 } });
-            }, 100);
-            toggleBtn.textContent = "⏸ Pause Layout";
-          }
-          running = !running;
-        };
       });
-  </script>
+      // edges
+      data.edges.forEach((e,i) => {
+        if (!g.hasEdge(e.source, e.target))
+          g.addEdgeWithKey(e.key || "e"+i, e.source, e.target, {
+            size: Number(e.attributes?.weight) || 1,
+            color: e.attributes?.color || "#ccc",
+            label: e.attributes?.relation || ""
+          });
+      });
+
+      // render
+      const renderer = new Sigma(g, document.getElementById("container"));
+
+      // ---- Continuous FA2 with Pause/Resume (RAF loop) ----
+      const settings = { slowDown: 50 };   // tweak feel here
+      let running = true;
+
+      function tick(){
+        if (!running) return;                // paused → stop loop
+        forceAtlas2.assign(g, { iterations: 1, settings });  // one step per frame
+        requestAnimationFrame(tick);         // schedule next step
+      }
+      requestAnimationFrame(tick);           // start running
+
+      // button
+      const btn = document.getElementById("toggle");
+      btn.onclick = () => {
+        running = !running;
+        btn.textContent = running ? "⏸ Pause layout" : "▶ Resume layout";
+        if (running) requestAnimationFrame(tick);  // restart loop
+      };
+    });
+</script>
+
 </body>
 </html>
