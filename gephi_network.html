@@ -18,42 +18,47 @@
 <body>
   <div id="container"></div>
   <script type="module">
-    import Sigma from "https://cdn.jsdelivr.net/npm/sigma@3.0.2/+esm";
-    import Graph from "https://cdn.jsdelivr.net/npm/graphology@0.25.4/+esm";
+  import Sigma from "https://cdn.jsdelivr.net/npm/sigma@3.0.2/+esm";
+  import Graph from "https://cdn.jsdelivr.net/npm/graphology@0.25.4/+esm";
+  import forceAtlas2 from "https://cdn.jsdelivr.net/npm/graphology-layout-forceatlas2/+esm";
 
-    fetch("PrjAdd-2509.json")
-      .then(res => res.json())
-      .then(data => {
-        const graph = new Graph();
+  fetch("PrjAdd-2509_revised.json")
+    .then(res => res.json())
+    .then(data => {
+      const graph = new Graph();
 
-        // Add nodes
-        data.nodes.forEach(n => {
-          graph.addNode(n.key, {
-            label: n.attributes.label,
-            x: Number(n.attributes.x),
-            y: Number(n.attributes.y),
-            size: Number(n.attributes.size),
-            color: n.attributes.color || "#999",
-            renderType: "default",   // force Sigma to use default renderer
-            metaType: n.attributes.type || "" // keep original type as metadata
-          });
+      // Add nodes
+      data.nodes.forEach(n => {
+        graph.addNode(n.key, {
+          label: n.attributes.label,
+          x: Number(n.attributes.x),
+          y: Number(n.attributes.y),
+          size: Number(n.attributes.size),
+          color: n.attributes.color || "#999",
+          metaType: n.attributes.metaType || "",
+          renderType: "default"
         });
-
-        // Add edges
-        data.edges.forEach((e, i) => {
-          if (!graph.hasEdge(e.source, e.target)) {
-            graph.addEdgeWithKey(e.key || "e" + i, e.source, e.target, {
-              size: Number(e.attributes?.weight) || 1,
-              color: e.attributes?.color || "#ccc",
-              label: e.attributes?.relation || ""
-            });
-          }
-        });
-
-        // Render with Sigma
-        const container = document.getElementById("container");
-        new Sigma(graph, container);
       });
-  </script>
+
+      // Add edges
+      data.edges.forEach((e, i) => {
+        if (!graph.hasEdge(e.source, e.target)) {
+          graph.addEdgeWithKey(e.key || "e" + i, e.source, e.target, {
+            size: Number(e.attributes?.weight) || 1,
+            color: e.attributes?.color || "#ccc",
+            label: e.attributes?.relation || ""
+          });
+        }
+      });
+
+      // Apply ForceAtlas2 instantly
+      forceAtlas2.assign(graph, { iterations: 200, settings: { slowDown: 50 } });
+
+      // Render with Sigma
+      const container = document.getElementById("container");
+      new Sigma(graph, container);
+    });
+</script>
+
 </body>
 </html>
