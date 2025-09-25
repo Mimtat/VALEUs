@@ -23,33 +23,33 @@
 
     fetch("PrjAdd-2509.json")
       .then(res => res.json())
-      .then(graphData => {
+      .then(data => {
         const graph = new Graph();
 
-        // Add nodes
-        graphData.nodes.forEach(n => {
+        // Add nodes (force correct types)
+        data.nodes.forEach(n => {
           graph.addNode(n.key, {
             label: n.attributes.label,
-            x: n.attributes.x,
-            y: n.attributes.y,
-            size: n.attributes.size,
-            color: n.attributes.color,
-            ...n.attributes
+            x: Number(n.attributes.x),
+            y: Number(n.attributes.y),
+            size: Number(n.attributes.size),
+            color: n.attributes.color || "#999",
+            type: n.attributes.type || ""
           });
         });
 
-        // Add edges
-        graphData.edges.forEach(e => {
-          if (!graph.hasEdge(e.key)) {
-            graph.addEdge(e.source, e.target, {
-              size: e.attributes.weight,
-              color: e.attributes.color,
-              label: e.attributes.relation
+        // Add edges (ensure unique IDs)
+        data.edges.forEach((e, i) => {
+          if (!graph.hasEdge(e.source, e.target)) {
+            graph.addEdgeWithKey(e.key || "e" + i, e.source, e.target, {
+              size: Number(e.attributes?.weight) || 1,
+              color: e.attributes?.color || "#ccc",
+              label: e.attributes?.relation || ""
             });
           }
         });
 
-        // Render graph
+        // Render with Sigma
         const container = document.getElementById("container");
         new Sigma(graph, container);
       });
