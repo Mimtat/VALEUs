@@ -23,9 +23,12 @@
   </div>
   <div id="graph-container"></div>
 
+  <!-- ✅ Load correct UMD bundles -->
   <script src="https://unpkg.com/graphology/dist/graphology.umd.min.js"></script>
-  <script src="https://unpkg.com/graphology-layout-forceatlas2/worker.js"></script>
+  <script src="https://unpkg.com/graphology-layout-forceatlas2/umd/graphology-layout-forceatlas2.min.js"></script>
+  <script src="https://unpkg.com/graphology-layout-forceatlas2/umd/worker.min.js"></script>
   <script src="https://unpkg.com/sigma/build/sigma.min.js"></script>
+
   <script>
     const container = document.getElementById("graph-container");
 
@@ -70,11 +73,11 @@
           g.addEdge(e.source, e.target, e.attributes || {});
         });
 
-        // Sigma renderer
+        // Sigma renderer ✅
         const renderer = new sigma.Sigma(g, container);
 
-        // ForceAtlas2
-        const fa2 = new forceAtlas2.ForceAtlas2Supervisor(g, { settings: { slowDown: 10 } });
+        // ForceAtlas2 ✅
+        const fa2 = new forceatlas2.ForceAtlas2Supervisor(g, { settings: { slowDown: 10 } });
         fa2.start();
 
         let running = true;
