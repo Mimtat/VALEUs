@@ -77,7 +77,10 @@
         const renderer = new Sigma(g, container);
 
         // ForceAtlas2
-        const fa2 = new forceAtlas2.ForceAtlas2Supervisor(g, { settings: { slowDown: 10 } });
+        const fa2 = new graphologyLayoutForceAtlas2.ForceAtlas2Supervisor(g, {
+  settings: { slowDown: 10 }
+});
+
         fa2.start();
 
         let running = true;
