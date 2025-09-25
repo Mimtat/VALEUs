@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Interactive Gephi Diagram (with filtering & branding)</title>
+  <title>Interactive Gephi Diagram</title>
   <style>
     html, body {
       margin: 0;
@@ -60,19 +60,48 @@
         .then(data => {
           const g = new Graph();
 
-          // Color map per metaType
-          const colorMap = {
-            Country: "#003776",
-            Project: "#FFD617",
-            Organization: "#004494",
-            Addressee: "#707070",
-            "Action Domain": "#F5F5F5"
+          // --- Generate palette with channels [102, 255] ---
+          const palette = [
+            "rgb(102,255,102)",  // green
+            "rgb(255,102,102)",  // red
+            "rgb(102,102,255)",  // blue
+            "rgb(255,255,102)",  // yellow
+            "rgb(255,102,255)",  // magenta
+            "rgb(102,255,255)"   // cyan
+          ];
+          const metaTypes = ["Project","Organization","Addressee","Action Domain"];
+          const colorMap = {};
+          metaTypes.forEach((type, i) => {
+            colorMap[type] = palette[i % palette.length];
+          });
+
+          // --- Flag map for countries ---
+          const flagMap = {
+            Germany: "https://flagcdn.com/w40/de.png",
+            Poland: "https://flagcdn.com/w40/pl.png",
+            Sweden: "https://flagcdn.com/w40/se.png",
+            Estonia: "https://flagcdn.com/w40/ee.png",
+            Switzerland: "https://flagcdn.com/w40/ch.png",
+            Ukraine: "https://flagcdn.com/w40/ua.png",
+            Romania: "https://flagcdn.com/w40/ro.png",
+            Hungary: "https://flagcdn.com/w40/hu.png",
+            Slovakia: "https://flagcdn.com/w40/sk.png",
+            Bulgaria: "https://flagcdn.com/w40/bg.png",
+            Slovenia: "https://flagcdn.com/w40/si.png",
+            Moldova: "https://flagcdn.com/w40/md.png",
+            Kazakhstan: "https://flagcdn.com/w40/kz.png",
+            Serbia: "https://flagcdn.com/w40/rs.png",
+            "Czech Republic": "https://flagcdn.com/w40/cz.png",
+            Japon: "https://flagcdn.com/w40/jp.png"
           };
 
-          // Add nodes with mapped color
+          // --- Add nodes ---
           data.nodes.forEach(n => {
             const m = n.attributes.metaType || "";
-            const col = colorMap[m] || "#999999";
+            let col = "#999999";
+            if (m !== "Country") {
+              col = colorMap[m] || "#999999";
+            }
             g.addNode(n.key, {
               label: n.attributes.label,
               x: Number(n.attributes.x),
@@ -84,7 +113,7 @@
             });
           });
 
-          // Add edges
+          // --- Add edges ---
           data.edges.forEach((e, i) => {
             if (!g.hasEdge(e.source, e.target)) {
               g.addEdgeWithKey(e.key || "e" + i, e.source, e.target, {
@@ -98,7 +127,7 @@
           const container = document.getElementById("container");
           const renderer = new Sigma(g, container, { allowInvalidContainer: true });
 
-          // ForceAtlas2 continuous
+          // --- Continuous ForceAtlas2 ---
           let running = true;
           const settings = { slowDown: 50 };
 
@@ -110,21 +139,17 @@
           }
           requestAnimationFrame(loop);
 
-          // Pause/Resume
+          // --- Pause/Resume button ---
           const btn = document.getElementById("toggle");
           btn.onclick = () => {
             running = !running;
             btn.textContent = running ? "⏸ Pause layout" : "▶ Resume layout";
           };
 
-          // Filtering, but “Project” always active
+          // --- Filtering ---
           let activeTypes = new Set(["Country","Project","Addressee","Organization","Action Domain"]);
-
           document.querySelectorAll("#filters input").forEach(cb => {
-            // disable Project checkbox
-            if (cb.value === "Project") {
-              cb.disabled = true;
-            }
+            if (cb.value === "Project") cb.disabled = true; // Project always active
             cb.addEventListener("change", () => {
               if (cb.checked) activeTypes.add(cb.value);
               else activeTypes.delete(cb.value);
@@ -132,20 +157,26 @@
             });
           });
 
+          // --- Node reducer for flags + filtering ---
           renderer.setSetting("nodeReducer", (node, data) => {
             const res = { ...data };
             if (!activeTypes.has(data.metaType)) {
               res.hidden = true;
+              return res;
+            }
+            if (res.metaType === "Country" && flagMap[res.label]) {
+              res.type = "image";
+              res.image = { url: flagMap[res.label], scale: 1.4, clip: true };
+              res.color = "#ffffff";
             }
             return res;
           });
 
+          // --- Edge reducer ---
           renderer.setSetting("edgeReducer", (edge, data) => {
             const res = { ...data };
-            const src = g.source(edge);
-            const tgt = g.target(edge);
-            const srcType = g.getNodeAttribute(src, "metaType");
-            const tgtType = g.getNodeAttribute(tgt, "metaType");
+            const srcType = g.getNodeAttribute(g.source(edge), "metaType");
+            const tgtType = g.getNodeAttribute(g.target(edge), "metaType");
             if (!activeTypes.has(srcType) || !activeTypes.has(tgtType)) {
               res.hidden = true;
             }
