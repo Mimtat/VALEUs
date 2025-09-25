@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Interactive Gephi Diagram</title>
-  <script src="https://unpkg.com/sigma/build/sigma.min.js"></script>
   <style>
     body, html {
       margin: 0;
@@ -18,11 +17,12 @@
 </head>
 <body>
   <div id="container"></div>
-  <script>
-    fetch("PrjAdd-2509.json")
+  <script type="module">
+    import Sigma from "https://cdn.jsdelivr.net/npm/sigma@3.0.2/+esm";
+
+    fetch("6f3a251b-6472-4c0d-9733-8bd0f037f6db.json")
       .then(res => res.json())
       .then(graph => {
-        // Re-map Gephi export to Sigma.js v2 format
         const nodes = graph.nodes.map(n => ({
           id: n.key,
           label: n.attributes.label,
@@ -43,10 +43,7 @@
         }));
 
         const container = document.getElementById("container");
-        new sigma({
-          graph: { nodes, edges },
-          container
-        });
+        new Sigma({ graph: { nodes, edges }, container });
       });
   </script>
 </body>
