@@ -2,188 +2,170 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Interactive Gephi Diagram</title>
+  <title>Interactive Gephi Network</title>
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
+    body { margin: 0; font-family: Arial, sans-serif; }
+    #controls {
+      position: absolute; top: 10px; left: 10px; z-index: 10;
+      background: rgba(255, 255, 255, 0.9); padding: 8px; border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
-    #container {
-      width: 100vw;
-      height: 100vh;
-      background: #ffffff;
+    #graph-container {
+      width: 100vw; height: 100vh;
     }
-    #controls, #filters {
-      position: fixed;
-      z-index: 9999;
-      background: rgba(255,255,255,0.95);
-      padding: 8px 12px;
-      border-radius: 6px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      font-family: sans-serif;
-      font-size: 14px;
+    #tooltip {
+      position: absolute; padding: 6px 10px; background: #fff;
+      border: 1px solid #ccc; border-radius: 4px;
+      display: none; pointer-events: none; font-size: 14px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     }
-    #controls { top: 10px; left: 10px; }
-    #filters { top: 60px; left: 10px; }
-    label { display: block; margin: 2px 0; }
-    input[type="checkbox"] { margin-right: 6px; }
-    button { margin: 2px 0; padding: 6px 10px; cursor: pointer; }
   </style>
 </head>
 <body>
   <div id="controls">
-    <button id="toggle">⏸ Pause layout</button>
+    <button id="toggleLayout">⏸ Pause layout</button><br><br>
+    <label><input type="checkbox" value="Organization" checked> Organization</label><br>
+    <label><input type="checkbox" value="Addressee" checked> Addressee</label><br>
+    <label><input type="checkbox" value="Action Domain" checked> Action Domain</label><br>
+    <!-- Project is always visible -->
   </div>
+  <div id="graph-container"></div>
+  <div id="tooltip"></div>
 
-  <div id="filters">
-    <strong>Filter by type:</strong><br>
-    <label><input type="checkbox" value="Country" checked> Country</label>
-    <label><input type="checkbox" value="Project" checked disabled> Project</label>
-    <label><input type="checkbox" value="Addressee" checked> Addressee</label>
-    <label><input type="checkbox" value="Organization" checked> Organization</label>
-    <label><input type="checkbox" value="Action Domain" checked> Action Domain</label>
-  </div>
+  <script src="https://unpkg.com/graphology/dist/graphology.umd.min.js"></script>
+  <script src="https://unpkg.com/graphology-layout-forceatlas2/worker.js"></script>
+  <script src="https://unpkg.com/sigma/build/sigma.min.js"></script>
+  <script>
+    const container = document.getElementById("graph-container");
+    const tooltip = document.getElementById("tooltip");
 
-  <div id="container"></div>
+    // --- Flags map ---
+    const flagMap = {
+      Germany: "https://flagcdn.com/w40/de.png",
+      Poland: "https://flagcdn.com/w40/pl.png",
+      Sweden: "https://flagcdn.com/w40/se.png",
+      Estonia: "https://flagcdn.com/w40/ee.png",
+      Switzerland: "https://flagcdn.com/w40/ch.png",
+      Ukraine: "https://flagcdn.com/w40/ua.png",
+      Romania: "https://flagcdn.com/w40/ro.png",
+      Hungary: "https://flagcdn.com/w40/hu.png",
+      Slovakia: "https://flagcdn.com/w40/sk.png",
+      Bulgaria: "https://flagcdn.com/w40/bg.png",
+      Slovenia: "https://flagcdn.com/w40/si.png",
+      Moldova: "https://flagcdn.com/w40/md.png",
+      Kazakhstan: "https://flagcdn.com/w40/kz.png",
+      Serbia: "https://flagcdn.com/w40/rs.png",
+      "Czech Republic": "https://flagcdn.com/w40/cz.png",
+      Japon: "https://flagcdn.com/w40/jp.png"
+    };
 
-  <script type="module">
-    import Sigma from "https://cdn.jsdelivr.net/npm/sigma@3.0.2/+esm";
-    import Graph from "https://cdn.jsdelivr.net/npm/graphology@0.25.4/+esm";
-    import forceAtlas2 from "https://cdn.jsdelivr.net/npm/graphology-layout-forceatlas2/+esm";
+    // --- Color palette (combinations of 102,255) ---
+    const palette = [
+      "rgb(102,255,102)",
+      "rgb(102,102,255)",
+      "rgb(255,102,102)",
+      "rgb(255,255,102)",
+      "rgb(255,102,255)",
+      "rgb(102,255,255)"
+    ];
+    const metaTypes = ["Project","Organization","Addressee","Action Domain"];
+    const colorMap = {};
+    metaTypes.forEach((t,i)=>{ colorMap[t] = palette[i % palette.length]; });
 
-    document.addEventListener("DOMContentLoaded", () => {
-      fetch("PrjAdd-2509.json")
-        .then(r => r.json())
-        .then(data => {
-          const g = new Graph();
+    // --- Active filters ---
+    let activeTypes = new Set(metaTypes); // Project always on
 
-          // --- Generate palette with channels [102, 255] ---
-          const palette = [
-            "rgb(102,255,102)",  // green
-            "rgb(255,102,102)",  // red
-            "rgb(102,102,255)",  // blue
-            "rgb(255,255,102)",  // yellow
-            "rgb(255,102,255)",  // magenta
-            "rgb(102,255,255)"   // cyan
-          ];
-          const metaTypes = ["Project","Organization","Addressee","Action Domain"];
-          const colorMap = {};
-          metaTypes.forEach((type, i) => {
-            colorMap[type] = palette[i % palette.length];
-          });
+    // --- Load JSON graph ---
+    fetch("PrjAdd-2509.json")
+      .then(r => r.json())
+      .then(data => {
+        const g = new graphology.Graph();
 
-          // --- Flag map for countries ---
-          const flagMap = {
-            Germany: "https://flagcdn.com/w40/de.png",
-            Poland: "https://flagcdn.com/w40/pl.png",
-            Sweden: "https://flagcdn.com/w40/se.png",
-            Estonia: "https://flagcdn.com/w40/ee.png",
-            Switzerland: "https://flagcdn.com/w40/ch.png",
-            Ukraine: "https://flagcdn.com/w40/ua.png",
-            Romania: "https://flagcdn.com/w40/ro.png",
-            Hungary: "https://flagcdn.com/w40/hu.png",
-            Slovakia: "https://flagcdn.com/w40/sk.png",
-            Bulgaria: "https://flagcdn.com/w40/bg.png",
-            Slovenia: "https://flagcdn.com/w40/si.png",
-            Moldova: "https://flagcdn.com/w40/md.png",
-            Kazakhstan: "https://flagcdn.com/w40/kz.png",
-            Serbia: "https://flagcdn.com/w40/rs.png",
-            "Czech Republic": "https://flagcdn.com/w40/cz.png",
-            Japon: "https://flagcdn.com/w40/jp.png"
-          };
-
-          // --- Add nodes ---
-          data.nodes.forEach(n => {
-            const m = n.attributes.metaType || "";
-            let col = "#999999";
-            if (m !== "Country") {
-              col = colorMap[m] || "#999999";
-            }
-            g.addNode(n.key, {
-              label: n.attributes.label,
-              x: Number(n.attributes.x),
-              y: Number(n.attributes.y),
-              size: Number(n.attributes.size),
-              color: col,
-              metaType: m,
-              renderType: "default"
-            });
-          });
-
-          // --- Add edges ---
-          data.edges.forEach((e, i) => {
-            if (!g.hasEdge(e.source, e.target)) {
-              g.addEdgeWithKey(e.key || "e" + i, e.source, e.target, {
-                size: Number(e.attributes?.weight) || 1,
-                color: e.attributes?.color || "#ccc",
-                label: e.attributes?.relation || ""
-              });
-            }
-          });
-
-          const container = document.getElementById("container");
-          const renderer = new Sigma(g, container, { allowInvalidContainer: true });
-
-          // --- Continuous ForceAtlas2 ---
-          let running = true;
-          const settings = { slowDown: 50 };
-
-          function loop() {
-            if (running) {
-              forceAtlas2.assign(g, { iterations: 1, settings });
-            }
-            requestAnimationFrame(loop);
-          }
-          requestAnimationFrame(loop);
-
-          // --- Pause/Resume button ---
-          const btn = document.getElementById("toggle");
-          btn.onclick = () => {
-            running = !running;
-            btn.textContent = running ? "⏸ Pause layout" : "▶ Resume layout";
-          };
-
-          // --- Filtering ---
-          let activeTypes = new Set(["Country","Project","Addressee","Organization","Action Domain"]);
-          document.querySelectorAll("#filters input").forEach(cb => {
-            if (cb.value === "Project") cb.disabled = true; // Project always active
-            cb.addEventListener("change", () => {
-              if (cb.checked) activeTypes.add(cb.value);
-              else activeTypes.delete(cb.value);
-              renderer.refresh();
-            });
-          });
-
-          // --- Node reducer for flags + filtering ---
-          renderer.setSetting("nodeReducer", (node, data) => {
-            const res = { ...data };
-            if (!activeTypes.has(data.metaType)) {
-              res.hidden = true;
-              return res;
-            }
-            if (res.metaType === "Country" && flagMap[res.label]) {
-              res.type = "image";
-              res.image = { url: flagMap[res.label], scale: 1.4, clip: true };
-              res.color = "#ffffff";
-            }
-            return res;
-          });
-
-          // --- Edge reducer ---
-          renderer.setSetting("edgeReducer", (edge, data) => {
-            const res = { ...data };
-            const srcType = g.getNodeAttribute(g.source(edge), "metaType");
-            const tgtType = g.getNodeAttribute(g.target(edge), "metaType");
-            if (!activeTypes.has(srcType) || !activeTypes.has(tgtType)) {
-              res.hidden = true;
-            }
-            return res;
+        // Add nodes
+        data.nodes.forEach(n => {
+          const m = n.attributes.metaType || "default";
+          let col = (m !== "Country") ? (colorMap[m] || "#999") : "#ccc";
+          g.addNode(n.key, {
+            label: n.attributes.label,
+            x: Number(n.attributes.x),
+            y: Number(n.attributes.y),
+            size: Number(n.attributes.size),
+            color: col,
+            metaType: m
           });
         });
-    });
+
+        // Add edges
+        data.edges.forEach(e => {
+          g.addEdge(e.source, e.target, e.attributes || {});
+        });
+
+        // Sigma renderer
+        const renderer = new sigma.Sigma(g, container);
+
+        // ForceAtlas2
+        const fa2 = new forceAtlas2.ForceAtlas2Supervisor(g, { settings: { slowDown: 10 } });
+        fa2.start();
+
+        let running = true;
+        document.getElementById("toggleLayout").onclick = () => {
+          if (running) {
+            fa2.stop();
+            running = false;
+            document.getElementById("toggleLayout").innerText = "▶ Resume layout";
+          } else {
+            fa2.start();
+            running = true;
+            document.getElementById("toggleLayout").innerText = "⏸ Pause layout";
+          }
+        };
+
+        // Node reducer (filtering)
+        renderer.setSetting("nodeReducer", (node, data) => {
+          const res = { ...data };
+          if (res.metaType !== "Project" && !activeTypes.has(res.metaType)) {
+            res.hidden = true;
+          }
+          return res;
+        });
+
+        renderer.setSetting("edgeReducer", (edge, data) => {
+          const res = { ...data };
+          const srcType = g.getNodeAttribute(g.source(edge), "metaType");
+          const tgtType = g.getNodeAttribute(g.target(edge), "metaType");
+          if ((srcType !== "Project" && !activeTypes.has(srcType)) ||
+              (tgtType !== "Project" && !activeTypes.has(tgtType))) {
+            res.hidden = true;
+          }
+          return res;
+        });
+
+        // Tooltip with flags
+        renderer.on("enterNode", ({ node }) => {
+          const attrs = g.getNodeAttributes(node);
+          let html = attrs.label;
+          if (attrs.metaType === "Country" && flagMap[attrs.label]) {
+            html = `<img src="${flagMap[attrs.label]}" style="height:14px; margin-right:6px; vertical-align:middle;">${attrs.label}`;
+          }
+          tooltip.innerHTML = html;
+          tooltip.style.display = "block";
+        });
+        renderer.on("leaveNode", () => { tooltip.style.display = "none"; });
+        renderer.on("mousemove", e => {
+          tooltip.style.left = e.event.x + 10 + "px";
+          tooltip.style.top = e.event.y + 10 + "px";
+        });
+
+        // Filter checkboxes
+        document.querySelectorAll('#controls input[type=checkbox]').forEach(cb => {
+          cb.addEventListener("change", e => {
+            const val = e.target.value;
+            if (e.target.checked) activeTypes.add(val);
+            else activeTypes.delete(val);
+            renderer.refresh();
+          });
+        });
+      });
   </script>
 </body>
 </html>
