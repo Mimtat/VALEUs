@@ -2,131 +2,157 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Interactive Gephi Network</title>
+  <title>Interactive Gephi Diagram (with filtering & branding)</title>
   <style>
-    body { margin: 0; font-family: Arial, sans-serif; }
-    #controls {
-      position: absolute; top: 10px; left: 10px; z-index: 10;
-      background: rgba(255, 255, 255, 0.9); padding: 8px; border-radius: 6px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
     }
-    #graph-container { width: 100vw; height: 100vh; }
+    #container {
+      width: 100vw;
+      height: 100vh;
+      background: #ffffff;
+    }
+    #controls, #filters {
+      position: fixed;
+      z-index: 9999;
+      background: rgba(255,255,255,0.95);
+      padding: 8px 12px;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      font-family: sans-serif;
+      font-size: 14px;
+    }
+    #controls { top: 10px; left: 10px; }
+    #filters { top: 60px; left: 10px; }
+    label { display: block; margin: 2px 0; }
+    input[type="checkbox"] { margin-right: 6px; }
+    button { margin: 2px 0; padding: 6px 10px; cursor: pointer; }
   </style>
 </head>
 <body>
   <div id="controls">
-    <button id="toggleLayout">⏸ Pause layout</button><br><br>
-    <label><input type="checkbox" value="Organization" checked> Organization</label><br>
-    <label><input type="checkbox" value="Addressee" checked> Addressee</label><br>
-    <label><input type="checkbox" value="Action Domain" checked> Action Domain</label><br>
-    <!-- Project is always visible -->
+    <button id="toggle">⏸ Pause layout</button>
   </div>
-  <div id="graph-container"></div>
 
-  <!-- ✅ Correct UMD bundles -->
-  <script src="https://unpkg.com/graphology/dist/graphology.umd.min.js"></script>
-  <script src="https://unpkg.com/graphology-layout-forceatlas2/umd/graphology-layout-forceatlas2.min.js"></script>
-  <script src="https://unpkg.com/graphology-layout-forceatlas2/umd/worker.min.js"></script>
-  <script src="https://unpkg.com/sigma@2.4.0/build/sigma.min.js"></script>
+  <div id="filters">
+    <strong>Filter by type:</strong><br>
+    <label><input type="checkbox" value="Country" checked> Country</label>
+    <label><input type="checkbox" value="Project" checked disabled> Project</label>
+    <label><input type="checkbox" value="Addressee" checked> Addressee</label>
+    <label><input type="checkbox" value="Organization" checked> Organization</label>
+    <label><input type="checkbox" value="Action Domain" checked> Action Domain</label>
+  </div>
 
-  <script>
-    const container = document.getElementById("graph-container");
+  <div id="container"></div>
 
-    // --- Bright [102,255] palette ---
-    const palette = [
-      "rgb(102,255,102)",  // green
-      "rgb(102,102,255)",  // blue
-      "rgb(255,102,102)",  // red
-      "rgb(255,255,102)",  // yellow
-      "rgb(255,102,255)",  // magenta
-      "rgb(102,255,255)"   // cyan
-    ];
-    const metaTypes = ["Project","Organization","Addressee","Action Domain"];
-    const colorMap = {};
-    metaTypes.forEach((t,i)=>{ colorMap[t] = palette[i % palette.length]; });
+  <script type="module">
+    import Sigma from "https://cdn.jsdelivr.net/npm/sigma@3.0.2/+esm";
+    import Graph from "https://cdn.jsdelivr.net/npm/graphology@0.25.4/+esm";
+    import forceAtlas2 from "https://cdn.jsdelivr.net/npm/graphology-layout-forceatlas2/+esm";
 
-    // --- Active filters ---
-    let activeTypes = new Set(metaTypes);
+    document.addEventListener("DOMContentLoaded", () => {
+      fetch("PrjAdd-2509.json")
+        .then(r => r.json())
+        .then(data => {
+          const g = new Graph();
 
-    // --- Load JSON graph ---
-    fetch("PrjAdd-2509.json")
-      .then(r => r.json())
-      .then(data => {
-        const g = new graphology.Graph();
+          // Color map per metaType
+          const colorMap = {
+            Country: "#003776",
+            Project: "#FFD617",
+            Organization: "#004494",
+            Addressee: "#707070",
+            "Action Domain": "#F5F5F5"
+          };
 
-        // Add nodes
-        data.nodes.forEach(n => {
-          const m = n.attributes.metaType || "default";
-          const col = colorMap[m] || "#999999";
-          g.addNode(n.key, {
-            label: n.attributes.label,
-            x: Number(n.attributes.x),
-            y: Number(n.attributes.y),
-            size: Number(n.attributes.size),
-            color: col,
-            metaType: m
+          // Add nodes with mapped color
+          data.nodes.forEach(n => {
+            const m = n.attributes.metaType || "";
+            const col = colorMap[m] || "#999999";
+            g.addNode(n.key, {
+              label: n.attributes.label,
+              x: Number(n.attributes.x),
+              y: Number(n.attributes.y),
+              size: Number(n.attributes.size),
+              color: col,
+              metaType: m,
+              renderType: "default"
+            });
+          });
+
+          // Add edges
+          data.edges.forEach((e, i) => {
+            if (!g.hasEdge(e.source, e.target)) {
+              g.addEdgeWithKey(e.key || "e" + i, e.source, e.target, {
+                size: Number(e.attributes?.weight) || 1,
+                color: e.attributes?.color || "#ccc",
+                label: e.attributes?.relation || ""
+              });
+            }
+          });
+
+          const container = document.getElementById("container");
+          const renderer = new Sigma(g, container, { allowInvalidContainer: true });
+
+          // ForceAtlas2 continuous
+          let running = true;
+          const settings = { slowDown: 50 };
+
+          function loop() {
+            if (running) {
+              forceAtlas2.assign(g, { iterations: 1, settings });
+            }
+            requestAnimationFrame(loop);
+          }
+          requestAnimationFrame(loop);
+
+          // Pause/Resume
+          const btn = document.getElementById("toggle");
+          btn.onclick = () => {
+            running = !running;
+            btn.textContent = running ? "⏸ Pause layout" : "▶ Resume layout";
+          };
+
+          // Filtering, but “Project” always active
+          let activeTypes = new Set(["Country","Project","Addressee","Organization","Action Domain"]);
+
+          document.querySelectorAll("#filters input").forEach(cb => {
+            // disable Project checkbox
+            if (cb.value === "Project") {
+              cb.disabled = true;
+            }
+            cb.addEventListener("change", () => {
+              if (cb.checked) activeTypes.add(cb.value);
+              else activeTypes.delete(cb.value);
+              renderer.refresh();
+            });
+          });
+
+          renderer.setSetting("nodeReducer", (node, data) => {
+            const res = { ...data };
+            if (!activeTypes.has(data.metaType)) {
+              res.hidden = true;
+            }
+            return res;
+          });
+
+          renderer.setSetting("edgeReducer", (edge, data) => {
+            const res = { ...data };
+            const src = g.source(edge);
+            const tgt = g.target(edge);
+            const srcType = g.getNodeAttribute(src, "metaType");
+            const tgtType = g.getNodeAttribute(tgt, "metaType");
+            if (!activeTypes.has(srcType) || !activeTypes.has(tgtType)) {
+              res.hidden = true;
+            }
+            return res;
           });
         });
-
-        // Add edges
-        data.edges.forEach(e => {
-          g.addEdge(e.source, e.target, e.attributes || {});
-        });
-
-        // Sigma renderer
-        const renderer = new Sigma(g, container);
-
-        // ForceAtlas2
-        const fa2 = new graphologyLayoutForceAtlas2.ForceAtlas2Supervisor(g, {
-  settings: { slowDown: 10 }
-});
-
-        fa2.start();
-
-        let running = true;
-        document.getElementById("toggleLayout").onclick = () => {
-          if (running) {
-            fa2.stop();
-            running = false;
-            document.getElementById("toggleLayout").innerText = "▶ Resume layout";
-          } else {
-            fa2.start();
-            running = true;
-            document.getElementById("toggleLayout").innerText = "⏸ Pause layout";
-          }
-        };
-
-        // Node reducer (filtering)
-        renderer.setSetting("nodeReducer", (node, data) => {
-          const res = { ...data };
-          if (res.metaType !== "Project" && !activeTypes.has(res.metaType)) {
-            res.hidden = true;
-          }
-          return res;
-        });
-
-        // Edge reducer (filtering)
-        renderer.setSetting("edgeReducer", (edge, data) => {
-          const res = { ...data };
-          const srcType = g.getNodeAttribute(g.source(edge), "metaType");
-          const tgtType = g.getNodeAttribute(g.target(edge), "metaType");
-          if ((srcType !== "Project" && !activeTypes.has(srcType)) ||
-              (tgtType !== "Project" && !activeTypes.has(tgtType))) {
-            res.hidden = true;
-          }
-          return res;
-        });
-
-        // Filter checkboxes
-        document.querySelectorAll('#controls input[type=checkbox]').forEach(cb => {
-          cb.addEventListener("change", e => {
-            const val = e.target.value;
-            if (e.target.checked) activeTypes.add(val);
-            else activeTypes.delete(val);
-            renderer.refresh();
-          });
-        });
-      });
+    });
   </script>
 </body>
 </html>
