@@ -16,7 +16,7 @@
       height: 100vh;
       background: #ffffff;
     }
-    #controls, #filters {
+    #controls, #filters, #yearControl {
       position: fixed;
       z-index: 9999;
       background: rgba(255,255,255,0.95);
@@ -28,14 +28,17 @@
     }
     #controls { top: 10px; left: 10px; }
     #filters { top: 60px; left: 10px; }
+    #yearControl { top: 220px; left: 10px; width: 200px; }
     label { display: block; margin: 2px 0; }
     input[type="checkbox"] { margin-right: 6px; }
+    input[type="range"] { width: 100%; }
     button { margin: 2px 0; padding: 6px 10px; cursor: pointer; }
   </style>
 </head>
 <body>
   <div id="controls">
     <button id="toggle">⏸ Pause layout</button>
+    <button id="noverlap">✨ De-overlap</button>
   </div>
 
   <div id="filters">
@@ -47,67 +50,18 @@
     <label><input type="checkbox" value="Action Domain" checked> Action Domain</label>
   </div>
 
-  <div id="container"></div>
-
-  <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Interactive Gephi Diagram</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-    }
-    #container {
-      width: 100vw;
-      height: 100vh;
-      background: #ffffff;
-    }
-    #controls, #filters {
-      position: fixed;
-      z-index: 9999;
-      background: rgba(255,255,255,0.95);
-      padding: 8px 12px;
-      border-radius: 6px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      font-family: sans-serif;
-      font-size: 14px;
-    }
-    #controls { top: 10px; left: 10px; }
-    #filters { top: 60px; left: 10px; }
-    label { display: block; margin: 2px 0; }
-    input[type="checkbox"] { margin-right: 6px; }
-    button { margin: 2px 0; padding: 6px 10px; cursor: pointer; }
-  </style>
-</head>
-<body>
-  <div id="controls">
-  <button id="toggle">⏸ Pause layout</button>
-  <button id="noverlap">✨ De-overlap</button>
-</div>
-
-
-  <div id="filters">
-    <strong>Filter by type:</strong><br>
-    <label><input type="checkbox" value="Country" checked> Country</label>
-    <label><input type="checkbox" value="Project" checked disabled> Project</label>
-    <label><input type="checkbox" value="Addressee" checked> Addressee</label>
-    <label><input type="checkbox" value="Organization" checked> Organization</label>
-    <label><input type="checkbox" value="Action Domain" checked> Action Domain</label>
+  <div id="yearControl">
+    <strong>Year:</strong> <span id="yearValue">2015</span>
+    <input type="range" id="yearSlider" min="2015" max="2025" value="2015" step="1">
   </div>
 
   <div id="container"></div>
 
   <script type="module">
-  import Sigma from "https://cdn.jsdelivr.net/npm/sigma@3.0.2/+esm";
-  import Graph from "https://cdn.jsdelivr.net/npm/graphology@0.25.4/+esm";
-  import forceAtlas2 from "https://cdn.jsdelivr.net/npm/graphology-layout-forceatlas2/+esm";
-  import noverlap from "https://cdn.jsdelivr.net/npm/graphology-layout-noverlap/+esm";
-
+    import Sigma from "https://cdn.jsdelivr.net/npm/sigma@3.0.2/+esm";
+    import Graph from "https://cdn.jsdelivr.net/npm/graphology@0.25.4/+esm";
+    import forceAtlas2 from "https://cdn.jsdelivr.net/npm/graphology-layout-forceatlas2/+esm";
+    import noverlap from "https://cdn.jsdelivr.net/npm/graphology-layout-noverlap/+esm";
 
     document.addEventListener("DOMContentLoaded", () => {
       fetch("PrjAdd-2509.json")
@@ -115,16 +69,16 @@
         .then(data => {
           const g = new Graph();
 
-          // Color map per metaType
+          // Color map
           const colorMap = {
             Country: "rgb(102, 255, 255)",
-  Project: "rgb(255, 102, 102)",
-  Organization: "rgb(102, 102, 255)",
-  Addressee: "rgb(255, 255, 102)",
-  "Action Domain": "rgb(255, 102, 255)"
+            Project: "rgb(255, 102, 102)",
+            Organization: "rgb(102, 102, 255)",
+            Addressee: "rgb(255, 255, 102)",
+            "Action Domain": "rgb(255, 102, 255)"
           };
 
-          // Add nodes with mapped color
+          // Add nodes
           data.nodes.forEach(n => {
             const m = n.attributes.metaType || "";
             const col = colorMap[m] || "#999999";
@@ -135,7 +89,8 @@
               size: Number(n.attributes.size),
               color: col,
               metaType: m,
-              renderType: "default"
+              startYear: n.attributes.startYear || null,
+              endYear: n.attributes.endYear || null
             });
           });
 
@@ -151,121 +106,11 @@
           });
 
           const container = document.getElementById("container");
-          const renderer = new Sigma(g, container, { allowInvalidContainer: true });
+          const renderer = new Sigma(g, container);
 
           // ForceAtlas2 continuous
           let running = true;
           const settings = { slowDown: 50 };
-
-          function loop() {
-            if (running) {
-              forceAtlas2.assign(g, { iterations: 1, settings });
-            }
-            requestAnimationFrame(loop);
-          }
-          requestAnimationFrame(loop);
-
-          // Pause/Resume
-          const btn = document.getElementById("toggle");
-          btn.onclick = () => {
-            running = !running;
-            btn.textContent = running ? "⏸ Pause layout" : "▶ Resume layout";
-          };
-// De-overlap once
-const noBtn = document.getElementById("noverlap");
-noBtn.onclick = () => {
-  noverlap.assign(g, { margin: 5, ratio: 1.0 });
-  renderer.refresh();
-};
-
-          // Filtering, but “Project” always active
-          let activeTypes = new Set(["Country","Project","Addressee","Organization","Action Domain"]);
-
-          document.querySelectorAll("#filters input").forEach(cb => {
-            // disable Project checkbox
-            if (cb.value === "Project") {
-              cb.disabled = true;
-            }
-            cb.addEventListener("change", () => {
-              if (cb.checked) activeTypes.add(cb.value);
-              else activeTypes.delete(cb.value);
-              renderer.refresh();
-            });
-          });
-
-          renderer.setSetting("nodeReducer", (node, data) => {
-            const res = { ...data };
-            if (!activeTypes.has(data.metaType)) {
-              res.hidden = true;
-            }
-            return res;
-          });
-
-          renderer.setSetting("edgeReducer", (edge, data) => {
-            const res = { ...data };
-            const src = g.source(edge);
-            const tgt = g.target(edge);
-            const srcType = g.getNodeAttribute(src, "metaType");
-            const tgtType = g.getNodeAttribute(tgt, "metaType");
-            if (!activeTypes.has(srcType) || !activeTypes.has(tgtType)) {
-              res.hidden = true;
-            }
-            return res;
-          });
-        });
-    });
-  </script>
-</body>
-</html>
-
-    document.addEventListener("DOMContentLoaded", () => {
-      fetch("PrjAdd-2509.json")
-        .then(r => r.json())
-        .then(data => {
-          const g = new Graph();
-
-          // Color map per metaType
-          const colorMap = {
-            Country: "rgb(102, 255, 255)",
-  Project: "rgb(255, 102, 102)",
-  Organization: "rgb(102, 102, 255)",
-  Addressee: "rgb(255, 255, 102)",
-  "Action Domain": "rgb(255, 102, 255)"
-          };
-
-          // Add nodes with mapped color
-          data.nodes.forEach(n => {
-            const m = n.attributes.metaType || "";
-            const col = colorMap[m] || "#999999";
-            g.addNode(n.key, {
-              label: n.attributes.label,
-              x: Number(n.attributes.x),
-              y: Number(n.attributes.y),
-              size: Number(n.attributes.size),
-              color: col,
-              metaType: m,
-              renderType: "default"
-            });
-          });
-
-          // Add edges
-          data.edges.forEach((e, i) => {
-            if (!g.hasEdge(e.source, e.target)) {
-              g.addEdgeWithKey(e.key || "e" + i, e.source, e.target, {
-                size: Number(e.attributes?.weight) || 1,
-                color: e.attributes?.color || "#ccc",
-                label: e.attributes?.relation || ""
-              });
-            }
-          });
-
-          const container = document.getElementById("container");
-          const renderer = new Sigma(g, container, { allowInvalidContainer: true });
-
-          // ForceAtlas2 continuous
-          let running = true;
-          const settings = { slowDown: 50 };
-
           function loop() {
             if (running) {
               forceAtlas2.assign(g, { iterations: 1, settings });
@@ -281,14 +126,17 @@ noBtn.onclick = () => {
             btn.textContent = running ? "⏸ Pause layout" : "▶ Resume layout";
           };
 
-          // Filtering, but “Project” always active
-          let activeTypes = new Set(["Country","Project","Addressee","Organization","Action Domain"]);
+          // De-overlap
+          const noBtn = document.getElementById("noverlap");
+          noBtn.onclick = () => {
+            noverlap.assign(g, { margin: 5, ratio: 1.0 });
+            renderer.refresh();
+          };
 
+          // Filtering
+          let activeTypes = new Set(["Country","Project","Addressee","Organization","Action Domain"]);
           document.querySelectorAll("#filters input").forEach(cb => {
-            // disable Project checkbox
-            if (cb.value === "Project") {
-              cb.disabled = true;
-            }
+            if (cb.value === "Project") cb.disabled = true;
             cb.addEventListener("change", () => {
               if (cb.checked) activeTypes.add(cb.value);
               else activeTypes.delete(cb.value);
@@ -296,11 +144,31 @@ noBtn.onclick = () => {
             });
           });
 
+          // Year slider
+          let currentYear = 2015;
+          const yearSlider = document.getElementById("yearSlider");
+          const yearValue = document.getElementById("yearValue");
+
+          yearSlider.addEventListener("input", () => {
+            currentYear = parseInt(yearSlider.value, 10);
+            yearValue.textContent = currentYear;
+            renderer.refresh();
+          });
+
+          // Reducers
           renderer.setSetting("nodeReducer", (node, data) => {
             const res = { ...data };
+
             if (!activeTypes.has(data.metaType)) {
               res.hidden = true;
             }
+
+            if (data.metaType === "Project") {
+              if (!(data.startYear <= currentYear && currentYear <= data.endYear)) {
+                res.hidden = true;
+              }
+            }
+
             return res;
           });
 
@@ -310,9 +178,22 @@ noBtn.onclick = () => {
             const tgt = g.target(edge);
             const srcType = g.getNodeAttribute(src, "metaType");
             const tgtType = g.getNodeAttribute(tgt, "metaType");
+
             if (!activeTypes.has(srcType) || !activeTypes.has(tgtType)) {
               res.hidden = true;
             }
+
+            if (srcType === "Project") {
+              const sY = g.getNodeAttribute(src, "startYear");
+              const eY = g.getNodeAttribute(src, "endYear");
+              if (!(sY <= currentYear && currentYear <= eY)) res.hidden = true;
+            }
+            if (tgtType === "Project") {
+              const sY = g.getNodeAttribute(tgt, "startYear");
+              const eY = g.getNodeAttribute(tgt, "endYear");
+              if (!(sY <= currentYear && currentYear <= eY)) res.hidden = true;
+            }
+
             return res;
           });
         });
