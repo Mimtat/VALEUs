@@ -94,16 +94,26 @@
             });
           });
 
-          // Add edges
-          data.edges.forEach((e, i) => {
-            if (!g.hasEdge(e.source, e.target)) {
-              g.addEdgeWithKey(e.key || "e" + i, e.source, e.target, {
-                size: Number(e.attributes?.weight) || 1,
-                color: e.attributes?.color || "#ccc",
-                label: e.attributes?.relation || ""
-              });
-            }
-          });
+          // ➕ Edges
+data.edges.forEach((e, i) => {
+  const edgeKey = e.key || "e" + i;
+  const edgeAttrs = {
+    size: Number(e.attributes?.weight) || 1,
+    color: e.attributes?.color || "#ccc",
+    label: e.attributes?.relation || ""
+  };
+
+  if (e.undirected) {
+    if (!g.hasUndirectedEdge(e.source, e.target)) {
+      g.addUndirectedEdgeWithKey(edgeKey, e.source, e.target, edgeAttrs);
+    }
+  } else {
+    if (!g.hasEdge(e.source, e.target)) {
+      g.addEdgeWithKey(edgeKey, e.source, e.target, edgeAttrs);
+    }
+  }
+});
+
 
           const container = document.getElementById("container");
           const renderer = new Sigma(g, container);
