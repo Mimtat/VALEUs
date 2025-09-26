@@ -29,7 +29,9 @@
         "size": 17.5,
         "color": "#cccccc",
         "metaType": "Project",
-        "renderType": "default"
+        "renderType": "default",
+        "startYear": 2015,
+        "endYear": 2020
       }
     },
     {
@@ -41,7 +43,9 @@
         "size": 27.0,
         "color": "#cccccc",
         "metaType": "Project",
-        "renderType": "default"
+        "renderType": "default",
+        "startYear": 2015,
+        "endYear": 2020
       }
     },
     {
@@ -53,7 +57,9 @@
         "size": 17.5,
         "color": "#cccccc",
         "metaType": "Project",
-        "renderType": "default"
+        "renderType": "default",
+        "startYear": 2020,
+        "endYear": 2025
       }
     },
     {
@@ -221,7 +227,9 @@
         "size": 19.639393,
         "color": "#cccccc",
         "metaType": "Project",
-        "renderType": "default"
+        "renderType": "default",
+        "startYear": 2015,
+        "endYear": 2020
       }
     },
     {
@@ -245,7 +253,9 @@
         "size": 17.522928,
         "color": "#cccccc",
         "metaType": "Project",
-        "renderType": "default"
+        "renderType": "default",
+        "startYear": 2020,
+        "endYear": 2025
       }
     },
     {
@@ -269,7 +279,9 @@
         "size": 19.639393,
         "color": "#cccccc",
         "metaType": "Project",
-        "renderType": "default"
+        "renderType": "default",
+        "startYear": 2020,
+        "endYear": 2025
       }
     },
     {
@@ -341,7 +353,9 @@
         "size": 18.232979,
         "color": "#cccccc",
         "metaType": "Project",
-        "renderType": "default"
+        "renderType": "default",
+        "startYear": 2020,
+        "endYear": 2025
       }
     },
     {
@@ -365,7 +379,9 @@
         "size": 17.694323,
         "color": "#cccccc",
         "metaType": "Project",
-        "renderType": "default"
+        "renderType": "default",
+        "startYear": 2020,
+        "endYear": 2025
       }
     },
     {
@@ -389,7 +405,9 @@
         "size": 27.0,
         "color": "#cccccc",
         "metaType": "Project",
-        "renderType": "default"
+        "renderType": "default",
+        "startYear": 2020,
+        "endYear": 2025
       }
     },
     {
@@ -473,7 +491,9 @@
         "size": 17.305676,
         "color": "#cccccc",
         "metaType": "Project",
-        "renderType": "default"
+        "renderType": "default",
+        "startYear": 2020,
+        "endYear": 2025
       }
     },
     {
@@ -509,7 +529,9 @@
         "size": 17.522928,
         "color": "#cccccc",
         "metaType": "Project",
-        "renderType": "default"
+        "renderType": "default",
+        "startYear": 2020,
+        "endYear": 2025
       }
     },
     {
