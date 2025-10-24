@@ -48,6 +48,7 @@
     <label><input type="checkbox" value="Addressee" checked> Addressee</label>
     <label><input type="checkbox" value="Organization" checked> Organization</label>
     <label><input type="checkbox" value="Action Domain" checked> Action Domain</label>
+    <label><input type="checkbox" value="Kind of Action" checked> Kind of Action</label>
   </div>
 
   <div id="yearControl">
@@ -71,28 +72,39 @@
 
           // Color map
           const colorMap = {
-            Country: "rgb(102, 255, 255)",
-            Project: "rgb(255, 102, 102)",
-            Organization: "rgb(102, 102, 255)",
-            Addressee: "rgb(255, 255, 102)",
-            "Action Domain": "rgb(255, 102, 255)"
-          };
+  Country: "rgb(102, 255, 255)",
+  Project: "rgb(255, 102, 102)",
+  Organization: "rgb(102, 102, 255)",
+  Addressee: "rgb(255, 255, 102)",
+  "Action Domain": "rgb(255, 102, 255)",
+  "Kind of Action": "rgb(102, 255, 102)" // ✅ New unified color
+};
 
           // Add nodes
-          data.nodes.forEach(n => {
-            const m = n.attributes.metaType || "";
-            const col = colorMap[m] || "#999999";
-            g.addNode(n.key, {
-              label: n.attributes.label,
-              x: Number(n.attributes.x),
-              y: Number(n.attributes.y),
-              size: Number(n.attributes.size),
-              color: col,
-              metaType: m,
-              startYear: n.attributes.startYear || null,
-              endYear: n.attributes.endYear || null
-            });
-          });
+          const actionTypes = new Set([
+  "Research", "Monitoring", "Capacity Building", "Advocacy",
+  "Protest", "Education/Literacy", "engaged art"
+]);
+
+data.nodes.forEach(n => {
+  let m = n.attributes.metaType || "";
+  if (actionTypes.has(m)) {
+    m = "Kind of Action"; // ✅ normalization
+  }
+
+  const col = colorMap[m] || "#999999";
+
+  g.addNode(n.key, {
+    label: n.attributes.label,
+    x: Number(n.attributes.x),
+    y: Number(n.attributes.y),
+    size: Number(n.attributes.size),
+    color: col,
+    metaType: m,
+    startYear: n.attributes.startYear || null,
+    endYear: n.attributes.endYear || null
+  });
+});
 
           // ➕ Edges
 data.edges.forEach((e, i) => {
