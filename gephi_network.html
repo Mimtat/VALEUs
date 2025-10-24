@@ -52,8 +52,8 @@
   </div>
 
   <div id="yearControl">
-    <strong>Year:</strong> <span id="yearValue">2015</span>
-    <input type="range" id="yearSlider" min="2015" max="2025" value="2015" step="1">
+    <strong>Year:</strong> <span id="yearValue">2010</span>
+    <input type="range" id="yearSlider" min="2010" max="2025" value="2010" step="1">
   </div>
 
   <div id="container"></div>
@@ -156,7 +156,7 @@ data.edges.forEach((e, i) => {
           };
 
           // Filtering
-          let activeTypes = new Set(["Country","Project","Addressee","Organization","Action Domain"]);
+          let activeTypes = new Set(["Country","Project","Addressee","Organization","Action Domain","Kind of Action"]);
           document.querySelectorAll("#filters input").forEach(cb => {
             if (cb.value === "Project") cb.disabled = true;
             cb.addEventListener("change", () => {
