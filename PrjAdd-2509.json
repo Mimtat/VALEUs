@@ -5,31 +5,27 @@
   "options": {
     "multi": false,
     "allowSelfLoops": true,
-    "type": "mixed"
+    "type": "directed"
   },
   "nodes": [
     {
       "key": "VoxUkraine",
       "attributes": {
         "label": "VoxUkraine",
-        "x": -448.65427,
-        "y": -532.09216,
-        "size": 16.767021,
-        "color": "#ccffff",
-        "metaType": "Organization",
-        "renderType": "default"
+        "x": -445.60507,
+        "y": 212.54031,
+        "size": 16.785715,
+        "color": "#999999"
       }
     },
     {
       "key": "GenderRecovery",
       "attributes": {
-        "label": "Gender Balance in Ukraine's Recovery",
-        "x": 99.48844,
-        "y": -338.8111,
-        "size": 17.5,
-        "color": "#cccccc",
-        "metaType": "Project",
-        "renderType": "default",
+        "label": "GenderRecovery",
+        "x": -286.9544,
+        "y": 211.06754,
+        "size": 18.75,
+        "color": "#999999",
         "startYear": 2015,
         "endYear": 2020
       }
@@ -37,13 +33,11 @@
     {
       "key": "StateDigital",
       "attributes": {
-        "label": "State Digital Transformation 2019 2024",
-        "x": -335.4323,
-        "y": -360.86703,
-        "size": 27.0,
-        "color": "#cccccc",
-        "metaType": "Project",
-        "renderType": "default",
+        "label": "StateDigital",
+        "x": -566.40894,
+        "y": 140.43312,
+        "size": 19.928572,
+        "color": "#999999",
         "startYear": 2015,
         "endYear": 2020
       }
@@ -51,13 +45,11 @@
     {
       "key": "AccessionYear",
       "attributes": {
-        "label": "A Year Since EU Accession Negotiations Began",
-        "x": -155.30437,
-        "y": -13.7562065,
-        "size": 17.5,
-        "color": "#cccccc",
-        "metaType": "Project",
-        "renderType": "default",
+        "label": "AccessionYear",
+        "x": -391.30838,
+        "y": 243.29936,
+        "size": 17.964285,
+        "color": "#999999",
         "startYear": 2020,
         "endYear": 2025
       }
@@ -66,194 +58,242 @@
       "key": "Ukraine",
       "attributes": {
         "label": "Ukraine",
-        "x": 0.019688964,
-        "y": -0.033879075,
-        "size": 18.232979,
-        "color": "#cc0033",
-        "metaType": "Country",
-        "renderType": "default"
-      }
-    },
-    {
-      "key": "Estonia",
-      "attributes": {
-        "label": "Estonia",
-        "x": -545.6339,
-        "y": -391.6865,
-        "size": 8.0,
-        "color": "#cc0033",
-        "metaType": "Country",
-        "renderType": "default"
-      }
-    },
-    {
-      "key": "Sweden",
-      "attributes": {
-        "label": "Sweden",
-        "x": 473.8389,
-        "y": -601.10547,
-        "size": 15.360605,
-        "color": "#cc0033",
-        "metaType": "Country",
-        "renderType": "default"
-      }
-    },
-    {
-      "key": "Switzerland",
-      "attributes": {
-        "label": "Switzerland",
-        "x": -443.8508,
-        "y": -343.01135,
-        "size": 8.0,
-        "color": "#cc0033",
-        "metaType": "Country",
-        "renderType": "default"
-      }
-    },
-    {
-      "key": "EUinstitutions",
-      "attributes": {
-        "label": "EU institutions",
-        "x": -0.66007805,
-        "y": 522.62,
-        "size": 17.522928,
-        "color": "#0099ff",
-        "metaType": "Addressee",
-        "renderType": "default"
+        "x": -394.1842,
+        "y": 393.75928,
+        "size": 19.142857,
+        "color": "#999999"
       }
     },
     {
       "key": "Citizens",
       "attributes": {
         "label": "Citizens",
-        "x": 396.06644,
-        "y": -387.52487,
-        "size": 17.305676,
-        "color": "#0099ff",
-        "metaType": "Addressee",
-        "renderType": "default"
+        "x": 138.86699,
+        "y": 3.2605617,
+        "size": 25.035713,
+        "color": "#999999"
       }
     },
     {
       "key": "NationalInstitutions",
       "attributes": {
-        "label": "National political institutions",
-        "x": 267.04538,
-        "y": -189.28079,
-        "size": 19.639393,
-        "color": "#0099ff",
-        "metaType": "Addressee",
-        "renderType": "default"
+        "label": "NationalInstitutions",
+        "x": 53.38238,
+        "y": 304.2717,
+        "size": 27.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Research",
+      "attributes": {
+        "label": "Research",
+        "x": -0.00258716,
+        "y": 0.0040627113,
+        "size": 25.428572,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Monitoring",
+      "attributes": {
+        "label": "Monitoring",
+        "x": -136.44603,
+        "y": 126.04181,
+        "size": 22.678572,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Estonia",
+      "attributes": {
+        "label": "Estonia",
+        "x": -816.2387,
+        "y": 12.873643,
+        "size": 16.392857,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Sweden",
+      "attributes": {
+        "label": "Sweden",
+        "x": -672.9162,
+        "y": 273.9487,
+        "size": 16.392857,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Switzerland",
+      "attributes": {
+        "label": "Switzerland",
+        "x": -726.2739,
+        "y": 159.0129,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "EUinstitutions",
+      "attributes": {
+        "label": "EUinstitutions",
+        "x": -382.45276,
+        "y": 143.39377,
+        "size": 20.714287,
+        "color": "#999999"
       }
     },
     {
       "key": "Media",
       "attributes": {
         "label": "Media",
-        "x": -188.26706,
-        "y": -489.9523,
-        "size": 16.767021,
-        "color": "#0099ff",
-        "metaType": "Addressee",
-        "renderType": "default"
+        "x": -394.53656,
+        "y": 0.634056,
+        "size": 21.107143,
+        "color": "#999999"
       }
     },
     {
       "key": "Democracy",
       "attributes": {
         "label": "Democracy",
-        "x": 72.57064,
-        "y": -118.081795,
-        "size": 17.5,
-        "color": "#00cccc",
-        "metaType": "Action Domain",
-        "renderType": "default"
+        "x": -262.1696,
+        "y": -61.36371,
+        "size": 20.321428,
+        "color": "#999999"
       }
     },
     {
       "key": "Human/Fundamental Rights",
       "attributes": {
         "label": "Human/Fundamental Rights",
-        "x": 52.439304,
-        "y": 261.2078,
-        "size": 17.694323,
-        "color": "#00cccc",
-        "metaType": "Action Domain",
-        "renderType": "default"
+        "x": -180.24619,
+        "y": 3.238436,
+        "size": 21.5,
+        "color": "#999999"
       }
     },
     {
       "key": "Energy/Climate/Sustainability",
       "attributes": {
         "label": "Energy/Climate/Sustainability",
-        "x": -218.54352,
-        "y": -320.2529,
-        "size": 15.360605,
-        "color": "#00cccc",
-        "metaType": "Action Domain",
-        "renderType": "default"
+        "x": 366.0159,
+        "y": -340.43118,
+        "size": 18.75,
+        "color": "#999999"
       }
     },
     {
       "key": "Digital Technology",
       "attributes": {
         "label": "Digital Technology",
-        "x": -571.6294,
-        "y": -274.2094,
-        "size": 8.0,
-        "color": "#00cccc",
-        "metaType": "Action Domain",
-        "renderType": "default"
+        "x": -574.2027,
+        "y": -19.800745,
+        "size": 16.785715,
+        "color": "#999999"
       }
     },
     {
       "key": "Europe without Barriers",
       "attributes": {
         "label": "Europe without Barriers",
-        "x": 612.0749,
-        "y": 65.55553,
-        "size": 17.305676,
-        "color": "#ccffff",
-        "metaType": "Organization",
-        "renderType": "default"
+        "x": -165.87915,
+        "y": 410.09122,
+        "size": 17.178572,
+        "color": "#999999"
       }
     },
     {
       "key": "MediaCoverage V4",
       "attributes": {
         "label": "MediaCoverage V4",
-        "x": 288.2671,
-        "y": 428.2627,
-        "size": 19.639393,
-        "color": "#cccccc",
-        "metaType": "Project",
-        "renderType": "default",
+        "x": -220.2899,
+        "y": 539.7572,
+        "size": 20.714287,
+        "color": "#999999",
         "startYear": 2015,
         "endYear": 2020
+      }
+    },
+    {
+      "key": "Poland",
+      "attributes": {
+        "label": "Poland",
+        "x": -132.76718,
+        "y": 496.11856,
+        "size": 16.785715,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Slovakia",
+      "attributes": {
+        "label": "Slovakia",
+        "x": -447.3743,
+        "y": 692.45996,
+        "size": 16.392857,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Hungary",
+      "attributes": {
+        "label": "Hungary",
+        "x": -247.85808,
+        "y": 713.2483,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Czech Republic",
+      "attributes": {
+        "label": "Czech Republic",
+        "x": -252.75055,
+        "y": 632.09973,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Capacity Building",
+      "attributes": {
+        "label": "Capacity Building",
+        "x": -183.07896,
+        "y": -295.45703,
+        "size": 22.285715,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "EU institutions",
+      "attributes": {
+        "label": "EU institutions",
+        "x": -106.81826,
+        "y": -200.222,
+        "size": 20.321428,
+        "color": "#999999"
       }
     },
     {
       "key": "Trade/economy",
       "attributes": {
         "label": "Trade/economy",
-        "x": 421.08234,
-        "y": 172.23152,
-        "size": 17.305676,
-        "color": "#00cccc",
-        "metaType": "Action Domain",
-        "renderType": "default"
+        "x": 21.297775,
+        "y": 162.632,
+        "size": 18.75,
+        "color": "#999999"
       }
     },
     {
       "key": "SafeBorder",
       "attributes": {
         "label": "SafeBorder",
-        "x": 557.08417,
-        "y": 261.06088,
-        "size": 17.522928,
-        "color": "#cccccc",
-        "metaType": "Project",
-        "renderType": "default",
+        "x": -83.13167,
+        "y": 398.35477,
+        "size": 19.142857,
+        "color": "#999999",
         "startYear": 2020,
         "endYear": 2025
       }
@@ -262,150 +302,116 @@
       "key": "Migration",
       "attributes": {
         "label": "Migration",
-        "x": 726.027,
-        "y": 342.88202,
-        "size": 8.0,
-        "color": "#00cccc",
-        "metaType": "Action Domain",
-        "renderType": "default"
+        "x": 221.02992,
+        "y": 433.92697,
+        "size": 17.178572,
+        "color": "#999999"
       }
     },
     {
       "key": "Bordermng",
       "attributes": {
         "label": "Bordermng",
-        "x": 722.78687,
-        "y": -210.37083,
-        "size": 19.639393,
-        "color": "#cccccc",
-        "metaType": "Project",
-        "renderType": "default",
+        "x": -118.21483,
+        "y": 292.3563,
+        "size": 20.321428,
+        "color": "#999999",
         "startYear": 2020,
         "endYear": 2025
-      }
-    },
-    {
-      "key": "Poland",
-      "attributes": {
-        "label": "Poland",
-        "x": 568.85254,
-        "y": 406.96945,
-        "size": 16.767021,
-        "color": "#cc0033",
-        "metaType": "Country",
-        "renderType": "default"
       }
     },
     {
       "key": "Germany",
       "attributes": {
         "label": "Germany",
-        "x": 956.9196,
-        "y": -333.11298,
-        "size": 8.0,
-        "color": "#cc0033",
-        "metaType": "Country",
-        "renderType": "default"
-      }
-    },
-    {
-      "key": "Hungary",
-      "attributes": {
-        "label": "Hungary",
-        "x": 286.9327,
-        "y": 639.184,
-        "size": 8.0,
-        "color": "#cc0033",
-        "metaType": "Country",
-        "renderType": "default"
-      }
-    },
-    {
-      "key": "Slovakia",
-      "attributes": {
-        "label": "Slovakia",
-        "x": -130.17426,
-        "y": 431.39294,
-        "size": 15.360605,
-        "color": "#cc0033",
-        "metaType": "Country",
-        "renderType": "default"
+        "x": 597.2122,
+        "y": -21.941813,
+        "size": 17.178572,
+        "color": "#999999"
       }
     },
     {
       "key": "The \"New Europe Center\"",
       "attributes": {
         "label": "The \"New Europe Center\"",
-        "x": 72.57306,
-        "y": 115.543304,
-        "size": 16.767021,
-        "color": "#ccffff",
-        "metaType": "Organization",
-        "renderType": "default"
+        "x": -280.6091,
+        "y": 446.7897,
+        "size": 16.785715,
+        "color": "#999999"
       }
     },
     {
       "key": "The Euromap: profiles of regions",
       "attributes": {
         "label": "The Euromap: profiles of regions",
-        "x": 274.8406,
-        "y": 43.455048,
-        "size": 18.232979,
-        "color": "#cccccc",
-        "metaType": "Project",
-        "renderType": "default",
+        "x": -239.87492,
+        "y": 336.7319,
+        "size": 20.321428,
+        "color": "#999999",
         "startYear": 2020,
         "endYear": 2025
       }
     },
     {
-      "key": "Conflict/War",
+      "key": "Advocacy",
       "attributes": {
-        "label": "Conflict/War",
-        "x": -206.51678,
-        "y": -172.94589,
-        "size": 8.0,
-        "color": "#00cccc",
-        "metaType": "Action Domain",
-        "renderType": "default"
+        "label": "Advocacy",
+        "x": 42.798325,
+        "y": -192.85693,
+        "size": 25.035713,
+        "color": "#999999"
       }
     },
     {
       "key": "RespaJapon",
       "attributes": {
         "label": "RespaJapon",
-        "x": -91.36577,
-        "y": -211.09709,
-        "size": 17.694323,
-        "color": "#cccccc",
-        "metaType": "Project",
-        "renderType": "default",
+        "x": 21.301918,
+        "y": 495.68134,
+        "size": 19.535713,
+        "color": "#999999",
         "startYear": 2020,
         "endYear": 2025
       }
     },
     {
-      "key": "Japon",
+      "key": "Japan",
       "attributes": {
-        "label": "Japon",
-        "x": -133.34436,
-        "y": -120.38477,
-        "size": 8.0,
-        "color": "#cc0033",
-        "metaType": "Country",
-        "renderType": "default"
+        "label": "Japan",
+        "x": 196.95567,
+        "y": 617.4216,
+        "size": 16.392857,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Conflict/War",
+      "attributes": {
+        "label": "Conflict/War",
+        "x": 484.7514,
+        "y": 297.57327,
+        "size": 17.178572,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "advocacy",
+      "attributes": {
+        "label": "advocacy",
+        "x": 2.5640063,
+        "y": 626.64624,
+        "size": 16.785715,
+        "color": "#999999"
       }
     },
     {
       "key": "EUAXF",
       "attributes": {
         "label": "EUAXF",
-        "x": -234.19751,
-        "y": 303.29712,
-        "size": 27.0,
-        "color": "#cccccc",
-        "metaType": "Project",
-        "renderType": "default",
+        "x": -495.15643,
+        "y": 495.36908,
+        "size": 20.321428,
+        "color": "#999999",
         "startYear": 2020,
         "endYear": 2025
       }
@@ -414,220 +420,892 @@
       "key": "Moldova",
       "attributes": {
         "label": "Moldova",
-        "x": -345.63776,
-        "y": 312.9394,
-        "size": 8.0,
-        "color": "#cc0033",
-        "metaType": "Country",
-        "renderType": "default"
+        "x": -592.6604,
+        "y": 514.0715,
+        "size": 16.0,
+        "color": "#999999"
       }
     },
     {
       "key": "Romania",
       "attributes": {
         "label": "Romania",
-        "x": -322.13846,
-        "y": 409.65884,
-        "size": 8.0,
-        "color": "#cc0033",
-        "metaType": "Country",
-        "renderType": "default"
+        "x": -605.4648,
+        "y": 590.3082,
+        "size": 16.0,
+        "color": "#999999"
       }
     },
     {
       "key": "Slovenia",
       "attributes": {
         "label": "Slovenia",
-        "x": -437.55008,
-        "y": 255.80621,
-        "size": 8.0,
-        "color": "#cc0033",
-        "metaType": "Country",
-        "renderType": "default"
+        "x": -878.8552,
+        "y": 418.97415,
+        "size": 16.392857,
+        "color": "#999999"
       }
     },
     {
       "key": "Bulgaria",
       "attributes": {
         "label": "Bulgaria",
-        "x": -437.1365,
-        "y": 361.63007,
-        "size": 8.0,
-        "color": "#cc0033",
-        "metaType": "Country",
-        "renderType": "default"
+        "x": -527.1694,
+        "y": 572.75275,
+        "size": 16.0,
+        "color": "#999999"
       }
     },
     {
       "key": "Kazakhstan International Bureau for Human Rights and Rule of Law",
       "attributes": {
         "label": "Kazakhstan International Bureau for Human Rights and Rule of Law",
-        "x": -271.57117,
-        "y": 879.0744,
-        "size": 8.0,
-        "color": "#ccffff",
-        "metaType": "Organization",
-        "renderType": "default"
-      }
-    },
-    {
-      "key": "Kazakhstan",
-      "attributes": {
-        "label": "Kazakhstan",
-        "x": -362.28308,
-        "y": 860.81995,
-        "size": 8.0,
-        "color": "#cc0033",
-        "metaType": "Country",
-        "renderType": "default"
+        "x": -136.30255,
+        "y": -60.37201,
+        "size": 16.0,
+        "color": "#999999"
       }
     },
     {
       "key": "InpokazEU",
       "attributes": {
         "label": "InpokazEU",
-        "x": -245.72424,
-        "y": 782.9822,
-        "size": 17.305676,
-        "color": "#cccccc",
-        "metaType": "Project",
-        "renderType": "default",
+        "x": -96.53937,
+        "y": -47.630947,
+        "size": 17.964285,
+        "color": "#999999",
         "startYear": 2020,
         "endYear": 2025
+      }
+    },
+    {
+      "key": "Kazakhstan",
+      "attributes": {
+        "label": "Kazakhstan",
+        "x": -118.08443,
+        "y": -112.038376,
+        "size": 16.785715,
+        "color": "#999999"
       }
     },
     {
       "key": "YUCOM: Lawyers' Committee for Human Rights",
       "attributes": {
         "label": "YUCOM: Lawyers' Committee for Human Rights",
-        "x": 40.139008,
-        "y": -734.2653,
-        "size": 8.0,
-        "color": "#ccffff",
-        "metaType": "Organization",
-        "renderType": "default"
-      }
-    },
-    {
-      "key": "Serbia",
-      "attributes": {
-        "label": "Serbia",
-        "x": -79.99509,
-        "y": -871.34485,
-        "size": 8.0,
-        "color": "#cc0033",
-        "metaType": "Country",
-        "renderType": "default"
+        "x": 187.02574,
+        "y": -326.16635,
+        "size": 16.0,
+        "color": "#999999"
       }
     },
     {
       "key": "Stronger Together",
       "attributes": {
         "label": "Stronger Together",
-        "x": -62.46644,
-        "y": -728.02527,
-        "size": 17.522928,
-        "color": "#cccccc",
-        "metaType": "Project",
-        "renderType": "default",
+        "x": 144.89937,
+        "y": -305.19293,
+        "size": 20.714287,
+        "color": "#999999",
         "startYear": 2020,
         "endYear": 2025
+      }
+    },
+    {
+      "key": "Protest",
+      "attributes": {
+        "label": "Protest",
+        "x": 5.163043,
+        "y": -408.23126,
+        "size": 17.571428,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Kosovo",
+      "attributes": {
+        "label": "Kosovo",
+        "x": 229.87256,
+        "y": -392.69803,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Serbia",
+      "attributes": {
+        "label": "Serbia",
+        "x": 598.1355,
+        "y": 115.66,
+        "size": 17.571428,
+        "color": "#999999"
       }
     },
     {
       "key": "National and international courts",
       "attributes": {
         "label": "National and international courts",
-        "x": -173.47456,
-        "y": -849.6646,
-        "size": 8.0,
-        "color": "#0099ff",
-        "metaType": "Addressee",
-        "renderType": "default"
+        "x": 79.1507,
+        "y": -466.56815,
+        "size": 19.535713,
+        "color": "#999999"
       }
     },
     {
       "key": "Human Rights Defenders",
       "attributes": {
         "label": "Human Rights Defenders",
-        "x": 16.726448,
-        "y": -856.08026,
-        "size": 8.0,
-        "color": "#0099ff",
-        "metaType": "Addressee",
-        "renderType": "default"
+        "x": -31.104244,
+        "y": -329.99396,
+        "size": 18.357143,
+        "color": "#999999"
       }
     },
     {
-      "key": "Czech Republic",
+      "key": "América Latina y el Caribe Mejor Sin TLC",
       "attributes": {
-        "label": "Czech Republic",
-        "x": 394.8624,
-        "y": 671.84576,
-        "size": 8.0,
-        "color": "#cc0033",
-        "metaType": "Country",
-        "renderType": "default"
+        "label": "América Latina y el Caribe Mejor Sin TLC",
+        "x": -432.25488,
+        "y": -583.07574,
+        "size": 16.0,
+        "color": "#999999"
       }
     },
     {
-      "key": "cat_Country",
+      "key": "Encuentro Formativo de Mujeres",
       "attributes": {
-        "label": "Country",
-        "x": 0,
-        "y": 0,
-        "size": 40,
-        "color": "#000000",
-        "renderType": "default",
-        "metaType": "Category"
+        "label": "Encuentro Formativo de Mujeres",
+        "x": -388.2683,
+        "y": -557.51117,
+        "size": 21.107143,
+        "color": "#999999",
+        "startYear": 2020,
+        "endYear": 2025
       }
     },
     {
-      "key": "cat_Organization",
+      "key": "Chile",
       "attributes": {
-        "label": "Organization",
-        "x": 0,
-        "y": 0,
-        "size": 40,
-        "color": "#000000",
-        "renderType": "default",
-        "metaType": "Category"
+        "label": "Chile",
+        "x": -439.56433,
+        "y": -691.3283,
+        "size": 16.0,
+        "color": "#999999"
       }
     },
     {
-      "key": "cat_Addressee",
+      "key": "Paraguay",
       "attributes": {
-        "label": "Addressee",
-        "x": 0,
-        "y": 0,
-        "size": 40,
-        "color": "#000000",
-        "renderType": "default",
-        "metaType": "Category"
+        "label": "Paraguay",
+        "x": -530.7149,
+        "y": -664.49164,
+        "size": 16.0,
+        "color": "#999999"
       }
     },
     {
-      "key": "cat_Project",
+      "key": "Argentina",
       "attributes": {
-        "label": "Project",
-        "x": 0,
-        "y": 0,
-        "size": 40,
-        "color": "#000000",
-        "renderType": "default",
-        "metaType": "Category"
+        "label": "Argentina",
+        "x": -548.76904,
+        "y": -574.72345,
+        "size": 16.0,
+        "color": "#999999"
       }
     },
     {
-      "key": "cat_Action Domain",
+      "key": "Education/Literacy",
       "attributes": {
-        "label": "Action Domain",
-        "x": 0,
-        "y": 0,
-        "size": 40,
-        "color": "#000000",
-        "renderType": "default",
-        "metaType": "Category"
+        "label": "Education/Literacy",
+        "x": -341.23077,
+        "y": -379.48935,
+        "size": 19.535713,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Red EU-LAT",
+      "attributes": {
+        "label": "Red EU-LAT",
+        "x": 204.64394,
+        "y": -708.3918,
+        "size": 16.392857,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Belgium",
+      "attributes": {
+        "label": "Belgium",
+        "x": 245.74129,
+        "y": -698.25336,
+        "size": 16.392857,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Relaciones UE-América Latina",
+      "attributes": {
+        "label": "Relaciones UE-América Latina",
+        "x": 123.181244,
+        "y": -707.3255,
+        "size": 22.285715,
+        "color": "#999999",
+        "startYear": 2010,
+        "endYear": 2015
+      }
+    },
+    {
+      "key": "Mexico",
+      "attributes": {
+        "label": "Mexico",
+        "x": 83.0082,
+        "y": -796.7569,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "El Salvador",
+      "attributes": {
+        "label": "El Salvador",
+        "x": 58.35512,
+        "y": -956.16266,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Peru",
+      "attributes": {
+        "label": "Peru",
+        "x": 127.618515,
+        "y": -884.5577,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Bolivia",
+      "attributes": {
+        "label": "Bolivia",
+        "x": 31.451788,
+        "y": -857.55927,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Guatemala",
+      "attributes": {
+        "label": "Guatemala",
+        "x": 170.8528,
+        "y": -953.5749,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Nicaragua",
+      "attributes": {
+        "label": "Nicaragua",
+        "x": 213.23294,
+        "y": -843.3158,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Colombia",
+      "attributes": {
+        "label": "Colombia",
+        "x": 269.61093,
+        "y": -970.6352,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Support Office for Student Volunteers Activities, Doshisha University",
+      "attributes": {
+        "label": "Support Office for Student Volunteers Activities, Doshisha University",
+        "x": 228.96417,
+        "y": 590.8803,
+        "size": 16.392857,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Kyojyuken(International Housing Studies Association）",
+      "attributes": {
+        "label": "Kyojyuken(International Housing Studies Association）",
+        "x": 255.47195,
+        "y": 532.1958,
+        "size": 19.928572,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Philippines",
+      "attributes": {
+        "label": "Philippines",
+        "x": 311.2689,
+        "y": 605.365,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Thailand",
+      "attributes": {
+        "label": "Thailand",
+        "x": 362.57562,
+        "y": 568.2053,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Myanmar",
+      "attributes": {
+        "label": "Myanmar",
+        "x": 303.13248,
+        "y": 680.7332,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Bangladesh",
+      "attributes": {
+        "label": "Bangladesh",
+        "x": 185.27704,
+        "y": 692.3338,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Croatian Youth Network",
+      "attributes": {
+        "label": "Croatian Youth Network",
+        "x": -425.682,
+        "y": -199.49559,
+        "size": 17.178572,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Croatia",
+      "attributes": {
+        "label": "Croatia",
+        "x": -489.00354,
+        "y": -221.75954,
+        "size": 16.392857,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Citizenship ED+ Active Citizenship Through Cross-Sectoral Cooperation",
+      "attributes": {
+        "label": "Citizenship ED+ Active Citizenship Through Cross-Sectoral Cooperation",
+        "x": -522.7851,
+        "y": -119.56571,
+        "size": 22.285715,
+        "color": "#999999",
+        "startYear": 2020,
+        "endYear": 2025
+      }
+    },
+    {
+      "key": "France",
+      "attributes": {
+        "label": "France",
+        "x": 525.55676,
+        "y": -99.28423,
+        "size": 17.178572,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Active Citizenship",
+      "attributes": {
+        "label": "Active Citizenship",
+        "x": -575.4691,
+        "y": -135.04616,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Marginalized groups",
+      "attributes": {
+        "label": "Marginalized groups",
+        "x": 264.67062,
+        "y": 3.256479,
+        "size": 18.75,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "EU youth dialog Croatia",
+      "attributes": {
+        "label": "EU youth dialog Croatia",
+        "x": -327.77426,
+        "y": -200.21693,
+        "size": 18.75,
+        "color": "#999999",
+        "startYear": 2020,
+        "endYear": 2025
+      }
+    },
+    {
+      "key": "The fight for the right to participation and representation",
+      "attributes": {
+        "label": "The fight for the right to participation and representation",
+        "x": -238.70644,
+        "y": -139.62918,
+        "size": 18.357143,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Legal Media-Center",
+      "attributes": {
+        "label": "Legal Media-Center",
+        "x": -33.598957,
+        "y": -102.80325,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Promoting human rights by strengthening the capacity of media and NGOs",
+      "attributes": {
+        "label": "Promoting human rights by strengthening the capacity of media and NGOs",
+        "x": -73.1694,
+        "y": -94.00478,
+        "size": 17.571428,
+        "color": "#999999",
+        "startYear": 2020,
+        "endYear": 2025
+      }
+    },
+    {
+      "key": "Eurasia Foundation of Central Asia",
+      "attributes": {
+        "label": "Eurasia Foundation of Central Asia",
+        "x": -125.24927,
+        "y": -479.85175,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Your Voice Matters, Civic Tech Solutions for Decision-making",
+      "attributes": {
+        "label": "Your Voice Matters, Civic Tech Solutions for Decision-making",
+        "x": -121.586395,
+        "y": -436.81036,
+        "size": 18.357143,
+        "color": "#999999",
+        "startYear": 2020,
+        "endYear": 2025
+      }
+    },
+    {
+      "key": "Uzbekistan",
+      "attributes": {
+        "label": "Uzbekistan",
+        "x": -111.18056,
+        "y": -545.9615,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Kyrgyzstan",
+      "attributes": {
+        "label": "Kyrgyzstan",
+        "x": -171.49591,
+        "y": -520.1371,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Center for Cultural Decontamination",
+      "attributes": {
+        "label": "Center for Cultural Decontamination",
+        "x": 299.54117,
+        "y": -113.59831,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Diversity in Culture and Activism",
+      "attributes": {
+        "label": "Diversity in Culture and Activism",
+        "x": 262.43875,
+        "y": -96.55411,
+        "size": 17.571428,
+        "color": "#999999",
+        "startYear": 2020,
+        "endYear": 2025
+      }
+    },
+    {
+      "key": "Community Building",
+      "attributes": {
+        "label": "Community Building",
+        "x": 261.51224,
+        "y": -155.17517,
+        "size": 16.392857,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "DAH Teatar",
+      "attributes": {
+        "label": "DAH Teatar",
+        "x": 720.0244,
+        "y": 184.20338,
+        "size": 16.785715,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "In/Visible City",
+      "attributes": {
+        "label": "In/Visible City",
+        "x": 790.1672,
+        "y": 318.79517,
+        "size": 21.5,
+        "color": "#999999",
+        "startYear": 2010,
+        "endYear": 2015
+      }
+    },
+    {
+      "key": "Norway",
+      "attributes": {
+        "label": "Norway",
+        "x": 914.55536,
+        "y": 168.11432,
+        "size": 16.392857,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Brazil",
+      "attributes": {
+        "label": "Brazil",
+        "x": 911.3987,
+        "y": 348.17795,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Italy",
+      "attributes": {
+        "label": "Italy",
+        "x": 382.2899,
+        "y": 140.7244,
+        "size": 17.571428,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "North Macedonia",
+      "attributes": {
+        "label": "North Macedonia",
+        "x": 922.78656,
+        "y": 444.9582,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Denmark",
+      "attributes": {
+        "label": "Denmark",
+        "x": 995.3023,
+        "y": 340.80734,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "United Kingdom",
+      "attributes": {
+        "label": "United Kingdom",
+        "x": 831.0246,
+        "y": 462.24884,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "engaged art",
+      "attributes": {
+        "label": "engaged art",
+        "x": 652.8523,
+        "y": 267.58795,
+        "size": 17.964285,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Civil Society",
+      "attributes": {
+        "label": "Civil Society",
+        "x": 679.05133,
+        "y": 307.51932,
+        "size": 16.392857,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Trees",
+      "attributes": {
+        "label": "Trees",
+        "x": 750.78613,
+        "y": 68.871605,
+        "size": 19.928572,
+        "color": "#999999",
+        "startYear": 2020,
+        "endYear": 2025
+      }
+    },
+    {
+      "key": "Greece",
+      "attributes": {
+        "label": "Greece",
+        "x": 793.5058,
+        "y": -80.400276,
+        "size": 16.392857,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Ireland",
+      "attributes": {
+        "label": "Ireland",
+        "x": 820.3151,
+        "y": 56.428276,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Netherlands",
+      "attributes": {
+        "label": "Netherlands",
+        "x": 882.4032,
+        "y": 29.809053,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Spain",
+      "attributes": {
+        "label": "Spain",
+        "x": 682.7464,
+        "y": -98.08266,
+        "size": 16.785715,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "The Power of Remembrance",
+      "attributes": {
+        "label": "The Power of Remembrance",
+        "x": 618.3057,
+        "y": 194.71494,
+        "size": 17.571428,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "COSPE ETS",
+      "attributes": {
+        "label": "COSPE ETS",
+        "x": 253.97691,
+        "y": 121.51893,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "GRANDE!",
+      "attributes": {
+        "label": "GRANDE!",
+        "x": 219.14153,
+        "y": 96.072556,
+        "size": 18.357143,
+        "color": "#999999",
+        "startYear": 2020,
+        "endYear": 2025
+      }
+    },
+    {
+      "key": "Research & Degrowth International",
+      "attributes": {
+        "label": "Research & Degrowth International",
+        "x": 439.14645,
+        "y": 13.358118,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Policy Briefs",
+      "attributes": {
+        "label": "Policy Briefs",
+        "x": 410.7144,
+        "y": -25.474033,
+        "size": 20.714287,
+        "color": "#999999",
+        "startYear": 2020,
+        "endYear": 2025
+      }
+    },
+    {
+      "key": "Portugal",
+      "attributes": {
+        "label": "Portugal",
+        "x": 507.47583,
+        "y": 3.2563412,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Collettivo Di Fabbrica - Lavoratori Gkn Firenze",
+      "attributes": {
+        "label": "Collettivo Di Fabbrica - Lavoratori Gkn Firenze",
+        "x": 253.29605,
+        "y": 258.70227,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "IL FUTURO (IR)ROMPE",
+      "attributes": {
+        "label": "IL FUTURO (IR)ROMPE",
+        "x": 268.20227,
+        "y": 219.49913,
+        "size": 17.964285,
+        "color": "#999999",
+        "startYear": 2020,
+        "endYear": 2025
+      }
+    },
+    {
+      "key": "protest",
+      "attributes": {
+        "label": "protest",
+        "x": 310.43948,
+        "y": 279.29285,
+        "size": 16.392857,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "DiEM25",
+      "attributes": {
+        "label": "DiEM25",
+        "x": 575.10956,
+        "y": -238.01268,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Back The Hague Group",
+      "attributes": {
+        "label": "Back The Hague Group",
+        "x": 541.30383,
+        "y": -202.10678,
+        "size": 20.321428,
+        "color": "#999999",
+        "startYear": 2020,
+        "endYear": 2025
+      }
+    },
+    {
+      "key": "REEES. University of Pittsburgh",
+      "attributes": {
+        "label": "REEES. University of Pittsburgh",
+        "x": 494.2829,
+        "y": -501.5074,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Transcaucasian trail",
+      "attributes": {
+        "label": "Transcaucasian trail",
+        "x": 450.1919,
+        "y": -501.51016,
+        "size": 19.142857,
+        "color": "#999999",
+        "startYear": 2020,
+        "endYear": 2025
+      }
+    },
+    {
+      "key": "United States of America",
+      "attributes": {
+        "label": "United States of America",
+        "x": 428.33127,
+        "y": -585.3538,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Armenia",
+      "attributes": {
+        "label": "Armenia",
+        "x": 476.7457,
+        "y": -560.2111,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Azerbaijan",
+      "attributes": {
+        "label": "Azerbaijan",
+        "x": 527.8246,
+        "y": -589.043,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Georgia",
+      "attributes": {
+        "label": "Georgia",
+        "x": 543.7005,
+        "y": -526.8264,
+        "size": 16.0,
+        "color": "#999999"
+      }
+    },
+    {
+      "key": "Academic Community",
+      "attributes": {
+        "label": "Academic Community",
+        "x": 53.812275,
+        "y": -96.71659,
+        "size": 16.785715,
+        "color": "#999999"
       }
     }
   ],
@@ -637,7 +1315,6 @@
       "source": "VoxUkraine",
       "target": "GenderRecovery",
       "attributes": {
-        "color": "#28b36a",
         "weight": 1.0,
         "relation": "implements"
       }
@@ -647,7 +1324,6 @@
       "source": "VoxUkraine",
       "target": "StateDigital",
       "attributes": {
-        "color": "#28b36a",
         "weight": 1.0,
         "relation": "implements"
       }
@@ -657,7 +1333,6 @@
       "source": "VoxUkraine",
       "target": "AccessionYear",
       "attributes": {
-        "color": "#28b36a",
         "weight": 1.0,
         "relation": "implements"
       }
@@ -667,7 +1342,6 @@
       "source": "GenderRecovery",
       "target": "Ukraine",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
         "relation": "engages"
       }
@@ -677,9 +1351,8 @@
       "source": "GenderRecovery",
       "target": "Citizens",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
-        "relation": "targets"
+        "relation": "addresses"
       }
     },
     {
@@ -687,401 +1360,330 @@
       "source": "GenderRecovery",
       "target": "NationalInstitutions",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
-        "relation": "targets"
+        "relation": "addresses"
       }
     },
     {
       "key": "6",
-      "source": "StateDigital",
-      "target": "Ukraine",
+      "source": "Citizens",
+      "target": "Research",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
-        "relation": "engages"
+        "relation": "impacts"
       }
     },
     {
       "key": "7",
-      "source": "StateDigital",
-      "target": "Estonia",
+      "source": "NationalInstitutions",
+      "target": "Monitoring",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
-        "relation": "engages"
+        "relation": "impacts"
       }
     },
     {
       "key": "8",
-      "source": "StateDigital",
-      "target": "Sweden",
+      "source": "NationalInstitutions",
+      "target": "Research",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
-        "relation": "engages"
+        "relation": "impacts"
       }
     },
     {
       "key": "9",
-      "source": "StateDigital",
-      "target": "Switzerland",
+      "source": "Citizens",
+      "target": "Monitoring",
       "attributes": {
-        "color": "#f97743",
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "10",
+      "source": "GenderRecovery",
+      "target": "Research",
+      "attributes": {
         "weight": 1.0,
         "relation": "engages"
       }
     },
     {
-      "key": "10",
-      "source": "StateDigital",
-      "target": "EUinstitutions",
-      "attributes": {
-        "color": "#9a96e5",
-        "weight": 1.0,
-        "relation": "targets"
-      }
-    },
-    {
       "key": "11",
-      "source": "StateDigital",
-      "target": "NationalInstitutions",
+      "source": "GenderRecovery",
+      "target": "Monitoring",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
-        "relation": "targets"
+        "relation": "engages"
       }
     },
     {
       "key": "12",
       "source": "StateDigital",
-      "target": "Citizens",
+      "target": "Ukraine",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
-        "relation": "targets"
+        "relation": "engages"
       }
     },
     {
       "key": "13",
       "source": "StateDigital",
-      "target": "Media",
+      "target": "Estonia",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
         "relation": "targets"
       }
     },
     {
       "key": "14",
-      "source": "AccessionYear",
-      "target": "Ukraine",
+      "source": "StateDigital",
+      "target": "Sweden",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
-        "relation": "engages"
+        "relation": "targets"
       }
     },
     {
       "key": "15",
-      "source": "AccessionYear",
-      "target": "EUinstitutions",
+      "source": "StateDigital",
+      "target": "Switzerland",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
         "relation": "targets"
       }
     },
     {
       "key": "16",
-      "source": "AccessionYear",
-      "target": "NationalInstitutions",
+      "source": "StateDigital",
+      "target": "EUinstitutions",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
-        "relation": "targets"
+        "relation": "addresses"
       }
     },
     {
       "key": "17",
-      "source": "Democracy",
-      "target": "GenderRecovery",
-      "undirected": true,
+      "source": "StateDigital",
+      "target": "NationalInstitutions",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
-        "relation": "engages"
+        "relation": "addresses"
       }
     },
     {
       "key": "18",
-      "source": "Human/Fundamental Rights",
-      "target": "GenderRecovery",
-      "undirected": true,
+      "source": "StateDigital",
+      "target": "Citizens",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
-        "relation": "engages"
+        "relation": "addresses"
       }
     },
     {
       "key": "19",
-      "source": "Energy/Climate/Sustainability",
-      "target": "StateDigital",
-      "undirected": true,
+      "source": "StateDigital",
+      "target": "Media",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
-        "relation": "engages"
+        "relation": "targets"
       }
     },
     {
       "key": "20",
-      "source": "Digital Technology",
-      "target": "StateDigital",
-      "undirected": true,
+      "source": "EUinstitutions",
+      "target": "Media",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
-        "relation": "engages"
+        "relation": "impacts"
       }
     },
     {
       "key": "21",
-      "source": "Democracy",
-      "target": "AccessionYear",
-      "undirected": true,
+      "source": "NationalInstitutions",
+      "target": "Media",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
-        "relation": "engages"
+        "relation": "impacts"
       }
     },
     {
       "key": "22",
-      "source": "Human/Fundamental Rights",
-      "target": "AccessionYear",
-      "undirected": true,
+      "source": "Citizens",
+      "target": "Media",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
-        "relation": "engages"
-      }
-    },
-    {
-      "key": "23",
-      "source": "Europe without Barriers",
-      "target": "MediaCoverage V4",
-      "attributes": {
-        "color": "#28b36a",
-        "weight": 1.0,
-        "relation": "implements"
+        "relation": "impacts"
       }
     },
     {
       "key": "24",
-      "source": "MediaCoverage V4",
-      "target": "Poland",
+      "source": "EUinstitutions",
+      "target": "Research",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
-        "relation": "targets"
-      }
-    },
-    {
-      "key": "25",
-      "source": "MediaCoverage V4",
-      "target": "Slovakia",
-      "attributes": {
-        "color": "#9a96e5",
-        "weight": 1.0,
-        "relation": "targets"
+        "relation": "impacts"
       }
     },
     {
       "key": "26",
-      "source": "MediaCoverage V4",
-      "target": "Hungary",
+      "source": "EUinstitutions",
+      "target": "Monitoring",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
-        "relation": "targets"
-      }
-    },
-    {
-      "key": "27",
-      "source": "MediaCoverage V4",
-      "target": "Czech Republic",
-      "attributes": {
-        "color": "#9a96e5",
-        "weight": 1.0,
-        "relation": "targets"
+        "relation": "impacts"
       }
     },
     {
       "key": "28",
-      "source": "MediaCoverage V4",
+      "source": "AccessionYear",
       "target": "Ukraine",
-      "undirected": true,
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
         "relation": "engages"
       }
     },
     {
       "key": "29",
-      "source": "Human/Fundamental Rights",
-      "target": "MediaCoverage V4",
-      "undirected": true,
+      "source": "AccessionYear",
+      "target": "EUinstitutions",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
-        "relation": "engages"
+        "relation": "addresses"
       }
     },
     {
       "key": "30",
-      "source": "Trade/economy",
-      "target": "MediaCoverage V4",
-      "undirected": true,
+      "source": "AccessionYear",
+      "target": "NationalInstitutions",
       "attributes": {
-        "color": "#f97743",
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "31",
+      "source": "Democracy",
+      "target": "GenderRecovery",
+      "attributes": {
         "weight": 1.0,
         "relation": "engages"
       }
     },
     {
-      "key": "31",
-      "source": "Europe without Barriers",
-      "target": "SafeBorder",
-      "attributes": {
-        "color": "#28b36a",
-        "weight": 1.0,
-        "relation": "implements"
-      }
-    },
-    {
       "key": "32",
-      "source": "SafeBorder",
-      "target": "Poland",
+      "source": "Human/Fundamental Rights",
+      "target": "GenderRecovery",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
-        "relation": "targets"
+        "relation": "engages"
       }
     },
     {
       "key": "33",
-      "source": "SafeBorder",
-      "target": "Ukraine",
+      "source": "Energy/Climate/Sustainability",
+      "target": "StateDigital",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
         "relation": "engages"
       }
     },
     {
       "key": "34",
-      "source": "Trade/economy",
-      "target": "SafeBorder",
-      "undirected": true,
+      "source": "Digital Technology",
+      "target": "StateDigital",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
         "relation": "engages"
       }
     },
     {
       "key": "35",
-      "source": "Migration",
-      "target": "SafeBorder",
-      "undirected": true,
+      "source": "Democracy",
+      "target": "AccessionYear",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
         "relation": "engages"
       }
     },
     {
       "key": "36",
-      "source": "Europe without Barriers",
-      "target": "Bordermng",
+      "source": "Human/Fundamental Rights",
+      "target": "AccessionYear",
       "attributes": {
-        "color": "#28b36a",
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "37",
+      "source": "Europe without Barriers",
+      "target": "MediaCoverage V4",
+      "attributes": {
         "weight": 1.0,
         "relation": "implements"
       }
     },
     {
-      "key": "37",
-      "source": "Bordermng",
+      "key": "38",
+      "source": "MediaCoverage V4",
       "target": "Poland",
       "attributes": {
-        "color": "#9a96e5",
-        "weight": 1.0,
-        "relation": "targets"
-      }
-    },
-    {
-      "key": "38",
-      "source": "Bordermng",
-      "target": "Germany",
-      "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
         "relation": "targets"
       }
     },
     {
       "key": "39",
-      "source": "Bordermng",
-      "target": "Sweden",
+      "source": "MediaCoverage V4",
+      "target": "Slovakia",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
         "relation": "targets"
       }
     },
     {
       "key": "40",
-      "source": "Bordermng",
-      "target": "Ukraine",
+      "source": "MediaCoverage V4",
+      "target": "Hungary",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
-        "relation": "engages"
+        "relation": "targets"
       }
     },
     {
       "key": "41",
-      "source": "Democracy",
-      "target": "Bordermng",
-      "undirected": true,
+      "source": "MediaCoverage V4",
+      "target": "Czech Republic",
       "attributes": {
-        "color": "#f97743",
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "42",
+      "source": "MediaCoverage V4",
+      "target": "Research",
+      "attributes": {
         "weight": 1.0,
         "relation": "engages"
       }
     },
     {
-      "key": "42",
-      "source": "Human/Fundamental Rights",
-      "target": "Bordermng",
-      "undirected": true,
+      "key": "43",
+      "source": "MediaCoverage V4",
+      "target": "Monitoring",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
         "relation": "engages"
       }
     },
     {
       "key": "44",
-      "source": "Trade/economy",
-      "target": "Bordermng",
-      "undirected": true,
+      "source": "MediaCoverage V4",
+      "target": "Capacity Building",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
         "relation": "engages"
       }
@@ -1091,908 +1693,2726 @@
       "source": "MediaCoverage V4",
       "target": "NationalInstitutions",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
-        "relation": "targets"
+        "relation": "addresses"
       }
     },
     {
-      "key": "47",
-      "source": "Bordermng",
-      "target": "Citizens",
+      "key": "46",
+      "source": "MediaCoverage V4",
+      "target": "EU institutions",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
-        "relation": "targets"
+        "relation": "addresses"
       }
     },
     {
       "key": "48",
-      "source": "Bordermng",
-      "target": "NationalInstitutions",
+      "source": "EU institutions",
+      "target": "Research",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
-        "relation": "targets"
-      }
-    },
-    {
-      "key": "49",
-      "source": "SafeBorder",
-      "target": "NationalInstitutions",
-      "attributes": {
-        "color": "#9a96e5",
-        "weight": 1.0,
-        "relation": "targets"
+        "relation": "impacts"
       }
     },
     {
       "key": "50",
-      "source": "SafeBorder",
-      "target": "EUinstitutions",
+      "source": "EU institutions",
+      "target": "Monitoring",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
-        "relation": "targets"
+        "relation": "impacts"
       }
     },
     {
       "key": "51",
-      "source": "The \"New Europe Center\"",
-      "target": "The Euromap: profiles of regions",
+      "source": "NationalInstitutions",
+      "target": "Capacity Building",
       "attributes": {
-        "color": "#28b36a",
         "weight": 1.0,
-        "relation": "implements"
+        "relation": "impacts"
       }
     },
     {
       "key": "52",
-      "source": "The Euromap: profiles of regions",
-      "target": "Citizens",
+      "source": "EU institutions",
+      "target": "Capacity Building",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
-        "relation": "targets"
+        "relation": "impacts"
       }
     },
     {
       "key": "53",
-      "source": "The Euromap: profiles of regions",
-      "target": "NationalInstitutions",
+      "source": "MediaCoverage V4",
+      "target": "Ukraine",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
-        "relation": "targets"
+        "relation": "engages"
       }
     },
     {
       "key": "54",
-      "source": "The Euromap: profiles of regions",
-      "target": "EUinstitutions",
+      "source": "Human/Fundamental Rights",
+      "target": "MediaCoverage V4",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
-        "relation": "targets"
+        "relation": "engages"
       }
     },
     {
       "key": "55",
-      "source": "The Euromap: profiles of regions",
-      "target": "Ukraine",
+      "source": "Trade/economy",
+      "target": "MediaCoverage V4",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
         "relation": "engages"
       }
     },
     {
       "key": "56",
-      "source": "Democracy",
-      "target": "The Euromap: profiles of regions",
-      "undirected": true,
+      "source": "Europe without Barriers",
+      "target": "SafeBorder",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
-        "relation": "engages"
+        "relation": "implements"
       }
     },
     {
       "key": "57",
-      "source": "Europe without Barriers",
-      "target": "The Euromap: profiles of regions",
-      "undirected": true,
+      "source": "SafeBorder",
+      "target": "Poland",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
-        "relation": "engages"
+        "relation": "targets"
       }
     },
     {
       "key": "58",
-      "source": "Trade/economy",
-      "target": "The Euromap: profiles of regions",
-      "undirected": true,
+      "source": "SafeBorder",
+      "target": "Research",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
         "relation": "engages"
       }
     },
     {
       "key": "59",
-      "source": "Human/Fundamental Rights",
-      "target": "The Euromap: profiles of regions",
-      "undirected": true,
+      "source": "SafeBorder",
+      "target": "Monitoring",
       "attributes": {
-        "color": "#f97743",
-        "weight": 1.0,
-        "relation": "engages"
-      }
-    },
-    {
-      "key": "60",
-      "source": "The \"New Europe Center\"",
-      "target": "RespaJapon",
-      "attributes": {
-        "color": "#28b36a",
-        "weight": 1.0,
-        "relation": "implements"
-      }
-    },
-    {
-      "key": "61",
-      "source": "RespaJapon",
-      "target": "Japon",
-      "attributes": {
-        "color": "#9a96e5",
-        "weight": 1.0,
-        "relation": "targets"
-      }
-    },
-    {
-      "key": "62",
-      "source": "RespaJapon",
-      "target": "Ukraine",
-      "attributes": {
-        "color": "#f97743",
-        "weight": 1.0,
-        "relation": "engages"
-      }
-    },
-    {
-      "key": "63",
-      "source": "Democracy",
-      "target": "RespaJapon",
-      "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
         "relation": "engages"
       }
     },
     {
       "key": "64",
-      "source": "Conflict/War",
-      "target": "RespaJapon",
+      "source": "SafeBorder",
+      "target": "Ukraine",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
         "relation": "engages"
       }
     },
     {
       "key": "65",
-      "source": "Energy/Climate/Sustainability",
-      "target": "RespaJapon",
+      "source": "Trade/economy",
+      "target": "SafeBorder",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
         "relation": "engages"
       }
     },
     {
       "key": "66",
-      "source": "RespaJapon",
-      "target": "NationalInstitutions",
+      "source": "Migration",
+      "target": "SafeBorder",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
-        "relation": "targets"
+        "relation": "engages"
       }
     },
     {
       "key": "67",
-      "source": "RespaJapon",
-      "target": "Media",
+      "source": "Europe without Barriers",
+      "target": "Bordermng",
       "attributes": {
-        "color": "#9a96e5",
-        "weight": 1.0,
-        "relation": "targets"
-      }
-    },
-    {
-      "key": "68",
-      "source": "The \"New Europe Center\"",
-      "target": "EUAXF",
-      "attributes": {
-        "color": "#28b36a",
         "weight": 1.0,
         "relation": "implements"
       }
     },
     {
-      "key": "69",
-      "source": "EUAXF",
-      "target": "Moldova",
+      "key": "68",
+      "source": "Bordermng",
+      "target": "Poland",
       "attributes": {
-        "color": "#9a96e5",
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "69",
+      "source": "Bordermng",
+      "target": "Germany",
+      "attributes": {
         "weight": 1.0,
         "relation": "targets"
       }
     },
     {
       "key": "70",
-      "source": "EUAXF",
-      "target": "Romania",
+      "source": "Bordermng",
+      "target": "Sweden",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
         "relation": "targets"
       }
     },
     {
       "key": "71",
-      "source": "EUAXF",
-      "target": "Slovakia",
+      "source": "Bordermng",
+      "target": "Ukraine",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
-        "relation": "targets"
+        "relation": "engages"
       }
     },
     {
       "key": "72",
-      "source": "EUAXF",
-      "target": "Slovenia",
+      "source": "Democracy",
+      "target": "Bordermng",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
-        "relation": "targets"
+        "relation": "engages"
       }
     },
     {
       "key": "73",
-      "source": "EUAXF",
-      "target": "Bulgaria",
+      "source": "Human/Fundamental Rights",
+      "target": "Bordermng",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
-        "relation": "targets"
+        "relation": "engages"
       }
     },
     {
       "key": "74",
-      "source": "Democracy",
-      "target": "EUAXF",
-      "undirected": true,
+      "source": "Trade/economy",
+      "target": "Bordermng",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
         "relation": "engages"
       }
     },
     {
       "key": "75",
-      "source": "Human/Fundamental Rights",
-      "target": "EUAXF",
-      "undirected": true,
+      "source": "Bordermng",
+      "target": "Citizens",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
-        "relation": "engages"
+        "relation": "addresses"
       }
     },
     {
       "key": "76",
-      "source": "EUAXF",
-      "target": "EUinstitutions",
+      "source": "Bordermng",
+      "target": "Research",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
-        "relation": "targets"
+        "relation": "engages"
       }
     },
     {
       "key": "77",
-      "source": "EUAXF",
-      "target": "NationalInstitutions",
+      "source": "Bordermng",
+      "target": "Capacity Building",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
-        "relation": "targets"
+        "relation": "engages"
       }
     },
     {
       "key": "78",
-      "source": "EUAXF",
-      "target": "Ukraine",
+      "source": "Bordermng",
+      "target": "NationalInstitutions",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
-        "relation": "engages"
-      }
-    },
-    {
-      "key": "79",
-      "source": "Kazakhstan International Bureau for Human Rights and Rule of Law",
-      "target": "InpokazEU",
-      "attributes": {
-        "color": "#28b36a",
-        "weight": 1.0,
-        "relation": "implements"
-      }
-    },
-    {
-      "key": "80",
-      "source": "InpokazEU",
-      "target": "Kazakhstan",
-      "attributes": {
-        "color": "#f97743",
-        "weight": 1.0,
-        "relation": "engages"
-      }
-    },
-    {
-      "key": "81",
-      "source": "InpokazEU",
-      "target": "EUinstitutions",
-      "attributes": {
-        "color": "#9a96e5",
-        "weight": 1.0,
-        "relation": "targets"
+        "relation": "addresses"
       }
     },
     {
       "key": "82",
-      "source": "Human/Fundamental Rights",
-      "target": "InpokazEU",
-      "undirected": true,
+      "source": "Citizens",
+      "target": "Capacity Building",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
-        "relation": "engages"
+        "relation": "impacts"
       }
     },
     {
       "key": "83",
-      "source": "YUCOM: Lawyers' Committee for Human Rights",
-      "target": "Stronger Together",
+      "source": "SafeBorder",
+      "target": "NationalInstitutions",
       "attributes": {
-        "color": "#28b36a",
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "84",
+      "source": "SafeBorder",
+      "target": "EUinstitutions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "85",
+      "source": "The \"New Europe Center\"",
+      "target": "The Euromap: profiles of regions",
+      "attributes": {
         "weight": 1.0,
         "relation": "implements"
       }
     },
     {
-      "key": "84",
-      "source": "Stronger Together",
-      "target": "Serbia",
-      "attributes": {
-        "color": "#f97743",
-        "weight": 1.0,
-        "relation": "engages"
-      }
-    },
-    {
-      "key": "85",
-      "source": "Stronger Together",
-      "target": "NationalInstitutions",
-      "attributes": {
-        "color": "#9a96e5",
-        "weight": 1.0,
-        "relation": "targets"
-      }
-    },
-    {
       "key": "86",
-      "source": "Human/Fundamental Rights",
-      "target": "Stronger Together",
-      "undirected": true,
+      "source": "The Euromap: profiles of regions",
+      "target": "Citizens",
       "attributes": {
-        "color": "#f97743",
         "weight": 1.0,
-        "relation": "engages"
+        "relation": "addresses"
       }
     },
     {
       "key": "87",
-      "source": "Stronger Together",
-      "target": "National and international courts",
+      "source": "The Euromap: profiles of regions",
+      "target": "NationalInstitutions",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
-        "relation": "targets"
+        "relation": "addresses"
       }
     },
     {
       "key": "88",
-      "source": "Stronger Together",
-      "target": "Media",
+      "source": "The Euromap: profiles of regions",
+      "target": "EUinstitutions",
       "attributes": {
-        "color": "#9a96e5",
         "weight": 1.0,
-        "relation": "targets"
+        "relation": "addresses"
       }
     },
     {
       "key": "89",
-      "source": "Stronger Together",
-      "target": "Human Rights Defenders",
+      "source": "The Euromap: profiles of regions",
+      "target": "Ukraine",
       "attributes": {
-        "color": "#9a96e5",
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "90",
+      "source": "Democracy",
+      "target": "The Euromap: profiles of regions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "91",
+      "source": "Europe without Barriers",
+      "target": "The Euromap: profiles of regions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "92",
+      "source": "Trade/economy",
+      "target": "The Euromap: profiles of regions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "93",
+      "source": "Human/Fundamental Rights",
+      "target": "The Euromap: profiles of regions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "94",
+      "source": "The Euromap: profiles of regions",
+      "target": "Advocacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "95",
+      "source": "The Euromap: profiles of regions",
+      "target": "Research",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "96",
+      "source": "Advocacy",
+      "target": "NationalInstitutions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "97",
+      "source": "Research",
+      "target": "NationalInstitutions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "98",
+      "source": "Monitoring",
+      "target": "NationalInstitutions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "99",
+      "source": "Advocacy",
+      "target": "EUinstitutions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "100",
+      "source": "Research",
+      "target": "EUinstitutions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "101",
+      "source": "Monitoring",
+      "target": "EUinstitutions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "102",
+      "source": "Advocacy",
+      "target": "Citizens",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "103",
+      "source": "Research",
+      "target": "Citizens",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "104",
+      "source": "Monitoring",
+      "target": "Citizens",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "105",
+      "source": "The Euromap: profiles of regions",
+      "target": "Monitoring",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "106",
+      "source": "The \"New Europe Center\"",
+      "target": "RespaJapon",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "implements"
+      }
+    },
+    {
+      "key": "107",
+      "source": "RespaJapon",
+      "target": "Japan",
+      "attributes": {
         "weight": 1.0,
         "relation": "targets"
       }
     },
     {
-      "key": "90",
-      "source": "MediaCoverage V4",
-      "target": "EUinstitutions",
-      "undirected": true,
-      "attributes": {
-        "color": "#000000",
-        "weight": 1.0,
-        "relation": "null"
-      }
-    },
-    {
-      "key": "cat_edge_VoxUkraine",
-      "source": "VoxUkraine",
-      "target": "cat_Organization",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_GenderRecovery",
-      "source": "GenderRecovery",
-      "target": "cat_Project",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_StateDigital",
-      "source": "StateDigital",
-      "target": "cat_Project",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_AccessionYear",
-      "source": "AccessionYear",
-      "target": "cat_Project",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_Ukraine",
-      "source": "Ukraine",
-      "target": "cat_Country",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_Estonia",
-      "source": "Estonia",
-      "target": "cat_Country",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_Sweden",
-      "source": "Sweden",
-      "target": "cat_Country",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_Switzerland",
-      "source": "Switzerland",
-      "target": "cat_Country",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_EUinstitutions",
-      "source": "EUinstitutions",
-      "target": "cat_Addressee",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_Citizens",
-      "source": "Citizens",
-      "target": "cat_Addressee",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_NationalInstitutions",
-      "source": "NationalInstitutions",
-      "target": "cat_Addressee",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_Media",
-      "source": "Media",
-      "target": "cat_Addressee",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_Democracy",
-      "source": "Democracy",
-      "target": "cat_Action Domain",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_Human/Fundamental Rights",
-      "source": "Human/Fundamental Rights",
-      "target": "cat_Action Domain",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_Energy/Climate/Sustainability",
-      "source": "Energy/Climate/Sustainability",
-      "target": "cat_Action Domain",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_Digital Technology",
-      "source": "Digital Technology",
-      "target": "cat_Action Domain",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_Europe without Barriers",
-      "source": "Europe without Barriers",
-      "target": "cat_Organization",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_MediaCoverage V4",
-      "source": "MediaCoverage V4",
-      "target": "cat_Project",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_Trade/economy",
-      "source": "Trade/economy",
-      "target": "cat_Action Domain",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_SafeBorder",
-      "source": "SafeBorder",
-      "target": "cat_Project",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_Migration",
-      "source": "Migration",
-      "target": "cat_Action Domain",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_Bordermng",
-      "source": "Bordermng",
-      "target": "cat_Project",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_Poland",
-      "source": "Poland",
-      "target": "cat_Country",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_Germany",
-      "source": "Germany",
-      "target": "cat_Country",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_Hungary",
-      "source": "Hungary",
-      "target": "cat_Country",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_Slovakia",
-      "source": "Slovakia",
-      "target": "cat_Country",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_The \"New Europe Center\"",
-      "source": "The \"New Europe Center\"",
-      "target": "cat_Organization",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_The Euromap: profiles of regions",
-      "source": "The Euromap: profiles of regions",
-      "target": "cat_Project",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_Conflict/War",
-      "source": "Conflict/War",
-      "target": "cat_Action Domain",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_RespaJapon",
+      "key": "108",
       "source": "RespaJapon",
-      "target": "cat_Project",
+      "target": "Ukraine",
       "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
+        "weight": 1.0,
+        "relation": "engages"
       }
     },
     {
-      "key": "cat_edge_Japon",
-      "source": "Japon",
-      "target": "cat_Country",
+      "key": "109",
+      "source": "Democracy",
+      "target": "RespaJapon",
       "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
+        "weight": 1.0,
+        "relation": "engages"
       }
     },
     {
-      "key": "cat_edge_EUAXF",
+      "key": "110",
+      "source": "Conflict/War",
+      "target": "RespaJapon",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "111",
+      "source": "Energy/Climate/Sustainability",
+      "target": "RespaJapon",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "112",
+      "source": "RespaJapon",
+      "target": "NationalInstitutions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "113",
+      "source": "RespaJapon",
+      "target": "Media",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "114",
+      "source": "RespaJapon",
+      "target": "advocacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "115",
+      "source": "RespaJapon",
+      "target": "Monitoring",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "116",
+      "source": "NationalInstitutions",
+      "target": "advocacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "117",
+      "source": "Media",
+      "target": "advocacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "119",
+      "source": "Media",
+      "target": "Monitoring",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "120",
+      "source": "The \"New Europe Center\"",
+      "target": "EUAXF",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "implements"
+      }
+    },
+    {
+      "key": "121",
       "source": "EUAXF",
-      "target": "cat_Project",
+      "target": "Moldova",
       "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
+        "weight": 1.0,
+        "relation": "targets"
       }
     },
     {
-      "key": "cat_edge_Moldova",
-      "source": "Moldova",
-      "target": "cat_Country",
+      "key": "122",
+      "source": "EUAXF",
+      "target": "Romania",
       "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
+        "weight": 1.0,
+        "relation": "targets"
       }
     },
     {
-      "key": "cat_edge_Romania",
-      "source": "Romania",
-      "target": "cat_Country",
+      "key": "123",
+      "source": "EUAXF",
+      "target": "Slovakia",
       "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
+        "weight": 1.0,
+        "relation": "targets"
       }
     },
     {
-      "key": "cat_edge_Slovenia",
-      "source": "Slovenia",
-      "target": "cat_Country",
+      "key": "124",
+      "source": "EUAXF",
+      "target": "Slovenia",
       "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
+        "weight": 1.0,
+        "relation": "targets"
       }
     },
     {
-      "key": "cat_edge_Bulgaria",
-      "source": "Bulgaria",
-      "target": "cat_Country",
+      "key": "125",
+      "source": "EUAXF",
+      "target": "Bulgaria",
       "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
+        "weight": 1.0,
+        "relation": "targets"
       }
     },
     {
-      "key": "cat_edge_Kazakhstan International Bureau for Human Rights and Rule of Law",
+      "key": "126",
+      "source": "Democracy",
+      "target": "EUAXF",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "127",
+      "source": "Human/Fundamental Rights",
+      "target": "EUAXF",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "128",
+      "source": "EUAXF",
+      "target": "EUinstitutions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "129",
+      "source": "EUAXF",
+      "target": "NationalInstitutions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "130",
+      "source": "EUAXF",
+      "target": "Ukraine",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "131",
+      "source": "EUAXF",
+      "target": "Advocacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "132",
+      "source": "EUinstitutions",
+      "target": "Advocacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "133",
+      "source": "NationalInstitutions",
+      "target": "Advocacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "134",
       "source": "Kazakhstan International Bureau for Human Rights and Rule of Law",
-      "target": "cat_Organization",
+      "target": "InpokazEU",
       "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
+        "weight": 1.0,
+        "relation": "implements"
       }
     },
     {
-      "key": "cat_edge_Kazakhstan",
-      "source": "Kazakhstan",
-      "target": "cat_Country",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_InpokazEU",
+      "key": "135",
       "source": "InpokazEU",
-      "target": "cat_Project",
+      "target": "Kazakhstan",
       "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
+        "weight": 1.0,
+        "relation": "engages"
       }
     },
     {
-      "key": "cat_edge_YUCOM: Lawyers' Committee for Human Rights",
+      "key": "136",
+      "source": "InpokazEU",
+      "target": "EUinstitutions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "137",
+      "source": "Human/Fundamental Rights",
+      "target": "InpokazEU",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "138",
+      "source": "InpokazEU",
+      "target": "Advocacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "139",
+      "source": "InpokazEU",
+      "target": "Research",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "142",
       "source": "YUCOM: Lawyers' Committee for Human Rights",
-      "target": "cat_Organization",
+      "target": "Stronger Together",
       "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
+        "weight": 1.0,
+        "relation": "implements"
       }
     },
     {
-      "key": "cat_edge_Serbia",
-      "source": "Serbia",
-      "target": "cat_Country",
-      "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
-      }
-    },
-    {
-      "key": "cat_edge_Stronger Together",
+      "key": "143",
       "source": "Stronger Together",
-      "target": "cat_Project",
+      "target": "Protest",
       "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
+        "weight": 1.0,
+        "relation": "engages"
       }
     },
     {
-      "key": "cat_edge_National and international courts",
+      "key": "144",
+      "source": "Stronger Together",
+      "target": "Monitoring",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "145",
+      "source": "Stronger Together",
+      "target": "Capacity Building",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "146",
+      "source": "Stronger Together",
+      "target": "Research",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "147",
+      "source": "Stronger Together",
+      "target": "Advocacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "148",
+      "source": "Stronger Together",
+      "target": "Kosovo",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "149",
+      "source": "Stronger Together",
+      "target": "Serbia",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "150",
+      "source": "Stronger Together",
+      "target": "NationalInstitutions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "151",
+      "source": "Human/Fundamental Rights",
+      "target": "Stronger Together",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "152",
+      "source": "Stronger Together",
+      "target": "National and international courts",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "153",
+      "source": "Stronger Together",
+      "target": "Media",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "154",
+      "source": "Stronger Together",
+      "target": "Human Rights Defenders",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "155",
       "source": "National and international courts",
-      "target": "cat_Addressee",
+      "target": "Advocacy",
       "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
+        "weight": 1.0,
+        "relation": "impacts"
       }
     },
     {
-      "key": "cat_edge_Human Rights Defenders",
+      "key": "156",
+      "source": "Media",
+      "target": "Advocacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "157",
       "source": "Human Rights Defenders",
-      "target": "cat_Addressee",
+      "target": "Advocacy",
       "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
+        "weight": 1.0,
+        "relation": "impacts"
       }
     },
     {
-      "key": "cat_edge_Czech Republic",
-      "source": "Czech Republic",
-      "target": "cat_Country",
+      "key": "159",
+      "source": "National and international courts",
+      "target": "Research",
       "attributes": {
-        "color": "#aaaaaa",
-        "weight": 0.5,
-        "relation": "is_a"
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "160",
+      "source": "Media",
+      "target": "Research",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "161",
+      "source": "Human Rights Defenders",
+      "target": "Research",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "163",
+      "source": "National and international courts",
+      "target": "Capacity Building",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "164",
+      "source": "Media",
+      "target": "Capacity Building",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "165",
+      "source": "Human Rights Defenders",
+      "target": "Capacity Building",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "167",
+      "source": "National and international courts",
+      "target": "Monitoring",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "169",
+      "source": "Human Rights Defenders",
+      "target": "Monitoring",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "171",
+      "source": "National and international courts",
+      "target": "Protest",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "172",
+      "source": "Media",
+      "target": "Protest",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "173",
+      "source": "Human Rights Defenders",
+      "target": "Protest",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "174",
+      "source": "NationalInstitutions",
+      "target": "Protest",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "175",
+      "source": "América Latina y el Caribe Mejor Sin TLC",
+      "target": "Encuentro Formativo de Mujeres",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "implements"
+      }
+    },
+    {
+      "key": "176",
+      "source": "Encuentro Formativo de Mujeres",
+      "target": "Chile",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "177",
+      "source": "Encuentro Formativo de Mujeres",
+      "target": "NationalInstitutions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "178",
+      "source": "Encuentro Formativo de Mujeres",
+      "target": "National and international courts",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "179",
+      "source": "Encuentro Formativo de Mujeres",
+      "target": "Paraguay",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "180",
+      "source": "Encuentro Formativo de Mujeres",
+      "target": "Argentina",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "181",
+      "source": "Democracy",
+      "target": "Encuentro Formativo de Mujeres",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "182",
+      "source": "Energy/Climate/Sustainability",
+      "target": "Encuentro Formativo de Mujeres",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "183",
+      "source": "Trade/economy",
+      "target": "Encuentro Formativo de Mujeres",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "184",
+      "source": "Human/Fundamental Rights",
+      "target": "Encuentro Formativo de Mujeres",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "185",
+      "source": "Encuentro Formativo de Mujeres",
+      "target": "Education/Literacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "186",
+      "source": "Encuentro Formativo de Mujeres",
+      "target": "Capacity Building",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "187",
+      "source": "Encuentro Formativo de Mujeres",
+      "target": "Research",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "188",
+      "source": "Encuentro Formativo de Mujeres",
+      "target": "Monitoring",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "189",
+      "source": "NationalInstitutions",
+      "target": "Education/Literacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "193",
+      "source": "National and international courts",
+      "target": "Education/Literacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "197",
+      "source": "Red EU-LAT",
+      "target": "Belgium",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "198",
+      "source": "Red EU-LAT",
+      "target": "Relaciones UE-América Latina",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "implements"
+      }
+    },
+    {
+      "key": "199",
+      "source": "Relaciones UE-América Latina",
+      "target": "Mexico",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "200",
+      "source": "Relaciones UE-América Latina",
+      "target": "El Salvador",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "201",
+      "source": "Relaciones UE-América Latina",
+      "target": "Peru",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "202",
+      "source": "Relaciones UE-América Latina",
+      "target": "Bolivia",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "203",
+      "source": "Relaciones UE-América Latina",
+      "target": "Guatemala",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "204",
+      "source": "Relaciones UE-América Latina",
+      "target": "Nicaragua",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "205",
+      "source": "Relaciones UE-América Latina",
+      "target": "Colombia",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "206",
+      "source": "Relaciones UE-América Latina",
+      "target": "National and international courts",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "207",
+      "source": "Relaciones UE-América Latina",
+      "target": "EU institutions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "208",
+      "source": "Trade/economy",
+      "target": "Relaciones UE-América Latina",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "209",
+      "source": "Democracy",
+      "target": "Relaciones UE-América Latina",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "210",
+      "source": "Energy/Climate/Sustainability",
+      "target": "Relaciones UE-América Latina",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "211",
+      "source": "Human/Fundamental Rights",
+      "target": "Relaciones UE-América Latina",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "212",
+      "source": "Relaciones UE-América Latina",
+      "target": "Advocacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "213",
+      "source": "Relaciones UE-América Latina",
+      "target": "Monitoring",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "214",
+      "source": "Relaciones UE-América Latina",
+      "target": "Education/Literacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "218",
+      "source": "EU institutions",
+      "target": "Advocacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "220",
+      "source": "EU institutions",
+      "target": "Education/Literacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "221",
+      "source": "Support Office for Student Volunteers Activities, Doshisha University",
+      "target": "Kyojyuken(International Housing Studies Association）",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "implements"
+      }
+    },
+    {
+      "key": "222",
+      "source": "Support Office for Student Volunteers Activities, Doshisha University",
+      "target": "Japan",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "223",
+      "source": "Kyojyuken(International Housing Studies Association）",
+      "target": "Philippines",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "224",
+      "source": "Kyojyuken(International Housing Studies Association）",
+      "target": "Thailand",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "225",
+      "source": "Kyojyuken(International Housing Studies Association）",
+      "target": "Myanmar",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "226",
+      "source": "Kyojyuken(International Housing Studies Association）",
+      "target": "Bangladesh",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "227",
+      "source": "Human/Fundamental Rights",
+      "target": "Kyojyuken(International Housing Studies Association）",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "228",
+      "source": "Migration",
+      "target": "Kyojyuken(International Housing Studies Association）",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "229",
+      "source": "Kyojyuken(International Housing Studies Association）",
+      "target": "Research",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "230",
+      "source": "Kyojyuken(International Housing Studies Association）",
+      "target": "Capacity Building",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "231",
+      "source": "Kyojyuken(International Housing Studies Association）",
+      "target": "NationalInstitutions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "232",
+      "source": "Kyojyuken(International Housing Studies Association）",
+      "target": "Citizens",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "237",
+      "source": "Croatian Youth Network",
+      "target": "Croatia",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "238",
+      "source": "Croatian Youth Network",
+      "target": "Citizenship ED+ Active Citizenship Through Cross-Sectoral Cooperation",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "implements"
+      }
+    },
+    {
+      "key": "239",
+      "source": "Citizenship ED+ Active Citizenship Through Cross-Sectoral Cooperation",
+      "target": "Slovenia",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "240",
+      "source": "Citizenship ED+ Active Citizenship Through Cross-Sectoral Cooperation",
+      "target": "Estonia",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "241",
+      "source": "Citizenship ED+ Active Citizenship Through Cross-Sectoral Cooperation",
+      "target": "Croatia",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "242",
+      "source": "Citizenship ED+ Active Citizenship Through Cross-Sectoral Cooperation",
+      "target": "France",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "243",
+      "source": "Democracy",
+      "target": "Citizenship ED+ Active Citizenship Through Cross-Sectoral Cooperation",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "244",
+      "source": "Digital Technology",
+      "target": "Citizenship ED+ Active Citizenship Through Cross-Sectoral Cooperation",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "245",
+      "source": "Active Citizenship",
+      "target": "Citizenship ED+ Active Citizenship Through Cross-Sectoral Cooperation",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "246",
+      "source": "Citizenship ED+ Active Citizenship Through Cross-Sectoral Cooperation",
+      "target": "Advocacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "247",
+      "source": "Citizenship ED+ Active Citizenship Through Cross-Sectoral Cooperation",
+      "target": "Research",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "248",
+      "source": "Citizenship ED+ Active Citizenship Through Cross-Sectoral Cooperation",
+      "target": "Education/Literacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "249",
+      "source": "Citizenship ED+ Active Citizenship Through Cross-Sectoral Cooperation",
+      "target": "Capacity Building",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "250",
+      "source": "Citizenship ED+ Active Citizenship Through Cross-Sectoral Cooperation",
+      "target": "NationalInstitutions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "251",
+      "source": "Citizenship ED+ Active Citizenship Through Cross-Sectoral Cooperation",
+      "target": "EU institutions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "252",
+      "source": "Citizenship ED+ Active Citizenship Through Cross-Sectoral Cooperation",
+      "target": "Citizens",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "253",
+      "source": "Citizenship ED+ Active Citizenship Through Cross-Sectoral Cooperation",
+      "target": "Marginalized groups",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "254",
+      "source": "Citizenship ED+ Active Citizenship Through Cross-Sectoral Cooperation",
+      "target": "Media",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "257",
+      "source": "Citizens",
+      "target": "Advocacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "258",
+      "source": "Marginalized groups",
+      "target": "Advocacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "263",
+      "source": "Marginalized groups",
+      "target": "Research",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "267",
+      "source": "Citizens",
+      "target": "Education/Literacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "268",
+      "source": "Marginalized groups",
+      "target": "Education/Literacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "269",
+      "source": "Media",
+      "target": "Education/Literacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "273",
+      "source": "Marginalized groups",
+      "target": "Capacity Building",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "275",
+      "source": "Croatian Youth Network",
+      "target": "EU youth dialog Croatia",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "implements"
+      }
+    },
+    {
+      "key": "276",
+      "source": "EU youth dialog Croatia",
+      "target": "Democracy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "277",
+      "source": "EU youth dialog Croatia",
+      "target": "Digital Technology",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "278",
+      "source": "EU youth dialog Croatia",
+      "target": "NationalInstitutions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "279",
+      "source": "EU youth dialog Croatia",
+      "target": "EU institutions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "280",
+      "source": "EU youth dialog Croatia",
+      "target": "Advocacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "281",
+      "source": "EU youth dialog Croatia",
+      "target": "Research",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "282",
+      "source": "EU youth dialog Croatia",
+      "target": "Education/Literacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "289",
+      "source": "Croatian Youth Network",
+      "target": "The fight for the right to participation and representation",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "290",
+      "source": "The fight for the right to participation and representation",
+      "target": "Democracy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "291",
+      "source": "The fight for the right to participation and representation",
+      "target": "Human/Fundamental Rights",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "292",
+      "source": "The fight for the right to participation and representation",
+      "target": "Advocacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "293",
+      "source": "The fight for the right to participation and representation",
+      "target": "Capacity Building",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "294",
+      "source": "The fight for the right to participation and representation",
+      "target": "NationalInstitutions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "295",
+      "source": "The fight for the right to participation and representation",
+      "target": "EU institutions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "300",
+      "source": "Legal Media-Center",
+      "target": "Promoting human rights by strengthening the capacity of media and NGOs",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "implements"
+      }
+    },
+    {
+      "key": "301",
+      "source": "Promoting human rights by strengthening the capacity of media and NGOs",
+      "target": "Kazakhstan",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "302",
+      "source": "Promoting human rights by strengthening the capacity of media and NGOs",
+      "target": "Human/Fundamental Rights",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "303",
+      "source": "Promoting human rights by strengthening the capacity of media and NGOs",
+      "target": "Capacity Building",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "304",
+      "source": "Promoting human rights by strengthening the capacity of media and NGOs",
+      "target": "Citizens",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "306",
+      "source": "Eurasia Foundation of Central Asia",
+      "target": "Your Voice Matters, Civic Tech Solutions for Decision-making",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "implements"
+      }
+    },
+    {
+      "key": "307",
+      "source": "Your Voice Matters, Civic Tech Solutions for Decision-making",
+      "target": "Kazakhstan",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "308",
+      "source": "Your Voice Matters, Civic Tech Solutions for Decision-making",
+      "target": "Uzbekistan",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "309",
+      "source": "Your Voice Matters, Civic Tech Solutions for Decision-making",
+      "target": "Kyrgyzstan",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "310",
+      "source": "Your Voice Matters, Civic Tech Solutions for Decision-making",
+      "target": "Human Rights Defenders",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "311",
+      "source": "Your Voice Matters, Civic Tech Solutions for Decision-making",
+      "target": "Capacity Building",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "312",
+      "source": "Your Voice Matters, Civic Tech Solutions for Decision-making",
+      "target": "Citizens",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "314",
+      "source": "Center for Cultural Decontamination",
+      "target": "Diversity in Culture and Activism",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "implements"
+      }
+    },
+    {
+      "key": "315",
+      "source": "Diversity in Culture and Activism",
+      "target": "Serbia",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "316",
+      "source": "Diversity in Culture and Activism",
+      "target": "Democracy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "317",
+      "source": "Diversity in Culture and Activism",
+      "target": "Community Building",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "318",
+      "source": "Diversity in Culture and Activism",
+      "target": "Citizens",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "319",
+      "source": "Citizens",
+      "target": "Community Building",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "320",
+      "source": "DAH Teatar",
+      "target": "In/Visible City",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "implements"
+      }
+    },
+    {
+      "key": "321",
+      "source": "In/Visible City",
+      "target": "Serbia",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "322",
+      "source": "In/Visible City",
+      "target": "Norway",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "323",
+      "source": "In/Visible City",
+      "target": "Brazil",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "324",
+      "source": "In/Visible City",
+      "target": "Italy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "325",
+      "source": "In/Visible City",
+      "target": "North Macedonia",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "326",
+      "source": "In/Visible City",
+      "target": "Denmark",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "327",
+      "source": "In/Visible City",
+      "target": "France",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "328",
+      "source": "In/Visible City",
+      "target": "United Kingdom",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "329",
+      "source": "In/Visible City",
+      "target": "Migration",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "330",
+      "source": "In/Visible City",
+      "target": "Conflict/War",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "331",
+      "source": "In/Visible City",
+      "target": "engaged art",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "332",
+      "source": "In/Visible City",
+      "target": "Citizens",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "333",
+      "source": "In/Visible City",
+      "target": "Marginalized groups",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "334",
+      "source": "In/Visible City",
+      "target": "Civil Society",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "335",
+      "source": "Citizens",
+      "target": "engaged art",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "336",
+      "source": "Marginalized groups",
+      "target": "engaged art",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "337",
+      "source": "Civil Society",
+      "target": "engaged art",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "338",
+      "source": "DAH Teatar",
+      "target": "Trees",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "implements"
+      }
+    },
+    {
+      "key": "339",
+      "source": "Trees",
+      "target": "Serbia",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "340",
+      "source": "Trees",
+      "target": "Germany",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "341",
+      "source": "Trees",
+      "target": "Greece",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "342",
+      "source": "Trees",
+      "target": "Ireland",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "343",
+      "source": "Trees",
+      "target": "Norway",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "344",
+      "source": "Trees",
+      "target": "Netherlands",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "345",
+      "source": "Trees",
+      "target": "Spain",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "346",
+      "source": "Trees",
+      "target": "Energy/Climate/Sustainability",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "347",
+      "source": "Trees",
+      "target": "engaged art",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "348",
+      "source": "Trees",
+      "target": "Citizens",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "350",
+      "source": "DAH Teatar",
+      "target": "The Power of Remembrance",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "implements"
+      }
+    },
+    {
+      "key": "351",
+      "source": "The Power of Remembrance",
+      "target": "Serbia",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "352",
+      "source": "The Power of Remembrance",
+      "target": "Conflict/War",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "353",
+      "source": "The Power of Remembrance",
+      "target": "engaged art",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "354",
+      "source": "The Power of Remembrance",
+      "target": "Citizens",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "356",
+      "source": "COSPE ETS",
+      "target": "GRANDE!",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "implements"
+      }
+    },
+    {
+      "key": "357",
+      "source": "GRANDE!",
+      "target": "Italy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "358",
+      "source": "GRANDE!",
+      "target": "Human/Fundamental Rights",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "359",
+      "source": "GRANDE!",
+      "target": "Migration",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "360",
+      "source": "GRANDE!",
+      "target": "Capacity Building",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "361",
+      "source": "GRANDE!",
+      "target": "Advocacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "362",
+      "source": "GRANDE!",
+      "target": "Marginalized groups",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "364",
+      "source": "Research & Degrowth International",
+      "target": "Policy Briefs",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "implements"
+      }
+    },
+    {
+      "key": "365",
+      "source": "Policy Briefs",
+      "target": "Spain",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "366",
+      "source": "Policy Briefs",
+      "target": "Germany",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "367",
+      "source": "Policy Briefs",
+      "target": "France",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "368",
+      "source": "Policy Briefs",
+      "target": "Italy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "369",
+      "source": "Policy Briefs",
+      "target": "Portugal",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "370",
+      "source": "Policy Briefs",
+      "target": "Energy/Climate/Sustainability",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "371",
+      "source": "Policy Briefs",
+      "target": "Trade/economy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "372",
+      "source": "Policy Briefs",
+      "target": "Research",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "373",
+      "source": "Policy Briefs",
+      "target": "Advocacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "374",
+      "source": "Policy Briefs",
+      "target": "EU institutions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "375",
+      "source": "Policy Briefs",
+      "target": "NationalInstitutions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "376",
+      "source": "Policy Briefs",
+      "target": "Citizens",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "383",
+      "source": "Collettivo Di Fabbrica - Lavoratori Gkn Firenze",
+      "target": "IL FUTURO (IR)ROMPE",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "implements"
+      }
+    },
+    {
+      "key": "384",
+      "source": "IL FUTURO (IR)ROMPE",
+      "target": "Italy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "385",
+      "source": "IL FUTURO (IR)ROMPE",
+      "target": "Energy/Climate/Sustainability",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "386",
+      "source": "IL FUTURO (IR)ROMPE",
+      "target": "Trade/economy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "387",
+      "source": "IL FUTURO (IR)ROMPE",
+      "target": "protest",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "388",
+      "source": "IL FUTURO (IR)ROMPE",
+      "target": "NationalInstitutions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "389",
+      "source": "NationalInstitutions",
+      "target": "protest",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "390",
+      "source": "DiEM25",
+      "target": "Back The Hague Group",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "implements"
+      }
+    },
+    {
+      "key": "391",
+      "source": "Back The Hague Group",
+      "target": "Belgium",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "392",
+      "source": "Back The Hague Group",
+      "target": "Greece",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "393",
+      "source": "Back The Hague Group",
+      "target": "France",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "394",
+      "source": "Back The Hague Group",
+      "target": "Italy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "395",
+      "source": "Back The Hague Group",
+      "target": "Germany",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "396",
+      "source": "Back The Hague Group",
+      "target": "Spain",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "397",
+      "source": "Back The Hague Group",
+      "target": "Conflict/War",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "398",
+      "source": "Back The Hague Group",
+      "target": "Human/Fundamental Rights",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "399",
+      "source": "Back The Hague Group",
+      "target": "EU institutions",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "400",
+      "source": "Back The Hague Group",
+      "target": "National and international courts",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "401",
+      "source": "Back The Hague Group",
+      "target": "Advocacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "404",
+      "source": "REEES. University of Pittsburgh",
+      "target": "Transcaucasian trail",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "implements"
+      }
+    },
+    {
+      "key": "405",
+      "source": "Transcaucasian trail",
+      "target": "United States of America",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "406",
+      "source": "Transcaucasian trail",
+      "target": "Armenia",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "407",
+      "source": "Transcaucasian trail",
+      "target": "Azerbaijan",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "408",
+      "source": "Transcaucasian trail",
+      "target": "Georgia",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "targets"
+      }
+    },
+    {
+      "key": "409",
+      "source": "Transcaucasian trail",
+      "target": "Energy/Climate/Sustainability",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "410",
+      "source": "Transcaucasian trail",
+      "target": "Research",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "411",
+      "source": "Transcaucasian trail",
+      "target": "Advocacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "engages"
+      }
+    },
+    {
+      "key": "412",
+      "source": "Transcaucasian trail",
+      "target": "Academic Community",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "addresses"
+      }
+    },
+    {
+      "key": "413",
+      "source": "Academic Community",
+      "target": "Advocacy",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
+      }
+    },
+    {
+      "key": "414",
+      "source": "Academic Community",
+      "target": "Research",
+      "attributes": {
+        "weight": 1.0,
+        "relation": "impacts"
       }
     }
   ]
