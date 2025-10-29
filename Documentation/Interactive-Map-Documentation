@@ -1,0 +1,115 @@
+Gephi Network JSON + HTML Visualization – Documentation
+===============================================================
+
+Overview
+--------
+This documentation describes the structure of the Gephi-exported JSON file (`PrjAdd-2509.json`) and its visualization through the interactive HTML file using Sigma.js, Graphology, and ForceAtlas2.
+
+1. JSON File Structure
+----------------------
+File: PrjAdd-2509.json
+Origin: Gephi 0.10.1
+Type: Directed multigraph
+
+Sections:
+- attributes: metadata (e.g. creator)
+- options: graph type and layout options
+- nodes: list of entities (nodes)
+- edges: list of relations (edges)
+
+Node Attributes:
+- key: Unique node ID
+- label: Display name
+- x, y: Coordinates in 2D layout
+- size: Node size (visual weight)
+- color: Base color (can be overridden by HTML script)
+- metaType: Node type (Country, Project, Organization, etc.)
+- startYear, endYear: Temporal range for projects
+
+Edge Attributes:
+- key: Edge ID
+- source / target: Linked node keys
+- weight: Edge thickness
+- relation: Type of connection (implements, engages, addresses, targets, impacts)
+
+Special Notes:
+- Projects include time ranges for timeline filtering.
+- Relations represent different layers of connection across domains and actors.
+
+2. HTML Visualization
+---------------------
+File: index.html (or hosted version at mimtat.github.io/VALEUs/)
+Libraries: Sigma.js 3.0.2, Graphology 0.25.4, ForceAtlas2, NoOverlap
+
+Core Steps:
+1. JSON is fetched and parsed.
+2. Color map assigns consistent colors by metaType.
+3. Nodes are normalized so that similar types (e.g., “Research”, “Monitoring”) are grouped as “Kind of Action”.
+4. Graph is initialized with nodes and edges.
+5. ForceAtlas2 layout runs continuously for smooth visualization.
+
+Color Mapping:
+- Country: rgb(102, 255, 255)
+- Project: rgb(255, 102, 102)
+- Organization: rgb(102, 102, 255)
+- Addressee: rgb(255, 255, 102)
+- Action Domain: rgb(255, 102, 255)
+- Kind of Action: rgb(102, 255, 102)
+
+3. Controls and Interactivity
+-----------------------------
+Controls:
+- Pause Layout: Toggles ForceAtlas2 animation.
+- De-overlap: Activates NoOverlap to separate overlapping nodes.
+
+Filters:
+- Checkboxes toggle visibility by metaType.
+- Projects cannot be disabled but are filtered dynamically by year.
+
+Year Control:
+- Slider range: 2010–2025.
+- Displays only projects active within the selected year.
+
+Reducers:
+- nodeReducer hides nodes that fail filter or year condition.
+- edgeReducer hides edges whose connected nodes are hidden.
+
+4. Visual Semantics
+-------------------
+Category           | Role                        | Color
+------------------ | ---------------------------- | -------
+Country            | Geographic context           | Cyan
+Organization       | Institutional actor          | Blue
+Project            | Temporal connector           | Red
+Addressee          | Audience / target            | Yellow
+Action Domain      | Thematic area (e.g., Democracy) | Pink
+Kind of Action     | Activity type                | Green
+
+This structure visualizes “who connects with whom” through “what kind of project,” “in which thematic domain,” and “how (kind of action),” across time (year slider).
+
+5. Editing or Extending
+-----------------------
+To add nodes or edges:
+- Add new entries to “nodes” or “edges” arrays.
+- Each node requires a unique “key” and defined “metaType”.
+- Projects should include “startYear” and “endYear”.
+- Save the JSON and reload it in the HTML directory.
+
+6. Dependencies
+---------------
+Library                         | Purpose
+-------------------------------- | ----------------------------
+Sigma.js                        | Rendering and interaction
+Graphology                      | Data structure and graph management
+ForceAtlas2                     | Continuous layout simulation
+NoOverlap                        | Collision avoidance
+
+7. Hosting
+----------
+- The visualization can run locally or via GitHub Pages.
+- JSON and HTML must reside in the same folder.
+- No backend required.
+
+Summary
+-------
+This system integrates Gephi-exported data into a dynamic, browser-based visualization that enables filtering, temporal analysis, and interactive exploration of relationships between organizations, projects, addressees, and thematic domains.
