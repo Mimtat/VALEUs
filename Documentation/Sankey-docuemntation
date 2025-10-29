@@ -1,0 +1,88 @@
+Sankey Diagram – Documentation
+=================================
+
+Overview
+--------
+This Sankey diagram visualizes connections between organizations, thematic domains, and addressee groups.
+It uses Plotly.js to show flows of relationships between entities. Each colored node represents an actor or category,
+and each connecting line (link) shows the flow strength, determined by a numeric value.
+
+Core Components
+---------------
+
+1. Plotly Initialization
+   Uses Plotly’s CDN (https://cdn.plot.ly/plotly-2.4.1.min.js) and renders the Sankey diagram inside a <div> container.
+
+2. Data Structure
+   - Nodes: represent organizations, domains, and target audiences.
+   - Links: represent directional connections between nodes.
+
+   Example:
+   "node": {
+     "label": ["América Latina y el Caribe Mejor Sin TLC", "COSPE ETS", ...],
+     "color": ["#2E91E5","#E15F99","#1CA71C", ...],
+     "pad": 28,
+     "thickness": 18
+   }
+
+   "link": {
+     "source": [0, 0, 1, ...],
+     "target": [20, 22, 25, ...],
+     "value": [4, 3, 5, ...]
+   }
+
+3. Layout Configuration
+   Defines global aesthetics:
+   - Font size and color
+   - Margins
+   - Background colors
+   - Responsive layout for resizing
+
+4. Visual Interpretation
+   - Left nodes: organizations
+   - Middle nodes: action domains (e.g., Democracy, Human Rights)
+   - Right nodes: addressees (e.g., Media, Citizens, Institutions)
+   - Thicker lines = stronger relationships or higher connection values.
+
+User Interactions
+-----------------
+- Hovering over nodes or links shows tooltips with detailed info.
+- The diagram automatically highlights connected paths on hover.
+- The chart is fully responsive and adjusts to screen size.
+
+Dependencies
+------------
+- Plotly.js v2.4.1 (loaded via CDN)
+- No external dataset required; data is embedded in the JavaScript.
+
+File Structure
+--------------
+sankey_new.html
+│
+├── <head> : includes Plotly library
+└── <body>
+    ├── Div container for the chart
+    └── Script block calling Plotly.newPlot()
+
+Editing or Extending the Diagram
+--------------------------------
+1. Add new nodes:
+   - Extend the "node.label" and "node.color" arrays.
+
+2. Add new links:
+   - Append new pairs to "link.source", "link.target", and matching "link.value".
+
+3. Adjust layout:
+   - Modify pad and thickness values for spacing and size.
+   - Update arrangement or orientation settings for layout clarity.
+
+4. Exporting:
+   - Use the built-in Plotly toolbar to save as PNG or SVG.
+
+Example Interpretation
+----------------------
+The Sankey shows how organizations such as COSPE ETS, VoxUkraine, or YUCOM connect across thematic domains
+like Democracy, Human/Fundamental Rights, or Energy/Climate/Sustainability, and how these link to addressee groups
+such as Media, Citizens, and EU institutions.
+
+This visualization provides an overview of collaboration patterns and relational flows across multiple sectors.
