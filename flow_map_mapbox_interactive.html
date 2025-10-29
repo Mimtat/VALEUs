@@ -1,114 +1,367 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Organization Map with Filters</title>
-  
-  <!-- Mapbox GL JS Library (REQUIRED) -->
-<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
-<link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
-
-  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <script src="https://api.mapbox.com/mapbox-gl-js/v2.16.1/mapbox-gl.js"></script>
-  <link href="https://api.mapbox.com/mapbox-gl-js/v2.16.1/mapbox-gl.css" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Flow Map – Organizations by Category (Clustered)</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
   <style>
-    body { margin: 0; padding: 0; }
-    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
-    #legend {
+    html, body { height: 100%; margin: 0; }
+    #map { height: 100%; width: 100%; }
+    .control-panel {
       position: absolute;
-      top: 10px;
-      left: 10px;
-      background: white;
-      padding: 10px;
-      font-family: sans-serif;
-      font-size: 13px;
-      border-radius: 4px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.2);
-      max-height: 90vh;
-      overflow-y: auto;
+      top: 12px;
+      right: 12px;
+      z-index: 1000;
+      background: rgba(255,255,255,0.95);
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+      padding: 10px 12px;
+      max-height: 70vh;
+      overflow: auto;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
     }
-    .mapboxgl-popup-content { font: 12px/1.5 sans-serif; }
+    .legend-list { list-style: none; margin: 0; padding: 0; font-size: 13px; }
+    .legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+    .swatch { width: 14px; height: 14px; border-radius: 4px; border: 1px solid rgba(0,0,0,.15); }
+    .footer-note { font-size: 11px; color:#666; margin-top: 8px; }
+    .marker-dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 6px rgba(0,0,0,0.3); transition: transform 0.2s ease; }
+    .marker-dot:hover { transform: scale(1.35); z-index: 1001; }
+    .leaflet-control.custom-fit { background: #fff; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,.12); }
+    .fit-btn { display:block; padding:8px 10px; font-size:12px; cursor:pointer; border:none; background:transparent; }
+    .fit-btn:hover { background:#f5f5f5; }
   </style>
 </head>
 <body>
-<div id="map"></div>
-<div id="legend">
-  <strong>Filter by Category</strong><br>
-  <label style='display: flex; align-items: center; margin-bottom: 5px;'><input type='checkbox' class='cat-filter' data-cat='Democracy' checked style='margin-right: 5px;'><span style='width: 12px; height: 12px; background: #3b82f6; display: inline-block; margin-right: 6px;'></span>Democracy</label><label style='display: flex; align-items: center; margin-bottom: 5px;'><input type='checkbox' class='cat-filter' data-cat='Human/Fundamental Rights' checked style='margin-right: 5px;'><span style='width: 12px; height: 12px; background: #22c55e; display: inline-block; margin-right: 6px;'></span>Human/Fundamental Rights</label><label style='display: flex; align-items: center; margin-bottom: 5px;'><input type='checkbox' class='cat-filter' data-cat='Migration' checked style='margin-right: 5px;'><span style='width: 12px; height: 12px; background: #ef4444; display: inline-block; margin-right: 6px;'></span>Migration</label><label style='display: flex; align-items: center; margin-bottom: 5px;'><input type='checkbox' class='cat-filter' data-cat='Trade/Economy' checked style='margin-right: 5px;'><span style='width: 12px; height: 12px; background: #f59e0b; display: inline-block; margin-right: 6px;'></span>Trade/Economy</label><label style='display: flex; align-items: center; margin-bottom: 5px;'><input type='checkbox' class='cat-filter' data-cat='Trade/economy' checked style='margin-right: 5px;'><span style='width: 12px; height: 12px; background: #a855f7; display: inline-block; margin-right: 6px;'></span>Trade/economy</label><label style='display: flex; align-items: center; margin-bottom: 5px;'><input type='checkbox' class='cat-filter' data-cat='conflict/war' checked style='margin-right: 5px;'><span style='width: 12px; height: 12px; background: #06b6d4; display: inline-block; margin-right: 6px;'></span>conflict/war</label><label style='display: flex; align-items: center; margin-bottom: 5px;'><input type='checkbox' class='cat-filter' data-cat='digital media' checked style='margin-right: 5px;'><span style='width: 12px; height: 12px; background: #10b981; display: inline-block; margin-right: 6px;'></span>digital media</label><label style='display: flex; align-items: center; margin-bottom: 5px;'><input type='checkbox' class='cat-filter' data-cat='energy/climate/sustainability' checked style='margin-right: 5px;'><span style='width: 12px; height: 12px; background: #e11d48; display: inline-block; margin-right: 6px;'></span>energy/climate/sustainability</label><label style='display: flex; align-items: center; margin-bottom: 5px;'><input type='checkbox' class='cat-filter' data-cat='human/fundamental rights' checked style='margin-right: 5px;'><span style='width: 12px; height: 12px; background: #8b5cf6; display: inline-block; margin-right: 6px;'></span>human/fundamental rights</label><label style='display: flex; align-items: center; margin-bottom: 5px;'><input type='checkbox' class='cat-filter' data-cat='Other' checked style='margin-right: 5px;'><span style='width: 12px; height: 12px; background: #8e8e8e; display: inline-block; margin-right: 6px;'></span>Other</label>
-</div>
-<script>
-mapboxgl.accessToken = 'YOUR_MAPBOX_ACCESS_TOKEN';
+  <div id="map"></div>
+  <div class="control-panel">
+    <h3>Filter & Legend</h3>
+    <div class="search-box">
+      <input type="text" id="search" placeholder="Search organization…" style="width:100%; padding:6px; border-radius:8px; border:1px solid #ccc;"/>
+    </div>
+    <ul class="legend-list" id="legend"></ul>
+    <div class="footer-note">Pin color = Primary category. Filtering applies to any of an org's categories. Use the ⤢ button to zoom to all pins.</div>
+  </div>
 
-const map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/light-v11',
-    center: [15, 40],
-    zoom: 1.5,
-    projection: 'globe'
-});
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script>
+    // Map
+    const map = L.map('map', { zoomSnap: 0.25, zoomDelta: 0.5 }).setView([48.5, 12.0], 4);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
 
-map.on('style.load', () => {
-    map.setFog({});
-});
+    // Categories + colors
+    const CAT_COLORS = {
+      'Democracy': '#2962FF',
+      'Human/Fundamental rights': '#D32F2F',
+      'Energy/Climate/Sustainability': '#2E7D32',
+      'Trade/Economy': '#8E24AA',
+      'Migration': '#FF8F00',
+      'Conflict/War': '#455A64',
+      'Digital Technology': '#0097A7',
+      'Digital Media': '#6D4C41',
+      'European Integration': '#5E35B1',
+      'other': '#757575'
+    };
 
-const geojson = {"type": "FeatureCollection", "features": [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [32.8541, 39.9208]}, "properties": {"organization": "The Association of Civil Society Development Center", "website": "https://www.sivilsesler.org/", "city": "Ankara", "action_domains": "Trade/Economy", "main_category": "Trade/Economy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [28.9784, 41.0082]}, "properties": {"organization": "Turkish Economic and Social Studies Foundation", "website": "https://www.tesev.org.tr/en/home/", "city": "Istanbul", "action_domains": "Democracy", "main_category": "Democracy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [28.9784, 41.0082]}, "properties": {"organization": "ECONOMIC DEVELOPMENT FOUNDATION", "website": "https://www.ikv.org.tr/ikv.asp?ust_id=2&id=10", "city": "Istanbul", "action_domains": "Trade/Economy", "main_category": "Trade/Economy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [28.9784, 41.0082]}, "properties": {"organization": "Hrant Dink Foundation", "website": "https://hrantdink.org/en/", "city": "Istanbul", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [4.3517, 50.8503]}, "properties": {"organization": "Tepsa", "website": "https://tepsa.eu/", "city": "Brussels", "action_domains": "Democracy", "main_category": "Democracy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [4.3517, 50.8503]}, "properties": {"organization": "Demsoc", "website": "https://www.demsoc.org/", "city": "Brussels", "action_domains": "Democracy", "main_category": "Democracy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [0.007709, 38.8816]}, "properties": {"organization": "Ashoka", "website": "https://www.ashoka.org/en-us", "city": "Arlington, VA", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [29.9187, 31.2001]}, "properties": {"organization": "Crude Accountability", "website": "https://crudeaccountability.org/", "city": "Alexandria", "action_domains": "energy/climate/sustainability", "main_category": "energy/climate/sustainability"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [2.3522, 48.8566]}, "properties": {"organization": "attac", "website": "www.attac.de - Attac Deutschland - www.attac.de", "city": "Paris", "action_domains": "Trade/Economy", "main_category": "Trade/Economy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [1.3405, 0.005252]}, "properties": {"organization": "Fridays for future", "website": "https://fridaysforfuture.de/", "city": "Berlin", "action_domains": "energy/climate/sustainability", "main_category": "energy/climate/sustainability"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [21.0122, 52.2297]}, "properties": {"organization": "Democracy Otwarty Dialog Foundation (Open Dialogue Foundation):", "website": "https://en.odfoundation.eu/", "city": "Warsaw", "action_domains": "Democracy", "main_category": "Democracy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [21.0122, 52.2297]}, "properties": {"organization": "Batory Foundation", "website": "https://www.batory.org.pl/en/", "city": "Warsaw", "action_domains": "Democracy", "main_category": "Democracy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [21.0122, 52.2297]}, "properties": {"organization": "Fundacja Rozwoju Demokracji Lokalnej (Foundation for the Development of Local Democracy)", "website": "https://frdl.org.pl/", "city": "Warsaw", "action_domains": "Democracy", "main_category": "Democracy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [21.0122, 52.2297]}, "properties": {"organization": "Institute of Public Affairs (ISP)", "website": "https://www.isp.org.pl/en/about-us", "city": "Warsaw", "action_domains": "Trade/Economy", "main_category": "Trade/Economy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [21.0122, 52.2297]}, "properties": {"organization": "CASE \u00e2\u0080\u0093 Center for Social and Economic Research", "website": "CASE \u00e2\u0080\u0093 Center for Social and Economic Research", "city": "Warsaw", "action_domains": "Trade/Economy", "main_category": "Trade/Economy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [1.9945, 50.0647]}, "properties": {"organization": "Polish Green Network", "website": "https://zielonasiec.pl/en/home-2/", "city": "Krakow", "action_domains": "energy/climate/sustainability", "main_category": "energy/climate/sustainability"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [21.0122, 52.2297]}, "properties": {"organization": "ClientEarth Poland", "website": "https://www.clientearth.pl/", "city": "Warsaw", "action_domains": "energy/climate/sustainability", "main_category": "energy/climate/sustainability"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [21.0122, 52.2297]}, "properties": {"organization": "Polska Akcja Humanitarna (PAH)", "website": "https://www.pah.org.pl/", "city": "Warsaw", "action_domains": "conflict/war", "main_category": "conflict/war"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [21.0122, 52.2297]}, "properties": {"organization": "Fundacja Ocalenie", "website": "https://ocalenie.org.pl/", "city": "Warsaw", "action_domains": "Migration", "main_category": "Migration"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [21.0122, 52.2297]}, "properties": {"organization": "Stowarzyszenie Interwencji Prawnej", "website": "https://interwencjaprawna.pl/", "city": "Warsaw", "action_domains": "Migration", "main_category": "Migration"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [21.0122, 52.2297]}, "properties": {"organization": "Helsinki Foundation for Human Rights (HFHR)", "website": "https://hfhr.pl/en", "city": "Warsaw", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [21.0122, 52.2297]}, "properties": {"organization": "Amnesty International Poland", "website": "https://www.amnesty.org/en/location/europe-and-central-asia/western-central-and-south-eastern-europe/poland/", "city": "Warsaw", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [21.0122, 52.2297]}, "properties": {"organization": "Campaign Against Homophobia (KPH)", "website": "https://kph.org.pl/en/", "city": "Warsaw", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [11.2558, 43.7696]}, "properties": {"organization": "COSPE", "website": "https://www.cospe.org/", "city": "Florence", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [11.3426, 44.4949]}, "properties": {"organization": "Amnesty International Fierenze", "website": "https://amnestyfirenze.wordpress.com/", "city": "Bologna", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [11.2558, 43.7696]}, "properties": {"organization": "ARCIGAY", "website": "https://www.arcigayfirenze.it/", "city": "Florence", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [4.3517, 50.8503]}, "properties": {"organization": "IREO", "website": "https://www.ireo.eu/", "city": "Brussels", "action_domains": "Other", "main_category": "Other"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [11.2558, 43.7696]}, "properties": {"organization": "IREOS", "website": "https://www.ireos.org/", "city": "Florence", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [12.4964, 41.9028]}, "properties": {"organization": "Italiani senza cittadinanza", "website": "Movimento Italiani senza cittadinanza", "city": "Rome", "action_domains": "Migration", "main_category": "Migration"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [11.2558, 43.7696]}, "properties": {"organization": "Black History Month Florence", "website": "http://www.blackhistorymonthflorence.com/", "city": "Florence", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [0.000919, 45.4642]}, "properties": {"organization": "Italian Climate Network", "website": "https://www.italiaclima.org/en/home_en/", "city": "Milan", "action_domains": "energy/climate/sustainability", "main_category": "energy/climate/sustainability"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [11.2558, 43.7696]}, "properties": {"organization": "Legambiente Firenze", "website": "https://www.legambientefirenze.it/", "city": "Florence", "action_domains": "energy/climate/sustainability", "main_category": "energy/climate/sustainability"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [11.1833, 43.7576]}, "properties": {"organization": "Rete Semi Rurali", "website": "https://rsr.bio/", "city": "Scandicci", "action_domains": "energy/climate/sustainability", "main_category": "energy/climate/sustainability"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [11.2558, 43.7696]}, "properties": {"organization": "Florence Must Act", "website": "https://firenzeurbanlifestyle.com/florence-must-act-un-gommone-in-arno-per-richiedere-accoglienza-per-tutti/", "city": "Florence", "action_domains": "Migration", "main_category": "Migration"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [10.4017, 43.7228]}, "properties": {"organization": "Casa della Donna Fierenze", "website": "https://www.comune.fi.it/comunicati-stampa/firenze-ha-la-sua-la-casa-delle-donne", "city": "Pisa", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [11.2558, 43.7696]}, "properties": {"organization": "Nostros para Ellas A.C.", "website": "https://www.girlsnotbrides.org/our-partnership/member-directory/nosotras-para-ellas-ac/", "city": "Florence", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [12.4964, 41.9028]}, "properties": {"organization": "EuropaNow", "website": "https://www.europanow.eu/", "city": "Rome", "action_domains": "conflict/war", "main_category": "conflict/war"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [23.7275, 37.9838]}, "properties": {"organization": "Europe Must Act", "website": "https://www.europemustact.org/", "city": "Athens", "action_domains": "Migration", "main_category": "Migration"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [13.3615, 38.1157]}, "properties": {"organization": "From the Sea to the City \u00e2\u0080\u0093 \u00e2\u0080\u009cA consortium of civil society organizations for a welcoming Europe\u00e2\u0080\u009d", "website": "https://fromseatocity.eu/", "city": "Palermo", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [7.7174, 44.8462]}, "properties": {"organization": "Recosol (Rete dei Comuni Solidali Italy)", "website": "https://www.comunitasolidali.org/", "city": "Carmagnola", "action_domains": "Other", "main_category": "Other"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [4.3517, 50.8503]}, "properties": {"organization": "Eastern Partnership Civil Society Forum", "website": "https://eap-csf.eu/", "city": "Brussels", "action_domains": "Other", "main_category": "Other"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [76.8512, 4.3222]}, "properties": {"organization": "Legal Policy Research Center", "website": "lprc.kz", "city": "Almaty", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [11.0767, 49.4521]}, "properties": {"organization": "Alliance against right-wing extremism in Nuremberg (Allianz gegen Rechtsextremismus N\u00c3\u00bcrnberg)", "website": "https://www.allianz-gegen-rechtsextremismus.de/", "city": "Nuremberg", "action_domains": "Democracy", "main_category": "Democracy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [1.3405, 0.005252]}, "properties": {"organization": "Antifaschists Germany", "website": "https://antifascisteurope.org/germany/", "city": "Berlin", "action_domains": "Democracy", "main_category": "Democracy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [1.3405, 0.005252]}, "properties": {"organization": "Amnesty International", "website": "https://www.amnesty.de/", "city": "Berlin", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [21.0122, 52.2297]}, "properties": {"organization": "Civil Development Forum Foundation (Fundacja Forum Rozwoju Obywatelskiego)", "website": "https://wolnagospodarka.pl/en/what-we-do/forum-obywatelskiego-rozwoju/", "city": "Warsaw", "action_domains": "Democracy", "main_category": "Democracy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [21.0122, 52.2297]}, "properties": {"organization": "ePa\u00c5\u0084stwo Foundation (Fundacja ePa\u00c5\u0084stwo)", "website": "https://mojepanstwo.pl/fundacja", "city": "Warsaw", "action_domains": "Democracy", "main_category": "Democracy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [21.0122, 52.2297]}, "properties": {"organization": "Amnesty InternationalPoland", "website": "Amnesty International - Bronimy praw cz\u00c5\u0082owieka", "city": "Warsaw", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [21.0122, 52.2297]}, "properties": {"organization": "Batory Foundation (Fundacja Batorego)", "website": "https://www.batory.org.pl/en/", "city": "Warsaw", "action_domains": "Democracy", "main_category": "Democracy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [21.0122, 52.2297]}, "properties": {"organization": "Helsinki Foundation for Human Rights (Helsi\u00c5\u0084ska Fundacja Praw Cz\u00c5\u0082owieka HFPC)", "website": "https://hfhr.pl/en", "city": "Warsaw", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [21.0122, 52.2297]}, "properties": {"organization": "Panoptykon Foundation (Fundacja Panoptykon)", "website": "https://en.panoptykon.org/", "city": "Warsaw", "action_domains": "digital media", "main_category": "digital media"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [21.0122, 52.2297]}, "properties": {"organization": "Digital Center Foundation (Fundacja Centrum Cyfrowe)", "website": "https://centrumcyfrowe.pl/en/homepage/", "city": "Warsaw", "action_domains": "digital media", "main_category": "digital media"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [21.0122, 52.2297]}, "properties": {"organization": "Polish Chamber of Information Technology and Telecommunications (Polska Izba Informatyki i Telekomunikacji PIIT)", "website": "https://www.piit.org.pl/", "city": "Warsaw", "action_domains": "digital media", "main_category": "digital media"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [21.0122, 52.2297]}, "properties": {"organization": "Ameryka\u00c5\u0084ska Izba Handlowa w Polsce (Ameryka\u00c5\u0084ska Izba Handlowa w Polsce)", "website": "https://amcham.pl/", "city": "Warsaw", "action_domains": "Trade/Economy", "main_category": "Trade/Economy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [19.0402, 47.4979]}, "properties": {"organization": "European Roma Rights Center", "website": "https://www.errc.org/", "city": "Budapest", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-7.4006, 40.7128]}, "properties": {"organization": "Human Rights First", "website": "https://humanrightsfirst.org/", "city": "New York City", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [21.0122, 52.2297]}, "properties": {"organization": "Campaign Against Homophobia (Kampania Przeciw Homofobii)", "website": "https://kph.org.pl/", "city": "Warsaw", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [6.9603, 50.9375]}, "properties": {"organization": "Central Council for Muslims in Germany", "website": "https://zentralrat.de/3037.php", "city": "Cologne", "action_domains": "Other", "main_category": "Other"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [1.3405, 0.005252]}, "properties": {"organization": "Central Council of Jews in Germany", "website": "https://www.zentralratderjuden.de/", "city": "Berlin", "action_domains": "Other", "main_category": "Other"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [18.0686, 59.3293]}, "properties": {"organization": "Civil Rights Defenders", "website": "https://crd.org/", "city": "Stockholm", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [12.5683, 55.6761]}, "properties": {"organization": "Danish Refugee Council (Dansk Flygtningehj\u00c3\u00a6lp)", "website": "https://drc.ngo/", "city": "Copenhagen", "action_domains": "Migration", "main_category": "Migration"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [12.5683, 55.6761]}, "properties": {"organization": "CEPOS", "website": "https://cepos.dk/english/", "city": "Copenhagen", "action_domains": "Other", "main_category": "Other"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [16.3738, 48.2082]}, "properties": {"organization": "Association of European Journalists", "website": "https://aej.org/", "city": "Vienna", "action_domains": "digital media", "main_category": "digital media"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [4.3517, 50.8503]}, "properties": {"organization": "European Federation of Journalists", "website": "https://europeanjournalists.org/", "city": "Brussels", "action_domains": "digital media", "main_category": "digital media"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [19.0402, 47.4979]}, "properties": {"organization": "Federation of Hungarian Jewish Communities (Magyarorsz\u00c3\u00a1gi Zsid\u00c3\u00b3 Hitk\u00c3\u00b6zs\u00c3\u00a9gek Sz\u00c3\u00b6vets\u00c3\u00a9ge MAZSIHISZ)", "website": "https://mazsihisz.hu/en", "city": "Budapest", "action_domains": "Other", "main_category": "Other"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [2.3522, 48.8566]}, "properties": {"organization": "FEMEN", "website": "https://femen.org/", "city": "Paris", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [8.6821, 50.1109]}, "properties": {"organization": "PRO ASYL", "website": "https://www.proasyl.de/", "city": "Frankfurt (Am Main)", "action_domains": "Migration", "main_category": "Migration"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [8.6821, 50.1109]}, "properties": {"organization": "Intercultural Council (Interkulturelles Rat)", "website": "https://www.coe.int/en/web/interculturalcities", "city": "Frankfurt (Am Main)", "action_domains": "Other", "main_category": "Other"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-77.0369, 38.9072]}, "properties": {"organization": "Freedom House", "website": "https://freedomhouse.org/", "city": "Washington, D.C.", "action_domains": "Democracy", "main_category": "Democracy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [19.0402, 47.4979]}, "properties": {"organization": "Hungarian Civil Liberties Union (T\u00c3\u00a1rsas\u00c3\u00a1g a Szabads\u00c3\u00a1gjogok\u00c3\u00a9rt TASZ)", "website": "https://tasz.hu/", "city": "Budapest", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [19.0402, 47.4979]}, "properties": {"organization": "Hungarian Helsinki Committee (Magyar Helsinki Bizotts\u00c3\u00a1g  MHB)", "website": "https://helsinki.hu/", "city": "Budapest", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [1.3405, 0.005252]}, "properties": {"organization": "International Auschwitz Committee", "website": "https://www.auschwitz.info/en/welcome.html", "city": "Berlin", "action_domains": "Other", "main_category": "Other"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [21.0122, 52.2297]}, "properties": {"organization": "Iustitia Association of Polish Judges (Stowarzyszenie S\u00c4\u0099dzi\u00c3\u00b3w Polskich Iustitia Iustitia)", "website": "https://iustitia.pl/", "city": "Warsaw", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [1.3405, 0.005252]}, "properties": {"organization": "Jewish Central Council", "website": "https://jfst.se/for-english-speakers/history-of-the-jewish-community/", "city": "Berlin", "action_domains": "Other", "main_category": "Other"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [19.0402, 47.4979]}, "properties": {"organization": "Migration Aid (Hungarian civil organization)", "website": "https://migaid.org/en/", "city": "Budapest", "action_domains": "Migration", "main_category": "Migration"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [2.3522, 48.8566]}, "properties": {"organization": "Reporters Without Borders (RSF)", "website": "https://rsf.org/en", "city": "Paris", "action_domains": "digital media", "main_category": "digital media"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [19.0402, 47.4979]}, "properties": {"organization": "Roma Civil Rights Foundation (Roma Polg\u00c3\u00a1rjogi Alap\u00c3\u00adtv\u00c3\u00a1ny )", "website": "http://www.rpa.ingyenweb.hu/keret.cgi?/start.html", "city": "Budapest", "action_domains": "Democracy", "main_category": "Democracy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [12.5683, 55.6761]}, "properties": {"organization": "Save the Children Denmark (Red Barnet)", "website": "https://redbarnet.dk/stoet/", "city": "Copenhagen", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [16.3738, 48.2082]}, "properties": {"organization": "South-East Europe Media Organization (SEEMO)", "website": "https://seemo.org/", "city": "Vienna", "action_domains": "digital media", "main_category": "digital media"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [16.3738, 48.2082]}, "properties": {"organization": "International Press Institute (IPI)", "website": "https://ipi.media/", "city": "Vienna", "action_domains": "digital media", "main_category": "digital media"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-3.7038, 40.4168]}, "properties": {"organization": "Spanish federation of journalists' association (FAPE)", "website": "https://fape.es/", "city": "Madrid", "action_domains": "digital media", "main_category": "digital media"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [18.0686, 59.3293]}, "properties": {"organization": "Swedish Federation for Lesbian Gay  Bisexual and Transgender Rights (Riksf\u00c3\u00b6rbundet f\u00c3\u00b6r homosexuellas  bisexuellas  transpersoners  queeras och intersexpersoners r\u00c3\u00a4ttigheter  RFSL)", "website": "https://www.rfsl.se/en/", "city": "Stockholm", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [18.0686, 59.3293]}, "properties": {"organization": "Stockholm Pride", "website": "https://www.stockholmpride.org/en/", "city": "Stockholm", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [18.0686, 59.3293]}, "properties": {"organization": "The Nobel Foundation (Nobelstiftelsen)", "website": "https://www.nobelprize.org/the-nobel-prize-organisation/the-nobel-foundation/", "city": "Stockholm", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [21.0122, 52.2297]}, "properties": {"organization": "Themis Judges' Association (Stowarzyszenie S\u00c4\u0099dzi\u00c3\u00b3w Themis Themis)", "website": "https://themis-sedziowie.eu/statut/", "city": "Warsaw", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [1.3405, 0.005252]}, "properties": {"organization": "Bundesnetzwerk B\u00c3\u00bcrgerschaftliches Engagement (BBE)", "website": "https://www.b-b-e.de/", "city": "Berlin", "action_domains": "Democracy", "main_category": "Democracy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [1.3405, 0.005252]}, "properties": {"organization": "Europ\u00c3\u00a4ische Akademie Berlin e.V. (EAB)", "website": "https://www.eab-berlin.eu/", "city": "Berlin", "action_domains": "Democracy", "main_category": "Democracy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [1.3405, 0.005252]}, "properties": {"organization": "European Council on Foreign Relations e.V. (ECFR)", "website": "https://ecfr.eu/", "city": "Berlin", "action_domains": "Other", "main_category": "Other"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [1.3405, 0.005252]}, "properties": {"organization": "Civil Liberties Union for Europe (Liberties)", "website": "https://www.liberties.eu/en", "city": "Berlin", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [12.3731, 51.3397]}, "properties": {"organization": "We are Europe! e.V.", "website": "https://we-are-europe.org/", "city": "Leipzig", "action_domains": "Democracy", "main_category": "Democracy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [7.8421, 4.7999]}, "properties": {"organization": "Gemeinschaft f\u00c3\u00bcr studentischen Austausch in Mittel- und Osteuropa e.V. (GFPS)", "website": "https://www.gfps.org/", "city": "Freiburg", "action_domains": "Other", "main_category": "Other"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [1.3405, 0.005252]}, "properties": {"organization": "Ecologic Institut", "website": "https://www.ecologic.eu/de", "city": "Berlin", "action_domains": "energy/climate/sustainability", "main_category": "energy/climate/sustainability"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [6.9944, 49.5856]}, "properties": {"organization": "Europ\u00c3\u00a4ische Akademie Otzenhausen", "website": "https://www.eao-otzenhausen.de/", "city": "Otzenhausen", "action_domains": "energy/climate/sustainability", "main_category": "energy/climate/sustainability"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [1.3405, 0.005252]}, "properties": {"organization": "Heinrich-B\u00c3\u00b6ll-Stiftung", "website": "https://www.boell.de/de", "city": "Berlin", "action_domains": "energy/climate/sustainability", "main_category": "energy/climate/sustainability"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [8.6821, 50.1109]}, "properties": {"organization": "Pulse of Europe", "website": "https://pulseofeurope.eu/", "city": "Frankfurt (Am Main)", "action_domains": "Democracy", "main_category": "Democracy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [1.3405, 0.005252]}, "properties": {"organization": "Europa-Union Deutschland (EUD)", "website": "https://www.europa-union.de/", "city": "Berlin", "action_domains": "Democracy", "main_category": "Democracy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [1.3405, 0.005252]}, "properties": {"organization": "Junge Europ\u00c3\u00a4ische F\u00c3\u00b6rderalist:innen (JEF)", "website": "https://www.jef.de/", "city": "Berlin", "action_domains": "Democracy", "main_category": "Democracy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [1.3405, 0.005252]}, "properties": {"organization": "Institut f\u00c3\u00bcr Europ\u00c3\u00a4ische Politik e.V. (IEP)", "website": "https://iep-berlin.de/", "city": "Berlin", "action_domains": "Other", "main_category": "Other"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [1.3405, 0.005252]}, "properties": {"organization": "United Europe e.V.", "website": "https://www.united-europe.eu/de/", "city": "Berlin", "action_domains": "Other", "main_category": "Other"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [1.3405, 0.005252]}, "properties": {"organization": "Citizens of Europe e.V.", "website": "https://citizens-of-europe.eu/", "city": "Berlin", "action_domains": "Democracy", "main_category": "Democracy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [30.5234, 50.4501]}, "properties": {"organization": "Shariya's Party", "website": "https://sharij.com.ua/", "city": "Kyiv", "action_domains": "Other", "main_category": "Other"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [30.5234, 50.4501]}, "properties": {"organization": "Opposition Platform \u00e2\u0080\u0093 For Life", "website": "https://web.archive.org/web/20220214141120/https://zagittya.com.ua/", "city": "Kyiv", "action_domains": "Other", "main_category": "Other"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [30.5234, 50.4501]}, "properties": {"organization": "National Corps", "website": "https://web.archive.org/web/20220701000000/https://nationalcorps.org/", "city": "Kyiv", "action_domains": "Other", "main_category": "Other"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [0.007067, 0.003345]}, "properties": {"organization": "Am\u00e9rica Latina y el Caribe Mejor Sin TLC", "website": "https://americalatinasintlc.org/", "city": "Santiago", "action_domains": "Democracy", "main_category": "Democracy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [4.3517, 50.8503]}, "properties": {"organization": "Red EU-LAT", "website": "https://eulatnetwork.org/es/", "city": "Brussels", "action_domains": "Trade/economy", "main_category": "Trade/economy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [135.7681, 35.0116]}, "properties": {"organization": "Support Office for Student Volunteers Activities, Doshisha University", "website": "https://volunteer.doshisha.ac.jp/network/", "city": "Kyoto", "action_domains": "Human/Fundamental Rights", "main_category": "Human/Fundamental Rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [15.9819, 45.815]}, "properties": {"organization": "Croatian Youth Network", "website": "https://mmh.hr/", "city": "Zagreb", "action_domains": "Democracy", "main_category": "Democracy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [71.4704, 51.1605]}, "properties": {"organization": "Legal Media-Center", "website": "https://www.lmc.kz/ru", "city": "Astana", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [76.8512, 43.222]}, "properties": {"organization": "Eurasia Foundation of Central Asia", "website": "http://en.ef-ca.kz/", "city": "Almaty", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [20.4489, 44.7866]}, "properties": {"organization": "Center for Cultural Decontamination", "website": "https://www.czkd.org/en/about-us/#:~:text=The%20Center%20for%20Cultural%20Decontamination%20%28CZKD%29%20is%20a,on%20critical%20thinking%2C%20and%20cultural%20and%20artistic%20production.", "city": "Belgrade", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [20.4489, 44.7866]}, "properties": {"organization": "DAH Teatar", "website": "https://en.dahteatarcentar.com/", "city": "Belgrade", "action_domains": "Democracy", "main_category": "Democracy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [11.2558, 43.7696]}, "properties": {"organization": "COSPE ETS", "website": "https://www.cospe.org/", "city": "Firenze", "action_domains": "Migration", "main_category": "Migration"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [2.1734, 41.3851]}, "properties": {"organization": "Research & Degrowth International", "website": "https://degrowth.org", "city": "Barcelona", "action_domains": "energy/climate/sustainability", "main_category": "energy/climate/sustainability"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [11.1298, 43.832]}, "properties": {"organization": "Collettivo Di Fabbrica - Lavoratori Gkn Firenze", "website": "https://insorgiamo.org", "city": "Campi Bisenzio", "action_domains": "energy/climate/sustainability", "main_category": "energy/climate/sustainability"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [4.3517, 50.8503]}, "properties": {"organization": "DiEM25", "website": "https://diem25.org/", "city": "Brussels", "action_domains": "energy/climate/sustainability", "main_category": "energy/climate/sustainability"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [0.008, 40.4406]}, "properties": {"organization": "REEES. University of Pittsburgh", "website": "https://www.ucis.pitt.edu/crees/", "city": "Pittsburgh", "action_domains": "conflict/war", "main_category": "conflict/war"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [20.4489, 44.7866]}, "properties": {"organization": "YUCOM: Lawyers\u0092 Committee for Human Rights", "website": "https://yucom.org.rs/en/home/", "city": "Belgrade", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [76.8512, 43.222]}, "properties": {"organization": "Kazakhstan International Bureau for Human Rights and Rule of Law", "website": "https://bureau.kz/en/", "city": "Almaty", "action_domains": "human/fundamental rights", "main_category": "human/fundamental rights"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [30.5234, 50.4501]}, "properties": {"organization": "VoxUkraine", "website": "https://voxukraine.org/en/", "city": "Kyiv", "action_domains": "Democracy", "main_category": "Democracy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [30.5234, 50.4501]}, "properties": {"organization": "The \"New Europe Center\"", "website": "https://neweurope.org.ua/en/", "city": "Kyiv", "action_domains": "Democracy", "main_category": "Democracy"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [30.5234, 50.4501]}, "properties": {"organization": "Europe without Barriers", "website": "https://english.europewb.org.ua/", "city": "Kyiv", "action_domains": "Democracy", "main_category": "Democracy"}}]};
-const colorMap = {"Democracy": "#3b82f6", "Human/Fundamental Rights": "#22c55e", "Migration": "#ef4444", "Trade/Economy": "#f59e0b", "Trade/economy": "#a855f7", "conflict/war": "#06b6d4", "digital media": "#10b981", "energy/climate/sustainability": "#e11d48", "human/fundamental rights": "#8b5cf6", "Other": "#8e8e8e"};
+    // City → lat,lng (from your table)
+    const CITY_LL = {
+      'Ankara,Turkey':[39.9255,32.8663],'Istanbul,Turkey':[41.0151,28.9795],'Brussels,Belgium':[50.8505,4.3488],
+      'Arlington,United States of America':[38.8810,-77.1043],'Alexandria,Egypt':[31.2058,29.9245],'Paris,France':[48.8647,2.3490],
+      'Berlin,Germany':[52.5200,13.4050],'Warsaw,Poland':[52.2370,21.0175],'Krakow,Poland':[50.0614,19.9366],
+      'Florence,Italy':[43.7793,11.2463],'Bologna,Italy':[44.4938,11.3388],'Rome,Italy':[41.9028,12.4964],
+      'Milan,Italy':[45.4643,9.1895],'Scandicci,Italy':[43.7542,11.1879],'Pisa,Italy':[43.7085,10.4036],
+      'Athens,Greece':[37.9795,23.7162],'Palermo,Italy':[38.1321,13.3356],'Carmagnola,Italy':[44.8496,7.7203],
+      'Almaty,Kazakhstan':[43.2565,76.9285],'Nuremberg,Germany':[49.46098,11.06186],'Budapest,Hungary':[47.4979,19.0402],
+      'New York City,United States of America':[40.7143,-74.0060],'Cologne,Germany':[50.9352,6.9531],'Stockholm,Sweden':[59.3294,18.0687],
+      'Copenhagen,Denmark':[55.6761,12.5683],'Vienna,Austria':[48.2085,16.3721],'Frankfurt (Am Main),Germany':[50.1155,8.6842],
+      'Washington D.C.,United States of America':[38.8951,-77.0364],'Madrid,Spain':[40.4165,-3.7026],'Leipzig,Germany':[51.3396,12.3713],
+      'Freiburg,Germany':[47.9959,7.8522],'Otzenhausen,Germany':[49.6205,7.0013],'Kyiv,Ukraine':[50.4500,30.5233],
+      'Santiago,Chile':[-33.4569,-70.6483],'Kyoto,Japan':[35.0211,135.7539],'Zagreb,Croatia':[45.8144,15.9780],
+      'Astana (Nur-Sultan),Kazakhstan':[51.1694,71.4491],'Belgrade,Serbia':[44.8040,20.4651],'Firenze (dup of Florence),Italy':[43.7793,11.2463],
+      'Barcelona,Spain':[41.3888,2.1590],'Campi Bisenzio,Italy':[43.8245,11.1303],'Pittsburgh,United States of America':[40.4406,-79.9959]
+    };
 
-map.on('load', () => {
-    map.loadImage('https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png', (error, image) => {
-        if (error) throw error;
-        map.addImage('custom-pin', image);
+    // Normalizers for messy inputs
+    const normalize = {
+      city(c){
+        if(!c) return c;
+        c = c.trim();
+        if(/^firenze\b/i.test(c)) return 'Florence';
+        if(/^washington\b/i.test(c)) return 'Washington D.C.';
+        if(/^astana$/i.test(c)) return 'Astana (Nur-Sultan)';
+        if(/frankfurt.*am main/i.test(c)) return 'Frankfurt (Am Main)';
+        return c;
+      },
+      country(x){
+        if(!x) return x;
+        x = x.trim();
+        if(/^kazakhestan$/i.test(x)) return 'Kazakhstan';
+        return x;
+      },
+      cat(x){
+        if(!x) return '';
+        let s = x.trim().replace(/\s*\/\s*/g,'/');
+        const map = {
+          'human/fundamental rights':'Human/Fundamental rights',
+          'energy/climate/sustainability':'Energy/Climate/Sustainability',
+          'trade/economy':'Trade/Economy',
+          'digital technology':'Digital Technology',
+          'digital media':'Digital Media',
+          'european integration':'European Integration',
+          'conflict/war':'Conflict/War',
+          'other':'other',
+          'trade/economy ':'Trade/Economy'
+        };
+        const key = s.toLowerCase();
+        return map[key] || s;
+      },
+      url(u){
+        if(!u) return '';
+        u = u.trim();
+        const m = u.match(/(https?:\/\/[^\s]+|www\.[^\s]+)/i);
+        if(!m) return '';
+        let out = m[1];
+        if(/^www\./i.test(out)) out = 'https://' + out;
+        return out.replace(/[),.;]+$/,'');
+      }
+    };
 
-        map.addSource('orgs', {
-            type: 'geojson',
-            data: geojson
-        });
+    // Build data from inline CSV (your full list)
+    const CSV = `Name of Organization;City;Country;Website;Primary Category;Secondary Category;Third Category
+The Association of Civil Society Development Center ;Ankara;Turkey;https://www.sivilsesler.org/;Trade/Economy;;
+Turkish Economic and Social Studies Foundation ;Istanbul;Turkey;https://www.tesev.org.tr/en/home/;Democracy;;
+ECONOMIC DEVELOPMENT FOUNDATION ;Istanbul;Turkey; https://www.ikv.org.tr/ikv.asp?ust_id=2&id=10;Trade/Economy;;
+Hrant Dink Foundation ;Istanbul;Turkey;https://hrantdink.org/en/;Human/Fundamental rights;other;
+Tepsa ;Brussels;Belgium;https://tepsa.eu/;Democracy;;
+Demsoc;Brussels;Belgium;https://www.demsoc.org/;Democracy;;
+Ashoka;Arlington;United States of America;https://www.ashoka.org/en-us;Human/Fundamental rights;;
+Crude Accountability;Alexandria;Egypt;https://crudeaccountability.org/;Energy/Climate/Sustainability;;
+attac;Paris;France;www.attac.de - Attac Deutschland - www.attac.de;Trade/Economy;;
+Fridays for future;Berlin;Germany;https://fridaysforfuture.de/;Energy/Climate/Sustainability;;
+Democracy Otwarty Dialog Foundation (Open Dialogue Foundation);Warsaw;Poland;https://en.odfoundation.eu/;Democracy;;
+Batory Foundation;Warsaw;Poland;https://www.batory.org.pl/en/;Democracy;;
+Fundacja Rozwoju Demokracji Lokalnej (Foundation for the Development of Local Democracy);Warsaw;Poland;https://frdl.org.pl/;Democracy;;
+Institute of Public Affairs (ISP);Warsaw;Poland;https://www.isp.org.pl/en/about-us;Trade/Economy;;
+CASE – Center for Social and Economic Research;Warsaw;Poland;CASE – Center for Social and Economic Research;Trade/Economy;;
+Polish Green Network;Krakow;Poland;https://zielonasiec.pl/en/home-2/;Energy/Climate/Sustainability;;
+ClientEarth Poland;Warsaw;Poland;https://www.clientearth.pl/;Energy/Climate/Sustainability;;
+Polska Akcja Humanitarna (PAH);Warsaw;Poland;https://www.pah.org.pl/;Conflict/War;;
+Fundacja Ocalenie;Warsaw;Poland;https://ocalenie.org.pl/;Migration;;
+Stowarzyszenie Interwencji Prawnej;Warsaw;Poland;https://interwencjaprawna.pl/;Migration;;
+Helsinki Foundation for Human Rights (Helsińska Fundacja Praw Człowieka HFPC);Warsaw;Poland;https://hfhr.pl/en;Human/Fundamental rights;;
+Amnesty International Poland;Warsaw;Poland;https://www.amnesty.org/en/location/europe-and-central-asia/western-central-and-south-eastern-europe/poland/;Human/Fundamental rights;;
+Campaign Against Homophobia (Kampania Przeciw Homofobii);Warsaw;Poland;https://kph.org.pl/en/;Human/Fundamental rights;;
+COSPE;Florence;Italy;https://www.cospe.org/;Human/Fundamental rights;Conflict/War;Energy/Climate/Sustainability
+Amnesty International Firenze;Bologna;Italy;https://amnestyfirenze.wordpress.com/;Human/Fundamental rights;;
+ARCIGAY;Florence;Italy;https://www.arcigayfirenze.it/;Human/Fundamental rights;;
+IREO;Brussels;Belgium;https://www.ireo.eu/;European Integration;;
+IREOS;Florence;Italy;https://www.ireos.org/;Human/Fundamental rights;;
+Italiani senza cittadinanza;Rome;Italy;Movimento Italiani senza cittadinanza;Migration;;
+Black History Month Florence;Florence;Italy;http://www.blackhistorymonthflorence.com/;Human/Fundamental rights;;
+Italian Climate Network;Milan;Italy;https://www.italiaclima.org/en/home_en/;Energy/Climate/Sustainability;;
+Legambiente Firenze;Florence;Italy;https://www.legambientefirenze.it/;Energy/Climate/Sustainability;;
+Rete Semi Rurali;Scandicci;Italy;https://rsr.bio/;Energy/Climate/Sustainability;;
+Florence Must Act;Florence;Italy;https://firenzeurbanlifestyle.com/florence-must-act-un-gommone-in-arno-per-richiedere-accoglienza-per-tutti/;Migration;;
+Casa della Donna Firenze;Pisa;Italy;https://www.comune.fi.it/comunicati-stampa/firenze-ha-la-sua-la-casa-delle-donne;Human/Fundamental rights;;
+Nosotras para Ellas A.C.;Florence;Italy;https://www.girlsnotbrides.org/our-partnership/member-directory/nosotras-para-ellas-ac/;Human/Fundamental rights;;
+EuropaNow;Rome;Italy; https://www.europanow.eu/;Conflict/War;Democracy;Human/Fundamental rights
+Europe Must Act;Athens;Greece;https://www.europemustact.org/;Migration;;
+From the Sea to the City – “A consortium of civil society organizations for a welcoming Europe”;Palermo;Italy;https://fromseatocity.eu/;Human/Fundamental rights;Migration;
+Recosol (Rete dei Comuni Solidali Italy);Carmagnola;Italy;https://www.comunitasolidali.org/;other;;
+Eastern Partnership Civil Society Forum;Brussels;Belgium; https://eap-csf.eu/;other;;
+Legal Policy Research Center ;Almaty;Kazakhestan;lprc.kz;Human/Fundamental rights;;
+Alliance against right-wing extremism in Nuremberg (Allianz gegen Rechtsextremismus Nürnberg);Nuremberg;Germany;https://www.allianz-gegen-rechtsextremismus.de/;Democracy;;
+Antifaschists Germany;Berlin;Germany;https://antifascisteurope.org/germany/;Democracy;;
+Amnesty International;Berlin;Germany;https://www.amnesty.de/;Human/Fundamental rights;;
+Civil Development Forum Foundation (Fundacja Forum Rozwoju Obywatelskiego);Warsaw;Poland;https://wolnagospodarka.pl/en/what-we-do/forum-obywatelskiego-rozwoju/;Democracy;;
+ePaństwo Foundation (Fundacja ePaństwo);Warsaw;Poland;https://mojepanstwo.pl/fundacja;Democracy;;
+Amnesty International Poland;Warsaw;Poland;Amnesty International - Bronimy praw człowieka;Human/Fundamental rights;;
+Batory Foundation (Fundacja Batorego);Warsaw;Poland;https://www.batory.org.pl/en/;Democracy;;
+Panoptykon Foundation (Fundacja Panoptykon);Warsaw;Poland;https://en.panoptykon.org/;Digital Technology;Human/Fundamental rights;
+Digital Center Foundation (Fundacja Centrum Cyfrowe);Warsaw;Poland;https://centrumcyfrowe.pl/en/homepage/;Digital Technology;;
+Polish Chamber of Information Technology and Telecommunications (Polska Izba Informatyki i Telekomunikacji PIIT);Warsaw;Poland;https://www.piit.org.pl/;Digital Technology;;
+Amerykańska Izba Handlowa w Polsce (Amcham Poland);Warsaw;Poland;https://amcham.pl/;Trade/Economy;;
+European Roma Rights Center;Budapest;Hungary;https://www.errc.org/;Human/Fundamental rights;;
+Human Rights First;New York City;United States of America;https://humanrightsfirst.org/;Human/Fundamental rights;;
+Campaign Against Homophobia (Kampania Przeciw Homofobii);Warsaw;Poland;https://kph.org.pl/;Human/Fundamental rights;;
+Central Council for Muslims in Germany ;Cologne;Germany;https://zentralrat.de/3037.php;other;;
+Central Council of Jews in Germany;Berlin;Germany;https://www.zentralratderjuden.de/;other;;
+Civil Rights Defenders;Stockholm;Sweden;https://crd.org/;Human/Fundamental rights;;
+Danish Refugee Council (Dansk Flygtningehjælp);Copenhagen;Denmark;https://drc.ngo/;Migration;;
+CEPOS;Copenhagen;Denmark;https://cepos.dk/english/;other;;
+Association of European Journalists;Vienna;Austria;https://aej.org/;Digital Technology;Human/Fundamental rights;
+European Federation of Journalists;Brussels;Belgium;https://europeanjournalists.org/;Digital Technology;Human/Fundamental rights;
+Federation of Hungarian Jewish Communities (Magyarországi Zsidó Hitközségek Szövetsége MAZSIHISZ);Budapest;Hungary;https://mazsihisz.hu/en;other ;;
+FEMEN;Paris;France;https://femen.org/;Human/Fundamental rights;;
+PRO ASYL;Frankfurt (Am Main);Germany;https://www.proasyl.de/;Migration;;
+Intercultural Council (Interkultureller Rat);Frankfurt (Am Main);Germany;https://www.coe.int/en/web/interculturalcities;other;;
+Freedom House;Washington;United States of America;https://freedomhouse.org/;Democracy;Human/Fundamental rights;
+Hungarian Civil Liberties Union (Társaság a Szabadságjogokért TASZ);Budapest;Hungary;https://tasz.hu/;Human/Fundamental rights;;
+Hungarian Helsinki Committee (Magyar Helsinki Bizottság MHB);Budapest;Hungary;https://helsinki.hu/;Human/Fundamental rights;;
+International Auschwitz Committee;Berlin;Germany;https://www.auschwitz.info/en/welcome.html;other;;
+Iustitia Association of Polish Judges (Stowarzyszenie Sędziów Polskich Iustitia);Warsaw;Poland;https://iustitia.pl/;Human/Fundamental rights;;
+Jewish Central Council;Berlin;Germany;https://jfst.se/for-english-speakers/history-of-the-jewish-community/;other;;
+Migration Aid (Hungarian civil organization);Budapest;Hungary;https://migaid.org/en/;Migration;;
+Reporters Without Borders (RSF);Paris;France;https://rsf.org/en;Digital Technology;Human/Fundamental rights;
+Roma Civil Rights Foundation (Roma Polgárjogi Alapítvány);Budapest;Hungary;http://www.rpa.ingyenweb.hu/keret.cgi?/start.html;Democracy;;
+Save the Children Denmark (Red Barnet);Copenhagen;Denmark;https://redbarnet.dk/stoet/;Human/Fundamental rights;;
+South-East Europe Media Organization (SEEMO);Vienna;Austria;https://seemo.org/;digital media;Human/Fundamental rights;
+International Press Institute (IPI);Vienna;Austria;https://ipi.media/;digital media;Human/Fundamental rights;
+Spanish federation of journalists' association (FAPE);Madrid;Spain;https://fape.es/;digital media;Human/Fundamental rights;
+Swedish Federation for Lesbian Gay Bisexual and Transgender Rights (Riksförbundet för homosexuellas bisexuellas transpersoners queeras och intersexpersoners rättigheter RFSL);Stockholm;Sweden;https://www.rfsl.se/en/;Human/Fundamental rights;;
+Stockholm Pride;Stockholm;Sweden;https://www.stockholmpride.org/en/;Human/Fundamental rights;;
+The Nobel Foundation (Nobelstiftelsen);Stockholm;Sweden;https://www.nobelprize.org/the-nobel-prize-organisation/the-nobel-foundation/;Human/Fundamental rights;;
+Themis Judges' Association (Stowarzyszenie Sędziów Themis);Warsaw;Poland;https://themis-sedziowie.eu/statut/;Human/Fundamental rights;;
+Bundesnetzwerk Bürgerschaftliches Engagement (BBE);Berlin;Germany;https://www.b-b-e.de/;Democracy;;
+Europäische Akademie Berlin e.V. (EAB);Berlin;Germany;https://www.eab-berlin.eu/;Democracy;;
+European Council on Foreign Relations e.V. (ECFR);Berlin;Germany;https://ecfr.eu/;other ;;
+Civil Liberties Union for Europe (Liberties);Berlin;Germany;https://www.liberties.eu/en;Human/Fundamental rights;;
+We are Europe! e.V.;Leipzig;Germany;https://we-are-europe.org/;Democracy;;
+Gemeinschaft für studentischen Austausch in Mittel- und Osteuropa e.V. (GFPS);Freiburg;Germany;https://www.gfps.org/;other;;
+Ecologic Institut;Berlin;Germany;https://www.ecologic.eu/de;Energy/Climate/Sustainability;;
+Europäische Akademie Otzenhausen;Otzenhausen;Germany;https://www.eao-otzenhausen.de/;Energy/Climate/Sustainability;;
+Heinrich-Böll-Stiftung;Berlin;Germany;https://www.boell.de/de;Energy/Climate/Sustainability;Democracy;Human/Fundamental rights
+Pulse of Europe;Frankfurt (Am Main);Germany;https://pulseofeurope.eu/;Democracy;;
+Europa-Union Deutschland (EUD);Berlin;Germany;https://www.europa-union.de/;Democracy;;
+Junge Europäische Förderalist:innen (JEF);Berlin;Germany;https://www.jef.de/;Democracy;;
+Institut für Europäische Politik e.V. (IEP);Berlin;Germany;https://iep-berlin.de/;European Integration;;
+United Europe e.V.;Berlin;Germany;https://www.united-europe.eu/de/;European Integration;;
+Citizens of Europe e.V.;Berlin;Germany;https://citizens-of-europe.eu/;Democracy;;
+Shariya's Party;Kyiv;Ukraine;https://sharij.com.ua/;European Integration;;
+Opposition Platform – For Life;Kyiv;Ukraine;https://web.archive.org/web/20220214141120/https://zagittya.com.ua/;European Integration;;
+National Corps;Kyiv;Ukraine;https://web.archive.org/web/20220701000000/https://nationalcorps.org/;European Integration;;
+América Latina y el Caribe Mejor Sin TLC;Santiago;Chile;https://americalatinasintlc.org/;Democracy;Energy/Climate/Sustainability;Trade/economy
+Red EU-LAT;Brussels;Belgium;https://eulatnetwork.org/es/;Trade/economy;Democracy;Energy/Climate/Sustainability
+Support Office for Student Volunteers Activities Doshisha University;Kyoto;Japan;https://volunteer.doshisha.ac.jp/network/;Human/Fundamental rights;Migration;
+Croatian Youth Network;Zagreb;Croatia;https://mmh.hr/;Democracy;Digital Technology;Human/Fundamental rights
+Legal Media-Center;Astana (Nur-Sultan);Kazakhestan;https://www.lmc.kz/ru;Human/Fundamental rights;;
+Eurasia Foundation of Central Asia;Almaty;Kazakhestan;http://en.ef-ca.kz/;Human/Fundamental rights;;
+Center for Cultural Decontamination;Belgrade;Serbia;https://www.czkd.org;Human/Fundamental rights;;
+DAH Teatar;Belgrade;Serbia;https://en.dahteatarcentar.com/;Democracy;;
+COSPE ETS;Firenze (dup of Florence);Italy;https://www.cospe.org/;Migration;Conflict/War;
+Research & Degrowth International;Barcelona;Spain;https://degrowth.org;Energy/Climate/Sustainability;;
+Collettivo Di Fabbrica - Lavoratori Gkn Firenze;Campi Bisenzio;Italy;https://insorgiamo.org;Energy/Climate/Sustainability;Trade/economy;
+DiEM25;Brussels;Belgium;https://diem25.org/;Energy/Climate/Sustainability;Trade/economy;
+REEES. University of Pittsburgh;Pittsburgh;United States of America;https://www.ucis.pitt.edu/crees/;Conflict/War;Human/Fundamental rights;
+YUCOM: Lawyers’ Committee for Human Rights;Belgrade;Serbia;https://yucom.org.rs/en/home/;Human/Fundamental rights;;
+Kazakhstan International Bureau for Human Rights and Rule of Law;Almaty;Kazakhestan;https://bureau.kz/en/;Human/Fundamental rights;;
+VoxUkraine;Kyiv;Ukraine;https://voxukraine.org/en/;Democracy;Human/Fundamental rights;Digital Technology
+The "New Europe Center";Kyiv;Ukraine;https://neweurope.org.ua/en/;Democracy;Human/Fundamental rights;Conflict/War
+Europe without Barriers;Kyiv;Ukraine;https://english.europewb.org.ua/;Democracy;Human/Fundamental rights;Trade/economy`;
 
-        map.addLayer({
-            id: 'org-pins',
-            type: 'symbol',
-            source: 'orgs',
-            layout: {
-                'icon-image': 'custom-pin',
-                'icon-size': 0.8,
-                'icon-allow-overlap': true
-            }
-        });
-
-        map.on('click', 'org-pins', (e) => {
-            const p = e.features[0].properties;
-            const coords = e.features[0].geometry.coordinates;
-            const link = p.website ? `<a href="${p.website}" target="_blank">${p.website}</a>` : '';
-            new mapboxgl.Popup()
-                .setLngLat(coords)
-                .setHTML(`<strong>${p.organization}</strong><br/>${p.city}<br/>${link}<br/><em>${p.action_domains}</em>`)
-                .addTo(map);
-        });
-
-        map.on('mouseenter', 'org-pins', () => {
-            map.getCanvas().style.cursor = 'pointer';
-        });
-        map.on('mouseleave', 'org-pins', () => {
-            map.getCanvas().style.cursor = '';
-        });
-
-        // Filter logic
-        const checkboxes = document.querySelectorAll('.cat-filter');
-        checkboxes.forEach(cb => {
-            cb.addEventListener('change', () => {
-                const active = Array.from(checkboxes)
-                                    .filter(c => c.checked)
-                                    .map(c => c.getAttribute('data-cat'));
-                if (active.length === 0) {
-                    map.setFilter('org-pins', ['==', 'main_category', '__none__']);
-                } else {
-                    map.setFilter('org-pins', ['in', ['get', 'main_category'], ['literal', active]]);
-                }
-            });
-        });
+    // Parse and build org objects
+    const organizations = [];
+    const lines = CSV.split(/\n/).filter(Boolean);
+    const header = lines.shift();
+    lines.forEach(line => {
+      const parts = line.split(/;|\t/).map(x => x.trim());
+      const [name, rawCity, rawCountry, website, p, s, t] = parts;
+      const city = normalize.city(rawCity);
+      const country = normalize.country(rawCountry);
+      const key = `${city},${country}`;
+      const ll = CITY_LL[key];
+      if(!ll) return; // skip unknown cities
+      const cats = [normalize.cat(p), normalize.cat(s), normalize.cat(t)].filter(Boolean);
+      const primary = cats[0] || 'other';
+      organizations.push({ name, city, country, latlng: ll, website: normalize.url(website), categories: cats, primary });
     });
-});
-</script>
+
+    // DivIcon factory
+    function makeDivIcon(color){
+      const div = document.createElement('div');
+      div.className = 'marker-dot';
+      div.style.background = color;
+      return L.divIcon({ className: '', html: div.outerHTML, iconSize: [16,16], iconAnchor: [8,8] });
+    }
+
+    // Cluster group
+    const cluster = L.markerClusterGroup({ spiderfyOnMaxZoom:true, showCoverageOnHover:false, maxClusterRadius: 45 });
+    map.addLayer(cluster);
+
+    // Render markers
+    let allMarkers = [];
+    function render(data){
+      cluster.clearLayers();
+      allMarkers = data.map(o => {
+        const icon = makeDivIcon(CAT_COLORS[o.primary] || CAT_COLORS['other']);
+        const m = L.marker(o.latlng, { icon });
+        m.bindTooltip(o.name);
+        const catsText = o.categories.join(', ') || 'other';
+        const link = o.website ? `<a href="${o.website}" target="_blank" rel="noopener">${o.website}</a>` : '<em>No website</em>';
+        m.bindPopup(`<div style="font-weight:700; font-size:14px; margin-bottom:4px;">${o.name}</div>
+          <div style="margin-bottom:6px; font-size:12px; color:#444;">${o.city}, ${o.country}</div>
+          <div style="margin-bottom:6px;">${link}</div>
+          <div style="font-size:12px; color:#333;"><strong>Categories:</strong> ${catsText}</div>`);
+        m.__data = o;
+        return m;
+      });
+      cluster.addLayers(allMarkers);
+      fitAll();
+    }
+
+    // Legend + filters
+    const legendEl = document.getElementById('legend');
+    const ALL_CATS = Array.from(new Set(organizations.flatMap(o => o.categories.length? o.categories : ['other']))).sort();
+    const selected = new Set(ALL_CATS);
+
+    ALL_CATS.forEach(cat => {
+      const li = document.createElement('li');
+      li.className = 'legend-item';
+      const cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.checked = true;
+      cb.dataset.cat = cat;
+      cb.addEventListener('change', applyFilters);
+      const sw = document.createElement('span');
+      sw.className = 'swatch';
+      sw.style.background = CAT_COLORS[cat] || CAT_COLORS['other'];
+      const label = document.createElement('span');
+      label.textContent = ' ' + cat;
+      li.appendChild(sw);
+      li.prepend(cb);
+      li.appendChild(label);
+      legendEl.appendChild(li);
+    });
+
+    document.getElementById('search').addEventListener('input', applyFilters);
+
+    function applyFilters(){
+      const q = document.getElementById('search').value.trim().toLowerCase();
+      const activeCats = Array.from(document.querySelectorAll('#legend input[type="checkbox"]:checked')).map(x => x.dataset.cat);
+      const filtered = organizations.filter(o =>
+        (!q || o.name.toLowerCase().includes(q)) &&
+        (o.categories.length ? o.categories.some(c => activeCats.includes(c)) : activeCats.includes('other'))
+      );
+      render(filtered);
+    }
+
+    // Fit-all control
+    function fitAll(){
+      if(!allMarkers.length) return;
+      const fg = L.featureGroup(allMarkers);
+      try { map.fitBounds(fg.getBounds().pad(0.15)); } catch(e) {}
+    }
+
+    const FitControl = L.Control.extend({
+      options: { position: 'topleft' },
+      onAdd: function(){
+        const div = L.DomUtil.create('div', 'leaflet-control custom-fit');
+        const btn = L.DomUtil.create('button', 'fit-btn', div);
+        btn.type = 'button';
+        btn.title = 'Zoom to show all organizations';
+        btn.innerHTML = '⤢ Show all';
+        L.DomEvent.on(btn, 'click', (e) => { L.DomEvent.stop(e); fitAll(); });
+        return div;
+      }
+    });
+    map.addControl(new FitControl());
+
+    // Initial render
+    render(organizations);
+  </script>
 </body>
 </html>
