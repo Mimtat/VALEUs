@@ -1,0 +1,85 @@
+Flow Map – Organizations by Category (Clustered)
+=================================================
+
+Overview
+--------
+This interactive map visualizes civil society organizations by city and thematic category (e.g., Democracy, Human Rights, Environment).
+It uses Leaflet and Leaflet.markercluster, allowing users to explore organizations geographically, filter by category, search by name,
+and view detailed information in map popups.
+
+Core Functionalities
+--------------------
+1. Map Initialization
+   Initializes a Leaflet map centered over Europe using OpenStreetMap as the base tile layer.
+
+2. City Coordinates
+   Defines a lookup table assigning latitude and longitude to each city/country pair.
+
+3. Category Color Coding
+   Assigns unique colors to each primary category for visual distinction.
+
+4. Data Normalization
+   Cleans messy input (e.g., corrects misspellings, normalizes URLs, categories).
+
+5. Data Parsing
+   Reads inline CSV data, splits it, normalizes it, and converts to structured organization objects.
+
+6. Marker Creation
+   Creates circular div-based markers colored by primary category.
+   Each has a tooltip (name) and popup (details and website).
+
+7. Marker Clustering
+   Groups nearby organizations into clusters to reduce clutter.
+   Expands when zoomed in.
+
+8. Filtering & Search
+   Filters visible organizations by name and category based on user inputs.
+
+9. Zoom to All
+   Adjusts map bounds to show all current visible markers using a “⤢ Show all” button.
+
+10. Collapsible Control Panel
+    The panel on the right can be collapsed or expanded to show/hide filters.
+
+User Interface Elements
+-----------------------
+- Colored pins: represent organizations; color = primary category
+- Tooltip: displays organization name
+- Popup: shows organization info and categories
+- Filter checkboxes: toggle categories
+- Search box: filters by name
+- Legend box: lists color/category mapping
+- ⤢ button: zooms to all
+- +/− toggle: collapses/expands filter panel
+
+Dependencies
+------------
+- Leaflet v1.9.4
+- Leaflet.markercluster v1.5.3 (loaded via CDN)
+
+File Structure
+--------------
+flow_map_orgs_by_category.html
+│
+├── <head> : CSS links and map styles
+├── <body> : map container + control panel
+└── <script> : map logic, CSV data, filters, markers, etc.
+
+Usage Notes
+-----------
+1. Run via local server (recommended):
+   python -m http.server 8000
+   Then open http://localhost:8000/flow_map_orgs_by_category.html
+
+2. If opened as file://, browser may block map tiles. Use localhost instead.
+
+3. To add new organizations, edit the CSV string and ensure city exists in CITY_LL.
+
+4. To change colors, edit CAT_COLORS in script.
+
+Possible Extensions
+-------------------
+- Add regional zoom controls
+- Visualize category connections (flows)
+- Add country statistics sidebar
+- Add timeline filter for project years
