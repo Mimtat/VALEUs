@@ -26,8 +26,11 @@
       --maxw: 1040px;
     }
 
-    html, body { height: 100%; }
+    html, body { height: 100%; margin: 0;}
     body{
+      min-height: 100vh;
+  display: flex;
+  flex-direction: column;
       margin: 0;
        padding: 0;
       font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif; /* identity manual */
@@ -228,6 +231,9 @@
       border-color: var(--border);
       color: var(--valeus-black);
     }
+main {
+  flex: 1;          /* your main content */
+}
 
     footer{
       margin-top: 34px;
