@@ -1,86 +1,327 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Civil Society EU Engagement Visualisations</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ValEUs – Civil Society EU Engagement Visualisations</title>
+
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f7fa;
+    :root{
+      /* ValEUs palette (from identity manual) */
+      --valeus-blue: #5555FF;
+      --valeus-green: #7CCF19;
+      --valeus-yellow: #FFDF00;
+      --valeus-red: #FF5955;
+      --valeus-black: #000000;
+      --valeus-white: #FFFFFF;
+
+      --bg: #FFFFFF;
+      --surface: #FFFFFF;
+      --text: #111111;
+      --muted: #4b5563;
+      --border: rgba(0,0,0,0.10);
+
+      --radius: 14px;
+      --shadow: 0 8px 24px rgba(0,0,0,0.08);
+      --maxw: 1040px;
+    }
+
+    html, body { height: 100%; }
+    body{
       margin: 0;
-      padding: 2em;
+      font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif; /* identity manual */
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
     }
-    h1 {
-      text-align: center;
-      color: #003366;
-      margin-bottom: 1.5em;
+
+    .wrap{
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 28px 18px 40px;
     }
-    .grid {
+
+    header{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 10px 0 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Keep clear space around the logo in layout (manual requires isolation area) */
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      padding: 10px; /* practical “buffer” around logo */
+      border-radius: 10px;
+    }
+
+    .brand img{
+      height: 44px;
+      width: auto;
+      display:block;
+    }
+
+    .brand-title{
+      display:flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .brand-title strong{
+      font-size: 14px;
+      letter-spacing: 0.2px;
+    }
+    .brand-title span{
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .hero{
+      padding: 26px 0 10px;
+    }
+    h1{
+      margin: 0 0 10px;
+      font-size: 30px;
+      letter-spacing: 0.2px;
+      color: var(--valeus-black);
+    }
+    .lede{
+      margin: 0;
+      color: var(--muted);
+      max-width: 78ch;
+      font-size: 15.5px;
+    }
+
+    .section{
+      margin-top: 26px;
+    }
+    .section h2{
+      margin: 0 0 12px;
+      font-size: 18px;
+      color: var(--valeus-black);
+    }
+
+    .grid{
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.5em;
-      max-width: 900px;
-      margin: auto;
+      gap: 16px;
     }
-    .card {
-      background: #fff;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+
+    .card{
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
       overflow: hidden;
-      text-align: center;
-      transition: transform 0.2s ease;
+      transition: transform 0.16s ease, box-shadow 0.16s ease;
     }
-    .card:hover {
-      transform: translateY(-5px);
+    .card:hover{
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.10);
     }
-    .card img {
+
+    .thumb{
       width: 100%;
-      height: 200px;
+      height: 190px;
       object-fit: cover;
-      background: #e6f0ff;
+      display:block;
+      background: rgba(85,85,255,0.08);
     }
-    .card-title {
-      display: block;
-      padding: 1em;
-      font-size: 1.2em;
-      font-weight: bold;
-      color: #fff;
-      background: #003366;
+
+    .card-body{
+      padding: 14px 14px 16px;
+    }
+    .tag{
+      display:inline-block;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--valeus-black);
+      background: rgba(0,0,0,0.03);
+      margin-bottom: 10px;
+    }
+    .card h3{
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+    .card p{
+      margin: 0;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+
+    .card a{
       text-decoration: none;
+      color: inherit;
+      display:block;
     }
-    .card-title:hover {
-      background: #0055aa;
+
+    .btnrow{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      user-select: none;
+    }
+    .btn-primary{
+      background: var(--valeus-blue);
+      color: var(--valeus-white);
+    }
+    .btn-primary:hover{ filter: brightness(0.96); }
+
+    .btn-ghost{
+      background: transparent;
+      border-color: var(--border);
+      color: var(--valeus-black);
+    }
+
+    footer{
+      margin-top: 34px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12.5px;
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .eu{
+      display:flex;
+      align-items:flex-start;
+      gap: 10px;
+    }
+    .eu img{
+      width: 54px;
+      height: auto;
+      display:block;
     }
   </style>
 </head>
+
 <body>
-  <h1>Civil Society EU Engagement Visualisations</h1>
-  <div class="grid">
+  <div class="wrap">
 
-    <!-- Flow Map Thumbnail -->
-    <div class="card">
-      <a href="flow_map_mapbox_interactive.html" target="_blank">
-        <img src="assets/img/Flow-preview.png" alt="Flow Map Preview">
-        <span class="card-title">🌍 Flow Map</span>
-      </a>
-    </div>
+    <header>
+      <div class="brand">
+        <!-- Use the official provided logo file; do not recolor/alter it (identity manual) -->
+        <img src="assets/brand/valeus-logo-primary.png" alt="ValEUs logo">
+        <div class="brand-title">
+          <strong>ValEUs Interactive Database</strong>
+          <span>Civil society initiatives counteracting contestations of EU values</span>
+        </div>
+      </div>
 
-    <!-- Sankey Diagram Thumbnail -->
-    <div class="card">
-      <a href="sankey_new.html" target="_blank">
-        <img src="assets/img/Sanky-preview.png" alt="Sankey Diagram Preview">
-        <span class="card-title">🔗 Sankey Diagram</span>
+      <a class="btn btn-ghost" href="https://github.com/mimtat/VALEUs" target="_blank" rel="noopener">
+        View on GitHub
       </a>
-    </div>
-    
- <!--Interactive Gephi Thumbnail -->
-<div class="card">
-  <a href="gephi_network.html" target="_blank">
-    <img src="assets/img/Gephi-Preview.png" alt="Gephi Preview">
-    <span class="card-title">🕸 Interactive Gephi Diagram</span>
-  </a>
-</div>
+    </header>
+
+    <section class="hero">
+      <h1>Civil Society EU Engagement Visualisations</h1>
+      <p class="lede">
+        This interactive database visualizes how civil society organisations in Europe and beyond counteract
+        contestations to EU values — freedom, democracy, equality, rule of law, and human rights — across domains
+        such as peacebuilding, fundamental rights, sustainability, migration, trade, digitalization, conflict, and climate change. :contentReference[oaicite:9]{index=9}
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Explore the visualisations</h2>
+
+      <div class="grid">
+
+        <div class="card">
+          <a href="flow_map_mapbox_interactive.html" target="_blank" rel="noopener">
+            <img class="thumb" src="assets/img/Flow-preview.png" alt="Flow Map Preview">
+            <div class="card-body">
+              <span class="tag" style="background: rgba(124,207,25,0.18); border-color: rgba(124,207,25,0.45);">
+                Flow Map
+              </span>
+              <h3>Geographical spread and action domains</h3>
+              <p>
+                Overview of organisations, their action domains, and links to their websites; filter by action domains. :contentReference[oaicite:10]{index=10}
+              </p>
+            </div>
+          </a>
+        </div>
+
+        <div class="card">
+          <a href="sankey_new.html" target="_blank" rel="noopener">
+            <img class="thumb" src="assets/img/Sanky-preview.png" alt="Sankey Diagram Preview">
+            <div class="card-body">
+              <span class="tag" style="background: rgba(255,223,0,0.22); border-color: rgba(255,223,0,0.55);">
+                Sankey Diagram
+              </span>
+              <h3>Flows of engagement across actors</h3>
+              <p>
+                Visualises connections between organisations, action domains, and addressees; wider flows indicate stronger ties. :contentReference[oaicite:11]{index=11}
+              </p>
+            </div>
+          </a>
+        </div>
+
+        <div class="card">
+          <a href="gephi_network.html" target="_blank" rel="noopener">
+            <img class="thumb" src="assets/img/Gephi-Preview.png" alt="Interactive network preview">
+            <div class="card-body">
+              <span class="tag" style="background: rgba(255,89,85,0.18); border-color: rgba(255,89,85,0.45);">
+                Interactive Network
+              </span>
+              <h3>Network structure and collaboration clusters</h3>
+              <p>
+                ForceAtlas-based network of projects, organisations, addressees, and domains; reveals hubs, clusters, and bridges. :contentReference[oaicite:12]{index=12}
+              </p>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Contribute an initiative</h2>
+      <p class="lede" style="max-width: 78ch;">
+        This database is an ongoing attempt. If you are aware of initiatives that should be added, please submit them via the form below.
+        New entries will be moderated and added regularly. :contentReference[oaicite:13]{index=13}
+      </p>
+
+      <div class="btnrow">
+        <!-- Replace with your actual Tally (or other) form link -->
+        <a class="btn btn-primary" href="https://tally.so/r/REPLACE_ME" target="_blank" rel="noopener">
+          Submit an initiative
+        </a>
+      </div>
+    </section>
+
+    <footer>
+      <div class="eu">
+        <!-- If you have the EU emblem asset, place it here -->
+        <img src="assets/brand/eu-flag.png" alt="EU flag">
+        <div>
+          Funded by the European Union. Views and opinions expressed are however those of the author(s) only and do not necessarily reflect
+          those of the European Union or the European Education and Culture Executive Agency (EACEA). Neither the European Union nor EACEA
+          can be held responsible for them. :contentReference[oaicite:14]{index=14}
+        </div>
+      </div>
+    </footer>
+
   </div>
 </body>
 </html>
