@@ -316,6 +316,7 @@
         <div class="card">
           <a href="sankey_new.html" target="_blank" rel="noopener">
             <img class="thumb" src="assets/img/Sanky-preview.png" alt="Sankey Diagram Preview">
+            </a>
             <div class="card-body">
               <span class="tag" style="background: rgba(255,223,0,0.22); border-color: rgba(255,223,0,0.55);">
                 Sankey Diagram
@@ -324,14 +325,29 @@
               <p>
                 Visualises connections between organisations, action domains, and addressees; wider flows indicate stronger ties.
               </p>
+              <!-- NEW: More / Less toggle -->
+    <button class="more-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="more-flow-map">
+      More
+    </button>
+
+    <!-- NEW: hidden extra text -->
+    <div class="card-more" id="more-flow-map" hidden>
+      <p>
+       This diagram illustrates the connections between different organizations, Action Domains, and Addressees through the flow of engagement. Each node represents an actor or category, while the arrows linking them are drawn with widths proportional to their value. These values originate from the underlying dataset: whenever an organization is connected to a domain, the connection is counted or weighted. If multiple records exist for the same link, their values are summed, meaning that thicker arrows represent stronger or more frequent ties. The algorithm then scales these values into pixel widths, so that the diagram fits neatly within the page while preserving the proportions of the flows. This makes it possible to see at a glance where engagement is concentrated, which pathways dominate, and how activity branches or converges across the network. The Sankey diagram emphasizes the magnitude of relationships and the distribution of connections across stages.</p>
+    </div>
             </div>
-          </a>
+          
         </div>
 
         <div class="card">
           <a href="gephi_network.html" target="_blank" rel="noopener">
             <img class="thumb" src="assets/img/Gephi-Preview.png" alt="Interactive network preview">
-            <div class="card-body">
+            
+            </a>
+          <div class="card-body">
               <span class="tag" style="background: rgba(255,89,85,0.18); border-color: rgba(255,89,85,0.45);">
                 Interactive Network
               </span>
@@ -339,8 +355,21 @@
               <p>
                 ForceAtlas-based network of projects, organisations, addressees, and domains; reveals hubs, clusters, and bridges. 
               </p>
+               <!-- NEW: More / Less toggle -->
+    <button class="more-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="more-flow-map">
+      More
+    </button>
+
+    <!-- NEW: hidden extra text -->
+    <div class="card-more" id="more-flow-map" hidden>
+      <p>
+      This diagram utilizes the ForceAtlas layout algorithm to visualize the connections between projects, action domains, addressees, and organizations in the VALEUs dataset. It highlights clusters and communities. ForceAtlas simulates a physical system where edges act like springs pulling related nodes closer, while nodes themselves repel one another. As a result, groups of highly connected actors cluster together, while less connected ones are pushed outward (countries with only one connection are examples of this). Larger, more central nodes represent key hubs — projects or organizations with many ties — while smaller nodes at the edges reflect actors with fewer connections. The clusters, displayed in different colors, represent communities of engagement. Within each cluster, nodes are positioned according to the strength and number of their relationships, making collaboration patterns visible. Some nodes appear between clusters, demonstrating their bridging role in linking otherwise separate groups, such as EU institutions. Moreover, specific relations are defined for each edge: an organization implements a project, a project engages with a country or cause, and targets other addresses,  countries, or institutions. This provides a bird’s-eye view of how EU civil society engagement is structured: dense cores → strong collaboration networks, and Sparse branches → isolated actors.  Country →  Light blue, Addressee →  yellow, Organization →  Purple, Action Domain→  Magenta </div>
+          </p> 
             </div>
-          </a>
+        
         </div>
 
       </div>
