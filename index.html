@@ -330,12 +330,12 @@
     <button class="more-toggle"
             type="button"
             aria-expanded="false"
-            aria-controls="more-flow-map">
+            aria-controls="more-sankey-map">
       More
     </button>
 
     <!-- NEW: hidden extra text -->
-    <div class="card-more" id="more-flow-map" hidden>
+    <div class="card-more" id="more-sankey-map" hidden>
       <p>
 This diagram illustrates the connections between different organizations, Action Domains, and Addressees through the flow of engagement. Each node represents an actor or category, while the arrows linking them are drawn with widths proportional to their value. These values originate from the underlying dataset: whenever an organization is connected to a domain, the connection is counted or weighted. If multiple records exist for the same link, their values are summed, meaning that thicker arrows represent stronger or more frequent ties. The algorithm then scales these values into pixel widths, so that the diagram fits neatly within the page while preserving the proportions of the flows. This makes it possible to see at a glance where engagement is concentrated, which pathways dominate, and how activity branches or converges across the network. The Sankey diagram emphasizes the magnitude of relationships and the distribution of connections across stages.
     </div>
