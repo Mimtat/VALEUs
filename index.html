@@ -41,14 +41,33 @@
       padding: 28px 18px 40px;
     }
 
-    header{
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 10px 0 24px;
-      border-bottom: 1px solid var(--border);
-    }
+    .page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  background: #f3f3f3;   /* same as logo box */
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo-wrap {
+  padding: 0.5rem;
+  background: #f3f3f3;   /* now “disappears” into header */
+}
+
+.header-text h1 {
+  margin: 0;
+}
+
+.header-text p {
+  margin: 0.2rem 0 0;
+}
+
 
     /* Keep clear space around the logo in layout (manual requires isolation area) */
     .brand{
