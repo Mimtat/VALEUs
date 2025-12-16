@@ -212,6 +212,31 @@
       height: auto;
       display:block;
     }
+.more-toggle {
+  margin-top: 0.5rem;
+  border: none;
+  background: none;
+  padding: 0;
+  font: inherit;
+  color: #1b6c4b; /* adjust to your VALEUS green */
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.more-toggle:hover,
+.more-toggle:focus {
+  text-decoration: none;
+}
+
+.card-more {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e2e6ea;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+
   </style>
 </head>
 
@@ -248,19 +273,45 @@
       <div class="grid">
 
         <div class="card">
-          <a href="flow_map_mapbox_interactive.html" target="_blank" rel="noopener">
-            <img class="thumb" src="assets/img/Flow-preview.png" alt="Flow Map Preview">
-            <div class="card-body">
-              <span class="tag" style="background: rgba(124,207,25,0.18); border-color: rgba(124,207,25,0.45);">
-                Flow Map
-              </span>
-              <h3>Geographical spread and action domains</h3>
-              <p>
-                Overview of organisations, their action domains, and links to their websites; filter by action domains. 
-              </p>
-            </div>
-          </a>
-        </div>
+  <!-- keep the link to open the visualisation -->
+  <a href="flow_map_mapbox_interactive.html"
+     target="_blank"
+     rel="noopener">
+    <img class="thumb"
+         src="assets/img/Flow-preview.png"
+         alt="Flow Map Preview">
+  </a>
+
+  <div class="card-body">
+    <span class="tag"
+          style="background: rgba(124,207,25,0.18); border-color: rgba(124,207,25,0.45);">
+      Flow Map
+    </span>
+
+    <h3>Geographical Spread and Action Domains</h3>
+
+    <p>
+      Overview of organisations, their action domains, and links to their
+      websites; filter by action domains.
+    </p>
+
+    <!-- NEW: More / Less toggle -->
+    <button class="more-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="more-flow-map">
+      More
+    </button>
+
+    <!-- NEW: hidden extra text -->
+    <div class="card-more" id="more-flow-map" hidden>
+      <p>
+        The flow map provides an overview of the geographical spread of the civil society organisations, their action domains, and a link to their website. The map can be filtered by selecting action domains which are distinguished from each other through their colour schemes. 
+      </p>
+    </div>
+  </div>
+</div>
+
 
         <div class="card">
           <a href="sankey_new.html" target="_blank" rel="noopener">
@@ -269,7 +320,7 @@
               <span class="tag" style="background: rgba(255,223,0,0.22); border-color: rgba(255,223,0,0.55);">
                 Sankey Diagram
               </span>
-              <h3>Flows of engagement across actors</h3>
+              <h3>Flows of Engagement Across Actors</h3>
               <p>
                 Visualises connections between organisations, action domains, and addressees; wider flows indicate stronger ties.
               </p>
@@ -284,7 +335,7 @@
               <span class="tag" style="background: rgba(255,89,85,0.18); border-color: rgba(255,89,85,0.45);">
                 Interactive Network
               </span>
-              <h3>Network structure and collaboration clusters</h3>
+              <h3>Network Structure and Collaboration Clusters</h3>
               <p>
                 ForceAtlas-based network of projects, organisations, addressees, and domains; reveals hubs, clusters, and bridges. 
               </p>
@@ -323,5 +374,20 @@
     </footer>
 
   </div>
+ <script>
+  document.querySelectorAll('.more-toggle').forEach(function (btn) {
+    btn.addEventListener('click', function (event) {
+      event.stopPropagation(); // just in case
+      const id = btn.getAttribute('aria-controls');
+      const box = document.getElementById(id);
+      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+
+      btn.setAttribute('aria-expanded', String(!isOpen));
+      box.hidden = isOpen;
+      btn.textContent = isOpen ? 'More' : 'Less';
+    });
+  });
+</script>
+
 </body>
 </html>
