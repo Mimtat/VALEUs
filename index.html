@@ -40,64 +40,81 @@
       margin: 0 auto;
       padding: 28px 18px 40px;
     }
+/* Header container */
+.site-header {
+  background-color: #ffffff;          /* or #f4f7fa if your page uses that */
+  border-bottom: 1px solid #e5e5e5;
+}
 
-    .page-header {
+/* Center content and control width */
+.site-header-inner {
+  max-width: 1100px;                  /* match your main layout width */
+  margin: 0 auto;
+  padding: 20px 24px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.5rem 2rem;
-  background: #f3f3f3;   /* same as logo box */
+  gap: 24px;
 }
 
-.header-left {
+/* Logo + title block */
+.brand {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 16px;
 }
 
-.logo-wrap {
-  padding: 0.5rem;
-  background: #f3f3f3;   /* now “disappears” into header */
+/* Keep logo in proportion */
+.brand-logo {
+  height: 60px;       /* tweak this if you want it bigger/smaller */
+  width: auto;
+  display: block;
 }
 
-.header-text h1 {
+/* Title & subtitle */
+.brand-text h1 {
+  margin: 0 0 4px;
+  font-size: 1.8rem;
+}
+
+.brand-text p {
   margin: 0;
+  font-size: 1rem;
+  color: #444;
 }
 
-.header-text p {
-  margin: 0.2rem 0 0;
+/* Call-to-action button */
+.header-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: 1px solid #ddd;
+  background: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #3c2aa5;      /* pick one of your VALEUS purples */
 }
 
+.header-cta:hover {
+  border-color: #3c2aa5;
+}
 
-    /* Keep clear space around the logo in layout (manual requires isolation area) */
-    .brand{
-      display:flex;
-      align-items:center;
-      gap: 12px;
-      padding: 10px; /* practical “buffer” around logo */
-      border-radius: 10px;
-    }
+/* Mobile: stack elements nicely */
+@media (max-width: 720px) {
+  .site-header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-    .brand img{
-      height: 44px;
-      width: auto;
-      display:block;
-    }
-
-    .brand-title{
-      display:flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .brand-title strong{
-      font-size: 14px;
-      letter-spacing: 0.2px;
-    }
-    .brand-title span{
-      font-size: 12px;
-      color: var(--muted);
-    }
-
+  .header-cta {
+    align-self: stretch;
+    justify-content: center;
+  }
+}
     .hero{
       padding: 26px 0 10px;
     }
@@ -237,7 +254,7 @@
   background: none;
   padding: 0;
   font: inherit;
-  color:  #5555FF; /* adjust to your VALEUS green */
+  color:  #5555FF; /* adjust to your VALEUS blue */
   cursor: pointer;
   text-decoration: underline;
 }
@@ -261,23 +278,33 @@
 
 <body>
   <div class="wrap">
+<header class="site-header">
+  <div class="site-header-inner">
+    <!-- Left: logo + text -->
+    <div class="brand">
+      <img
+        src="assets/img/values logo.png"
+        alt="ValEUs logo"
+        class="brand-logo"
+      />
 
-  <header class="page-header">
-  <div class="header-left">
-    <div class="logo-wrap">
-      <img src="assets/img/ValEUS Logo.png" alt="ValEUs logo">
+      <div class="brand-text">
+        <h1>ValEUs Interactive Database</h1>
+        <p>Civil society initiatives counteracting contestations of EU values</p>
+      </div>
     </div>
-    <div class="header-text">
-      <h1>ValEUs Interactive Database</h1>
-      <p>Civil society initiatives counteracting contestations of EU values</p>
-    </div>
+
+    <!-- Right: button -->
+    <a
+      href="https://valeus.eu"
+      target="_blank"
+      rel="noopener"
+      class="header-cta"
+    >
+      Go to ValEUs
+    </a>
   </div>
-
-  <a class="header-cta" href="https://valeus.eu" target="_blank" rel="noopener">
-    Go to VasEUs
-  </a>
 </header>
-
 
     <section class="hero">
       <h1>Civil Society EU Engagement Visualisations</h1>
