@@ -85,7 +85,8 @@
       'Freiburg,Germany':[47.9959,7.8522],'Otzenhausen,Germany':[49.6205,7.0013],'Kyiv,Ukraine':[50.4500,30.5233],
       'Santiago,Chile':[-33.4569,-70.6483],'Kyoto,Japan':[35.0211,135.7539],'Zagreb,Croatia':[45.8144,15.9780],
       'Astana (Nur-Sultan),Kazakhstan':[51.1694,71.4491],'Belgrade,Serbia':[44.8040,20.4651],'Firenze (dup of Florence),Italy':[43.7793,11.2463],
-      'Barcelona,Spain':[41.3888,2.1590],'Campi Bisenzio,Italy':[43.8245,11.1303],'Pittsburgh,United States of America':[40.4406,-79.9959]
+      'Barcelona,Spain':[41.3888,2.1590],'Campi Bisenzio,Italy':[43.8245,11.1303],'Pittsburgh,United States of America':[40.4406,-79.9959], 
+      'Frankfurt (Oder),Germany': [52.3472, 14.5506],'Bogotá,Colombia':[4.5981, -74.0799],'Medellín,Colombia':[6.2502, -75.5676]
     };
 
     // Normalizers for messy inputs
@@ -97,6 +98,10 @@
         if(/^washington\b/i.test(c)) return 'Washington D.C.';
         if(/^astana$/i.test(c)) return 'Astana (Nur-Sultan)';
         if(/frankfurt.*am main/i.test(c)) return 'Frankfurt (Am Main)';
+        if(/frankfurt.*oder/i.test(c)) return 'Frankfurt (Oder)';
+        // Accent-less variants
+         if(/bogota$/i.test(c)) return 'Bogotá';
+        if(/medellin$/i.test(c)) return 'Medellín';
         return c;
       },
       country(x){
@@ -254,6 +259,13 @@ YUCOM: Lawyers’ Committee for Human Rights;Belgrade;Serbia;https://yucom.org.r
 Kazakhstan International Bureau for Human Rights and Rule of Law;Almaty;Kazakhestan;https://bureau.kz/en/;Human/Fundamental rights;;
 VoxUkraine;Kyiv;Ukraine;https://voxukraine.org/en/;Democracy;Human/Fundamental rights;Digital Technology
 The "New Europe Center";Kyiv;Ukraine;https://neweurope.org.ua/en/;Democracy;Human/Fundamental rights;Conflict/War
+Oekumenisches Europa-Centrum Frankfurt (Oder) e.V.;Frankfurt (Oder);Germany;https://www.oec-ff.de/index.php/de/;International/intercultural Understanding;;
+Europa-Union Deutschland e.V.;Berlin;Germany;https://www.europa-union.de/;Democracy;;
+Fridays for Future;Stockholm;Sweden;https://eci.fridaysforfuture.org/en/;Energy/Climate/Sustainability;Democracy;
+Pulse of Europe e.V.;Frankfurt am Main;Germany;https://pulseofeurope.eu/;Human/Fundamental Rights;Democracy;
+Redadelco;Bogotá;Colombia;https://redadelco.org/;Trade/economy;Conflict/War;
+Fundación Lazos de Dignidad;Bogotá;Colombia;https://www.lazosdedignidad.org/;Conflict/War;;
+Conciudadanía;Medellín;Colombia;https://conciudadania.org/;Energy/Climate/Sustainability;Democracy;Human/Fundamental rights
 Europe without Barriers;Kyiv;Ukraine;https://english.europewb.org.ua/;Democracy;Human/Fundamental rights;Trade/economy`;
 
     // Parse and build org objects
