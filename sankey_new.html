@@ -1,190 +1,451 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>VALEUS Sankey</title>
-<style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    background: #ffffff;
-    font-family: Arial, sans-serif;
-  }
-  #wrap {
-    position: relative;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-  }
-  #chart {
-    height: 100%;
-    width: 100%;
-  }
-  #legend {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 260px;
-    background: rgba(255,255,255,0.95);
-    border: 1px solid rgba(0,0,0,0.12);
-    border-radius: 10px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
-    padding: 10px 10px 8px 10px;
-  }
-  #legendHeader {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 8px;
-  }
-  #legendTitle {
-    font-weight: 700;
-    font-size: 13px;
-    color: #111;
-  }
-  #legendToggle {
-    border: 1px solid rgba(0,0,0,0.15);
-    background: #fff;
-    border-radius: 8px;
-    padding: 4px 8px;
-    cursor: pointer;
-    font-size: 12px;
-  }
-  #legendBody {
-    max-height: 70vh;
-    overflow: auto;
-    padding-right: 4px;
-  }
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 6px 0;
-  }
-  .swatch {
-    width: 14px;
-    height: 14px;
-    border-radius: 4px;
-    border: 1px solid rgba(0,0,0,0.12);
-    flex: 0 0 auto;
-  }
-  .label {
-    font-size: 12px;
-    color: #222;
-    line-height: 1.2;
-  }
-  .collapsed #legendBody {
-    display: none;
-  }
-</style>
-</head>
-<body>
-<div id="wrap">
-  <div id="chart">
-    <div>                        <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
-        <script src="https://cdn.plot.ly/plotly-2.4.1.min.js"></script>                <div id="fb84e265-827c-469e-a7ae-def88708183e" class="plotly-graph-div" style="height:800px; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("fb84e265-827c-469e-a7ae-def88708183e")) {                    Plotly.newPlot(                        "fb84e265-827c-469e-a7ae-def88708183e",                        [{"arrangement":"snap","link":{"color":["rgba(47,107,255,0.35)","rgba(47,107,255,0.35)","rgba(47,107,255,0.35)","rgba(47,107,255,0.35)","rgba(122,63,242,0.35)","rgba(122,63,242,0.35)","rgba(47,107,255,0.35)","rgba(34,184,169,0.35)","rgba(34,184,169,0.35)","rgba(34,184,169,0.35)","rgba(34,184,169,0.35)","rgba(0,0,0,0.35)","rgba(0,0,0,0.35)","rgba(0,0,0,0.35)","rgba(0,0,0,0.35)","rgba(228,61,48,0.35)","rgba(228,61,48,0.35)","rgba(228,61,48,0.35)","rgba(228,61,48,0.35)","rgba(122,63,242,0.35)","rgba(47,107,255,0.35)","rgba(47,107,255,0.35)","rgba(47,107,255,0.35)","rgba(47,107,255,0.35)","rgba(47,107,255,0.35)","rgba(47,107,255,0.35)","rgba(47,107,255,0.35)","rgba(228,61,48,0.35)","rgba(228,61,48,0.35)","rgba(228,61,48,0.35)","rgba(228,61,48,0.35)","rgba(228,61,48,0.35)","rgba(228,61,48,0.35)","rgba(228,61,48,0.35)","rgba(122,63,242,0.35)","rgba(122,63,242,0.35)","rgba(122,63,242,0.35)","rgba(124,207,25,0.35)","rgba(122,63,242,0.35)","rgba(122,63,242,0.35)","rgba(122,63,242,0.35)","rgba(122,63,242,0.35)","rgba(34,184,169,0.35)","rgba(34,184,169,0.35)","rgba(47,107,255,0.35)","rgba(47,107,255,0.35)","rgba(47,107,255,0.35)","rgba(255,176,32,0.35)","rgba(34,184,169,0.35)","rgba(34,184,169,0.35)","rgba(122,63,242,0.35)","rgba(122,63,242,0.35)","rgba(47,107,255,0.35)","rgba(47,107,255,0.35)","rgba(47,107,255,0.35)","rgba(47,107,255,0.35)","rgba(47,107,255,0.35)","rgba(47,107,255,0.35)","rgba(47,107,255,0.35)","rgba(122,63,242,0.35)","rgba(122,63,242,0.35)","rgba(122,63,242,0.35)","rgba(122,63,242,0.35)","rgba(122,63,242,0.35)","rgba(166,226,220,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(201,178,249,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(255,223,165,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(201,178,249,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(201,178,249,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(201,178,249,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(166,226,220,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(201,178,249,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)","rgba(244,177,172,0.45)"],"line":{"color":"rgba(0,0,0,0.1)","width":0.3},"source":[0,0,0,0,1,1,2,3,4,4,4,5,5,5,5,6,6,6,7,8,9,9,9,9,10,10,10,11,11,11,11,11,12,12,13,13,14,15,16,16,16,16,17,17,18,18,18,19,20,20,21,21,22,22,22,23,23,23,23,24,24,24,24,24,25,25,25,25,25,25,25,25,25,25,25,26,27,27,27,27,27,27,27,27,27,27,27,27,28,28,28,28,28,28,28,28,28,29,29,29,29,29,29,29,29,29,29,30,31,32,32,32,32,32,32,32,32,32,32,33,33,33,33,33,33,33,33,33,33,33,34,35,36,36,36,37],"target":[27,28,29,33,25,27,35,32,27,28,31,25,27,28,33,34,36,37,25,27,26,27,28,30,27,29,33,25,27,29,32,33,27,28,25,33,27,28,25,28,30,32,25,33,25,28,29,27,25,33,27,33,25,29,33,25,27,29,33,25,27,29,32,33,38,39,41,44,45,46,47,48,49,50,51,39,39,41,42,43,44,45,46,47,48,49,50,51,39,43,44,46,47,48,49,50,51,39,41,44,45,46,47,48,49,50,51,39,39,39,41,44,45,46,47,48,49,50,51,38,39,41,44,45,46,47,48,49,50,51,39,39,39,40,46,39],"value":[4,4,4,4,1,1,1,3,3,3,1,15,11,11,11,1,3,1,2,1,1,2,4,2,8,7,11,18,18,18,18,18,6,6,1,1,1,2,3,1,1,8,1,1,2,2,2,6,5,5,4,4,13,9,5,4,6,4,14,6,6,6,6,6,1,6,2,11,1,4,5,5,12,12,12,1,19,2,1,2,6,1,7,5,4,10,10,10,13,2,3,3,1,2,3,3,3,3,2,6,1,2,4,5,9,9,9,3,1,4,2,2,1,2,3,3,6,6,6,1,9,2,10,1,3,5,4,15,15,15,1,1,1,1,1,1]},"node":{"color":["#2F6BFF","#7A3FF2","#2F6BFF","#22B8A9","#22B8A9","#000000","#E43D30","#E43D30","#7A3FF2","#2F6BFF","#2F6BFF","#E43D30","#E43D30","#7A3FF2","#7A3FF2","#7CCF19","#7A3FF2","#22B8A9","#2F6BFF","#FFB020","#22B8A9","#7A3FF2","#2F6BFF","#2F6BFF","#7A3FF2","#9AA0A6","#9AA0A6","#9AA0A6","#9AA0A6","#9AA0A6","#9AA0A6","#9AA0A6","#9AA0A6","#9AA0A6","#9AA0A6","#9AA0A6","#9AA0A6","#9AA0A6","#a6e2dc","#f4b1ac","#f4b1ac","#f4b1ac","#ffdfa5","#f4b1ac","#f4b1ac","#c9b2f9","#f4b1ac","#f4b1ac","#f4b1ac","#f4b1ac","#f4b1ac","#f4b1ac"],"label":["América Latina y el Caribe Mejor Sin TLC","COSPE ETS","Center for Cultural Decontamination","Collettivo Di Fabbrica - Lavoratori Gkn Firenze","Conciudadanía","Croatian Youth Network","DAH Teatar","DiEM25","Eurasia Foundation of Central Asia","Europa-Union Deutschland e.V.","Europe without Barriers","Fridays for Future","Fundación Lazos de Dignidad","Kazakhstan International Bureau for Human Rights and Rule of Law","Legal Media-Center","Oekumenisches Europa-Centrum Frankfurt (Oder) e.V.","Pulse of Europe e.V.","REEES. University of Pittsburgh","Red EU-LAT","Redadelco","Research & Degrowth International","Support Office for Student Volunteers Activities, Doshisha University","The \"New Europe Center\"","VoxUkraine","YUCOM: Lawyers’ Committee for Human Rights","Advocacy","Campaign","Capacity Building","Education/Literacy","Monitoring","Participation","Peacebuilding","Protest","Research","Socially engaged art","community building","engaged art","socially engaged art","Academic community","Citizens","Civil society","Companies","Conflict victims","Demobilized combatants","EU institutions","Human Rights Defenders","Marginalized groups","Media","National and international courts","National political institutions (e.g. government)","Parliaments","Public authorities"],"line":{"color":"rgba(0,0,0,0)","width":0.5},"pad":20,"thickness":18,"x":[0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.99,0.99,0.99,0.99,0.99,0.99,0.99,0.99,0.99,0.99,0.99,0.99,0.99,0.99],"y":[0.02,0.06,0.1,0.13999999999999999,0.18,0.22,0.26,0.30000000000000004,0.34,0.38,0.42000000000000004,0.46,0.5,0.54,0.5800000000000001,0.62,0.66,0.7000000000000001,0.74,0.78,0.8200000000000001,0.86,0.9,0.9400000000000001,0.98,0.02,0.1,0.18,0.26,0.34,0.42000000000000004,0.5,0.5800000000000001,0.66,0.74,0.8200000000000001,0.9,0.98,0.02,0.09384615384615384,0.16769230769230767,0.2415384615384615,0.3153846153846154,0.3892307692307692,0.46307692307692305,0.5369230769230768,0.6107692307692307,0.6846153846153846,0.7584615384615384,0.8323076923076922,0.9061538461538461,0.98]},"type":"sankey"}],                        {"font":{"color":"black","size":12},"height":800,"margin":{"b":10,"l":10,"r":10,"t":10},"paper_bgcolor":"white","template":{"data":{"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"heatmapgl":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmapgl"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2}}}},                        {"responsive": true, "displayModeBar": true}                    )                };                            </script>        </div>
-  </div>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>VALEUS Sankey (Org → Kind of Action → Main Addressee)</title>
 
-  <div id="legend" class="">
-    <div id="legendHeader">
-      <div id="legendTitle">Action domain colors</div>
-      <button id="legendToggle" type="button" aria-expanded="true">Hide</button>
-    </div>
-    <div id="legendBody">
-      
-      <div class="legend-item">
-        <span class="swatch" style="background:#2F6BFF"></span>
-        <span class="label">Democracy</span>
-      </div>
-    
+  <!-- Plotly -->
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+  <!-- PapaParse for CSV -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
-      <div class="legend-item">
-        <span class="swatch" style="background:#7A3FF2"></span>
-        <span class="label">Human/Fundamental rights</span>
-      </div>
-    
+  <style>
+    html, body { height: 100%; margin: 0; }
+    body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif; background: #ffffff; }
+    #wrap { height: 100%; display: grid; grid-template-columns: 1fr; }
+    #chart { width: 100%; height: 100vh; }
 
-      <div class="legend-item">
-        <span class="swatch" style="background:#7CCF19"></span>
-        <span class="label">International/intercultural Understanding</span>
-      </div>
-    
-
-      <div class="legend-item">
-        <span class="swatch" style="background:#22B8A9"></span>
-        <span class="label">Energy/Climate/Sustainability</span>
-      </div>
-    
-
-      <div class="legend-item">
-        <span class="swatch" style="background:#FFB020"></span>
-        <span class="label">Trade/Economy</span>
-      </div>
-    
-
-      <div class="legend-item">
-        <span class="swatch" style="background:#FF5A7A"></span>
-        <span class="label">Migration</span>
-      </div>
-    
-
-      <div class="legend-item">
-        <span class="swatch" style="background:#E43D30"></span>
-        <span class="label">Conflict/War</span>
-      </div>
-    
-
-      <div class="legend-item">
-        <span class="swatch" style="background:#FEDD00"></span>
-        <span class="label">Digital Technology</span>
-      </div>
-    
-
-      <div class="legend-item">
-        <span class="swatch" style="background:#00A3FF"></span>
-        <span class="label">Digital Media</span>
-      </div>
-    
-
-      <div class="legend-item">
-        <span class="swatch" style="background:#1F3A93"></span>
-        <span class="label">European Integration</span>
-      </div>
-    
-
-  <div class="legend-item">
-    <span class="swatch" style="background:#000000"></span>
-    <span class="label">other</span>
-  </div>
-
-    </div>
-  </div>
-</div>
-
-<script>
-  (function() {
-    const legend = document.getElementById('legend');
-    const btn = document.getElementById('legendToggle');
-
-    function setCollapsed(collapsed) {
-      if (collapsed) {
-        legend.classList.add('collapsed');
-        btn.textContent = 'Show';
-        btn.setAttribute('aria-expanded', 'false');
-      } else {
-        legend.classList.remove('collapsed');
-        btn.textContent = 'Hide';
-        btn.setAttribute('aria-expanded', 'true');
-      }
+    /* Minimizable legend panel */
+    #legendPanel{
+      position: fixed;
+      right: 14px;
+      top: 14px;
+      z-index: 9999;
+      width: 260px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.95);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      border: 1px solid rgba(0,0,0,0.08);
+      overflow: hidden;
+      backdrop-filter: blur(6px);
+    }
+    #legendHeader{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 650;
+      color: #111827;
+      cursor: pointer;
+      user-select: none;
+    }
+    #legendHeader small{
+      font-weight: 500;
+      color: #6b7280;
+      margin-left: 8px;
+    }
+    #legendBody{
+      padding: 10px 12px 12px 12px;
+      border-top: 1px solid rgba(0,0,0,0.06);
+      display: block;
+    }
+    .legendRow{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      padding: 6px 0;
+      font-size: 12.5px;
+      color: #111827;
+      border-bottom: 1px dashed rgba(0,0,0,0.06);
+    }
+    .legendRow:last-child{ border-bottom: none; }
+    .swatch{
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      border: 1px solid rgba(0,0,0,0.12);
+      flex: 0 0 auto;
+    }
+    .muted{
+      color:#6b7280;
+      font-size: 12px;
+      margin-top: 8px;
+      line-height: 1.25;
+    }
+    .chev{
+      font-size: 12px;
+      color:#6b7280;
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: rgba(249,250,251,0.7);
     }
 
-    btn.addEventListener('click', () => {
-      setCollapsed(!legend.classList.contains('collapsed'));
-    });
-  })();
+    /* Small footer status */
+    #status{
+      position: fixed;
+      left: 14px;
+      bottom: 14px;
+      z-index: 9999;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(0,0,0,0.08);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.10);
+      font-size: 12px;
+      color:#374151;
+      max-width: 46vw;
+    }
+    #status code{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 11px; }
+  </style>
+</head>
+
+<body>
+  <div id="wrap">
+    <div id="chart"></div>
+  </div>
+
+  <div id="legendPanel" aria-label="Legend">
+    <div id="legendHeader" title="Click to minimize / expand">
+      <div>Action domain colors <small>(org color source)</small></div>
+      <div class="chev" id="legendChev">–</div>
+    </div>
+    <div id="legendBody"></div>
+  </div>
+
+  <div id="status"></div>
+
+<script>
+/**
+ * CONFIG
+ * - Put your CSV next to this HTML file (same folder) OR change CSV_PATH.
+ * - CSV must include these columns (exact names):
+ *   1) Name of the Organization
+ *   2) Project/Action Domain (select all that apply)
+ *   3) Kind of Action (Select all that apply)
+ *   4) Main Addressee (Select all that apply)
+ */
+const CSV_PATH = "VALEUS_Submissions_normalized_for_sankey.csv";
+
+/** Your updated project identity palette for action domains. */
+const CAT_COLORS = {
+  "Democracy": "#2F6BFF",
+  "Human/Fundamental rights": "#7A3FF2",
+  "International/intercultural Understanding": "#7CCF19",
+  "Energy/Climate/Sustainability": "#22B8A9",
+  "Trade/Economy": "#FFB020",
+  "Migration": "#FF5A7A",
+  "Conflict/War": "#E43D30",
+  "Digital Technology": "#FEDD00",
+  "Digital Media": "#00A3FF",
+  "European Integration": "#1F3A93",
+  "other": "#000000"
+};
+
+// UI colors
+const KIND_GRAY = "rgba(120,120,120,0.95)";      // kind of action nodes
+const LINK_ALPHA = 0.35;
+
+// Column names in your normalized CSV:
+const COL_ORG  = "Name of the Organization";
+const COL_DOM  = "Project/Action Domain (select all that apply)";
+const COL_KIND = "Kind of Action (Select all that apply)";
+const COL_ADDR = "Main Addressee (Select all that apply)";
+
+function normalizeToken(s){
+  if (s == null) return "";
+  return String(s).trim().replace(/\s+/g, " ");
+}
+
+/** Split comma-separated multi-select fields into tokens, robust to blanks. */
+function splitMulti(value){
+  const v = normalizeToken(value);
+  if (!v) return [];
+  return v.split(",").map(x => normalizeToken(x)).filter(Boolean);
+}
+
+/** Convert hex to rgb object. */
+function hexToRgb(hex){
+  const h = hex.replace("#", "").trim();
+  const full = (h.length === 3) ? h.split("").map(c => c+c).join("") : h;
+  const int = parseInt(full, 16);
+  return { r:(int>>16)&255, g:(int>>8)&255, b:int&255 };
+}
+
+/** Lighten a hex color toward white. amount in [0,1]. */
+function lightenHex(hex, amount=0.45){
+  const {r,g,b} = hexToRgb(hex);
+  const nr = Math.round(r + (255 - r) * amount);
+  const ng = Math.round(g + (255 - g) * amount);
+  const nb = Math.round(b + (255 - b) * amount);
+  return `rgb(${nr},${ng},${nb})`;
+}
+
+/** rgba from hex with alpha */
+function rgbaFromHex(hex, a=0.35){
+  const {r,g,b} = hexToRgb(hex);
+  return `rgba(${r},${g},${b},${a})`;
+}
+
+/**
+ * Assign an organization color:
+ * "take the first entry of the project action of every organization"
+ * We interpret this as:
+ *  - Find the first row (file order) for that organization.
+ *  - Take the first action-domain token from COL_DOM in that row.
+ *  - Map via CAT_COLORS (fallback 'other').
+ */
+function buildOrgColorMap(rows){
+  const orgColor = new Map();
+  const orgDomain = new Map();
+
+  for (const row of rows){
+    const org = normalizeToken(row[COL_ORG]);
+    if (!org || orgColor.has(org)) continue;
+
+    const domains = splitMulti(row[COL_DOM]);
+    const d0 = domains.length ? domains[0] : "other";
+    const col = CAT_COLORS[d0] || CAT_COLORS["other"];
+
+    orgColor.set(org, col);
+    orgDomain.set(org, d0);
+  }
+  return { orgColor, orgDomain };
+}
+
+/**
+ * Determine addressee colors:
+ * "main addressee shall show a lighter shade of the biggest flow of the organization that it receives"
+ * We implement:
+ *  - Compute total flow into each addressee aggregated by organization (via Kind).
+ *  - For each addressee, find the org with max total.
+ *  - Addressee node color = lightened( orgColor[maxOrg] )
+ */
+function buildAddresseeColorMap(flowOrgToAddr, orgColor){
+  const addrToBestOrg = new Map();
+  const addrColor = new Map();
+
+  for (const [addr, orgMap] of flowOrgToAddr.entries()){
+    let bestOrg = null;
+    let bestVal = -Infinity;
+    for (const [org, val] of orgMap.entries()){
+      if (val > bestVal){
+        bestVal = val;
+        bestOrg = org;
+      }
+    }
+    const base = orgColor.get(bestOrg) || CAT_COLORS["other"];
+    addrToBestOrg.set(addr, bestOrg || "other");
+    addrColor.set(addr, lightenHex(base, 0.45));
+  }
+  return { addrToBestOrg, addrColor };
+}
+
+function setStatus(msg){
+  const el = document.getElementById("status");
+  el.innerHTML = msg;
+}
+
+// Legend UI (minimizable)
+function initLegend(){
+  const header = document.getElementById("legendHeader");
+  const body = document.getElementById("legendBody");
+  const chev = document.getElementById("legendChev");
+  let open = true;
+
+  header.addEventListener("click", () => {
+    open = !open;
+    body.style.display = open ? "block" : "none";
+    chev.textContent = open ? "–" : "+";
+  });
+
+  // Populate legend
+  const entries = Object.entries(CAT_COLORS);
+  // Keep 'other' last
+  entries.sort((a,b) => (a[0] === "other") - (b[0] === "other"));
+  body.innerHTML = entries.map(([k,v]) => `
+    <div class="legendRow">
+      <span class="swatch" style="background:${v}"></span>
+      <span>${k}</span>
+    </div>
+  `).join("") + `
+    <div class="muted">
+      Org color = action-domain of the <em>first</em> submission for that org.<br/>
+      Kind of Action = gray.<br/>
+      Addressee = lighter shade of the org with the largest incoming flow.
+    </div>
+  `;
+}
+
+async function loadAndRender(){
+  initLegend();
+
+  setStatus(`Loading CSV: <code>${CSV_PATH}</code>`);
+  const res = await fetch(CSV_PATH, { cache: "no-store" });
+  if (!res.ok){
+    setStatus(`Could not fetch CSV (<code>${CSV_PATH}</code>). Make sure the file is in the same folder as this HTML on GitHub Pages.`);
+    throw new Error("CSV fetch failed");
+  }
+  const csvText = await res.text();
+
+  const parsed = Papa.parse(csvText, { header: true, skipEmptyLines: true });
+  const rows = parsed.data || [];
+  if (!rows.length){
+    setStatus("CSV parsed, but no rows found.");
+    return;
+  }
+
+  // Build org -> base color using first occurrence in file order
+  const { orgColor, orgDomain } = buildOrgColorMap(rows);
+
+  // Build flows:
+  //  1) Org -> Kind
+  //  2) Kind -> Addressee
+  //
+  // Also track Org -> Addressee totals (for addressee color assignment)
+  const flowOrgKind = new Map(); // key: org||kind => count
+  const flowKindAddr = new Map(); // key: kind||addr => count
+  const flowOrgToAddr = new Map(); // addr => Map(org => total)
+
+  const orgs = new Set();
+  const kinds = new Set();
+  const addrs = new Set();
+
+  for (const row of rows){
+    const org = normalizeToken(row[COL_ORG]);
+    if (!org) continue;
+
+    const kindTokens = splitMulti(row[COL_KIND]);
+    const addrTokens = splitMulti(row[COL_ADDR]);
+
+    if (!kindTokens.length || !addrTokens.length) continue;
+
+    orgs.add(org);
+    kindTokens.forEach(k => kinds.add(k));
+    addrTokens.forEach(a => addrs.add(a));
+
+    // Org -> Kind (count each selection)
+    for (const k of kindTokens){
+      const key = `${org}||${k}`;
+      flowOrgKind.set(key, (flowOrgKind.get(key) || 0) + 1);
+    }
+
+    // Kind -> Addressee (count each selection)
+    for (const k of kindTokens){
+      for (const a of addrTokens){
+        const key = `${k}||${a}`;
+        flowKindAddr.set(key, (flowKindAddr.get(key) || 0) + 1);
+
+        // Org -> Addressee totals (used for addressee color assignment)
+        if (!flowOrgToAddr.has(a)) flowOrgToAddr.set(a, new Map());
+        const m = flowOrgToAddr.get(a);
+        m.set(org, (m.get(org) || 0) + 1);
+      }
+    }
+  }
+
+  // Addressee colors (lighter shade of best org)
+  const { addrColor } = buildAddresseeColorMap(flowOrgToAddr, orgColor);
+
+  // Build node list in order: Org, Kind, Addressee
+  const orgList = Array.from(orgs).sort((a,b) => a.localeCompare(b));
+  const kindList = Array.from(kinds).sort((a,b) => a.localeCompare(b));
+  const addrList = Array.from(addrs).sort((a,b) => a.localeCompare(b));
+
+  const labels = [...orgList, ...kindList, ...addrList];
+
+  const nodeColor = [];
+  // Org node colors
+  for (const o of orgList){
+    nodeColor.push(orgColor.get(o) || CAT_COLORS["other"]);
+  }
+  // Kind node colors (gray)
+  for (const k of kindList){
+    nodeColor.push(KIND_GRAY);
+  }
+  // Addressee node colors (lightened best-org)
+  for (const a of addrList){
+    nodeColor.push(addrColor.get(a) || lightenHex(CAT_COLORS["other"], 0.55));
+  }
+
+  // Index helpers
+  const orgIdx = new Map(orgList.map((o,i)=>[o,i]));
+  const kindIdx = new Map(kindList.map((k,i)=>[k, orgList.length + i]));
+  const addrIdx = new Map(addrList.map((a,i)=>[a, orgList.length + kindList.length + i]));
+
+  // Links
+  const source = [];
+  const target = [];
+  const value  = [];
+  const linkColor = [];
+
+  // Org -> Kind links (colored by org base)
+  for (const [key, v] of flowOrgKind.entries()){
+    const [o,k] = key.split("||");
+    if (!orgIdx.has(o) || !kindIdx.has(k)) continue;
+    source.push(orgIdx.get(o));
+    target.push(kindIdx.get(k));
+    value.push(v);
+
+    const base = orgColor.get(o) || CAT_COLORS["other"];
+    linkColor.push(rgbaFromHex(base, LINK_ALPHA));
+  }
+
+  // Kind -> Addressee links (colored by addressee's underlying base org shade)
+  // We'll color by the *destination addressee* node color but slightly higher alpha for clarity.
+  for (const [key, v] of flowKindAddr.entries()){
+    const [k,a] = key.split("||");
+    if (!kindIdx.has(k) || !addrIdx.has(a)) continue;
+    source.push(kindIdx.get(k));
+    target.push(addrIdx.get(a));
+    value.push(v);
+
+    // use addressee color, convert rgb(...) to rgba with alpha
+    const c = addrColor.get(a) || lightenHex(CAT_COLORS["other"], 0.55);
+    // If already rgb(), wrap into rgba
+    const rgba = c.startsWith("rgb(") ? c.replace("rgb(", "rgba(").replace(")", `,${LINK_ALPHA})`) : c;
+    linkColor.push(rgba);
+  }
+
+  const data = [{
+    type: "sankey",
+    arrangement: "snap",
+    node: {
+      pad: 22,
+      thickness: 16,
+      line: { color: "rgba(0,0,0,0)", width: 0.5 },
+      label: labels,
+      color: nodeColor
+    },
+    link: {
+      source,
+      target,
+      value,
+      color: linkColor,
+      line: { width: 0.3, color: "rgba(0,0,0,0.15)" }
+    }
+  }];
+
+  const layout = {
+    margin: { l: 10, r: 10, t: 10, b: 10 },
+    font: { size: 12, color: "#111827" },
+    paper_bgcolor: "#ffffff",
+    plot_bgcolor: "#ffffff"
+  };
+
+  Plotly.newPlot("chart", data, layout, { responsive: true });
+
+  setStatus(
+    `Rendered from <code>${CSV_PATH}</code> — ` +
+    `${orgList.length} orgs, ${kindList.length} kinds, ${addrList.length} addressees.`
+  );
+}
+
+loadAndRender().catch(err => {
+  console.error(err);
+});
 </script>
 </body>
 </html>
