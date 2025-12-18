@@ -12,9 +12,10 @@
 
   <style>
     html, body { height: 100%; margin: 0; }
-    body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif; background: #ffffff; }
-    #wrap { height: 100%; display: grid; grid-template-columns: 1fr; }
-    #chart { width: 100%; height: 100vh; }
+      body { margin: 0; font-family: Arial, sans-serif; }
+  .page { height: 100vh; overflow-y: auto; overflow-x: hidden; }
+  .chartWrap { height: 1200px; padding: 16px; box-sizing: border-box; }
+  #chart { width: 100%; height: 100%; }
 
     /* Minimizable legend panel */
     #legendPanel{
@@ -100,8 +101,13 @@
     }
     #status code{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 11px; }
   </style>
-</head>
 
+<div class="page">
+  <div class="chartWrap">
+    <div id="chart"></div>
+  </div>
+</div>
+  </head>
 <body>
   <div id="wrap">
     <div id="chart"></div>
@@ -435,7 +441,16 @@ async function loadAndRender(){
     plot_bgcolor: "#ffffff"
   };
 
-  Plotly.newPlot("chart", data, layout, { responsive: true });
+ Plotly.newPlot("chart", data, layout, {
+  responsive: true,
+  scrollZoom: false, // prevents trackpad/wheel zoom from messing up layout
+  displayModeBar: true,
+  modeBarButtonsToRemove: [
+    "zoom2d","pan2d","select2d","lasso2d",
+    "zoomIn2d","zoomOut2d","autoScale2d","resetScale2d"
+  ]
+});
+
 
   setStatus(
     `Rendered from <code>${CSV_PATH}</code> — ` +
@@ -449,3 +464,4 @@ loadAndRender().catch(err => {
 </script>
 </body>
 </html>
+
