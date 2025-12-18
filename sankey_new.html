@@ -12,10 +12,10 @@
 
   <style>
     html, body { height: 100%; margin: 0; }
-      body { margin: 0; font-family: Arial, sans-serif; }
-  .page { height: 100vh; overflow-y: auto; overflow-x: hidden; }
-  .chartWrap { height: 1200px; padding: 16px; box-sizing: border-box; }
-  #chart { width: 100%; height: 100%; }
+    body { margin: 0; font-family: Arial, sans-serif; }
+    .page { height: 100vh; overflow-y: auto; overflow-x: hidden; }
+    .chartWrap { height: 1200px; padding: 16px; box-sizing: border-box; }
+    #chart { width: 100%; height: 100%; }
 
     /* Minimizable legend panel */
     #legendPanel{
@@ -23,7 +23,7 @@
       right: 14px;
       top: 14px;
       z-index: 9999;
-      width: 260px;
+      width: 300px;
       border-radius: 12px;
       background: rgba(255,255,255,0.95);
       box-shadow: 0 10px 30px rgba(0,0,0,0.12);
@@ -51,6 +51,8 @@
       padding: 10px 12px 12px 12px;
       border-top: 1px solid rgba(0,0,0,0.06);
       display: block;
+      max-height: 70vh;
+      overflow: auto;
     }
     .legendRow{
       display:flex;
@@ -72,7 +74,7 @@
     .muted{
       color:#6b7280;
       font-size: 12px;
-      margin-top: 8px;
+      margin-top: 10px;
       line-height: 1.25;
     }
     .chev{
@@ -82,6 +84,39 @@
       border-radius: 8px;
       border: 1px solid rgba(0,0,0,0.08);
       background: rgba(249,250,251,0.7);
+    }
+
+    .sectionTitle{
+      font-size: 12px;
+      font-weight: 700;
+      color:#111827;
+      margin: 8px 0 6px 0;
+    }
+
+    .filterRow{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding: 6px 0;
+      font-size: 12.5px;
+      color:#111827;
+      border-bottom: 1px dashed rgba(0,0,0,0.06);
+    }
+
+    .filterRow input{ transform: translateY(1px); }
+
+    .btnRow{
+      display:flex;
+      gap:8px;
+      margin: 8px 0 10px 0;
+    }
+    .btn{
+      font-size: 12px;
+      padding: 6px 8px;
+      border-radius: 10px;
+      border: 1px solid rgba(0,0,0,0.10);
+      background: rgba(249,250,251,0.9);
+      cursor: pointer;
     }
 
     /* Small footer status */
@@ -101,21 +136,18 @@
     }
     #status code{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 11px; }
   </style>
+</head>
 
-<div class="page">
-  <div class="chartWrap">
-    <div id="chart"></div>
-  </div>
-</div>
-  </head>
 <body>
-  <div id="wrap">
-    <div id="chart"></div>
+  <div class="page">
+    <div class="chartWrap">
+      <div id="chart"></div>
+    </div>
   </div>
 
   <div id="legendPanel" aria-label="Legend">
     <div id="legendHeader" title="Click to minimize / expand">
-      <div>Action domain colors <small>(org color source)</small></div>
+      <div>Action domain filter <small>(and colors)</small></div>
       <div class="chev" id="legendChev">–</div>
     </div>
     <div id="legendBody"></div>
@@ -126,16 +158,15 @@
 <script>
 /**
  * CONFIG
- * - Put your CSV next to this HTML file (same folder) OR change CSV_PATH.
- * - CSV must include these columns (exact names):
+ * CSV must include these columns (exact names):
  *   1) Name of the Organization
  *   2) Project/Action Domain (select all that apply)
  *   3) Kind of Action (Select all that apply)
  *   4) Main Addressee (Select all that apply)
  */
-const CSV_PATH = "VALEUS_Submissions_normalized_for_sankey.csv";
+const CSV_PATH = "VALEUS_Submissions_2025-12-17_normalized_for_sankey.csv";
 
-/** Your updated project identity palette for action domains. */
+/** Project identity palette for action domains. */
 const CAT_COLORS = {
   "Democracy": "#2F6BFF",
   "Human/Fundamental rights": "#7A3FF2",
@@ -151,7 +182,7 @@ const CAT_COLORS = {
 };
 
 // UI colors
-const KIND_GRAY = "rgba(120,120,120,0.95)";      // kind of action nodes
+const KIND_GRAY = "rgba(120,120,120,0.95)";
 const LINK_ALPHA = 0.35;
 
 // Column names in your normalized CSV:
@@ -164,23 +195,17 @@ function normalizeToken(s){
   if (s == null) return "";
   return String(s).trim().replace(/\s+/g, " ");
 }
-
-/** Split comma-separated multi-select fields into tokens, robust to blanks. */
 function splitMulti(value){
   const v = normalizeToken(value);
   if (!v) return [];
   return v.split(",").map(x => normalizeToken(x)).filter(Boolean);
 }
-
-/** Convert hex to rgb object. */
 function hexToRgb(hex){
   const h = hex.replace("#", "").trim();
   const full = (h.length === 3) ? h.split("").map(c => c+c).join("") : h;
   const int = parseInt(full, 16);
   return { r:(int>>16)&255, g:(int>>8)&255, b:int&255 };
 }
-
-/** Lighten a hex color toward white. amount in [0,1]. */
 function lightenHex(hex, amount=0.45){
   const {r,g,b} = hexToRgb(hex);
   const nr = Math.round(r + (255 - r) * amount);
@@ -188,26 +213,24 @@ function lightenHex(hex, amount=0.45){
   const nb = Math.round(b + (255 - b) * amount);
   return `rgb(${nr},${ng},${nb})`;
 }
-
-/** rgba from hex with alpha */
 function rgbaFromHex(hex, a=0.35){
   const {r,g,b} = hexToRgb(hex);
   return `rgba(${r},${g},${b},${a})`;
 }
 
+function setStatus(msg){
+  document.getElementById("status").innerHTML = msg;
+}
+
 /**
- * Assign an organization color:
- * "take the first entry of the project action of every organization"
- * We interpret this as:
- *  - Find the first row (file order) for that organization.
- *  - Take the first action-domain token from COL_DOM in that row.
- *  - Map via CAT_COLORS (fallback 'other').
+ * Org color = action-domain of the *first submission row* for that org (file order).
+ * This stays stable even when filters change.
  */
-function buildOrgColorMap(rows){
+function buildOrgColorMap(allRows){
   const orgColor = new Map();
   const orgDomain = new Map();
 
-  for (const row of rows){
+  for (const row of allRows){
     const org = normalizeToken(row[COL_ORG]);
     if (!org || orgColor.has(org)) continue;
 
@@ -222,15 +245,9 @@ function buildOrgColorMap(rows){
 }
 
 /**
- * Determine addressee colors:
- * "main addressee shall show a lighter shade of the biggest flow of the organization that it receives"
- * We implement:
- *  - Compute total flow into each addressee aggregated by organization (via Kind).
- *  - For each addressee, find the org with max total.
- *  - Addressee node color = lightened( orgColor[maxOrg] )
+ * Addressee color = lighter shade of the org with max incoming flow.
  */
 function buildAddresseeColorMap(flowOrgToAddr, orgColor){
-  const addrToBestOrg = new Map();
   const addrColor = new Map();
 
   for (const [addr, orgMap] of flowOrgToAddr.entries()){
@@ -243,76 +260,105 @@ function buildAddresseeColorMap(flowOrgToAddr, orgColor){
       }
     }
     const base = orgColor.get(bestOrg) || CAT_COLORS["other"];
-    addrToBestOrg.set(addr, bestOrg || "other");
     addrColor.set(addr, lightenHex(base, 0.45));
   }
-  return { addrToBestOrg, addrColor };
+  return { addrColor };
 }
 
-function setStatus(msg){
-  const el = document.getElementById("status");
-  el.innerHTML = msg;
-}
+/** ------- Legend (minimizable + checkboxes) ------- */
+let selectedDomains = new Set(Object.keys(CAT_COLORS).filter(k => k !== "other"));
 
-// Legend UI (minimizable)
-function initLegend(){
+function initLegend(onFilterChange){
   const header = document.getElementById("legendHeader");
   const body = document.getElementById("legendBody");
   const chev = document.getElementById("legendChev");
   let open = true;
 
-  header.addEventListener("click", () => {
+  header.onclick = () => {
     open = !open;
     body.style.display = open ? "block" : "none";
     chev.textContent = open ? "–" : "+";
-  });
+  };
 
-  // Populate legend
-  const entries = Object.entries(CAT_COLORS);
-  // Keep 'other' last
-  entries.sort((a,b) => (a[0] === "other") - (b[0] === "other"));
-  body.innerHTML = entries.map(([k,v]) => `
-    <div class="legendRow">
-      <span class="swatch" style="background:${v}"></span>
-      <span>${k}</span>
+  const domainKeys = Object.keys(CAT_COLORS).filter(k => k !== "other");
+
+  body.innerHTML = `
+    <div class="sectionTitle">Filter Action Domains</div>
+    <div class="btnRow">
+      <button class="btn" id="btnAll">Select all</button>
+      <button class="btn" id="btnNone">Select none</button>
     </div>
-  `).join("") + `
+    <div id="domainChecks"></div>
+
+    <div class="sectionTitle" style="margin-top:10px;">Color legend</div>
+    <div id="domainLegend"></div>
+
     <div class="muted">
       Org color = action-domain of the <em>first</em> submission for that org.<br/>
       Kind of Action = gray.<br/>
-      Addressee = lighter shade of the org with the largest incoming flow.
+      Addressee = lighter shade of the org with the largest incoming flow (within current filter).
     </div>
   `;
+
+  const checksEl = document.getElementById("domainChecks");
+  checksEl.innerHTML = domainKeys.map(k => `
+    <label class="filterRow">
+      <input type="checkbox" data-domain="${k}" ${selectedDomains.has(k) ? "checked" : ""}/>
+      <span class="swatch" style="background:${CAT_COLORS[k]}"></span>
+      <span>${k}</span>
+    </label>
+  `).join("");
+
+  const legendEl = document.getElementById("domainLegend");
+  legendEl.innerHTML = domainKeys.map(k => `
+    <div class="legendRow">
+      <span class="swatch" style="background:${CAT_COLORS[k]}"></span>
+      <span>${k}</span>
+    </div>
+  `).join("") + `
+    <div class="legendRow">
+      <span class="swatch" style="background:${CAT_COLORS["other"]}"></span>
+      <span>other</span>
+    </div>
+  `;
+
+  document.getElementById("btnAll").onclick = () => {
+    selectedDomains = new Set(domainKeys);
+    checksEl.querySelectorAll("input[type=checkbox]").forEach(cb => cb.checked = true);
+    onFilterChange();
+  };
+  document.getElementById("btnNone").onclick = () => {
+    selectedDomains = new Set();
+    checksEl.querySelectorAll("input[type=checkbox]").forEach(cb => cb.checked = false);
+    onFilterChange();
+  };
+
+  checksEl.addEventListener("change", (e) => {
+    const cb = e.target;
+    if (!cb || cb.type !== "checkbox") return;
+    const d = cb.getAttribute("data-domain");
+    if (!d) return;
+    if (cb.checked) selectedDomains.add(d);
+    else selectedDomains.delete(d);
+    onFilterChange();
+  });
 }
 
-async function loadAndRender(){
-  initLegend();
-
-  setStatus(`Loading CSV: <code>${CSV_PATH}</code>`);
-  const res = await fetch(CSV_PATH, { cache: "no-store" });
-  if (!res.ok){
-    setStatus(`Could not fetch CSV (<code>${CSV_PATH}</code>). Make sure the file is in the same folder as this HTML on GitHub Pages.`);
-    throw new Error("CSV fetch failed");
+/** Filter rule: keep row if its domains intersect selectedDomains. */
+function rowPassesDomainFilter(row){
+  const domains = splitMulti(row[COL_DOM]);
+  if (!domains.length) return selectedDomains.size === 0 ? false : selectedDomains.has("other");
+  for (const d of domains){
+    if (selectedDomains.has(d)) return true;
   }
-  const csvText = await res.text();
+  return false;
+}
 
-  const parsed = Papa.parse(csvText, { header: true, skipEmptyLines: true });
-  const rows = parsed.data || [];
-  if (!rows.length){
-    setStatus("CSV parsed, but no rows found.");
-    return;
-  }
-
-  // Build org -> base color using first occurrence in file order
-  const { orgColor, orgDomain } = buildOrgColorMap(rows);
-
-  // Build flows:
-  //  1) Org -> Kind
-  //  2) Kind -> Addressee
-  //
-  // Also track Org -> Addressee totals (for addressee color assignment)
-  const flowOrgKind = new Map(); // key: org||kind => count
-  const flowKindAddr = new Map(); // key: kind||addr => count
+/** Render Sankey from a (possibly filtered) row set, using stable orgColor computed from full CSV. */
+function renderSankey(rows, orgColor){
+  // Flows
+  const flowOrgKind = new Map();   // org||kind => count
+  const flowKindAddr = new Map();  // kind||addr => count
   const flowOrgToAddr = new Map(); // addr => Map(org => total)
 
   const orgs = new Set();
@@ -325,26 +371,21 @@ async function loadAndRender(){
 
     const kindTokens = splitMulti(row[COL_KIND]);
     const addrTokens = splitMulti(row[COL_ADDR]);
-
     if (!kindTokens.length || !addrTokens.length) continue;
 
     orgs.add(org);
     kindTokens.forEach(k => kinds.add(k));
     addrTokens.forEach(a => addrs.add(a));
 
-    // Org -> Kind (count each selection)
     for (const k of kindTokens){
       const key = `${org}||${k}`;
       flowOrgKind.set(key, (flowOrgKind.get(key) || 0) + 1);
     }
-
-    // Kind -> Addressee (count each selection)
     for (const k of kindTokens){
       for (const a of addrTokens){
         const key = `${k}||${a}`;
         flowKindAddr.set(key, (flowKindAddr.get(key) || 0) + 1);
 
-        // Org -> Addressee totals (used for addressee color assignment)
         if (!flowOrgToAddr.has(a)) flowOrgToAddr.set(a, new Map());
         const m = flowOrgToAddr.get(a);
         m.set(org, (m.get(org) || 0) + 1);
@@ -352,55 +393,40 @@ async function loadAndRender(){
     }
   }
 
-  // Addressee colors (lighter shade of best org)
   const { addrColor } = buildAddresseeColorMap(flowOrgToAddr, orgColor);
 
-  // Build node list in order: Org, Kind, Addressee
-  const orgList = Array.from(orgs).sort((a,b) => a.localeCompare(b));
+  const orgList  = Array.from(orgs).sort((a,b) => a.localeCompare(b));
   const kindList = Array.from(kinds).sort((a,b) => a.localeCompare(b));
   const addrList = Array.from(addrs).sort((a,b) => a.localeCompare(b));
 
   const labels = [...orgList, ...kindList, ...addrList];
 
   const nodeColor = [];
-  // Org node colors
-  for (const o of orgList){
-    nodeColor.push(orgColor.get(o) || CAT_COLORS["other"]);
-  }
-  // Kind node colors (gray)
-  for (const k of kindList){
-    nodeColor.push(KIND_GRAY);
-  }
-  // Addressee node colors (lightened best-org)
-  for (const a of addrList){
-    nodeColor.push(addrColor.get(a) || lightenHex(CAT_COLORS["other"], 0.55));
-  }
+  for (const o of orgList) nodeColor.push(orgColor.get(o) || CAT_COLORS["other"]);
+  for (const k of kindList) nodeColor.push(KIND_GRAY);
+  for (const a of addrList) nodeColor.push(addrColor.get(a) || lightenHex(CAT_COLORS["other"], 0.55));
 
-  // Index helpers
-  const orgIdx = new Map(orgList.map((o,i)=>[o,i]));
+  const orgIdx  = new Map(orgList.map((o,i)=>[o,i]));
   const kindIdx = new Map(kindList.map((k,i)=>[k, orgList.length + i]));
   const addrIdx = new Map(addrList.map((a,i)=>[a, orgList.length + kindList.length + i]));
 
-  // Links
   const source = [];
   const target = [];
   const value  = [];
   const linkColor = [];
 
-  // Org -> Kind links (colored by org base)
+  // Org -> Kind links
   for (const [key, v] of flowOrgKind.entries()){
     const [o,k] = key.split("||");
     if (!orgIdx.has(o) || !kindIdx.has(k)) continue;
     source.push(orgIdx.get(o));
     target.push(kindIdx.get(k));
     value.push(v);
-
     const base = orgColor.get(o) || CAT_COLORS["other"];
     linkColor.push(rgbaFromHex(base, LINK_ALPHA));
   }
 
-  // Kind -> Addressee links (colored by addressee's underlying base org shade)
-  // We'll color by the *destination addressee* node color but slightly higher alpha for clarity.
+  // Kind -> Addressee links
   for (const [key, v] of flowKindAddr.entries()){
     const [k,a] = key.split("||");
     if (!kindIdx.has(k) || !addrIdx.has(a)) continue;
@@ -408,9 +434,7 @@ async function loadAndRender(){
     target.push(addrIdx.get(a));
     value.push(v);
 
-    // use addressee color, convert rgb(...) to rgba with alpha
     const c = addrColor.get(a) || lightenHex(CAT_COLORS["other"], 0.55);
-    // If already rgb(), wrap into rgba
     const rgba = c.startsWith("rgb(") ? c.replace("rgb(", "rgba(").replace(")", `,${LINK_ALPHA})`) : c;
     linkColor.push(rgba);
   }
@@ -441,27 +465,63 @@ async function loadAndRender(){
     plot_bgcolor: "#ffffff"
   };
 
- Plotly.newPlot("chart", data, layout, {
-  responsive: true,
-  scrollZoom: false, // prevents trackpad/wheel zoom from messing up layout
-  displayModeBar: true,
-  modeBarButtonsToRemove: [
-    "zoom2d","pan2d","select2d","lasso2d",
-    "zoomIn2d","zoomOut2d","autoScale2d","resetScale2d"
-  ]
-});
+  Plotly.newPlot("chart", data, layout, {
+    responsive: true,
+    scrollZoom: false,
+    displayModeBar: true,
+    modeBarButtonsToRemove: [
+      "zoom2d","pan2d","select2d","lasso2d",
+      "zoomIn2d","zoomOut2d","autoScale2d","resetScale2d"
+    ]
+  });
 
+  return { orgCount: orgList.length, kindCount: kindList.length, addrCount: addrList.length };
+}
 
+/** Load once, then re-render on filters. */
+let ALL_ROWS = null;
+let ORG_COLOR_MAP = null;
+
+async function loadCSVOnce(){
+  setStatus(`Loading CSV: <code>${CSV_PATH}</code>`);
+  const res = await fetch(CSV_PATH, { cache: "no-store" });
+  if (!res.ok){
+    setStatus(`Could not fetch CSV (<code>${CSV_PATH}</code>). If you opened this as <code>file://</code>, it will fail. Use GitHub Pages or a local server.`);
+    throw new Error("CSV fetch failed");
+  }
+  const csvText = await res.text();
+  const parsed = Papa.parse(csvText, { header: true, skipEmptyLines: true });
+  ALL_ROWS = (parsed.data || []).filter(r => Object.keys(r).length);
+  if (!ALL_ROWS.length){
+    setStatus("CSV parsed, but no rows found.");
+    throw new Error("No rows");
+  }
+  const { orgColor } = buildOrgColorMap(ALL_ROWS);
+  ORG_COLOR_MAP = orgColor;
+}
+
+function rerender(){
+  if (!ALL_ROWS || !ORG_COLOR_MAP) return;
+
+  const filtered = ALL_ROWS.filter(rowPassesDomainFilter);
+  const stats = renderSankey(filtered, ORG_COLOR_MAP);
+
+  const selected = Array.from(selectedDomains);
+  const selTxt = selected.length ? selected.join(", ") : "(none)";
   setStatus(
-    `Rendered from <code>${CSV_PATH}</code> — ` +
-    `${orgList.length} orgs, ${kindList.length} kinds, ${addrList.length} addressees.`
+    `Rendered from <code>${CSV_PATH}</code><br/>` +
+    `Filter: <code>${selTxt}</code><br/>` +
+    `${stats.orgCount} orgs, ${stats.kindCount} kinds, ${stats.addrCount} addressees.`
   );
 }
 
-loadAndRender().catch(err => {
-  console.error(err);
-});
+(async function boot(){
+  // legend first so it’s interactive quickly
+  initLegend(() => rerender());
+
+  await loadCSVOnce();
+  rerender();
+})().catch(err => console.error(err));
 </script>
 </body>
 </html>
-
