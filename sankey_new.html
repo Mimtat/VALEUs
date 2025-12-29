@@ -166,6 +166,7 @@
  */
 const CSV_PATH = "./VALEUS_Submissions_normalized_for_sankey.csv";
 
+
 /** Project identity palette for action domains. */
 const CAT_COLORS = {
   "Democracy": "#2F6BFF",
@@ -501,6 +502,11 @@ async function loadCSVOnce(){
 }
 
 function rerender(){
+ 
+  console.log("Selected domains:", Array.from(selectedDomains));
+console.log("Filtered rows:", filtered.length);
+console.log("Example filtered domains:", filtered.slice(0,5).map(r => r[COL_DOM]));
+
   if (!ALL_ROWS || !ORG_COLOR_MAP) return;
 
   const filtered = ALL_ROWS.filter(rowPassesDomainFilter);
@@ -525,5 +531,6 @@ function rerender(){
 </script>
 </body>
 </html>
+
 
 
