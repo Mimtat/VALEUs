@@ -228,22 +228,80 @@ function setStatus(msg){
  * This stays stable even when filters change.
  */
 function buildOrgColorMap(allRows){
+  // 1) Collect per-org domain counts + first-seen index for tie-breaking
+  const orgDomains = new Map(); // org -> Map(domain -> {count, firstIdx})
+  const orgFirstIdx = new Map(); // org -> first row index (for deterministic ordering)
+
+  allRows.forEach((row, idx) => {
+    const org = normalizeToken(row[COL_ORG]);
+    if (!org) return;
+
+    if (!orgFirstIdx.has(org)) orgFirstIdx.set(org, idx);
+
+    const domains = splitMulti(row[COL_DOM]);
+    if (!domains.length) domains.push("other");
+
+    if (!orgDomains.has(org)) orgDomains.set(org, new Map());
+    const m = orgDomains.get(org);
+
+    for (const dRaw of domains){
+      const d = CAT_COLORS[dRaw] ? dRaw : "other";
+      if (!m.has(d)) m.set(d, { count: 0, firstIdx: idx });
+      const obj = m.get(d);
+      obj.count += 1;
+      obj.firstIdx = Math.min(obj.firstIdx, idx);
+    }
+  });
+
+  // 2) Assign colors trying to diversify:
+  // choose, for each org, the candidate domain whose color is currently least used,
+  // with fallback to the org's most frequent domain.
+  const domainUse = new Map(); // domain -> assigned count
   const orgColor = new Map();
   const orgDomain = new Map();
 
-  for (const row of allRows){
-    const org = normalizeToken(row[COL_ORG]);
-    if (!org || orgColor.has(org)) continue;
+  // Deterministic org order: first appearance in file
+  const orgList = Array.from(orgDomains.keys())
+    .sort((a,b) => (orgFirstIdx.get(a) - orgFirstIdx.get(b)) || a.localeCompare(b));
 
-    const domains = splitMulti(row[COL_DOM]);
-    const d0 = domains.length ? domains[0] : "other";
-    const col = CAT_COLORS[d0] || CAT_COLORS["other"];
+  for (const org of orgList){
+    const domMap = orgDomains.get(org); // Map(domain -> {count, firstIdx})
+    const candidates = Array.from(domMap.entries())
+      .sort((a,b) => {
+        // Primary: higher frequency
+        if (b[1].count !== a[1].count) return b[1].count - a[1].count;
+        // Secondary: earlier first occurrence
+        if (a[1].firstIdx !== b[1].firstIdx) return a[1].firstIdx - b[1].firstIdx;
+        // Tertiary: name
+        return a[0].localeCompare(b[0]);
+      })
+      .map(([d]) => d);
 
+    // pick least-used domain among the top K candidates (K can be all; here all)
+    let best = candidates[0] || "other";
+    let bestUse = Infinity;
+
+    for (const d of candidates){
+      const use = domainUse.get(d) || 0;
+      // skip "other" if there is any non-other option
+      if (d === "other" && candidates.some(x => x !== "other")) continue;
+
+      if (use < bestUse){
+        bestUse = use;
+        best = d;
+      }
+    }
+
+    domainUse.set(best, (domainUse.get(best) || 0) + 1);
+
+    const col = CAT_COLORS[best] || CAT_COLORS["other"];
     orgColor.set(org, col);
-    orgDomain.set(org, d0);
+    orgDomain.set(org, best);
   }
+
   return { orgColor, orgDomain };
 }
+
 
 /**
  * Addressee color = lighter shade of the org with max incoming flow.
@@ -626,6 +684,7 @@ function rerender(){
 </script>
 </body>
 </html>
+
 
 
 
