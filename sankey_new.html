@@ -291,38 +291,22 @@ function initLegend(onFilterChange){
     </div>
     <div id="domainChecks"></div>
 
-    <div class="sectionTitle" style="margin-top:10px;">Color legend</div>
-    <div id="domainLegend"></div>
-
     <div class="muted">
-      Org color = action-domain of the <em>first</em> submission for that org.<br/>
-      Kind of Action = gray.<br/>
-      Addressee = lighter shade of the org with the largest incoming flow (within current filter).
-    </div>
+  Click to filter action domains.<br/>
+  Colors correspond to the organization's base colors.
   `;
 
   const checksEl = document.getElementById("domainChecks");
   checksEl.innerHTML = domainKeys.map(k => `
-    <label class="filterRow">
-      <input type="checkbox" data-domain="${k}" ${selectedDomains.has(k) ? "checked" : ""}/>
-      <span class="swatch" style="background:${CAT_COLORS[k]}"></span>
-      <span>${k}</span>
-    </label>
+   <label class="filterRow">
+  <input type="checkbox" data-domain="${k}" checked />
+  <span class="swatch" style="background:${CAT_COLORS[k]}"></span>
+  <span>${k}</span>
+</label>
+
   `).join("");
 
-  const legendEl = document.getElementById("domainLegend");
-  legendEl.innerHTML = domainKeys.map(k => `
-    <div class="legendRow">
-      <span class="swatch" style="background:${CAT_COLORS[k]}"></span>
-      <span>${k}</span>
-    </div>
-  `).join("") + `
-    <div class="legendRow">
-      <span class="swatch" style="background:${CAT_COLORS["other"]}"></span>
-      <span>other</span>
-    </div>
-  `;
-
+ 
   document.getElementById("btnAll").onclick = () => {
     selectedDomains = new Set(domainKeys);
     checksEl.querySelectorAll("input[type=checkbox]").forEach(cb => cb.checked = true);
@@ -532,6 +516,7 @@ function rerender(){
 </script>
 </body>
 </html>
+
 
 
 
