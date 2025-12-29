@@ -292,8 +292,12 @@ function initLegend(onFilterChange){
     <div id="domainChecks"></div>
 
     <div class="muted">
+   
+
   Click to filter action domains.<br/>
-  Colors correspond to the organization's base colors.
+  Colors correspond to the organization's base colors (action-domain of the first submission).<br/>
+  Kind of Action is gray.<br/>
+The addressee is the lighter shade of the org with the most significant incoming flow (within the current filter).
   `;
 
   const checksEl = document.getElementById("domainChecks");
@@ -516,6 +520,7 @@ function rerender(){
 </script>
 </body>
 </html>
+
 
 
 
