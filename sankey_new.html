@@ -502,14 +502,14 @@ async function loadCSVOnce(){
 }
 
 function rerender(){
- 
-  console.log("Selected domains:", Array.from(selectedDomains));
-console.log("Filtered rows:", filtered.length);
-console.log("Example filtered domains:", filtered.slice(0,5).map(r => r[COL_DOM]));
-
   if (!ALL_ROWS || !ORG_COLOR_MAP) return;
 
   const filtered = ALL_ROWS.filter(rowPassesDomainFilter);
+
+  console.log("Selected domains:", Array.from(selectedDomains));
+  console.log("Filtered rows:", filtered.length);
+  console.log("Example filtered domains:", filtered.slice(0, 5).map(r => r[COL_DOM]));
+
   const stats = renderSankey(filtered, ORG_COLOR_MAP);
 
   const selected = Array.from(selectedDomains);
@@ -521,6 +521,7 @@ console.log("Example filtered domains:", filtered.slice(0,5).map(r => r[COL_DOM]
   );
 }
 
+
 (async function boot(){
   // legend first so it’s interactive quickly
   initLegend(() => rerender());
@@ -531,6 +532,7 @@ console.log("Example filtered domains:", filtered.slice(0,5).map(r => r[COL_DOM]
 </script>
 </body>
 </html>
+
 
 
 
