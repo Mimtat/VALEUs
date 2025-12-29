@@ -266,6 +266,40 @@ function buildAddresseeColorMap(flowOrgToAddr, orgColor){
   return { addrColor };
 }
 
+  /** ------- Highlight ------- */
+function setAlpha(color, alpha){
+  if (!color) return `rgba(0,0,0,${alpha})`;
+  const c = String(color).trim();
+
+  if (c.startsWith("rgba(")){
+    return c.replace(/rgba\(([^)]+)\)/, (m, inner) => {
+      const parts = inner.split(",").map(s => s.trim());
+      return `rgba(${parts[0]},${parts[1]},${parts[2]},${alpha})`;
+    });
+  }
+  if (c.startsWith("rgb(")){
+    return c.replace("rgb(", "rgba(").replace(")", `,${alpha})`);
+  }
+  if (c.startsWith("#")){
+    return rgbaFromHex(c, alpha);
+  }
+  // fallback
+  return `rgba(0,0,0,${alpha})`;
+}
+
+function applyHighlight(orgName){
+  const fadedAlpha = 0.06;
+  const strongAlpha = 0.45;
+
+  const newColors = LAST_LINK_BASECOLORS.map((base, i) => {
+    if (!orgName) return base; // no highlight -> original
+    return (LAST_LINK_ORG[i] === orgName) ? setAlpha(base, strongAlpha)
+                                          : setAlpha(base, fadedAlpha);
+  });
+
+  Plotly.restyle("chart", { "link.color": [newColors] });
+}
+
 /** ------- Legend (minimizable + checkboxes) ------- */
 let selectedDomains = new Set(Object.keys(CAT_COLORS).filter(k => k !== "other"));
 
@@ -346,9 +380,9 @@ function rowPassesDomainFilter(row){
 /** Render Sankey from a (possibly filtered) row set, using stable orgColor computed from full CSV. */
 function renderSankey(rows, orgColor){
   // Flows
-  const flowOrgKind = new Map();   // org||kind => count
-  const flowKindAddr = new Map();  // kind||addr => count
-  const flowOrgToAddr = new Map(); // addr => Map(org => total)
+  const flowOrgKind = new Map();        // org||kind => count
+  const flowOrgKindAddr = new Map();    // org||kind||addr => count (org-specific)
+  const flowOrgToAddr = new Map();      // addr => Map(org => total) for addressee shading
 
   const orgs = new Set();
   const kinds = new Set();
@@ -362,18 +396,22 @@ function renderSankey(rows, orgColor){
     const addrTokens = splitMulti(row[COL_ADDR]);
     if (!kindTokens.length || !addrTokens.length) continue;
 
+    // domain filter already applied in rerender (rows already filtered)
     orgs.add(org);
     kindTokens.forEach(k => kinds.add(k));
     addrTokens.forEach(a => addrs.add(a));
 
+    // Org -> Kind
     for (const k of kindTokens){
       const key = `${org}||${k}`;
       flowOrgKind.set(key, (flowOrgKind.get(key) || 0) + 1);
     }
+
+    // Org -> Kind -> Addressee (org-specific attribution)
     for (const k of kindTokens){
       for (const a of addrTokens){
-        const key = `${k}||${a}`;
-        flowKindAddr.set(key, (flowKindAddr.get(key) || 0) + 1);
+        const key = `${org}||${k}||${a}`;
+        flowOrgKindAddr.set(key, (flowOrgKindAddr.get(key) || 0) + 1);
 
         if (!flowOrgToAddr.has(a)) flowOrgToAddr.set(a, new Map());
         const m = flowOrgToAddr.get(a);
@@ -390,43 +428,63 @@ function renderSankey(rows, orgColor){
 
   const labels = [...orgList, ...kindList, ...addrList];
 
+  // Node colors
   const nodeColor = [];
   for (const o of orgList) nodeColor.push(orgColor.get(o) || CAT_COLORS["other"]);
   for (const k of kindList) nodeColor.push(KIND_GRAY);
   for (const a of addrList) nodeColor.push(addrColor.get(a) || lightenHex(CAT_COLORS["other"], 0.55));
 
+  // Index maps
   const orgIdx  = new Map(orgList.map((o,i)=>[o,i]));
   const kindIdx = new Map(kindList.map((k,i)=>[k, orgList.length + i]));
   const addrIdx = new Map(addrList.map((a,i)=>[a, orgList.length + kindList.length + i]));
 
+  // Links
   const source = [];
   const target = [];
   const value  = [];
   const linkColor = [];
+  const linkOrg = [];  // org attribution per link
+  const linkMeta = []; // hover data
 
-  // Org -> Kind links
+  // Org -> Kind links (org-colored)
   for (const [key, v] of flowOrgKind.entries()){
     const [o,k] = key.split("||");
     if (!orgIdx.has(o) || !kindIdx.has(k)) continue;
+
     source.push(orgIdx.get(o));
     target.push(kindIdx.get(k));
     value.push(v);
-    const base = orgColor.get(o) || CAT_COLORS["other"];
-    linkColor.push(rgbaFromHex(base, LINK_ALPHA));
+
+    const baseHex = orgColor.get(o) || CAT_COLORS["other"];
+    const base = rgbaFromHex(baseHex, LINK_ALPHA);
+    linkColor.push(base);
+
+    linkOrg.push(o);
+    linkMeta.push({ org: o, kind: k, addr: "", val: v, layer: "Org → Kind" });
   }
 
-  // Kind -> Addressee links
-  for (const [key, v] of flowKindAddr.entries()){
-    const [k,a] = key.split("||");
+  // Kind -> Addressee links (org-specific, so highlight works)
+  for (const [key, v] of flowOrgKindAddr.entries()){
+    const [o,k,a] = key.split("||");
     if (!kindIdx.has(k) || !addrIdx.has(a)) continue;
+
     source.push(kindIdx.get(k));
     target.push(addrIdx.get(a));
     value.push(v);
 
-    const c = addrColor.get(a) || lightenHex(CAT_COLORS["other"], 0.55);
-    const rgba = c.startsWith("rgb(") ? c.replace("rgb(", "rgba(").replace(")", `,${LINK_ALPHA})`) : c;
-    linkColor.push(rgba);
+    // color by org (consistent attribution)
+    const baseHex = orgColor.get(o) || CAT_COLORS["other"];
+    const base = rgbaFromHex(baseHex, LINK_ALPHA);
+    linkColor.push(base);
+
+    linkOrg.push(o);
+    linkMeta.push({ org: o, kind: k, addr: a, val: v, layer: "Kind → Addressee" });
   }
+
+  // Save for highlighting
+  LAST_LINK_ORG = linkOrg.slice();
+  LAST_LINK_BASECOLORS = linkColor.slice();
 
   const data = [{
     type: "sankey",
@@ -436,14 +494,27 @@ function renderSankey(rows, orgColor){
       thickness: 16,
       line: { color: "rgba(0,0,0,0)", width: 0.5 },
       label: labels,
-      color: nodeColor
+      color: nodeColor,
+      // so we can detect org nodes on click:
+      customdata: labels.map((lab, i) => {
+        if (i < orgList.length) return { col: "org", name: lab };
+        if (i < orgList.length + kindList.length) return { col: "kind", name: lab };
+        return { col: "addr", name: lab };
+      })
     },
     link: {
       source,
       target,
       value,
       color: linkColor,
-      line: { width: 0.3, color: "rgba(0,0,0,0.15)" }
+      line: { width: 0.3, color: "rgba(0,0,0,0.15)" },
+      customdata: linkMeta,
+      hovertemplate:
+        "<b>%{customdata.layer}</b><br>" +
+        "Org: %{customdata.org}<br>" +
+        "Kind: %{customdata.kind}<br>" +
+        "%{customdata.addr}"+ // will show blank for Org→Kind; fine
+        "<extra></extra>"
     }
   }];
 
@@ -462,13 +533,48 @@ function renderSankey(rows, orgColor){
       "zoom2d","pan2d","select2d","lasso2d",
       "zoomIn2d","zoomOut2d","autoScale2d","resetScale2d"
     ]
+  }).then(() => {
+    const chart = document.getElementById("chart");
+
+    // Avoid stacking multiple handlers on rerender
+    chart.removeAllListeners?.("plotly_click");
+
+    chart.on("plotly_click", (ev) => {
+      const pt = ev?.points?.[0];
+      if (!pt) return;
+
+      // Node click
+      if (pt.pointData && pt.pointData.node){
+        const nodeIndex = pt.pointNumber;
+        if (nodeIndex < orgList.length){
+          const clickedOrg = orgList[nodeIndex];
+          SELECTED_ORG = (SELECTED_ORG === clickedOrg) ? null : clickedOrg;
+          applyHighlight(SELECTED_ORG);
+          return;
+        }
+      }
+
+      // If click elsewhere, do nothing (or you can clear highlight if you want)
+    });
+
+    // Re-apply highlight after rerender if one is selected
+    if (SELECTED_ORG){
+      // if selected org no longer exists after filter, clear
+      if (!orgIdx.has(SELECTED_ORG)) SELECTED_ORG = null;
+      applyHighlight(SELECTED_ORG);
+    }
   });
 
   return { orgCount: orgList.length, kindCount: kindList.length, addrCount: addrList.length };
 }
 
+
 /** Load once, then re-render on filters. */
 let ALL_ROWS = null;
+let SELECTED_ORG = null;
+let LAST_LINK_ORG = [];       // per-link org attribution
+let LAST_LINK_BASECOLORS = []; // per-link base color (rgba)
+ 
 let ORG_COLOR_MAP = null;
 
 async function loadCSVOnce(){
@@ -496,7 +602,7 @@ function rerender(){
 
   console.log("Selected domains:", Array.from(selectedDomains));
   console.log("Filtered rows:", filtered.length);
-  console.log("Example filtered domains:", filtered.slice(0, 5).map(r => r[COL_DOM]));
+  console.log("Example filtered domains:", filtered.slice(0,5).map(r => r[COL_DOM]));
 
   const stats = renderSankey(filtered, ORG_COLOR_MAP);
 
@@ -520,6 +626,7 @@ function rerender(){
 </script>
 </body>
 </html>
+
 
 
 
