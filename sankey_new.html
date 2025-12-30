@@ -204,9 +204,12 @@ function normalizeToken(s){
   if (s == null) return "";
   return String(s).trim().replace(/\s+/g, " ");
 }
-function splitDomains(value){
-  return splitMulti(value).map(normalizeDomain);
+function splitMulti(value){
+  const v = normalizeToken(value);
+  if (!v) return [];
+  return v.split(",").map(x => normalizeToken(x)).filter(Boolean);
 }
+
   function normalizeDomain(d){
   d = normalizeToken(d);
   return DOMAIN_ALIASES[d] || d;
@@ -249,7 +252,8 @@ function buildOrgColorMap(allRows){
 
     if (!orgFirstIdx.has(org)) orgFirstIdx.set(org, idx);
 
-    const domains = splitDomains(row[COL_DOM]);
+    const domains = splitMulti(row[COL_DOM]).map(normalizeDomain);
+
     if (!domains.length) domains.push("other");
 
     if (!orgDomains.has(org)) orgDomains.set(org, new Map());
@@ -438,11 +442,11 @@ The addressee is the lighter shade of the org with the most significant incoming
 
 /** Filter rule: keep row if its domains intersect selectedDomains. */
 function rowPassesDomainFilter(row){
-  const domains = splitDomains(row[COL_DOM]);
-  if (!domains.length) return selectedDomains.size === 0 ? false : selectedDomains.has("other");
-  for (const d of domains){
-    if (selectedDomains.has(d)) return true;
-  }
+  const domains = splitMulti(row[COL_DOM]).map(normalizeDomain);
+  if (!domains.length) return selectedDomains.has("other");
+  return domains.some(d => selectedDomains.has(d));
+}
+
   return false;
 }
 
@@ -701,6 +705,7 @@ function rerender(){
 </script>
 </body>
 </html>
+
 
 
 
