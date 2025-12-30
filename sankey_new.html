@@ -443,12 +443,14 @@ The addressee is the lighter shade of the org with the most significant incoming
 /** Filter rule: keep row if its domains intersect selectedDomains. */
 function rowPassesDomainFilter(row){
   const domains = splitMulti(row[COL_DOM]).map(normalizeDomain);
+
+  // If no domains are provided, treat it as "other"
   if (!domains.length) return selectedDomains.has("other");
+
+  // Keep row if ANY domain matches the selected set
   return domains.some(d => selectedDomains.has(d));
 }
 
-  return false;
-}
 
 /** Render Sankey from a (possibly filtered) row set, using stable orgColor computed from full CSV. */
 function renderSankey(rows, orgColor){
@@ -705,6 +707,7 @@ function rerender(){
 </script>
 </body>
 </html>
+
 
 
 
