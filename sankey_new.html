@@ -181,6 +181,14 @@ const CAT_COLORS = {
   "European Integration": "#1F3A93",
   "other": "#000000"
 };
+const DOMAIN_ALIASES = {
+  "Human/Fundamental Rights": "Human/Fundamental rights",
+  "Trade/economy": "Trade/Economy",
+  "Under discussion": "other",
+  "Active Citizenship": "other" // if you don't want it as its own color/category
+};
+
+
 
 // UI colors
 const KIND_GRAY = "rgba(120,120,120,0.95)";
@@ -196,11 +204,14 @@ function normalizeToken(s){
   if (s == null) return "";
   return String(s).trim().replace(/\s+/g, " ");
 }
-function splitMulti(value){
-  const v = normalizeToken(value);
-  if (!v) return [];
-  return v.split(",").map(x => normalizeToken(x)).filter(Boolean);
+function splitDomains(value){
+  return splitMulti(value).map(normalizeDomain);
 }
+  function normalizeDomain(d){
+  d = normalizeToken(d);
+  return DOMAIN_ALIASES[d] || d;
+}
+
 function hexToRgb(hex){
   const h = hex.replace("#", "").trim();
   const full = (h.length === 3) ? h.split("").map(c => c+c).join("") : h;
@@ -238,7 +249,7 @@ function buildOrgColorMap(allRows){
 
     if (!orgFirstIdx.has(org)) orgFirstIdx.set(org, idx);
 
-    const domains = splitMulti(row[COL_DOM]);
+    const domains = splitDomains(row[COL_DOM]);
     if (!domains.length) domains.push("other");
 
     if (!orgDomains.has(org)) orgDomains.set(org, new Map());
@@ -427,7 +438,7 @@ The addressee is the lighter shade of the org with the most significant incoming
 
 /** Filter rule: keep row if its domains intersect selectedDomains. */
 function rowPassesDomainFilter(row){
-  const domains = splitMulti(row[COL_DOM]);
+  const domains = splitDomains(row[COL_DOM]);
   if (!domains.length) return selectedDomains.size === 0 ? false : selectedDomains.has("other");
   for (const d of domains){
     if (selectedDomains.has(d)) return true;
@@ -450,8 +461,9 @@ function renderSankey(rows, orgColor){
     const org = normalizeToken(row[COL_ORG]);
     if (!org) continue;
 
-    const kindTokens = splitMulti(row[COL_KIND]);
-    const addrTokens = splitMulti(row[COL_ADDR]);
+   const kindTokens = splitMulti(row[COL_KIND]);
+const addrTokens = splitMulti(row[COL_ADDR]);
+
     if (!kindTokens.length || !addrTokens.length) continue;
 
     // domain filter already applied in rerender (rows already filtered)
@@ -643,7 +655,12 @@ async function loadCSVOnce(){
     throw new Error("CSV fetch failed");
   }
   const csvText = await res.text();
-  const parsed = Papa.parse(csvText, { header: true, skipEmptyLines: true });
+  const parsed = Papa.parse(csvText, {
+  header: true,
+  skipEmptyLines: true,
+  delimiter: ";"
+});
+
   ALL_ROWS = (parsed.data || []).filter(r => Object.keys(r).length);
   if (!ALL_ROWS.length){
     setStatus("CSV parsed, but no rows found.");
@@ -684,6 +701,7 @@ function rerender(){
 </script>
 </body>
 </html>
+
 
 
 
