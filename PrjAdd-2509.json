@@ -14,9 +14,9 @@
         "label": "The \"New Europe Center\"",
         "x": -842.0764770507812,
         "y": 195.35171508789062,
-        "size": 29.114286422729492,
+        "size": 3.514,
         "color": "rgb(0,0,0)",
-        "metaType": "Organization"
+        "metaType": "Unknown"
       }
     },
     {
@@ -25,20 +25,20 @@
         "label": "Nicaragua",
         "x": 529.230224609375,
         "y": -929.620361328125,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
     },
     {
-      "key": "Buergerdialoge",
+      "key": "BĂĽrgerdialoge",
       "attributes": {
-        "label": "Buergerdialoge",
+        "label": "BĂĽrgerdialoge",
         "x": 245.13230895996094,
         "y": 822.6893310546875,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
-        "metaType": "Project"
+        "metaType": "Unknown"
       }
     },
     {
@@ -47,9 +47,9 @@
         "label": "Pulse of Europe e.V.",
         "x": -52.501441955566406,
         "y": 391.2295227050781,
-        "size": 29.114286422729492,
+        "size": 3.514,
         "color": "rgb(0,0,0)",
-        "metaType": "Organization"
+        "metaType": "Unknown"
       }
     },
     {
@@ -58,7 +58,7 @@
         "label": "EUinstitutions",
         "x": -559.9832763671875,
         "y": 4.754039764404297,
-        "size": 36.514286041259766,
+        "size": 5.314,
         "color": "rgb(0,0,0)",
         "metaType": "Addressee"
       }
@@ -69,9 +69,9 @@
         "label": "The fight for the right to participation and representation",
         "x": -217.01834106445312,
         "y": -13.338491439819336,
-        "size": 33.342857360839844,
+        "size": 4.543,
         "color": "rgb(0,0,0)",
-        "metaType": "Project"
+        "metaType": "Unknown"
       }
     },
     {
@@ -80,7 +80,7 @@
         "label": "Europe without Barriers",
         "x": -538.9972534179688,
         "y": 260.16339111328125,
-        "size": 30.171428680419922,
+        "size": 3.771,
         "color": "rgb(0,0,0)",
         "metaType": "Organization"
       }
@@ -91,7 +91,7 @@
         "label": "Serbia",
         "x": 895.3036499023438,
         "y": 370.7246398925781,
-        "size": 31.22857093811035,
+        "size": 4.029,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -102,7 +102,7 @@
         "label": "GenderRecovery",
         "x": -735.544921875,
         "y": -52.65745544433594,
-        "size": 34.400001525878906,
+        "size": 4.8,
         "color": "rgb(0,0,0)",
         "metaType": "Project",
         "startYear": 2015,
@@ -115,7 +115,7 @@
         "label": "Citizens",
         "x": 473.84002685546875,
         "y": 458.406494140625,
-        "size": 64.0,
+        "size": 12.0,
         "color": "rgb(0,0,0)",
         "metaType": "Addressee"
       }
@@ -126,7 +126,7 @@
         "label": "Transcaucasian trail",
         "x": -112.72380065917969,
         "y": -923.2460327148438,
-        "size": 35.4571418762207,
+        "size": 5.057,
         "color": "rgb(0,0,0)",
         "metaType": "Project",
         "startYear": 2020,
@@ -139,7 +139,7 @@
         "label": "Ukraine",
         "x": -875.6741943359375,
         "y": 34.33828353881836,
-        "size": 35.4571418762207,
+        "size": 5.057,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -150,7 +150,7 @@
         "label": "Thailand",
         "x": -632.5416259765625,
         "y": 703.152099609375,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -161,7 +161,7 @@
         "label": "Uzbekistan",
         "x": 75.97937774658203,
         "y": 219.45448303222656,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -172,7 +172,7 @@
         "label": "VoxUkraine",
         "x": -800.2933959960938,
         "y": -212.45494079589844,
-        "size": 29.114286422729492,
+        "size": 3.514,
         "color": "rgb(0,0,0)",
         "metaType": "Organization"
       }
@@ -183,12 +183,9 @@
         "label": "#EurHope",
         "x": 233.93533325195312,
         "y": 588.7906494140625,
-        "size": 31.22857093811035,
+        "size": 4.029,
         "color": "rgb(0,0,0)",
-        "metaType": "Project",
-"startYear": 2020,
-        "endYear": 2025
-
+        "metaType": "Unknown"
       }
     },
     {
@@ -197,7 +194,7 @@
         "label": "Romania",
         "x": -1047.2349853515625,
         "y": 294.8819885253906,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -208,7 +205,7 @@
         "label": "YUCOM: Lawyers' Committee for Human Rights",
         "x": -158.02120971679688,
         "y": -463.4855651855469,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Organization"
       }
@@ -219,7 +216,7 @@
         "label": "Back The Hague Group",
         "x": 700.3931274414062,
         "y": -256.3639221191406,
-        "size": 38.628570556640625,
+        "size": 5.829,
         "color": "rgb(0,0,0)",
         "metaType": "Project",
         "startYear": 2020,
@@ -232,7 +229,7 @@
         "label": "Kyrgyzstan",
         "x": 121.35070037841797,
         "y": 283.7690734863281,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -243,7 +240,7 @@
         "label": "El Salvador",
         "x": 686.6139526367188,
         "y": -901.4658813476562,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -254,9 +251,9 @@
         "label": "Fridays for Future",
         "x": 84.8811264038086,
         "y": -747.0958251953125,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
-        "metaType": "Organization"
+        "metaType": "Unknown"
       }
     },
     {
@@ -265,7 +262,7 @@
         "label": "engaged art",
         "x": 914.6765747070312,
         "y": 153.84320068359375,
-        "size": 32.28571319580078,
+        "size": 4.286,
         "color": "rgb(0,0,0)",
         "metaType": "Kind of Action"
       }
@@ -276,9 +273,9 @@
         "label": "Conflict Victims",
         "x": 304.7602233886719,
         "y": -2.8294944763183594,
-        "size": 28.05714225769043,
+        "size": 3.257,
         "color": "rgb(0,0,0)",
-        "metaType": "Addressee"
+        "metaType": "Unknown"
       }
     },
     {
@@ -287,7 +284,7 @@
         "label": "DAH Teatar",
         "x": 1030.46728515625,
         "y": 182.51889038085938,
-        "size": 29.114286422729492,
+        "size": 3.514,
         "color": "rgb(0,0,0)",
         "metaType": "Organization"
       }
@@ -298,9 +295,9 @@
         "label": "Community Building",
         "x": 660.9992065429688,
         "y": 681.7324829101562,
-        "size": 28.05714225769043,
+        "size": 3.257,
         "color": "rgb(0,0,0)",
-        "metaType": "Kind of Action"
+        "metaType": "Unknown"
       }
     },
     {
@@ -309,9 +306,9 @@
         "label": "France",
         "x": 884.5110473632812,
         "y": -385.5062255859375,
-        "size": 30.171428680419922,
+        "size": 3.771,
         "color": "rgb(0,0,0)",
-        "metaType": "Country"
+        "metaType": "Unknown"
       }
     },
     {
@@ -320,9 +317,9 @@
         "label": "Conciudadanía",
         "x": 550.70947265625,
         "y": 189.02806091308594,
-        "size": 28.05714225769043,
+        "size": 3.257,
         "color": "rgb(0,0,0)",
-        "metaType": "Organization"
+        "metaType": "Unknown"
       }
     },
     {
@@ -331,7 +328,7 @@
         "label": "GRANDE!",
         "x": 35.561729431152344,
         "y": 106.4765625,
-        "size": 33.342857360839844,
+        "size": 4.543,
         "color": "rgb(0,0,0)",
         "metaType": "Project",
         "startYear": 2020,
@@ -344,7 +341,7 @@
         "label": "Chile",
         "x": -324.9847412109375,
         "y": 857.6481323242188,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -355,7 +352,7 @@
         "label": "Philippines",
         "x": -639.5578002929688,
         "y": 794.9432983398438,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -366,7 +363,7 @@
         "label": "Ireland",
         "x": 1150.635986328125,
         "y": 364.7388610839844,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -377,9 +374,9 @@
         "label": "Relaciones UE-AmĂ©rica Latina",
         "x": 536.8992309570312,
         "y": -701.3493041992188,
-        "size": 43.914283752441406,
+        "size": 7.114,
         "color": "rgb(0,0,0)",
-        "metaType": "Organization"
+        "metaType": "Unknown"
       }
     },
     {
@@ -388,7 +385,7 @@
         "label": "Guatemala",
         "x": 591.6981201171875,
         "y": -837.0326538085938,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -399,7 +396,7 @@
         "label": "EU youth dialog Croatia",
         "x": -308.4210510253906,
         "y": -342.4648742675781,
-        "size": 34.400001525878906,
+        "size": 4.8,
         "color": "rgb(0,0,0)",
         "metaType": "Project",
         "startYear": 2020,
@@ -412,7 +409,7 @@
         "label": "United States of America",
         "x": -164.64260864257812,
         "y": -1032.384033203125,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -423,7 +420,7 @@
         "label": "Digital Technology",
         "x": -599.3525390625,
         "y": -538.3580932617188,
-        "size": 29.114286422729492,
+        "size": 3.514,
         "color": "rgb(0,0,0)",
         "metaType": "Action Domain"
       }
@@ -434,9 +431,9 @@
         "label": "National Political Institutions",
         "x": -64.93875885009766,
         "y": 106.1970443725586,
-        "size": 36.514286041259766,
+        "size": 5.314,
         "color": "rgb(0,0,0)",
-        "metaType": "Addressee"
+        "metaType": "Unknown"
       }
     },
     {
@@ -445,7 +442,7 @@
         "label": "Migration",
         "x": -499.3578796386719,
         "y": 498.0920104980469,
-        "size": 30.171428680419922,
+        "size": 3.771,
         "color": "rgb(0,0,0)",
         "metaType": "Action Domain"
       }
@@ -456,7 +453,7 @@
         "label": "Trees",
         "x": 1079.6844482421875,
         "y": 272.5381164550781,
-        "size": 37.57143020629883,
+        "size": 5.571,
         "color": "rgb(0,0,0)",
         "metaType": "Project",
         "startYear": 2020,
@@ -469,7 +466,7 @@
         "label": "Argentina",
         "x": -243.43772888183594,
         "y": 816.143798828125,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -480,7 +477,7 @@
         "label": "MediaCoverage V4",
         "x": -627.7999267578125,
         "y": 329.64556884765625,
-        "size": 39.68571472167969,
+        "size": 6.086,
         "color": "rgb(0,0,0)",
         "metaType": "Project",
         "startYear": 2015,
@@ -493,7 +490,7 @@
         "label": "Croatia",
         "x": -383.46331787109375,
         "y": -586.37890625,
-        "size": 28.05714225769043,
+        "size": 3.257,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -504,9 +501,9 @@
         "label": "protest",
         "x": 102.77033233642578,
         "y": -405.3879089355469,
-        "size": 37.57143020629883,
+        "size": 5.571,
         "color": "rgb(0,0,0)",
-        "metaType": "Kind of Action"
+        "metaType": "Unknown"
       }
     },
     {
@@ -515,7 +512,7 @@
         "label": "Encuentro Formativo de Mujeres",
         "x": -268.8975524902344,
         "y": 638.5228881835938,
-        "size": 40.74285888671875,
+        "size": 6.343,
         "color": "rgb(0,0,0)",
         "metaType": "Project",
         "startYear": 2020,
@@ -528,7 +525,7 @@
         "label": "Estonia",
         "x": -758.5868530273438,
         "y": -604.1544799804688,
-        "size": 28.05714225769043,
+        "size": 3.257,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -539,9 +536,9 @@
         "label": "Active Citizenship",
         "x": -539.5978393554688,
         "y": -708.6295166015625,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
-        "metaType": "Kind of Action"
+        "metaType": "Unknown"
       }
     },
     {
@@ -550,7 +547,7 @@
         "label": "Denmark",
         "x": 1337.9600830078125,
         "y": 23.94396209716797,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -561,7 +558,7 @@
         "label": "Protest",
         "x": -190.35147094726562,
         "y": 99.07775115966797,
-        "size": 33.342857360839844,
+        "size": 4.543,
         "color": "rgb(0,0,0)",
         "metaType": "Kind of Action"
       }
@@ -572,7 +569,7 @@
         "label": "Research & Degrowth International",
         "x": 597.061767578125,
         "y": -420.1702575683594,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Organization"
       }
@@ -583,7 +580,7 @@
         "label": "Paraguay",
         "x": -345.6976013183594,
         "y": 748.1685791015625,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -594,7 +591,7 @@
         "label": "Trade/economy",
         "x": 377.4302673339844,
         "y": -151.6398162841797,
-        "size": 38.628570556640625,
+        "size": 5.829,
         "color": "rgb(0,0,0)",
         "metaType": "Action Domain"
       }
@@ -605,7 +602,7 @@
         "label": "Promoting human rights by strengthening the capacity of media and NGOs",
         "x": -8.991859436035156,
         "y": 251.33657836914062,
-        "size": 31.22857093811035,
+        "size": 4.029,
         "color": "rgb(0,0,0)",
         "metaType": "Project",
         "startYear": 2020,
@@ -618,7 +615,7 @@
         "label": "Diversity in Culture and Activism",
         "x": 654.777587890625,
         "y": 597.485595703125,
-        "size": 31.22857093811035,
+        "size": 4.029,
         "color": "rgb(0,0,0)",
         "metaType": "Project",
         "startYear": 2020,
@@ -631,7 +628,7 @@
         "label": "Belgium",
         "x": 693.2814331054688,
         "y": -635.778564453125,
-        "size": 28.05714225769043,
+        "size": 3.257,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -642,18 +639,18 @@
         "label": "Portugal",
         "x": 557.0975952148438,
         "y": -511.49615478515625,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
     },
     {
-      "key": "Grenzgespraeche",
+      "key": "GrenzgesprĂ¤che",
       "attributes": {
-        "label": "Grenzgespraeche",
+        "label": "GrenzgesprĂ¤che",
         "x": 263.2622375488281,
         "y": 478.44854736328125,
-        "size": 32.28571319580078,
+        "size": 4.286,
         "color": "rgb(0,0,0)",
         "metaType": "Unknown"
       }
@@ -664,7 +661,7 @@
         "label": "In/Visible City",
         "x": 1102.910888671875,
         "y": 22.3736572265625,
-        "size": 41.79999923706055,
+        "size": 6.6,
         "color": "rgb(0,0,0)",
         "metaType": "Project",
         "startYear": 2010,
@@ -677,12 +674,9 @@
         "label": "The Power of Remembrance",
         "x": 876.5464477539062,
         "y": 250.7321014404297,
-        "size": 31.22857093811035,
+        "size": 4.029,
         "color": "rgb(0,0,0)",
-"startYear": 2015,
-        "endYear": 2020,
-
-        "metaType": "Project"
+        "metaType": "Unknown"
       }
     },
     {
@@ -691,7 +685,7 @@
         "label": "Human/Fundamental Rights",
         "x": -243.51016235351562,
         "y": 243.96034240722656,
-        "size": 44.97142791748047,
+        "size": 7.371,
         "color": "rgb(0,0,0)",
         "metaType": "Action Domain"
       }
@@ -702,7 +696,7 @@
         "label": "Capacity Building",
         "x": 194.0784149169922,
         "y": 61.09899139404297,
-        "size": 57.657142639160156,
+        "size": 10.457,
         "color": "rgb(0,0,0)",
         "metaType": "Kind of Action"
       }
@@ -713,7 +707,7 @@
         "label": "Citizenship ED+ Active Citizenship Through Cross-Sectoral Cooperation",
         "x": -508.7192687988281,
         "y": -627.6818237304688,
-        "size": 43.914283752441406,
+        "size": 7.114,
         "color": "rgb(0,0,0)",
         "metaType": "Project",
         "startYear": 2020,
@@ -726,7 +720,7 @@
         "label": "Slovenia",
         "x": -1205.545654296875,
         "y": 29.582550048828125,
-        "size": 28.05714225769043,
+        "size": 3.257,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -737,7 +731,7 @@
         "label": "NationalInstitutions",
         "x": -610.8515014648438,
         "y": -195.38499450683594,
-        "size": 53.42857360839844,
+        "size": 9.429,
         "color": "rgb(0,0,0)",
         "metaType": "Addressee"
       }
@@ -748,7 +742,7 @@
         "label": "Energy/Climate/Sustainability",
         "x": 318.100830078125,
         "y": -487.301025390625,
-        "size": 36.514286041259766,
+        "size": 5.314,
         "color": "rgb(0,0,0)",
         "metaType": "Action Domain"
       }
@@ -759,7 +753,7 @@
         "label": "Poland",
         "x": -233.78237915039062,
         "y": 424.3962707519531,
-        "size": 31.22857093811035,
+        "size": 4.029,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -770,7 +764,7 @@
         "label": "Eurasia Foundation of Central Asia",
         "x": -3595.072998046875,
         "y": 3993.33154296875,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Organization"
       }
@@ -781,9 +775,9 @@
         "label": "Fundación Lazos de Dignidad",
         "x": 401.4051818847656,
         "y": 237.3454132080078,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
-        "metaType": "Organization"
+        "metaType": "Unknown"
       }
     },
     {
@@ -792,7 +786,7 @@
         "label": "Germany",
         "x": 151.229248046875,
         "y": 498.720947265625,
-        "size": 38.628570556640625,
+        "size": 5.829,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -803,7 +797,7 @@
         "label": "SafeBorder",
         "x": -473.7685241699219,
         "y": 191.8829345703125,
-        "size": 35.4571418762207,
+        "size": 5.057,
         "color": "rgb(0,0,0)",
         "metaType": "Project",
         "startYear": 2020,
@@ -816,7 +810,7 @@
         "label": "DiEM25",
         "x": 756.4462890625,
         "y": -309.8428039550781,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Organization"
       }
@@ -827,7 +821,7 @@
         "label": "United Kingdom",
         "x": 1195.19677734375,
         "y": -251.55177307128906,
-        "size": 28.05714225769043,
+        "size": 3.257,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -838,7 +832,7 @@
         "label": "InpokazEU",
         "x": -273.3066711425781,
         "y": 72.40731048583984,
-        "size": 32.28571319580078,
+        "size": 4.286,
         "color": "rgb(0,0,0)",
         "metaType": "Project",
         "startYear": 2020,
@@ -851,7 +845,7 @@
         "label": "Hungary",
         "x": -669.05419921875,
         "y": 427.5144958496094,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -862,7 +856,7 @@
         "label": "Czech Republic",
         "x": -757.59716796875,
         "y": 386.84930419921875,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -873,7 +867,7 @@
         "label": "Japan",
         "x": -726.2398681640625,
         "y": 538.5873413085938,
-        "size": 28.05714225769043,
+        "size": 3.257,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -884,7 +878,7 @@
         "label": "Bordermng",
         "x": -438.0229187011719,
         "y": 359.3096008300781,
-        "size": 38.628570556640625,
+        "size": 5.829,
         "color": "rgb(0,0,0)",
         "metaType": "Project",
         "startYear": 2020,
@@ -897,7 +891,7 @@
         "label": "Marginalized groups",
         "x": 184.99900817871094,
         "y": -123.94940948486328,
-        "size": 40.74285888671875,
+        "size": 6.343,
         "color": "rgb(0,0,0)",
         "metaType": "Addressee"
       }
@@ -908,9 +902,9 @@
         "label": "Kosovo",
         "x": -393.6546630859375,
         "y": -1017.6244506835938,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
-        "metaType": "Country"
+        "metaType": "Unknown"
       }
     },
     {
@@ -919,7 +913,7 @@
         "label": "COSPE ETS",
         "x": 4.058727264404297,
         "y": 166.7263641357422,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Organization"
       }
@@ -930,7 +924,7 @@
         "label": "Greece",
         "x": 908.1484985351562,
         "y": -107.78433227539062,
-        "size": 28.05714225769043,
+        "size": 3.257,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -941,7 +935,7 @@
         "label": "Kazakhstan",
         "x": -79.13011932373047,
         "y": 215.70266723632812,
-        "size": 29.114286422729492,
+        "size": 3.514,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -952,9 +946,9 @@
         "label": "Europa-Union Deutschland e.V.",
         "x": 196.8267822265625,
         "y": 698.2847290039062,
-        "size": 35.4571418762207,
+        "size": 5.057,
         "color": "rgb(0,0,0)",
-        "metaType": "Organization"
+        "metaType": "Unknown"
       }
     },
     {
@@ -963,9 +957,9 @@
         "label": "AmĂ©rica Latina y el Caribe Mejor Sin TLC",
         "x": -273.6074523925781,
         "y": 713.8970947265625,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
-        "metaType": "Organization"
+        "metaType": "Unknown"
       }
     },
     {
@@ -974,7 +968,7 @@
         "label": "Spain",
         "x": 848.5941162109375,
         "y": -226.11474609375,
-        "size": 29.114286422729492,
+        "size": 3.514,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -985,7 +979,7 @@
         "label": "EU institutions",
         "x": 32.63114547729492,
         "y": -133.7883758544922,
-        "size": 41.79999923706055,
+        "size": 6.6,
         "color": "rgb(0,0,0)",
         "metaType": "Addressee"
       }
@@ -996,7 +990,7 @@
         "label": "Bolivia",
         "x": 667.2203979492188,
         "y": -788.710205078125,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -1007,7 +1001,7 @@
         "label": "Brazil",
         "x": 1245.136962890625,
         "y": -3.2193572521209717,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -1018,11 +1012,9 @@
         "label": "Alianza Camarón de Tumaco",
         "x": 389.0166320800781,
         "y": 11.455865859985352,
-        "size": 31.22857093811035,
+        "size": 4.029,
         "color": "rgb(0,0,0)",
-"startYear": 2020,
-        "endYear": 2025,
-        "metaType": "Project"
+        "metaType": "Unknown"
       }
     },
     {
@@ -1031,7 +1023,7 @@
         "label": "AccessionYear",
         "x": -821.2335815429688,
         "y": -131.64227294921875,
-        "size": 32.28571319580078,
+        "size": 4.286,
         "color": "rgb(0,0,0)",
         "metaType": "Project",
         "startYear": 2020,
@@ -1044,11 +1036,9 @@
         "label": "Constructores de Paz: Una estrategia de reincorporación social y económica para la reconciliación y fortalecimiento del desarrollo local",
         "x": 355.26141357421875,
         "y": 184.31356811523438,
-        "size": 34.400001525878906,
+        "size": 4.8,
         "color": "rgb(0,0,0)",
-"startYear": 2020,
-        "endYear": 2025,
-        "metaType": "Project"
+        "metaType": "Unknown"
       }
     },
     {
@@ -1057,7 +1047,7 @@
         "label": "Switzerland",
         "x": -858.1351928710938,
         "y": -507.00555419921875,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -1068,7 +1058,7 @@
         "label": "Demobilized combatants",
         "x": 237.417236328125,
         "y": 192.5416259765625,
-        "size": 29.114286422729492,
+        "size": 3.514,
         "color": "rgb(0,0,0)",
         "metaType": "Unknown"
       }
@@ -1079,7 +1069,7 @@
         "label": "Human Rights Defenders",
         "x": -119.00604248046875,
         "y": 16.02643585205078,
-        "size": 33.342857360839844,
+        "size": 4.543,
         "color": "rgb(0,0,0)",
         "metaType": "Addressee"
       }
@@ -1090,7 +1080,7 @@
         "label": "Civil Society",
         "x": 953.748291015625,
         "y": 90.40803527832031,
-        "size": 28.05714225769043,
+        "size": 3.257,
         "color": "rgb(0,0,0)",
         "metaType": "Addressee"
       }
@@ -1101,7 +1091,7 @@
         "label": "Public Authorities",
         "x": 108.81420135498047,
         "y": -274.71136474609375,
-        "size": 33.342857360839844,
+        "size": 4.543,
         "color": "rgb(0,0,0)",
         "metaType": "Unknown"
       }
@@ -1112,7 +1102,7 @@
         "label": "Italy",
         "x": 454.5169677734375,
         "y": -296.05340576171875,
-        "size": 31.22857093811035,
+        "size": 4.029,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -1123,7 +1113,7 @@
         "label": "Stronger Together",
         "x": -160.4230194091797,
         "y": -384.3431396484375,
-        "size": 39.68571472167969,
+        "size": 6.086,
         "color": "rgb(0,0,0)",
         "metaType": "Project",
         "startYear": 2020,
@@ -1136,7 +1126,7 @@
         "label": "Education/Literacy",
         "x": 240.5445556640625,
         "y": 319.30291748046875,
-        "size": 47.085716247558594,
+        "size": 7.886,
         "color": "rgb(0,0,0)",
         "metaType": "Kind of Action"
       }
@@ -1147,11 +1137,9 @@
         "label": "Weaving Joint Actions (Tejiendo acciones conjuntas)",
         "x": 586.2460327148438,
         "y": 261.4150085449219,
-        "size": 35.4571418762207,
+        "size": 5.057,
         "color": "rgb(0,0,0)",
-"startYear": 2020,
-        "endYear": 2025,
-        "metaType": "Project"
+        "metaType": "Unknown"
       }
     },
     {
@@ -1160,7 +1148,7 @@
         "label": "National and international courts",
         "x": -10.84605598449707,
         "y": -264.8316650390625,
-        "size": 39.68571472167969,
+        "size": 6.086,
         "color": "rgb(0,0,0)",
         "metaType": "Addressee"
       }
@@ -1171,9 +1159,9 @@
         "label": "REEES. University of Pittsburgh",
         "x": -97.92334747314453,
         "y": -989.876220703125,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
-        "metaType": "Organization"
+        "metaType": "Unknown"
       }
     },
     {
@@ -1182,7 +1170,7 @@
         "label": "Netherlands",
         "x": 1224.1634521484375,
         "y": 312.8760986328125,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -1193,9 +1181,9 @@
         "label": "Redadelco",
         "x": 462.32012939453125,
         "y": 15.07568645477295,
-        "size": 29.114286422729492,
+        "size": 3.514,
         "color": "rgb(0,0,0)",
-        "metaType": "Organization"
+        "metaType": "Unknown"
       }
     },
     {
@@ -1204,7 +1192,7 @@
         "label": "Mexico",
         "x": 615.5383911132812,
         "y": -972.1804809570312,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -1215,11 +1203,9 @@
         "label": "Trade with local identity (Comercio con identidad local)",
         "x": 440.9961242675781,
         "y": 86.39303588867188,
-        "size": 31.22857093811035,
+        "size": 4.029,
         "color": "rgb(0,0,0)",
-"startYear": 2020,
-        "endYear": 2025,
-        "metaType": "Project"
+        "metaType": "Unknown"
       }
     },
     {
@@ -1228,11 +1214,9 @@
         "label": "Your Voice Matters  Civic Tech Solutions for Decision-making",
         "x": -140.04791259765625,
         "y": 215.40028381347656,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
-"startYear": 2020,
-        "endYear": 2025,
-        "metaType": "Project"
+        "metaType": "Unknown"
       }
     },
     {
@@ -1241,7 +1225,7 @@
         "label": "Bulgaria",
         "x": -1103.3035888671875,
         "y": 213.3890838623047,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -1252,9 +1236,9 @@
         "label": "Academic Community",
         "x": -208.36648559570312,
         "y": -225.916259765625,
-        "size": 29.114286422729492,
+        "size": 3.514,
         "color": "rgb(0,0,0)",
-        "metaType": "Addressee"
+        "metaType": "Unknown"
       }
     },
     {
@@ -1263,9 +1247,9 @@
         "label": "Companies",
         "x": -139.10662841796875,
         "y": -280.6408996582031,
-        "size": 33.342857360839844,
+        "size": 4.543,
         "color": "rgb(0,0,0)",
-        "metaType": "Addressee"
+        "metaType": "Unknown"
       }
     },
     {
@@ -1274,11 +1258,9 @@
         "label": "Territorios Caqueteńos Sostenibles para la Paz",
         "x": 508.7510986328125,
         "y": -54.09320068359375,
-        "size": 34.400001525878906,
+        "size": 4.8,
         "color": "rgb(0,0,0)",
-"startYear": 2015,
-        "endYear": 2020,
-        "metaType": "Project"
+        "metaType": "Unknown"
       }
     },
     {
@@ -1287,7 +1269,7 @@
         "label": "Policy Briefs",
         "x": 521.5659790039062,
         "y": -397.412109375,
-        "size": 39.68571472167969,
+        "size": 6.086,
         "color": "rgb(0,0,0)",
         "metaType": "Project",
         "startYear": 2020,
@@ -1300,11 +1282,9 @@
         "label": "Environmental Citizenship for Water Use in Antioquia (Ciudadanía ambiental para el uso del agua en Antioquia)",
         "x": 479.6357116699219,
         "y": 166.76571655273438,
-        "size": 32.28571319580078,
+        "size": 4.286,
         "color": "rgb(0,0,0)",
-"startYear": 2020,
-        "endYear": 2025,
-        "metaType": "Project"
+        "metaType": "Unknown"
       }
     },
     {
@@ -1313,9 +1293,9 @@
         "label": "Participation",
         "x": -0.011084369383752346,
         "y": 0.5976055264472961,
-        "size": 37.57143020629883,
+        "size": 5.571,
         "color": "rgb(0,0,0)",
-        "metaType": "Kind of Action"
+        "metaType": "Unknown"
       }
     },
     {
@@ -1324,7 +1304,7 @@
         "label": "Legal Media-Center",
         "x": -58.336814880371094,
         "y": 290.2474060058594,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Organization"
       }
@@ -1335,11 +1315,9 @@
         "label": "#Bestof49",
         "x": 2.0738282203674316,
         "y": 346.9252624511719,
-        "size": 31.22857093811035,
+        "size": 4.029,
         "color": "rgb(0,0,0)",
-"startYear": 2020,
-        "endYear": 2025,
-        "metaType": "Project"
+        "metaType": "Unknown"
       }
     },
     {
@@ -1348,9 +1326,9 @@
         "label": "Oekumenisches Europa-Centrum Frankfurt (Oder) e.V.",
         "x": 305.70111083984375,
         "y": 530.1234130859375,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
-        "metaType": "Organization"
+        "metaType": "Unknown"
       }
     },
     {
@@ -1359,7 +1337,7 @@
         "label": "Democracy",
         "x": -16.7283935546875,
         "y": 561.5910034179688,
-        "size": 46.02857208251953,
+        "size": 7.629,
         "color": "rgb(0,0,0)",
         "metaType": "Action Domain"
       }
@@ -1370,7 +1348,7 @@
         "label": "Colombia",
         "x": 523.1454467773438,
         "y": 71.7796401977539,
-        "size": 33.342857360839844,
+        "size": 4.543,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -1381,7 +1359,7 @@
         "label": "RespaJapon",
         "x": -786.9224243164062,
         "y": 131.33334350585938,
-        "size": 36.514286041259766,
+        "size": 5.314,
         "color": "rgb(0,0,0)",
         "metaType": "Project",
         "startYear": 2020,
@@ -1394,7 +1372,7 @@
         "label": "Myanmar",
         "x": -687.2730712890625,
         "y": 635.151611328125,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -1405,7 +1383,7 @@
         "label": "Media",
         "x": -486.57171630859375,
         "y": -406.06805419921875,
-        "size": 43.914283752441406,
+        "size": 7.114,
         "color": "rgb(0,0,0)",
         "metaType": "Addressee"
       }
@@ -1416,7 +1394,7 @@
         "label": "Center for Cultural Decontamination",
         "x": 717.8448486328125,
         "y": 613.4384155273438,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Organization"
       }
@@ -1427,7 +1405,7 @@
         "label": "Norway",
         "x": 1235.0299072265625,
         "y": 188.8074951171875,
-        "size": 28.05714225769043,
+        "size": 3.257,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -1438,7 +1416,7 @@
         "label": "North Macedonia",
         "x": 1281.47998046875,
         "y": -94.96179962158203,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -1449,7 +1427,7 @@
         "label": "IL FUTURO (IR)ROMPE",
         "x": 297.7286682128906,
         "y": -359.72064208984375,
-        "size": 32.28571319580078,
+        "size": 4.286,
         "color": "rgb(0,0,0)",
         "metaType": "Project",
         "startYear": 2020,
@@ -1462,7 +1440,7 @@
         "label": "Pride of Europe",
         "x": -136.88243103027344,
         "y": 355.1288757324219,
-        "size": 32.28571319580078,
+        "size": 4.286,
         "color": "rgb(0,0,0)",
         "metaType": "Unknown"
       }
@@ -1473,7 +1451,7 @@
         "label": "advocacy",
         "x": -1054.641845703125,
         "y": -126.87104034423828,
-        "size": 29.114286422729492,
+        "size": 3.514,
         "color": "rgb(0,0,0)",
         "metaType": "Unknown"
       }
@@ -1484,7 +1462,7 @@
         "label": "Azerbaijan",
         "x": -8.841263771057129,
         "y": -994.7532958984375,
-        "size": 28.05714225769043,
+        "size": 3.257,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -1495,11 +1473,9 @@
         "label": "Economic Research Center",
         "x": 76.86589050292969,
         "y": -650.3846435546875,
-        "size": 51.31428527832031,
+        "size": 8.914,
         "color": "rgb(0,0,0)",
-"startYear": 2010,
-        "endYear": 2015,
-        "metaType": "Project"
+        "metaType": "Unknown"
       }
     },
     {
@@ -1508,7 +1484,7 @@
         "label": "Collettivo Di Fabbrica - Lavoratori Gkn Firenze",
         "x": 364.3505859375,
         "y": -361.3147277832031,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Organization"
       }
@@ -1519,7 +1495,7 @@
         "label": "StateDigital",
         "x": -725.0987548828125,
         "y": -409.81671142578125,
-        "size": 37.57143020629883,
+        "size": 5.571,
         "color": "rgb(0,0,0)",
         "metaType": "Project",
         "startYear": 2015,
@@ -1532,7 +1508,7 @@
         "label": "Sweden",
         "x": -871.5213623046875,
         "y": -368.7259521484375,
-        "size": 29.114286422729492,
+        "size": 3.514,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -1543,7 +1519,7 @@
         "label": "Advocacy",
         "x": -115.1102066040039,
         "y": -134.0439910888672,
-        "size": 53.42857360839844,
+        "size": 9.429,
         "color": "rgb(0,0,0)",
         "metaType": "Kind of Action"
       }
@@ -1554,7 +1530,7 @@
         "label": "Armenia",
         "x": -96.05050659179688,
         "y": -1066.80517578125,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -1565,12 +1541,9 @@
         "label": "Kyojyuken(International Housing Studies AssociationďĽ‰",
         "x": -560.1752319335938,
         "y": 606.6869506835938,
-        "size": 37.57143020629883,
+        "size": 5.571,
         "color": "rgb(0,0,0)",
-"startYear": 2010,
-        "endYear": 2015,
-
-        "metaType": "Project"
+        "metaType": "Unknown"
       }
     },
     {
@@ -1579,7 +1552,7 @@
         "label": "Croatian Youth Network",
         "x": -372.6280822753906,
         "y": -510.1025390625,
-        "size": 30.171428680419922,
+        "size": 3.771,
         "color": "rgb(0,0,0)",
         "metaType": "Organization"
       }
@@ -1590,7 +1563,7 @@
         "label": "Conflict/War",
         "x": 710.9393920898438,
         "y": 89.97354125976562,
-        "size": 34.400001525878906,
+        "size": 4.8,
         "color": "rgb(0,0,0)",
         "metaType": "Action Domain"
       }
@@ -1601,7 +1574,7 @@
         "label": "Bangladesh",
         "x": -544.6346435546875,
         "y": 741.5951538085938,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -1612,12 +1585,9 @@
         "label": "Your Voice Matters",
         "x": 148.8181915283203,
         "y": 214.85748291015625,
-        "size": 31.22857093811035,
+        "size": 4.029,
         "color": "rgb(0,0,0)",
-"startYear": 2020,
-        "endYear": 2025,
-
-        "metaType": "Project"
+        "metaType": "Unknown"
       }
     },
     {
@@ -1626,7 +1596,7 @@
         "label": "The Euromap: profiles of regions",
         "x": -593.5614013671875,
         "y": 143.08253479003906,
-        "size": 38.628570556640625,
+        "size": 5.829,
         "color": "rgb(0,0,0)",
         "metaType": "Project",
         "startYear": 2020,
@@ -1639,7 +1609,7 @@
         "label": "Kazakhstan International Bureau for Human Rights and Rule of Law",
         "x": -310.776611328125,
         "y": 127.67283630371094,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Organization"
       }
@@ -1650,7 +1620,7 @@
         "label": "Red EU-LAT",
         "x": 639.4801635742188,
         "y": -670.9122314453125,
-        "size": 28.05714225769043,
+        "size": 3.257,
         "color": "rgb(0,0,0)",
         "metaType": "Organization"
       }
@@ -1661,7 +1631,7 @@
         "label": "Slovakia",
         "x": -1322.9151611328125,
         "y": 463.83203125,
-        "size": 28.05714225769043,
+        "size": 3.257,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -1672,7 +1642,7 @@
         "label": "Peru",
         "x": 499.9971618652344,
         "y": -827.7861328125,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -1683,7 +1653,7 @@
         "label": "Moldova",
         "x": -1179.695556640625,
         "y": 235.62301635742188,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -1694,12 +1664,9 @@
         "label": "Deutschland wählt ? Demokratie-Workshops für junge Menschen",
         "x": 126.23148345947266,
         "y": 616.7435302734375,
-        "size": 31.22857093811035,
+        "size": 4.029,
         "color": "rgb(0,0,0)",
-"startYear": 2020,
-        "endYear": 2025,
-
-        "metaType": "Project"
+        "metaType": "Unknown"
       }
     },
     {
@@ -1708,9 +1675,9 @@
         "label": "International/intercultural Understanding",
         "x": 278.3749694824219,
         "y": 413.5101623535156,
-        "size": 28.05714225769043,
+        "size": 3.257,
         "color": "rgb(0,0,0)",
-        "metaType": "Action Domain"
+        "metaType": "Unknown"
       }
     },
     {
@@ -1719,9 +1686,9 @@
         "label": "Peace Building",
         "x": 687.7386474609375,
         "y": 330.2884521484375,
-        "size": 28.05714225769043,
+        "size": 3.257,
         "color": "rgb(0,0,0)",
-        "metaType": "Kind of Action"
+        "metaType": "Unknown"
       }
     },
     {
@@ -1730,7 +1697,7 @@
         "label": "Georgia",
         "x": -202.69351196289062,
         "y": -961.45556640625,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Country"
       }
@@ -1741,7 +1708,7 @@
         "label": "EUAXF",
         "x": -980.53076171875,
         "y": 208.63121032714844,
-        "size": 38.628570556640625,
+        "size": 5.829,
         "color": "rgb(0,0,0)",
         "metaType": "Project",
         "startYear": 2020,
@@ -1754,7 +1721,7 @@
         "label": "Your Voice Matters, Civic Tech Solutions for Decision-making",
         "x": -3580.48095703125,
         "y": 3938.0732421875,
-        "size": 27.0,
+        "size": 3.0,
         "color": "rgb(0,0,0)",
         "metaType": "Project",
         "startYear": 2020,
@@ -1767,7 +1734,7 @@
         "label": "Research",
         "x": -317.2724914550781,
         "y": -173.31674194335938,
-        "size": 53.42857360839844,
+        "size": 9.429,
         "color": "rgb(0,0,0)",
         "metaType": "Kind of Action"
       }
@@ -1778,7 +1745,7 @@
         "label": "Monitoring",
         "x": -393.6697082519531,
         "y": 15.017242431640625,
-        "size": 47.085716247558594,
+        "size": 7.886,
         "color": "rgb(0,0,0)",
         "metaType": "Kind of Action"
       }
@@ -1789,12 +1756,9 @@
         "label": "European HomeParliaments",
         "x": 89.5080337524414,
         "y": 409.3910827636719,
-        "size": 32.28571319580078,
+        "size": 4.286,
         "color": "rgb(0,0,0)",
-"startYear": 2015,
-        "endYear": 2020,
-
-        "metaType": "Project"
+        "metaType": "Unknown"
       }
     }
   ],
@@ -2615,7 +2579,7 @@
     },
     {
       "key": "372",
-      "source": "Grenzgespraeche",
+      "source": "GrenzgesprĂ¤che",
       "target": "International/intercultural Understanding",
       "attributes": {
         "weight": 1.0,
@@ -3166,7 +3130,7 @@
     {
       "key": "369",
       "source": "Oekumenisches Europa-Centrum Frankfurt (Oder) e.V.",
-      "target": "Grenzgespraeche",
+      "target": "GrenzgesprĂ¤che",
       "attributes": {
         "weight": 1.0,
         "color": "rgb(0,0,0)",
@@ -4419,7 +4383,7 @@
     },
     {
       "key": "373",
-      "source": "Grenzgespraeche",
+      "source": "GrenzgesprĂ¤che",
       "target": "Citizens",
       "attributes": {
         "weight": 1.0,
@@ -4760,7 +4724,7 @@
     },
     {
       "key": "370",
-      "source": "Grenzgespraeche",
+      "source": "GrenzgesprĂ¤che",
       "target": "Germany",
       "attributes": {
         "weight": 1.0,
@@ -5640,7 +5604,7 @@
     },
     {
       "key": "374",
-      "source": "Grenzgespraeche",
+      "source": "GrenzgesprĂ¤che",
       "target": "Education/Literacy",
       "attributes": {
         "weight": 1.0,
@@ -5927,7 +5891,7 @@
     {
       "key": "377",
       "source": "Europa-Union Deutschland e.V.",
-      "target": "Buergerdialoge",
+      "target": "BĂĽrgerdialoge",
       "attributes": {
         "weight": 1.0,
         "color": "rgb(0,0,0)",
@@ -6190,7 +6154,7 @@
     },
     {
       "key": "371",
-      "source": "Grenzgespraeche",
+      "source": "GrenzgesprĂ¤che",
       "target": "Poland",
       "attributes": {
         "weight": 1.0,
