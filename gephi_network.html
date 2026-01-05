@@ -88,23 +88,27 @@
 
 data.nodes.forEach(n => {
   let m = n.attributes.metaType || "";
-  if (actionTypes.has(m)) {
-    m = "Kind of Action"; // ✅ normalization
-  }
+  if (actionTypes.has(m)) m = "Kind of Action";
 
-  const col = colorMap[m] || "#999999";
+  const col = colorMap[m] || "rgb(0,0,0)";
+
+  // ✅ compute scaled size BEFORE addNode
+  const rawSize = Number(n.attributes.size);
+  const safeRawSize = Number.isFinite(rawSize) ? rawSize : 1;
+  const scaledSize = Math.max(2, Math.min(18, Math.sqrt(safeRawSize) * 2));
 
   g.addNode(n.key, {
     label: n.attributes.label,
     x: Number(n.attributes.x),
     y: Number(n.attributes.y),
-    size: Number(n.attributes.size),
+    size: scaledSize,          // ✅ only the property changes
     color: col,
     metaType: m,
     startYear: n.attributes.startYear || null,
     endYear: n.attributes.endYear || null
   });
 });
+
 
           // ➕ Edges
 data.edges.forEach((e, i) => {
@@ -129,6 +133,7 @@ data.edges.forEach((e, i) => {
 
           const container = document.getElementById("container");
           const renderer = new Sigma(g, container);
+renderer.getCamera().animatedReset({ duration: 600 });
 
           // ForceAtlas2 continuous
           let running = true;
