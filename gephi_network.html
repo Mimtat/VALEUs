@@ -152,7 +152,7 @@
       <div class="controls-row">
         <button id="toggle">⏸ Pause</button>
         <button id="noverlap">✨ Space</button>
-        <button id="snapshot">📸 Save</button>
+       
       </div>
       <div class="hint">“Space” pauses and spreads clustered neighbors around projects.</div>
     </div>
@@ -295,7 +295,7 @@
 
           const btn = document.getElementById("toggle");
           const noBtn = document.getElementById("noverlap");
-          const snapshotBtn = document.getElementById("snapshot");
+         
 
           // Year + emergence
           function projectVisibleByYear(nodeId) {
@@ -453,41 +453,9 @@
             renderer.refresh();
           });
 
-          // Snapshot (composite layers)
-          function takeSnapshot({ pixelRatio = 2 } = {}) {
-            running = false;
-            btn.textContent = "▶ Resume";
+          
 
-            const canvases = renderer.getCanvases();
-            const layers = Object.values(canvases)
-              .map(l => l instanceof HTMLCanvasElement ? l : l?.canvas)
-              .filter(Boolean);
 
-            if (!layers.length) {
-              alert("Snapshot failed: no canvas layers found.");
-              return;
-            }
-
-            const base = layers[0];
-            const w = base.width;
-            const h = base.height;
-
-            const out = document.createElement("canvas");
-            out.width = w * pixelRatio;
-            out.height = h * pixelRatio;
-
-            const ctx = out.getContext("2d");
-            ctx.scale(pixelRatio, pixelRatio);
-
-            ctx.fillStyle = "#ffffff";
-            ctx.fillRect(0, 0, w, h);
-
-            for (const layer of layers) ctx.drawImage(layer, 0, 0);
-
-            downloadURI(out.toDataURL("image/png"), `graph_${currentYear}.png`);
-          }
-
-          snapshotBtn.onclick = () => takeSnapshot({ pixelRatio: 2 });
 
           // Layout (movement + spacing)
           const fa2Settings = {
