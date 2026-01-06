@@ -40,6 +40,7 @@
   <div id="controls">
     <button id="toggle">⏸ Pause layout</button>
     <button id="noverlap">✨ De-overlap</button>
+    <button id="snapshot">📸 Snapshot</button>
     <div class="hint">Tip: De-overlap pauses the layout first.</div>
   </div>
 
@@ -155,6 +156,33 @@
         // ----------------------------
         const container = document.getElementById("container");
         const renderer = new Sigma(g, container);
+        const snapshotBtn = document.getElementById("snapshot");
+
+snapshotBtn.onclick = () => {
+  running = false;
+  btn.textContent = "▶ Resume layout";
+
+  const pixelRatio = 2; // try 3 for very high res
+
+  const canvas = renderer.getCanvases().layers.nodes;
+  const tmpCanvas = document.createElement("canvas");
+  tmpCanvas.width = canvas.width * pixelRatio;
+  tmpCanvas.height = canvas.height * pixelRatio;
+
+  const ctx = tmpCanvas.getContext("2d");
+  ctx.scale(pixelRatio, pixelRatio);
+  ctx.drawImage(canvas, 0, 0);
+
+  const dataURL = tmpCanvas.toDataURL("image/png");
+
+  const link = document.createElement("a");
+  link.href = dataURL;
+  link.download = `graph_${currentYear}_hires.png`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
 
         renderer.setSetting("defaultEdgeColor", "#bdbdbd");
         renderer.setSetting("edgeColor", "color");
