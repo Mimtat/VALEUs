@@ -490,17 +490,7 @@
         "metaType": "Action Domain"
       }
     },
-    {
-      "key": "advocacy",
-      "attributes": {
-        "label": "advocacy",
-        "x": -301.19473,
-        "y": 1001.04266,
-        "size": 27.043041,
-        "color": "#000000",
-        "metaType": "Kind of Action"
-      }
-    },
+    
     {
       "key": "EUAXF",
       "attributes": {
@@ -1386,17 +1376,7 @@
         "endYear": 2025
       }
     },
-    {
-      "key": "protest",
-      "attributes": {
-        "label": "protest",
-        "x": -202.96199,
-        "y": 51.287605,
-        "size": 28.542244,
-        "color": "#000000",
-        "metaType": "Kind of Action"
-      }
-    },
+    
     {
       "key": "DiEM25",
       "attributes": {
@@ -2712,7 +2692,7 @@
     {
       "key": "105",
       "source": "RespaJapon",
-      "target": "advocacy",
+      "target": "Advocacy",
       "attributes": {
         "weight": 1.0,
         "relation": "engages"
@@ -2730,7 +2710,7 @@
     {
       "key": "107",
       "source": "NationalInstitutions",
-      "target": "advocacy",
+      "target": "Advocacy",
       "attributes": {
         "weight": 1.0,
         "relation": "engages"
@@ -2739,7 +2719,7 @@
     {
       "key": "108",
       "source": "Media",
-      "target": "advocacy",
+      "target": "Advocacy",
       "attributes": {
         "weight": 1.0,
         "relation": "engages"
@@ -4658,7 +4638,7 @@
     {
       "key": "344",
       "source": "IL FUTURO (IR)ROMPE",
-      "target": "protest",
+      "target": "Protest",
       "attributes": {
         "weight": 1.0,
         "relation": "engages"
@@ -4676,7 +4656,7 @@
     {
       "key": "346",
       "source": "NationalInstitutions",
-      "target": "protest",
+      "target": "Protest",
       "undirected": true,
       "attributes": {
         "weight": 1.0,
@@ -5156,7 +5136,7 @@
     {
       "key": "403",
       "source": "Economic Research Center",
-      "target": "protest",
+      "target": "Protest",
       "undirected": true,
       "attributes": {
         "weight": 1.0,
@@ -5858,7 +5838,7 @@
     {
       "key": "486",
       "source": "Citizens",
-      "target": "protest",
+      "target": "Protest",
       "undirected": true,
       "attributes": {
         "weight": 1.0,
@@ -5898,7 +5878,7 @@
     {
       "key": "492",
       "source": "Companies",
-      "target": "protest",
+      "target": "Protest",
       "undirected": true,
       "attributes": {
         "weight": 1.0,
@@ -5928,7 +5908,7 @@
     {
       "key": "498",
       "source": "EU institutions",
-      "target": "protest",
+      "target": "Protest",
       "undirected": true,
       "attributes": {
         "weight": 1.0,
@@ -5948,7 +5928,7 @@
     {
       "key": "504",
       "source": "Marginalized groups",
-      "target": "protest",
+      "target": "Protest",
       "undirected": true,
       "attributes": {
         "weight": 1.0,
@@ -5978,7 +5958,7 @@
     {
       "key": "510",
       "source": "National and international courts",
-      "target": "protest",
+      "target": "Protest",
       "undirected": true,
       "attributes": {
         "weight": 1.0,
@@ -5998,7 +5978,7 @@
     {
       "key": "516",
       "source": "Media",
-      "target": "protest",
+      "target": "Protest",
       "undirected": true,
       "attributes": {
         "weight": 1.0,
@@ -6048,7 +6028,7 @@
     {
       "key": "522",
       "source": "National Political Institutions",
-      "target": "protest",
+      "target": "Protest",
       "undirected": true,
       "attributes": {
         "weight": 1.0,
@@ -6108,7 +6088,7 @@
     {
       "key": "528",
       "source": "Public Authorities",
-      "target": "protest",
+      "target": "Protest",
       "undirected": true,
       "attributes": {
         "weight": 1.0,
