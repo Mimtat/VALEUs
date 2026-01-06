@@ -63,8 +63,7 @@
 
   <div id="container"></div>
 
-  <!-- Replace ONLY the <script type="module"> ... </script> in your file with this version -->
-<script type="module">
+  <script type="module">
   import Sigma from "https://cdn.jsdelivr.net/npm/sigma@3.0.2/+esm";
   import Graph from "https://cdn.jsdelivr.net/npm/graphology@0.25.4/+esm";
   import forceAtlas2 from "https://cdn.jsdelivr.net/npm/graphology-layout-forceatlas2/+esm";
@@ -159,182 +158,89 @@
 
         renderer.setSetting("defaultEdgeColor", "#bdbdbd");
         renderer.setSetting("edgeColor", "color");
-        renderer.setSetting("labelDensity", 0.08);        // fewer labels
-        renderer.setSetting("labelGridCellSize", 80);     // reduce collisions in label placement
-        renderer.setSetting("labelRenderedSizeThreshold", 10); // only render labels if node size >= 10 (unless reducer sets label)
-        renderer.setSetting("labelFont", "sans-serif");
-        renderer.setSetting("nodeProgramClasses", {}); // leave default
-        renderer.setSetting("zIndex", true);           // draw larger nodes on top
+
+        // Label strategy: fewer labels by default (readable)
+        renderer.setSetting("labelDensity", 0.08);
+        renderer.setSetting("labelGridCellSize", 90);
+        renderer.setSetting("labelRenderedSizeThreshold", 10);
 
         renderer.getCamera().animatedReset({ duration: 600 });
 
         // ----------------------------
-        // Layout (faster / more "alive")
-        // ----------------------------
-        let running = true;
-
-        // Faster + still separated
-        const fa2Settings = {
-          linLogMode: true,
-          outboundAttractionDistribution: true,
-          adjustSizes: true,
-          strongGravityMode: false,
-          gravity: 0.15,
-          scalingRatio: 28,   // keeps spacing
-          slowDown: 1.5       // ✅ much faster motion than 5
-        };
-
-        // Run multiple iterations per frame for more movement
-        const ITERATIONS_PER_FRAME = 3;
-
-        function loop() {
-          if (running) {
-            forceAtlas2.assign(g, { iterations: ITERATIONS_PER_FRAME, settings: fa2Settings });
-            renderer.refresh();
-          }
-          requestAnimationFrame(loop);
-        }
-        requestAnimationFrame(loop);
-// Light noverlap every 800ms while layout runs (prevents piles)
-setInterval(() => {
-  if (running) {
-    noverlap.assign(g, { margin: 6, ratio: 1.1, speed: 2 });
-    renderer.refresh();
-  }
-}, 800);
-
-        // Pause/Resume
-        const btn = document.getElementById("toggle");
-        btn.onclick = () => {
-          running = !running;
-          btn.textContent = running ? "⏸ Pause layout" : "▶ Resume layout";
-        };
-
-        // De-overlap (pause first so it "sticks")
-        const noBtn = document.getElementById("noverlap");
-        noBtn.onclick = () => {
-          running = false;
-          btn.textContent = "▶ Resume layout";
-          noverlap.assign(g, { margin: 8, ratio: 1.2, speed: 3 });
-          renderer.refresh();
-        };
-
-        // ----------------------------
-        // Filtering controls
+        // UI state
         // ----------------------------
         let activeTypes = new Set([
           "Country", "Project", "Addressee", "Organization", "Action Domain", "Kind of Action"
         ]);
 
-        document.querySelectorAll("#filters input").forEach(cb => {
-          if (cb.value === "Project") cb.disabled = true;
-          cb.addEventListener("change", () => {
-            if (cb.checked) activeTypes.add(cb.value);
-            else activeTypes.delete(cb.value);
-            renderer.refresh();
-          });
-        });
-
-        // ----------------------------
-        // Year slider
-        // ----------------------------
         let currentYear = 2010;
-        // ===============================
-       // Interaction listeners (HERE)
-      // ===============================
-      let hoveredNode = null;
-      let pinnedNode = null;
 
-  renderer.on("enterNode", ({ node }) => {
-  hoveredNode = node;
-  renderer.refresh();
-});
+        // Hover/click label state
+        let hoveredNode = null;
+        let pinnedNode = null;
 
-renderer.on("leaveNode", () => {
-  hoveredNode = null;
-  renderer.refresh();
-});
-
-renderer.on("clickNode", ({ node }) => {
-  pinnedNode = (pinnedNode === node) ? null : node;
-  renderer.refresh();
-});
-
-renderer.on("clickStage", () => {
-  pinnedNode = null;
-  renderer.refresh();
-});
-
-
-        const yearSlider = document.getElementById("yearSlider");
-        const yearValue = document.getElementById("yearValue");
-
-        yearSlider.addEventListener("input", () => {
-          currentYear = parseInt(yearSlider.value, 10);
-          yearValue.textContent = currentYear;
+        renderer.on("enterNode", ({ node }) => { hoveredNode = node; renderer.refresh(); });
+        renderer.on("leaveNode", () => { hoveredNode = null; renderer.refresh(); });
+        renderer.on("clickNode", ({ node }) => {
+          pinnedNode = (pinnedNode === node) ? null : node;
           renderer.refresh();
         });
+        renderer.on("clickStage", () => { pinnedNode = null; renderer.refresh(); });
 
         // ----------------------------
-        // Emergence logic
+        // Year + emergence logic
         // ----------------------------
-        function isProjectStarted(nodeId) {
+        function projectVisibleByYear(nodeId) {
           const t = g.getNodeAttribute(nodeId, "metaType");
           if (t !== "Project") return false;
-          const sY = g.getNodeAttribute(nodeId, "startYear");
-          return Number.isFinite(sY) && sY <= currentYear;
-        }
-
-        function projectVisibleByYear(nodeId) {
           const sY = g.getNodeAttribute(nodeId, "startYear");
           const eY = g.getNodeAttribute(nodeId, "endYear");
           return Number.isFinite(sY) && Number.isFinite(eY) && sY <= currentYear && currentYear <= eY;
         }
 
-        function hasVisibleProjectNeighbor(nodeId) {
-  const neighbors = g.neighbors(nodeId);
-  for (const nb of neighbors) {
-    if (projectVisibleByYear(nb)) return true; // ✅ active in currentYear
-  }
-  return false;
-}
-
+        // Active-only emergence (nodes disappear when no active related project)
+        function hasActiveProjectNeighbor(nodeId) {
+          const neighbors = g.neighbors(nodeId);
+          for (const nb of neighbors) {
+            if (projectVisibleByYear(nb)) return true;
+          }
+          return false;
+        }
 
         // ----------------------------
         // Reducers
         // ----------------------------
         renderer.setSetting("nodeReducer", (node, data) => {
           const res = { ...data };
-          // Default: hide label
-res.label = "";
 
-// Show label if hovered or pinned
-if (node === hoveredNode || node === pinnedNode) {
-  res.label = truncateLabel(data.label, 40); // allow longer on hover/click
-  res.size = data.size * 1.3;
-} else {
-  // Or show for large nodes only
-  if (data.size >= 10) res.label = truncateLabel(data.label, 20);
-}
-
-          res.label = truncateLabel(data.label, 20);
-
+          // type filter
           if (!activeTypes.has(data.metaType)) {
             res.hidden = true;
             return res;
           }
 
+          // projects: only visible in active year range
           if (data.metaType === "Project") {
             if (!projectVisibleByYear(node)) {
               res.hidden = true;
               return res;
             }
-            return res;
+          } else {
+            // non-project: visible only if linked to an active project
+            if (!hasActiveProjectNeighbor(node)) {
+              res.hidden = true;
+              return res;
+            }
           }
 
-          if (!hasVisibleProjectNeighbor(node)) {
-            res.hidden = true;
-            return res;
+          // labels: readable strategy
+          res.label = "";
+          const isFocus = (node === hoveredNode || node === pinnedNode);
+          if (isFocus) {
+            res.label = truncateLabel(data.label, 40); // longer on focus
+            res.size = data.size * 1.25;
+          } else if (data.size >= 10) {
+            res.label = truncateLabel(data.label, 20); // big nodes only
           }
 
           return res;
@@ -355,20 +261,11 @@ if (node === hoveredNode || node === pinnedNode) {
             return res;
           }
 
-          if (srcType === "Project" && !projectVisibleByYear(src)) {
-            res.hidden = true;
-            return res;
-          }
-          if (tgtType === "Project" && !projectVisibleByYear(tgt)) {
-            res.hidden = true;
-            return res;
-          }
+          // Hide edges if either endpoint is not visible by year/emergence rules
+          const srcVisible = (srcType === "Project") ? projectVisibleByYear(src) : hasActiveProjectNeighbor(src);
+          const tgtVisible = (tgtType === "Project") ? projectVisibleByYear(tgt) : hasActiveProjectNeighbor(tgt);
 
-          if (srcType !== "Project" && !hasVisibleProjectNeighbor(src)) {
-            res.hidden = true;
-            return res;
-          }
-          if (tgtType !== "Project" && !hasVisibleProjectNeighbor(tgt)) {
+          if (!srcVisible || !tgtVisible) {
             res.hidden = true;
             return res;
           }
@@ -377,66 +274,79 @@ if (node === hoveredNode || node === pinnedNode) {
         });
 
         // ----------------------------
-        // ✅ Node dragging (user can move nodes)
+        // Controls wiring
         // ----------------------------
-        let draggedNode = null;
-        let isDragging = false;
+        document.querySelectorAll("#filters input").forEach(cb => {
+          if (cb.value === "Project") cb.disabled = true;
+          cb.addEventListener("change", () => {
+            if (cb.checked) activeTypes.add(cb.value);
+            else activeTypes.delete(cb.value);
+            renderer.refresh();
+          });
+        });
 
-        // Sigma v3 exposes mouse captor events
-        const mouse = renderer.getMouseCaptor();
+        const yearSlider = document.getElementById("yearSlider");
+        const yearValue = document.getElementById("yearValue");
 
-        function getGraphPositionFromEvent(event) {
-          // Sigma can convert viewport coords to graph coords via camera
-          const { x, y } = mouse.viewportToGraph(event);
-          return { x, y };
+        yearSlider.addEventListener("input", () => {
+          currentYear = parseInt(yearSlider.value, 10);
+          yearValue.textContent = currentYear;
+          renderer.refresh();
+        });
+
+        // ----------------------------
+        // Layout (MOVEMENT + SPACING)
+        // ----------------------------
+        let running = true;
+
+        const fa2Settings = {
+          linLogMode: true,
+          outboundAttractionDistribution: true,
+          adjustSizes: true,
+          strongGravityMode: false,
+          gravity: 0.03,     // ✅ very low gravity (prevents collapse)
+          scalingRatio: 60,  // ✅ strong repulsion (keeps nodes apart)
+          slowDown: 1.0      // ✅ fast enough to feel alive
+        };
+
+        const ITERATIONS_PER_FRAME = 2;
+
+        function loop() {
+          if (running) {
+            forceAtlas2.assign(g, { iterations: ITERATIONS_PER_FRAME, settings: fa2Settings });
+            renderer.refresh();
+          }
+          requestAnimationFrame(loop);
         }
+        requestAnimationFrame(loop);
 
-        renderer.on("downNode", ({ node }) => {
-          draggedNode = node;
-          isDragging = true;
+        // Gentle periodic anti-overlap (too strong/frequent will freeze motion)
+        setInterval(() => {
+          if (running) {
+            noverlap.assign(g, { margin: 5, ratio: 1.05, speed: 1 });
+            renderer.refresh();
+          }
+        }, 900);
 
-          // Pause layout while dragging so it doesn't fight the user
+        // Pause/Resume
+        const btn = document.getElementById("toggle");
+        btn.onclick = () => {
+          running = !running;
+          btn.textContent = running ? "⏸ Pause layout" : "▶ Resume layout";
+        };
+
+        // Strong de-overlap button (pause first so it sticks)
+        const noBtn = document.getElementById("noverlap");
+        noBtn.onclick = () => {
           running = false;
           btn.textContent = "▶ Resume layout";
-        });
-
-        renderer.on("upNode", () => {
-          draggedNode = null;
-          isDragging = false;
+          noverlap.assign(g, { margin: 12, ratio: 1.3, speed: 3 });
           renderer.refresh();
-        });
-
-        renderer.on("mouseup", () => {
-          draggedNode = null;
-          isDragging = false;
-          renderer.refresh();
-        });
-
-        renderer.on("mousemove", (event) => {
-          if (!isDragging || !draggedNode) return;
-          const pos = getGraphPositionFromEvent(event.event);
-          g.setNodeAttribute(draggedNode, "x", pos.x);
-          g.setNodeAttribute(draggedNode, "y", pos.y);
-          renderer.refresh();
-        });
-         renderer.on("clickNode", ({ node }) => {
-         pinnedNode = (pinnedNode === node) ? null : node;
-         const x = g.getNodeAttribute(node, "x");
-         const y = g.getNodeAttribute(node, "y");
-         renderer.getCamera().animate({ x, y, ratio: 0.3 }, { duration: 500 });
-         renderer.refresh();
-});
-
-        // Prevent camera move while dragging
-        mouse.on("mousedown", () => {
-          if (draggedNode) mouse.disable();
-        });
-        mouse.on("mouseup", () => {
-          mouse.enable();
-        });
+        };
       });
   });
 </script>
+
 
 </body>
 </html>
