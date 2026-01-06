@@ -29,7 +29,6 @@
       background: #ffffff;
     }
 
-    /* Geometric sidebar */
     #sidebar {
       position: fixed;
       top: 12px;
@@ -38,9 +37,7 @@
       width: var(--panel-w);
       display: grid;
       gap: var(--gap);
-      pointer-events: auto;
       font-family: var(--font);
-      color: #111;
     }
 
     .panel {
@@ -54,13 +51,12 @@
     .panel-title {
       font-weight: 700;
       font-size: 13px;
-      letter-spacing: 0.2px;
-      margin: 0 0 8px 0;
+      margin-bottom: 8px;
     }
 
     .controls-row{
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
       gap: 8px;
     }
 
@@ -71,22 +67,12 @@
       background: #fff;
       cursor: pointer;
       font-size: 13px;
-      line-height: 1;
-      display: inline-flex;
+      display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      user-select: none;
     }
 
     button:hover { background: rgba(0,0,0,0.03); }
-    button:active { transform: translateY(1px); }
-
-    .hint {
-      margin-top: 8px;
-      font-size: 12px;
-      opacity: 0.70;
-    }
 
     .filters-grid{
       display: grid;
@@ -98,9 +84,7 @@
       grid-template-columns: 18px 1fr;
       align-items: center;
       gap: 10px;
-      margin: 0;
       font-size: 13px;
-      line-height: 1.2;
       padding: 6px 8px;
       border-radius: 8px;
     }
@@ -111,7 +95,6 @@
       width: 16px;
       height: 16px;
       margin: 0;
-      accent-color: #111;
     }
 
     .year-row{
@@ -132,459 +115,158 @@
 
     input[type="range"]{
       width: 100%;
-      margin: 0;
-      height: 28px;
     }
 
     .small-note{
       margin-top: 8px;
       font-size: 12px;
-      opacity: 0.70;
-      line-height: 1.25;
+      opacity: 0.7;
     }
   </style>
 </head>
 
 <body>
-  <div id="sidebar">
-    <div class="panel" id="controls">
-      <div class="panel-title">Layout</div>
-      <div class="controls-row">
-        <button id="toggle">⏸ Pause</button>
-        <button id="noverlap">✨ Space</button>
-        <button id="snapshot">📸 Save</button>
-      </div>
-      <div class="hint">Save exports the full rendered view (nodes + edges + labels).</div>
-    </div>
+<div id="sidebar">
 
-    <div class="panel" id="filters">
-      <div class="panel-title">Filter</div>
-      <div class="filters-grid">
-        <label><input type="checkbox" value="Country" checked> <span>Country</span></label>
-        <label><input type="checkbox" value="Project" checked disabled> <span>Project</span></label>
-        <label><input type="checkbox" value="Addressee" checked> <span>Addressee</span></label>
-        <label><input type="checkbox" value="Organization" checked> <span>Organization</span></label>
-        <label><input type="checkbox" value="Action Domain" checked> <span>Action Domain</span></label>
-        <label><input type="checkbox" value="Kind of Action" checked> <span>Kind of Action</span></label>
-      </div>
-    </div>
-
-    <div class="panel" id="yearControl">
-      <div class="panel-title">Time</div>
-      <div class="year-row">
-        <div>Year</div>
-        <div id="yearValue">2010</div>
-      </div>
-      <input type="range" id="yearSlider" min="2010" max="2025" value="2010" step="1">
-      <div class="small-note">
-        Non-project nodes appear only if linked to projects active in that year.
-      </div>
+  <div class="panel">
+    <div class="panel-title">Layout</div>
+    <div class="controls-row">
+      <button id="toggle">⏸ Pause</button>
+      <button id="noverlap">✨ Space</button>
     </div>
   </div>
 
-  <div id="container"></div>
-
-  <script type="module">
-    import Sigma from "https://cdn.jsdelivr.net/npm/sigma@3.0.2/+esm";
-    import Graph from "https://cdn.jsdelivr.net/npm/graphology@0.25.4/+esm";
-    import forceAtlas2 from "https://cdn.jsdelivr.net/npm/graphology-layout-forceatlas2/+esm";
-    import noverlap from "https://cdn.jsdelivr.net/npm/graphology-layout-noverlap/+esm";
-
-    document.addEventListener("DOMContentLoaded", () => {
-      fetch("PrjAdd-2509.json")
-        .then(r => r.json())
-        .then(data => {
-          const g = new Graph();
-
-          // ----------------------------
-          // Helpers
-          // ----------------------------
-          function truncateLabel(s, n = 20) {
-            if (!s) return "";
-            return s.length > n ? s.slice(0, n - 1) + "…" : s;
-          }
-
-          function downloadURI(uri, name) {
-            const link = document.createElement("a");
-            link.href = uri;
-            link.download = name;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-          }
-
-          // ----------------------------
-          // Color map
-          // ----------------------------
-          const colorMap = {
-            Country: "rgb(102, 255, 255)",
-            Project: "rgb(255, 102, 102)",
-            Organization: "rgb(102, 102, 255)",
-            Addressee: "rgb(255, 255, 102)",
-            "Action Domain": "rgb(255, 102, 255)",
-            "Kind of Action": "rgb(102, 255, 102)"
-          };
-
-          const actionTypes = new Set([
-            "Research", "Monitoring", "Capacity Building", "Advocacy",
-            "Protest", "Education/Literacy", "engaged art"
-          ]);
-
-          // ----------------------------
-          // Add nodes
-          // ----------------------------
-          data.nodes.forEach(n => {
-            let m = n.attributes.metaType || "";
-            if (actionTypes.has(m)) m = "Kind of Action";
-
-            const col = colorMap[m] || "rgb(0,0,0)";
-
-            const rawSize = Number(n.attributes.size);
-            const safeRawSize = Number.isFinite(rawSize) ? rawSize : 1;
-            const scaledSize = Math.max(2, Math.min(18, Math.sqrt(safeRawSize) * 2));
-
-            const sY = Number(n.attributes.startYear);
-            const eY = Number(n.attributes.endYear);
-
-            g.addNode(n.key, {
-              label: n.attributes.label,
-              x: Number(n.attributes.x),
-              y: Number(n.attributes.y),
-              size: scaledSize,
-              color: col,
-              metaType: m,
-              startYear: Number.isFinite(sY) ? sY : null,
-              endYear: Number.isFinite(eY) ? eY : null
-            });
-          });
-
-          // ----------------------------
-          // Add edges (force grey)
-          // ----------------------------
-          data.edges.forEach((e, i) => {
-            const edgeKey = e.key || "e" + i;
-            const edgeAttrs = {
-              size: Number(e.attributes?.weight) || 1,
-              color: "#bdbdbd",
-              label: e.attributes?.relation || ""
-            };
-
-            if (e.undirected) {
-              if (!g.hasUndirectedEdge(e.source, e.target)) {
-                g.addUndirectedEdgeWithKey(edgeKey, e.source, e.target, edgeAttrs);
-              }
-            } else {
-              if (!g.hasEdge(e.source, e.target)) {
-                g.addEdgeWithKey(edgeKey, e.source, e.target, edgeAttrs);
-              }
-            }
-          });
-
-          // ----------------------------
-          // Renderer (IMPORTANT for snapshots)
-          // ----------------------------
-          const container = document.getElementById("container");
-
-          // ✅ preserveDrawingBuffer makes WebGL layers capturable in PNG
-          const renderer = new Sigma(g, container, {
-            webglContextAttributes: { preserveDrawingBuffer: true }
-          });
-
-          renderer.setSetting("defaultEdgeColor", "#bdbdbd");
-          renderer.setSetting("edgeColor", "color");
-
-          // Labels: fewer by default
-          renderer.setSetting("labelDensity", 0.08);
-          renderer.setSetting("labelGridCellSize", 90);
-          renderer.setSetting("labelRenderedSizeThreshold", 10);
-
-          renderer.getCamera().animatedReset({ duration: 600 });
-
-          // ----------------------------
-          // Shared state
-          // ----------------------------
-          let currentYear = 2010;
-          let running = true;
-
-          let activeTypes = new Set([
-            "Country", "Project", "Addressee", "Organization", "Action Domain", "Kind of Action"
-          ]);
-
-          let hoveredNode = null;
-          let pinnedNode = null;
-
-          // Buttons
-          const btn = document.getElementById("toggle");
-          const noBtn = document.getElementById("noverlap");
-          const snapshotBtn = document.getElementById("snapshot");
-
-          // ----------------------------
-          // Year + emergence logic
-          // ----------------------------
-          function projectVisibleByYear(nodeId) {
-            const t = g.getNodeAttribute(nodeId, "metaType");
-            if (t !== "Project") return false;
-            const sY = g.getNodeAttribute(nodeId, "startYear");
-            const eY = g.getNodeAttribute(nodeId, "endYear");
-            return Number.isFinite(sY) && Number.isFinite(eY) && sY <= currentYear && currentYear <= eY;
-          }
-
-          function hasActiveProjectNeighbor(nodeId) {
-            const neighbors = g.neighbors(nodeId);
-            for (const nb of neighbors) {
-              if (projectVisibleByYear(nb)) return true;
-            }
-            return false;
-          }
-
-          // ----------------------------
-          // Reduce stacking around projects (optional but helpful)
-          // ----------------------------
-          function nudgeProjectNeighborhoods() {
-            const push = 0.7;
-            const tangK = 0.25;
-
-            g.forEachNode((p) => {
-              if (g.getNodeAttribute(p, "metaType") !== "Project") return;
-              if (!projectVisibleByYear(p)) return;
-
-              const px = g.getNodeAttribute(p, "x");
-              const py = g.getNodeAttribute(p, "y");
-
-              const neighbors = g.neighbors(p).filter(n => g.getNodeAttribute(n, "metaType") !== "Project");
-              if (neighbors.length < 2) return;
-
-              const withAngle = neighbors.map(n => {
-                const x = g.getNodeAttribute(n, "x");
-                const y = g.getNodeAttribute(n, "y");
-                return { n, a: Math.atan2(y - py, x - px) };
-              }).sort((a, b) => a.a - b.a);
-
-              withAngle.forEach((obj, i) => {
-                const n = obj.n;
-                const x = g.getNodeAttribute(n, "x");
-                const y = g.getNodeAttribute(n, "y");
-
-                const dx = x - px;
-                const dy = y - py;
-                const norm = Math.sqrt(dx * dx + dy * dy) || 1;
-
-                const rx = dx / norm;
-                const ry = dy / norm;
-
-                const tx = -ry;
-                const ty = rx;
-
-                const radial = ((i % 2 === 0) ? 1 : -1) * push;
-                const tang = ((i % 5) - 2) * (push * tangK);
-
-                g.setNodeAttribute(n, "x", x + rx * radial + tx * tang);
-                g.setNodeAttribute(n, "y", y + ry * radial + ty * tang);
-              });
-            });
-          }
-
-          // ----------------------------
-          // Reducers
-          // ----------------------------
-          renderer.setSetting("nodeReducer", (node, data) => {
-            const res = { ...data };
-
-            // type filter
-            if (!activeTypes.has(data.metaType)) {
-              res.hidden = true;
-              return res;
-            }
-
-            // projects visible in active year range
-            if (data.metaType === "Project") {
-              if (!projectVisibleByYear(node)) {
-                res.hidden = true;
-                return res;
-              }
-            } else {
-              // non-project visible only if linked to active project
-              if (!hasActiveProjectNeighbor(node)) {
-                res.hidden = true;
-                return res;
-              }
-            }
-
-            // label strategy
-            res.label = "";
-            const isFocus = (node === hoveredNode || node === pinnedNode);
-            if (isFocus) {
-              res.label = truncateLabel(data.label, 40);
-              res.size = data.size * 1.25;
-            } else if (data.size >= 10) {
-              res.label = truncateLabel(data.label, 20);
-            }
-
-            return res;
-          });
-
-          renderer.setSetting("edgeReducer", (edge, data) => {
-            const res = { ...data };
-            res.color = "#bdbdbd";
-
-            const src = g.source(edge);
-            const tgt = g.target(edge);
-
-            const srcType = g.getNodeAttribute(src, "metaType");
-            const tgtType = g.getNodeAttribute(tgt, "metaType");
-
-            if (!activeTypes.has(srcType) || !activeTypes.has(tgtType)) {
-              res.hidden = true;
-              return res;
-            }
-
-            const srcVisible = (srcType === "Project") ? projectVisibleByYear(src) : hasActiveProjectNeighbor(src);
-            const tgtVisible = (tgtType === "Project") ? projectVisibleByYear(tgt) : hasActiveProjectNeighbor(tgt);
-
-            if (!srcVisible || !tgtVisible) {
-              res.hidden = true;
-              return res;
-            }
-
-            return res;
-          });
-
-          // ----------------------------
-          // Hover/click labels
-          // ----------------------------
-          renderer.on("enterNode", ({ node }) => { hoveredNode = node; renderer.refresh(); });
-          renderer.on("leaveNode", () => { hoveredNode = null; renderer.refresh(); });
-          renderer.on("clickNode", ({ node }) => {
-            pinnedNode = (pinnedNode === node) ? null : node;
-            renderer.refresh();
-          });
-          renderer.on("clickStage", () => { pinnedNode = null; renderer.refresh(); });
-
-          // ----------------------------
-          // Filters wiring
-          // ----------------------------
-          document.querySelectorAll("#filters input").forEach(cb => {
-            if (cb.value === "Project") cb.disabled = true;
-            cb.addEventListener("change", () => {
-              if (cb.checked) activeTypes.add(cb.value);
-              else activeTypes.delete(cb.value);
-              renderer.refresh();
-            });
-          });
-
-          // ----------------------------
-          // Year slider wiring
-          // ----------------------------
-          const yearSlider = document.getElementById("yearSlider");
-          const yearValue = document.getElementById("yearValue");
-
-          yearSlider.addEventListener("input", () => {
-            currentYear = parseInt(yearSlider.value, 10);
-            yearValue.textContent = String(currentYear);
-
-            // help avoid immediate stacking on emergence
-            nudgeProjectNeighborhoods();
-
-            renderer.refresh();
-          });
-
-          // ----------------------------
-          // Snapshot (composite layers in correct order)
-          // ----------------------------
-          function takeSnapshot({ pixelRatio = 2 } = {}) {
-            // Pause so layout doesn't change mid-export
-            running = false;
-            btn.textContent = "▶ Resume";
-
-            const canvases = renderer.getCanvases();
-            const layersObj = canvases?.layers || canvases;
-
-            const ordered = [
-              layersObj.edges,
-              layersObj.nodes,
-              layersObj.labels,
-              layersObj.hovers
-            ]
-              .filter(Boolean)
-              .map(l => (l instanceof HTMLCanvasElement ? l : l.canvas))
-              .filter(Boolean);
-
-            if (!ordered.length) {
-              alert("Snapshot failed: no drawable canvas layers found.");
-              return;
-            }
-
-            const base = ordered[0];
-            const w = base.width;
-            const h = base.height;
-
-            const out = document.createElement("canvas");
-            out.width = w * pixelRatio;
-            out.height = h * pixelRatio;
-
-            const ctx = out.getContext("2d");
-            ctx.scale(pixelRatio, pixelRatio);
-
-            // white background
-            ctx.fillStyle = "#ffffff";
-            ctx.fillRect(0, 0, w, h);
-
-            // draw layers
-            for (const layer of ordered) ctx.drawImage(layer, 0, 0);
-
-            downloadURI(out.toDataURL("image/png"), `graph_${currentYear}.png`);
-          }
-
-          snapshotBtn.onclick = () => takeSnapshot({ pixelRatio: 2 });
-
-          // ----------------------------
-          // Layout (movement + spacing)
-          // ----------------------------
-          const fa2Settings = {
-            linLogMode: true,
-            outboundAttractionDistribution: true,
-            adjustSizes: true,
-            strongGravityMode: false,
-            gravity: 0.03,
-            scalingRatio: 60,
-            slowDown: 1.0
-          };
-
-          const ITERATIONS_PER_FRAME = 2;
-
-          function loop() {
-            if (running) {
-              forceAtlas2.assign(g, { iterations: ITERATIONS_PER_FRAME, settings: fa2Settings });
-              renderer.refresh();
-            }
-            requestAnimationFrame(loop);
-          }
-          requestAnimationFrame(loop);
-
-          // Stronger periodic noverlap (prevents stacking around projects)
-          setInterval(() => {
-            if (running) {
-              noverlap.assign(g, { margin: 10, ratio: 1.10, speed: 1 });
-              renderer.refresh();
-            }
-          }, 900);
-
-          // Pause/Resume
-          btn.onclick = () => {
-            running = !running;
-            btn.textContent = running ? "⏸ Pause" : "▶ Resume";
-          };
-
-          // Space button: pause + nudge + strong de-overlap
-          noBtn.onclick = () => {
-            running = false;
-            btn.textContent = "▶ Resume";
-            nudgeProjectNeighborhoods();
-            noverlap.assign(g, { margin: 18, ratio: 1.35, speed: 4 });
-            renderer.refresh();
-          };
+  <div class="panel">
+    <div class="panel-title">Filter</div>
+    <div class="filters-grid" id="filters">
+      <label><input type="checkbox" value="Country" checked> Country</label>
+      <label><input type="checkbox" value="Project" checked disabled> Project</label>
+      <label><input type="checkbox" value="Addressee" checked> Addressee</label>
+      <label><input type="checkbox" value="Organization" checked> Organization</label>
+      <label><input type="checkbox" value="Action Domain" checked> Action Domain</label>
+      <label><input type="checkbox" value="Kind of Action" checked> Kind of Action</label>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">Time</div>
+    <div class="year-row">
+      <span>Year</span>
+      <span id="yearValue">2010</span>
+    </div>
+    <input type="range" id="yearSlider" min="2010" max="2025" value="2010">
+    <div class="small-note">
+      Non-project nodes appear only if linked to projects active in that year.
+    </div>
+  </div>
+
+</div>
+
+<div id="container"></div>
+
+<script type="module">
+import Sigma from "https://cdn.jsdelivr.net/npm/sigma@3.0.2/+esm";
+import Graph from "https://cdn.jsdelivr.net/npm/graphology@0.25.4/+esm";
+import forceAtlas2 from "https://cdn.jsdelivr.net/npm/graphology-layout-forceatlas2/+esm";
+import noverlap from "https://cdn.jsdelivr.net/npm/graphology-layout-noverlap/+esm";
+
+document.addEventListener("DOMContentLoaded", () => {
+  fetch("PrjAdd-2509.json")
+    .then(r => r.json())
+    .then(data => {
+
+      const g = new Graph();
+      let currentYear = 2010;
+      let running = true;
+
+      const colorMap = {
+        Country: "rgb(102,255,255)",
+        Project: "rgb(255,102,102)",
+        Organization: "rgb(102,102,255)",
+        Addressee: "rgb(255,255,102)",
+        "Action Domain": "rgb(255,102,255)",
+        "Kind of Action": "rgb(102,255,102)"
+      };
+
+      const actionTypes = new Set([
+        "Research","Monitoring","Capacity Building","Advocacy",
+        "Protest","Education/Literacy","engaged art"
+      ]);
+
+      data.nodes.forEach(n => {
+        let m = n.attributes.metaType || "";
+        if (actionTypes.has(m)) m = "Kind of Action";
+
+        const raw = Number(n.attributes.size) || 1;
+        const size = Math.max(2, Math.min(18, Math.sqrt(raw) * 2));
+
+        g.addNode(n.key, {
+          label: n.attributes.label,
+          x: Number(n.attributes.x),
+          y: Number(n.attributes.y),
+          size,
+          color: colorMap[m],
+          metaType: m,
+          startYear: n.attributes.startYear ?? null,
+          endYear: n.attributes.endYear ?? null
         });
+      });
+
+      data.edges.forEach((e, i) => {
+        g.addEdgeWithKey(
+          e.key || "e"+i,
+          e.source,
+          e.target,
+          { color: "#bdbdbd", size: 1 }
+        );
+      });
+
+      const renderer = new Sigma(g, document.getElementById("container"));
+
+      const fa2 = {
+        linLogMode: true,
+        adjustSizes: true,
+        gravity: 0.03,
+        scalingRatio: 60,
+        slowDown: 1
+      };
+
+      function loop() {
+        if (running) {
+          forceAtlas2.assign(g, { iterations: 2, settings: fa2 });
+          renderer.refresh();
+        }
+        requestAnimationFrame(loop);
+      }
+      loop();
+
+      setInterval(() => {
+        if (running) {
+          noverlap.assign(g, { margin: 10, ratio: 1.1 });
+          renderer.refresh();
+        }
+      }, 900);
+
+      document.getElementById("toggle").onclick = () => {
+        running = !running;
+        document.getElementById("toggle").textContent =
+          running ? "⏸ Pause" : "▶ Resume";
+      };
+
+      document.getElementById("noverlap").onclick = () => {
+        running = false;
+        document.getElementById("toggle").textContent = "▶ Resume";
+        noverlap.assign(g, { margin: 18, ratio: 1.35, speed: 4 });
+        renderer.refresh();
+      };
+
+      document.getElementById("yearSlider").oninput = e => {
+        currentYear = +e.target.value;
+        document.getElementById("yearValue").textContent = currentYear;
+        renderer.refresh();
+      };
     });
-  </script>
+});
+</script>
 </body>
 </html>
