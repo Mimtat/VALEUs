@@ -29,6 +29,7 @@
       background: #ffffff;
     }
 
+    /* Geometric sidebar */
     #sidebar {
       position: fixed;
       top: 12px;
@@ -37,7 +38,9 @@
       width: var(--panel-w);
       display: grid;
       gap: var(--gap);
+      pointer-events: auto;
       font-family: var(--font);
+      color: #111;
     }
 
     .panel {
@@ -51,12 +54,13 @@
     .panel-title {
       font-weight: 700;
       font-size: 13px;
-      margin-bottom: 8px;
+      letter-spacing: 0.2px;
+      margin: 0 0 8px 0;
     }
 
     .controls-row{
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 8px;
     }
 
@@ -67,11 +71,22 @@
       background: #fff;
       cursor: pointer;
       font-size: 13px;
-      display: flex;
+      line-height: 1;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 6px;
+      user-select: none;
     }
+
     button:hover { background: rgba(0,0,0,0.03); }
+    button:active { transform: translateY(1px); }
+
+    .hint {
+      margin-top: 8px;
+      font-size: 12px;
+      opacity: 0.70;
+    }
 
     .filters-grid{
       display: grid;
@@ -83,17 +98,20 @@
       grid-template-columns: 18px 1fr;
       align-items: center;
       gap: 10px;
+      margin: 0;
       font-size: 13px;
+      line-height: 1.2;
       padding: 6px 8px;
       border-radius: 8px;
-      margin: 0;
     }
+
     label:hover { background: rgba(0,0,0,0.03); }
 
     input[type="checkbox"]{
       width: 16px;
       height: 16px;
       margin: 0;
+      accent-color: #111;
     }
 
     .year-row{
@@ -112,184 +130,413 @@
       text-align: right;
     }
 
-    input[type="range"]{ width: 100%; }
+    input[type="range"]{
+      width: 100%;
+      margin: 0;
+      height: 28px;
+    }
 
     .small-note{
       margin-top: 8px;
       font-size: 12px;
-      opacity: 0.7;
+      opacity: 0.70;
       line-height: 1.25;
     }
   </style>
 </head>
 
 <body>
-<div id="sidebar">
+  <div id="sidebar">
+    <div class="panel" id="controls">
+      <div class="panel-title">Layout</div>
+      <div class="controls-row">
+        <button id="toggle">⏸ Pause</button>
+        <button id="noverlap">✨ Space</button>
+        <button id="snapshot">📸 Save</button>
+      </div>
+      <div class="hint">“Space” pauses and spreads clustered neighbors around projects.</div>
+    </div>
 
-  <div class="panel">
-    <div class="panel-title">Layout</div>
-    <div class="controls-row">
-      <button id="toggle">⏸ Pause</button>
-      <button id="noverlap">✨ Space</button>
+    <div class="panel" id="filters">
+      <div class="panel-title">Filter</div>
+      <div class="filters-grid">
+        <label><input type="checkbox" value="Country" checked> <span>Country</span></label>
+        <label><input type="checkbox" value="Project" checked disabled> <span>Project</span></label>
+        <label><input type="checkbox" value="Addressee" checked> <span>Addressee</span></label>
+        <label><input type="checkbox" value="Organization" checked> <span>Organization</span></label>
+        <label><input type="checkbox" value="Action Domain" checked> <span>Action Domain</span></label>
+        <label><input type="checkbox" value="Kind of Action" checked> <span>Kind of Action</span></label>
+      </div>
+    </div>
+
+    <div class="panel" id="yearControl">
+      <div class="panel-title">Time</div>
+      <div class="year-row">
+        <div>Year</div>
+        <div id="yearValue">2010</div>
+      </div>
+      <input type="range" id="yearSlider" min="2010" max="2025" value="2010" step="1">
+      <div class="small-note">
+        Non-project nodes appear only if linked to projects active in that year.
+      </div>
     </div>
   </div>
 
-  <div class="panel">
-    <div class="panel-title">Filter</div>
-    <div class="filters-grid" id="filters">
-      <label><input type="checkbox" value="Country" checked> Country</label>
-      <label><input type="checkbox" value="Project" checked disabled> Project</label>
-      <label><input type="checkbox" value="Addressee" checked> Addressee</label>
-      <label><input type="checkbox" value="Organization" checked> Organization</label>
-      <label><input type="checkbox" value="Action Domain" checked> Action Domain</label>
-      <label><input type="checkbox" value="Kind of Action" checked> Kind of Action</label>
-    </div>
-  </div>
+  <div id="container"></div>
 
-  <div class="panel">
-    <div class="panel-title">Time</div>
-    <div class="year-row">
-      <span>Year</span>
-      <span id="yearValue">2010</span>
-    </div>
-    <input type="range" id="yearSlider" min="2010" max="2025" value="2010" step="1">
-    <div class="small-note">
-      Non-project nodes appear only if linked to projects active in that year.
-    </div>
-  </div>
+  <script type="module">
+    import Sigma from "https://cdn.jsdelivr.net/npm/sigma@3.0.2/+esm";
+    import Graph from "https://cdn.jsdelivr.net/npm/graphology@0.25.4/+esm";
+    import forceAtlas2 from "https://cdn.jsdelivr.net/npm/graphology-layout-forceatlas2/+esm";
+    import noverlap from "https://cdn.jsdelivr.net/npm/graphology-layout-noverlap/+esm";
 
-</div>
+    document.addEventListener("DOMContentLoaded", () => {
+      fetch("PrjAdd-2509.json")
+        .then(r => r.json())
+        .then(data => {
+          const g = new Graph();
 
-<div id="container"></div>
+          function truncateLabel(s, n = 20) {
+            if (!s) return "";
+            return s.length > n ? s.slice(0, n - 1) + "…" : s;
+          }
 
-<script type="module">
-import Sigma from "https://cdn.jsdelivr.net/npm/sigma@3.0.2/+esm";
-import Graph from "https://cdn.jsdelivr.net/npm/graphology@0.25.4/+esm";
-import forceAtlas2 from "https://cdn.jsdelivr.net/npm/graphology-layout-forceatlas2/+esm";
-import noverlap from "https://cdn.jsdelivr.net/npm/graphology-layout-noverlap/+esm";
+          function downloadURI(uri, name) {
+            const link = document.createElement("a");
+            link.href = uri;
+            link.download = name;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }
 
-document.addEventListener("DOMContentLoaded", () => {
-  fetch("PrjAdd-2509.json")
-    .then(r => r.json())
-    .then(data => {
+          const colorMap = {
+            Country: "rgb(102, 255, 255)",
+            Project: "rgb(255, 102, 102)",
+            Organization: "rgb(102, 102, 255)",
+            Addressee: "rgb(255, 255, 102)",
+            "Action Domain": "rgb(255, 102, 255)",
+            "Kind of Action": "rgb(102, 255, 102)"
+          };
 
-      // ✅ MULTI GRAPH: allows multiple edges between same nodes
-      const g = new Graph({ multi: true });
+          const actionTypes = new Set([
+            "Research", "Monitoring", "Capacity Building", "Advocacy",
+            "Protest", "Education/Literacy", "engaged art"
+          ]);
 
-      let currentYear = 2010;
-      let running = true;
+          // Nodes
+          data.nodes.forEach(n => {
+            let m = n.attributes.metaType || "";
+            if (actionTypes.has(m)) m = "Kind of Action";
 
-      const colorMap = {
-        Country: "rgb(102,255,255)",
-        Project: "rgb(255,102,102)",
-        Organization: "rgb(102,102,255)",
-        Addressee: "rgb(255,255,102)",
-        "Action Domain": "rgb(255,102,255)",
-        "Kind of Action": "rgb(102,255,102)"
-      };
+            const col = colorMap[m] || "rgb(0,0,0)";
 
-      const actionTypes = new Set([
-        "Research","Monitoring","Capacity Building","Advocacy",
-        "Protest","Education/Literacy","engaged art"
-      ]);
+            const rawSize = Number(n.attributes.size);
+            const safeRawSize = Number.isFinite(rawSize) ? rawSize : 1;
+            const scaledSize = Math.max(2, Math.min(18, Math.sqrt(safeRawSize) * 2));
 
-      // Nodes
-      data.nodes.forEach(n => {
-        let m = n.attributes?.metaType || "";
-        if (actionTypes.has(m)) m = "Kind of Action";
+            const sY = Number(n.attributes.startYear);
+            const eY = Number(n.attributes.endYear);
 
-        const raw = Number(n.attributes?.size);
-        const safe = Number.isFinite(raw) ? raw : 1;
-        const size = Math.max(2, Math.min(18, Math.sqrt(safe) * 2));
+            g.addNode(n.key, {
+              label: n.attributes.label,
+              x: Number(n.attributes.x),
+              y: Number(n.attributes.y),
+              size: scaledSize,
+              color: col,
+              metaType: m,
+              startYear: Number.isFinite(sY) ? sY : null,
+              endYear: Number.isFinite(eY) ? eY : null
+            });
+          });
 
-        const sY = Number(n.attributes?.startYear);
-        const eY = Number(n.attributes?.endYear);
+          // Edges
+          data.edges.forEach((e, i) => {
+            const edgeKey = e.key || "e" + i;
+            const edgeAttrs = {
+              size: Number(e.attributes?.weight) || 1,
+              color: "#bdbdbd",
+              label: e.attributes?.relation || ""
+            };
 
-        g.addNode(n.key, {
-          label: n.attributes?.label || n.key,
-          x: Number(n.attributes?.x) || 0,
-          y: Number(n.attributes?.y) || 0,
-          size,
-          color: colorMap[m] || "#000",
-          metaType: m,
-          startYear: Number.isFinite(sY) ? sY : null,
-          endYear: Number.isFinite(eY) ? eY : null
+            if (e.undirected) {
+              if (!g.hasUndirectedEdge(e.source, e.target)) {
+                g.addUndirectedEdgeWithKey(edgeKey, e.source, e.target, edgeAttrs);
+              }
+            } else {
+              if (!g.hasEdge(e.source, e.target)) {
+                g.addEdgeWithKey(edgeKey, e.source, e.target, edgeAttrs);
+              }
+            }
+          });
+
+          // Renderer
+          const container = document.getElementById("container");
+          const renderer = new Sigma(g, container);
+
+          renderer.setSetting("defaultEdgeColor", "#bdbdbd");
+          renderer.setSetting("edgeColor", "color");
+          renderer.setSetting("labelDensity", 0.08);
+          renderer.setSetting("labelGridCellSize", 90);
+          renderer.setSetting("labelRenderedSizeThreshold", 10);
+
+          renderer.getCamera().animatedReset({ duration: 600 });
+
+          // State
+          let currentYear = 2010;
+          let running = true;
+
+          let activeTypes = new Set([
+            "Country", "Project", "Addressee", "Organization", "Action Domain", "Kind of Action"
+          ]);
+
+          let hoveredNode = null;
+          let pinnedNode = null;
+
+          const btn = document.getElementById("toggle");
+          const noBtn = document.getElementById("noverlap");
+          const snapshotBtn = document.getElementById("snapshot");
+
+          // Year + emergence
+          function projectVisibleByYear(nodeId) {
+            const t = g.getNodeAttribute(nodeId, "metaType");
+            if (t !== "Project") return false;
+            const sY = g.getNodeAttribute(nodeId, "startYear");
+            const eY = g.getNodeAttribute(nodeId, "endYear");
+            return Number.isFinite(sY) && Number.isFinite(eY) && sY <= currentYear && currentYear <= eY;
+          }
+
+          function hasActiveProjectNeighbor(nodeId) {
+            const neighbors = g.neighbors(nodeId);
+            for (const nb of neighbors) {
+              if (projectVisibleByYear(nb)) return true;
+            }
+            return false;
+          }
+
+          // --- NEW: nudge neighbors around each active project to reduce stacking
+          function nudgeProjectNeighborhoods() {
+            const push = 0.7;     // radial push strength
+            const tangK = 0.25;   // tangential spread
+
+            g.forEachNode((p) => {
+              if (g.getNodeAttribute(p, "metaType") !== "Project") return;
+              if (!projectVisibleByYear(p)) return;
+
+              const px = g.getNodeAttribute(p, "x");
+              const py = g.getNodeAttribute(p, "y");
+
+              const neighbors = g.neighbors(p).filter(n => g.getNodeAttribute(n, "metaType") !== "Project");
+              if (neighbors.length < 2) return;
+
+              const withAngle = neighbors.map(n => {
+                const x = g.getNodeAttribute(n, "x");
+                const y = g.getNodeAttribute(n, "y");
+                return { n, a: Math.atan2(y - py, x - px) };
+              }).sort((a, b) => a.a - b.a);
+
+              withAngle.forEach((obj, i) => {
+                const n = obj.n;
+                const x = g.getNodeAttribute(n, "x");
+                const y = g.getNodeAttribute(n, "y");
+
+                const dx = x - px;
+                const dy = y - py;
+                const norm = Math.sqrt(dx * dx + dy * dy) || 1;
+
+                const rx = dx / norm;
+                const ry = dy / norm;
+
+                // Tangential unit vector
+                const tx = -ry;
+                const ty = rx;
+
+                // Alternate radial in/out; add small tangential spread
+                const radial = ((i % 2 === 0) ? 1 : -1) * push;
+                const tang = ((i % 5) - 2) * (push * tangK);
+
+                g.setNodeAttribute(n, "x", x + rx * radial + tx * tang);
+                g.setNodeAttribute(n, "y", y + ry * radial + ty * tang);
+              });
+            });
+          }
+
+          // Reducers
+          renderer.setSetting("nodeReducer", (node, data) => {
+            const res = { ...data };
+
+            if (!activeTypes.has(data.metaType)) {
+              res.hidden = true;
+              return res;
+            }
+
+            if (data.metaType === "Project") {
+              if (!projectVisibleByYear(node)) {
+                res.hidden = true;
+                return res;
+              }
+            } else {
+              if (!hasActiveProjectNeighbor(node)) {
+                res.hidden = true;
+                return res;
+              }
+            }
+
+            res.label = "";
+            const isFocus = (node === hoveredNode || node === pinnedNode);
+            if (isFocus) {
+              res.label = truncateLabel(data.label, 40);
+              res.size = data.size * 1.25;
+            } else if (data.size >= 10) {
+              res.label = truncateLabel(data.label, 20);
+            }
+
+            return res;
+          });
+
+          renderer.setSetting("edgeReducer", (edge, data) => {
+            const res = { ...data };
+            res.color = "#bdbdbd";
+
+            const src = g.source(edge);
+            const tgt = g.target(edge);
+
+            const srcType = g.getNodeAttribute(src, "metaType");
+            const tgtType = g.getNodeAttribute(tgt, "metaType");
+
+            if (!activeTypes.has(srcType) || !activeTypes.has(tgtType)) {
+              res.hidden = true;
+              return res;
+            }
+
+            const srcVisible = (srcType === "Project") ? projectVisibleByYear(src) : hasActiveProjectNeighbor(src);
+            const tgtVisible = (tgtType === "Project") ? projectVisibleByYear(tgt) : hasActiveProjectNeighbor(tgt);
+
+            if (!srcVisible || !tgtVisible) {
+              res.hidden = true;
+              return res;
+            }
+
+            return res;
+          });
+
+          // Hover/click labels
+          renderer.on("enterNode", ({ node }) => { hoveredNode = node; renderer.refresh(); });
+          renderer.on("leaveNode", () => { hoveredNode = null; renderer.refresh(); });
+          renderer.on("clickNode", ({ node }) => {
+            pinnedNode = (pinnedNode === node) ? null : node;
+            renderer.refresh();
+          });
+          renderer.on("clickStage", () => { pinnedNode = null; renderer.refresh(); });
+
+          // Filters
+          document.querySelectorAll("#filters input").forEach(cb => {
+            if (cb.value === "Project") cb.disabled = true;
+            cb.addEventListener("change", () => {
+              if (cb.checked) activeTypes.add(cb.value);
+              else activeTypes.delete(cb.value);
+              renderer.refresh();
+            });
+          });
+
+          // Year slider
+          const yearSlider = document.getElementById("yearSlider");
+          const yearValue = document.getElementById("yearValue");
+
+          yearSlider.addEventListener("input", () => {
+            currentYear = parseInt(yearSlider.value, 10);
+            yearValue.textContent = String(currentYear);
+
+            // NEW: prevent immediate stacking when new nodes emerge
+            nudgeProjectNeighborhoods();
+
+            renderer.refresh();
+          });
+
+          // Snapshot (composite layers)
+          function takeSnapshot({ pixelRatio = 2 } = {}) {
+            running = false;
+            btn.textContent = "▶ Resume";
+
+            const canvases = renderer.getCanvases();
+            const layers = Object.values(canvases)
+              .map(l => l instanceof HTMLCanvasElement ? l : l?.canvas)
+              .filter(Boolean);
+
+            if (!layers.length) {
+              alert("Snapshot failed: no canvas layers found.");
+              return;
+            }
+
+            const base = layers[0];
+            const w = base.width;
+            const h = base.height;
+
+            const out = document.createElement("canvas");
+            out.width = w * pixelRatio;
+            out.height = h * pixelRatio;
+
+            const ctx = out.getContext("2d");
+            ctx.scale(pixelRatio, pixelRatio);
+
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, w, h);
+
+            for (const layer of layers) ctx.drawImage(layer, 0, 0);
+
+            downloadURI(out.toDataURL("image/png"), `graph_${currentYear}.png`);
+          }
+
+          snapshotBtn.onclick = () => takeSnapshot({ pixelRatio: 2 });
+
+          // Layout (movement + spacing)
+          const fa2Settings = {
+            linLogMode: true,
+            outboundAttractionDistribution: true,
+            adjustSizes: true,
+            strongGravityMode: false,
+            gravity: 0.03,
+            scalingRatio: 60,
+            slowDown: 1.0
+          };
+
+          const ITERATIONS_PER_FRAME = 2;
+
+          function loop() {
+            if (running) {
+              forceAtlas2.assign(g, { iterations: ITERATIONS_PER_FRAME, settings: fa2Settings });
+              renderer.refresh();
+            }
+            requestAnimationFrame(loop);
+          }
+          requestAnimationFrame(loop);
+
+          // Option A: stronger periodic noverlap (prevents project-neighbor stacking)
+          setInterval(() => {
+            if (running) {
+              noverlap.assign(g, { margin: 10, ratio: 1.10, speed: 1 });
+              renderer.refresh();
+            }
+          }, 900);
+
+          // Pause/Resume
+          btn.onclick = () => {
+            running = !running;
+            btn.textContent = running ? "⏸ Pause" : "▶ Resume";
+          };
+
+          // Space button: pause + nudge + strong de-overlap
+          noBtn.onclick = () => {
+            running = false;
+            btn.textContent = "▶ Resume";
+
+            nudgeProjectNeighborhoods();
+            noverlap.assign(g, { margin: 18, ratio: 1.35, speed: 4 });
+
+            renderer.refresh();
+          };
         });
-      });
-
-      // Edges (grey; unique keys)
-      data.edges.forEach((e, i) => {
-        const k = e.key || `e_${i}_${e.source}_${e.target}`;
-        const attrs = {
-          color: "#bdbdbd",
-          size: Number(e.attributes?.weight) || 1
-        };
-
-        // In a multi graph we can always add edges between same endpoints,
-        // but keys still must be unique:
-        const key = g.hasEdge(k) ? `${k}_${i}` : k;
-
-        if (e.undirected) {
-          g.addUndirectedEdgeWithKey(key, e.source, e.target, attrs);
-        } else {
-          g.addEdgeWithKey(key, e.source, e.target, attrs);
-        }
-      });
-
-      const renderer = new Sigma(g, document.getElementById("container"));
-      renderer.setSetting("defaultEdgeColor", "#bdbdbd");
-      renderer.setSetting("edgeColor", "color");
-
-      const fa2 = {
-        linLogMode: true,
-        adjustSizes: true,
-        gravity: 0.03,
-        scalingRatio: 60,
-        slowDown: 1
-      };
-
-      // Layout loop
-      function loop() {
-        if (running) {
-          forceAtlas2.assign(g, { iterations: 2, settings: fa2 });
-          renderer.refresh();
-        }
-        requestAnimationFrame(loop);
-      }
-      loop();
-
-      // Periodic anti-overlap
-      setInterval(() => {
-        if (running) {
-          noverlap.assign(g, { margin: 10, ratio: 1.1 });
-          renderer.refresh();
-        }
-      }, 900);
-
-      // Controls
-      const toggleBtn = document.getElementById("toggle");
-      toggleBtn.onclick = () => {
-        running = !running;
-        toggleBtn.textContent = running ? "⏸ Pause" : "▶ Resume";
-      };
-
-      document.getElementById("noverlap").onclick = () => {
-        running = false;
-        toggleBtn.textContent = "▶ Resume";
-        noverlap.assign(g, { margin: 18, ratio: 1.35, speed: 4 });
-        renderer.refresh();
-      };
-
-      // Year slider (kept simple here; your full emergence reducers can be re-added)
-      const yearSlider = document.getElementById("yearSlider");
-      const yearValue = document.getElementById("yearValue");
-      yearSlider.oninput = e => {
-        currentYear = +e.target.value;
-        yearValue.textContent = currentYear;
-        renderer.refresh();
-      };
     });
-});
-</script>
+  </script>
 </body>
 </html>
