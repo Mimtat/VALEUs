@@ -29,7 +29,7 @@
       background: #ffffff;
     }
 
-    /* GEOMETRIC SIDEBAR */
+    /* Geometric sidebar */
     #sidebar {
       position: fixed;
       top: 12px;
@@ -58,7 +58,6 @@
       margin: 0 0 8px 0;
     }
 
-    /* Controls panel */
     .controls-row{
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
@@ -89,7 +88,6 @@
       opacity: 0.70;
     }
 
-    /* Filters panel */
     .filters-grid{
       display: grid;
       gap: 6px;
@@ -116,7 +114,6 @@
       accent-color: #111;
     }
 
-    /* Year panel */
     .year-row{
       display: grid;
       grid-template-columns: 1fr auto;
@@ -157,7 +154,7 @@
         <button id="noverlap">✨ Space</button>
         <button id="snapshot">📸 Save</button>
       </div>
-      <div class="hint">Tip: “Space” pauses first for a stable spread.</div>
+      <div class="hint">“Space” pauses and spreads clustered neighbors around projects.</div>
     </div>
 
     <div class="panel" id="filters">
@@ -285,7 +282,7 @@
 
           renderer.getCamera().animatedReset({ duration: 600 });
 
-          // Shared state
+          // State
           let currentYear = 2010;
           let running = true;
 
@@ -296,7 +293,6 @@
           let hoveredNode = null;
           let pinnedNode = null;
 
-          // Buttons
           const btn = document.getElementById("toggle");
           const noBtn = document.getElementById("noverlap");
           const snapshotBtn = document.getElementById("snapshot");
@@ -316,6 +312,53 @@
               if (projectVisibleByYear(nb)) return true;
             }
             return false;
+          }
+
+          // --- NEW: nudge neighbors around each active project to reduce stacking
+          function nudgeProjectNeighborhoods() {
+            const push = 0.7;     // radial push strength
+            const tangK = 0.25;   // tangential spread
+
+            g.forEachNode((p) => {
+              if (g.getNodeAttribute(p, "metaType") !== "Project") return;
+              if (!projectVisibleByYear(p)) return;
+
+              const px = g.getNodeAttribute(p, "x");
+              const py = g.getNodeAttribute(p, "y");
+
+              const neighbors = g.neighbors(p).filter(n => g.getNodeAttribute(n, "metaType") !== "Project");
+              if (neighbors.length < 2) return;
+
+              const withAngle = neighbors.map(n => {
+                const x = g.getNodeAttribute(n, "x");
+                const y = g.getNodeAttribute(n, "y");
+                return { n, a: Math.atan2(y - py, x - px) };
+              }).sort((a, b) => a.a - b.a);
+
+              withAngle.forEach((obj, i) => {
+                const n = obj.n;
+                const x = g.getNodeAttribute(n, "x");
+                const y = g.getNodeAttribute(n, "y");
+
+                const dx = x - px;
+                const dy = y - py;
+                const norm = Math.sqrt(dx * dx + dy * dy) || 1;
+
+                const rx = dx / norm;
+                const ry = dy / norm;
+
+                // Tangential unit vector
+                const tx = -ry;
+                const ty = rx;
+
+                // Alternate radial in/out; add small tangential spread
+                const radial = ((i % 2 === 0) ? 1 : -1) * push;
+                const tang = ((i % 5) - 2) * (push * tangK);
+
+                g.setNodeAttribute(n, "x", x + rx * radial + tx * tang);
+                g.setNodeAttribute(n, "y", y + ry * radial + ty * tang);
+              });
+            });
           }
 
           // Reducers
@@ -403,6 +446,10 @@
           yearSlider.addEventListener("input", () => {
             currentYear = parseInt(yearSlider.value, 10);
             yearValue.textContent = String(currentYear);
+
+            // NEW: prevent immediate stacking when new nodes emerge
+            nudgeProjectNeighborhoods();
+
             renderer.refresh();
           });
 
@@ -442,7 +489,7 @@
 
           snapshotBtn.onclick = () => takeSnapshot({ pixelRatio: 2 });
 
-          // Layout
+          // Layout (movement + spacing)
           const fa2Settings = {
             linLogMode: true,
             outboundAttractionDistribution: true,
@@ -464,11 +511,10 @@
           }
           requestAnimationFrame(loop);
 
-          // Gentle periodic anti-overlap
+          // Option A: stronger periodic noverlap (prevents project-neighbor stacking)
           setInterval(() => {
             if (running) {
               noverlap.assign(g, { margin: 10, ratio: 1.10, speed: 1 });
-
               renderer.refresh();
             }
           }, 900);
@@ -479,10 +525,12 @@
             btn.textContent = running ? "⏸ Pause" : "▶ Resume";
           };
 
-          // Space button
+          // Space button: pause + nudge + strong de-overlap
           noBtn.onclick = () => {
             running = false;
             btn.textContent = "▶ Resume";
+
+            nudgeProjectNeighborhoods();
             noverlap.assign(g, { margin: 18, ratio: 1.35, speed: 4 });
 
             renderer.refresh();
