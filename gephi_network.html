@@ -71,7 +71,6 @@
       align-items: center;
       justify-content: center;
     }
-
     button:hover { background: rgba(0,0,0,0.03); }
 
     .filters-grid{
@@ -87,8 +86,8 @@
       font-size: 13px;
       padding: 6px 8px;
       border-radius: 8px;
+      margin: 0;
     }
-
     label:hover { background: rgba(0,0,0,0.03); }
 
     input[type="checkbox"]{
@@ -113,14 +112,13 @@
       text-align: right;
     }
 
-    input[type="range"]{
-      width: 100%;
-    }
+    input[type="range"]{ width: 100%; }
 
     .small-note{
       margin-top: 8px;
       font-size: 12px;
       opacity: 0.7;
+      line-height: 1.25;
     }
   </style>
 </head>
@@ -154,7 +152,7 @@
       <span>Year</span>
       <span id="yearValue">2010</span>
     </div>
-    <input type="range" id="yearSlider" min="2010" max="2025" value="2010">
+    <input type="range" id="yearSlider" min="2010" max="2025" value="2010" step="1">
     <div class="small-note">
       Non-project nodes appear only if linked to projects active in that year.
     </div>
@@ -175,7 +173,9 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(r => r.json())
     .then(data => {
 
-      const g = new Graph();
+      // ✅ MULTI GRAPH: allows multiple edges between same nodes
+      const g = new Graph({ multi: true });
+
       let currentYear = 2010;
       let running = true;
 
@@ -193,35 +193,52 @@ document.addEventListener("DOMContentLoaded", () => {
         "Protest","Education/Literacy","engaged art"
       ]);
 
+      // Nodes
       data.nodes.forEach(n => {
-        let m = n.attributes.metaType || "";
+        let m = n.attributes?.metaType || "";
         if (actionTypes.has(m)) m = "Kind of Action";
 
-        const raw = Number(n.attributes.size) || 1;
-        const size = Math.max(2, Math.min(18, Math.sqrt(raw) * 2));
+        const raw = Number(n.attributes?.size);
+        const safe = Number.isFinite(raw) ? raw : 1;
+        const size = Math.max(2, Math.min(18, Math.sqrt(safe) * 2));
+
+        const sY = Number(n.attributes?.startYear);
+        const eY = Number(n.attributes?.endYear);
 
         g.addNode(n.key, {
-          label: n.attributes.label,
-          x: Number(n.attributes.x),
-          y: Number(n.attributes.y),
+          label: n.attributes?.label || n.key,
+          x: Number(n.attributes?.x) || 0,
+          y: Number(n.attributes?.y) || 0,
           size,
-          color: colorMap[m],
+          color: colorMap[m] || "#000",
           metaType: m,
-          startYear: n.attributes.startYear ?? null,
-          endYear: n.attributes.endYear ?? null
+          startYear: Number.isFinite(sY) ? sY : null,
+          endYear: Number.isFinite(eY) ? eY : null
         });
       });
 
+      // Edges (grey; unique keys)
       data.edges.forEach((e, i) => {
-        g.addEdgeWithKey(
-          e.key || "e"+i,
-          e.source,
-          e.target,
-          { color: "#bdbdbd", size: 1 }
-        );
+        const k = e.key || `e_${i}_${e.source}_${e.target}`;
+        const attrs = {
+          color: "#bdbdbd",
+          size: Number(e.attributes?.weight) || 1
+        };
+
+        // In a multi graph we can always add edges between same endpoints,
+        // but keys still must be unique:
+        const key = g.hasEdge(k) ? `${k}_${i}` : k;
+
+        if (e.undirected) {
+          g.addUndirectedEdgeWithKey(key, e.source, e.target, attrs);
+        } else {
+          g.addEdgeWithKey(key, e.source, e.target, attrs);
+        }
       });
 
       const renderer = new Sigma(g, document.getElementById("container"));
+      renderer.setSetting("defaultEdgeColor", "#bdbdbd");
+      renderer.setSetting("edgeColor", "color");
 
       const fa2 = {
         linLogMode: true,
@@ -231,6 +248,7 @@ document.addEventListener("DOMContentLoaded", () => {
         slowDown: 1
       };
 
+      // Layout loop
       function loop() {
         if (running) {
           forceAtlas2.assign(g, { iterations: 2, settings: fa2 });
@@ -240,6 +258,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       loop();
 
+      // Periodic anti-overlap
       setInterval(() => {
         if (running) {
           noverlap.assign(g, { margin: 10, ratio: 1.1 });
@@ -247,22 +266,26 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }, 900);
 
-      document.getElementById("toggle").onclick = () => {
+      // Controls
+      const toggleBtn = document.getElementById("toggle");
+      toggleBtn.onclick = () => {
         running = !running;
-        document.getElementById("toggle").textContent =
-          running ? "⏸ Pause" : "▶ Resume";
+        toggleBtn.textContent = running ? "⏸ Pause" : "▶ Resume";
       };
 
       document.getElementById("noverlap").onclick = () => {
         running = false;
-        document.getElementById("toggle").textContent = "▶ Resume";
+        toggleBtn.textContent = "▶ Resume";
         noverlap.assign(g, { margin: 18, ratio: 1.35, speed: 4 });
         renderer.refresh();
       };
 
-      document.getElementById("yearSlider").oninput = e => {
+      // Year slider (kept simple here; your full emergence reducers can be re-added)
+      const yearSlider = document.getElementById("yearSlider");
+      const yearValue = document.getElementById("yearValue");
+      yearSlider.oninput = e => {
         currentYear = +e.target.value;
-        document.getElementById("yearValue").textContent = currentYear;
+        yearValue.textContent = currentYear;
         renderer.refresh();
       };
     });
