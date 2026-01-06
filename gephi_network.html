@@ -154,7 +154,7 @@
         <button id="noverlap">✨ Space</button>
         <button id="snapshot">📸 Save</button>
       </div>
-      <div class="hint">“Space” pauses and spreads clustered neighbors around projects.</div>
+      <div class="hint">Save exports the full rendered view (nodes + edges + labels).</div>
     </div>
 
     <div class="panel" id="filters">
@@ -196,6 +196,9 @@
         .then(data => {
           const g = new Graph();
 
+          // ----------------------------
+          // Helpers
+          // ----------------------------
           function truncateLabel(s, n = 20) {
             if (!s) return "";
             return s.length > n ? s.slice(0, n - 1) + "…" : s;
@@ -210,6 +213,9 @@
             document.body.removeChild(link);
           }
 
+          // ----------------------------
+          // Color map
+          // ----------------------------
           const colorMap = {
             Country: "rgb(102, 255, 255)",
             Project: "rgb(255, 102, 102)",
@@ -224,7 +230,9 @@
             "Protest", "Education/Literacy", "engaged art"
           ]);
 
-          // Nodes
+          // ----------------------------
+          // Add nodes
+          // ----------------------------
           data.nodes.forEach(n => {
             let m = n.attributes.metaType || "";
             if (actionTypes.has(m)) m = "Kind of Action";
@@ -250,7 +258,9 @@
             });
           });
 
-          // Edges
+          // ----------------------------
+          // Add edges (force grey)
+          // ----------------------------
           data.edges.forEach((e, i) => {
             const edgeKey = e.key || "e" + i;
             const edgeAttrs = {
@@ -270,19 +280,29 @@
             }
           });
 
-          // Renderer
+          // ----------------------------
+          // Renderer (IMPORTANT for snapshots)
+          // ----------------------------
           const container = document.getElementById("container");
-          const renderer = new Sigma(g, container);
+
+          // ✅ preserveDrawingBuffer makes WebGL layers capturable in PNG
+          const renderer = new Sigma(g, container, {
+            webglContextAttributes: { preserveDrawingBuffer: true }
+          });
 
           renderer.setSetting("defaultEdgeColor", "#bdbdbd");
           renderer.setSetting("edgeColor", "color");
+
+          // Labels: fewer by default
           renderer.setSetting("labelDensity", 0.08);
           renderer.setSetting("labelGridCellSize", 90);
           renderer.setSetting("labelRenderedSizeThreshold", 10);
 
           renderer.getCamera().animatedReset({ duration: 600 });
 
-          // State
+          // ----------------------------
+          // Shared state
+          // ----------------------------
           let currentYear = 2010;
           let running = true;
 
@@ -293,11 +313,14 @@
           let hoveredNode = null;
           let pinnedNode = null;
 
+          // Buttons
           const btn = document.getElementById("toggle");
           const noBtn = document.getElementById("noverlap");
           const snapshotBtn = document.getElementById("snapshot");
 
-          // Year + emergence
+          // ----------------------------
+          // Year + emergence logic
+          // ----------------------------
           function projectVisibleByYear(nodeId) {
             const t = g.getNodeAttribute(nodeId, "metaType");
             if (t !== "Project") return false;
@@ -314,10 +337,12 @@
             return false;
           }
 
-          // --- NEW: nudge neighbors around each active project to reduce stacking
+          // ----------------------------
+          // Reduce stacking around projects (optional but helpful)
+          // ----------------------------
           function nudgeProjectNeighborhoods() {
-            const push = 0.7;     // radial push strength
-            const tangK = 0.25;   // tangential spread
+            const push = 0.7;
+            const tangK = 0.25;
 
             g.forEachNode((p) => {
               if (g.getNodeAttribute(p, "metaType") !== "Project") return;
@@ -347,11 +372,9 @@
                 const rx = dx / norm;
                 const ry = dy / norm;
 
-                // Tangential unit vector
                 const tx = -ry;
                 const ty = rx;
 
-                // Alternate radial in/out; add small tangential spread
                 const radial = ((i % 2 === 0) ? 1 : -1) * push;
                 const tang = ((i % 5) - 2) * (push * tangK);
 
@@ -361,27 +384,33 @@
             });
           }
 
+          // ----------------------------
           // Reducers
+          // ----------------------------
           renderer.setSetting("nodeReducer", (node, data) => {
             const res = { ...data };
 
+            // type filter
             if (!activeTypes.has(data.metaType)) {
               res.hidden = true;
               return res;
             }
 
+            // projects visible in active year range
             if (data.metaType === "Project") {
               if (!projectVisibleByYear(node)) {
                 res.hidden = true;
                 return res;
               }
             } else {
+              // non-project visible only if linked to active project
               if (!hasActiveProjectNeighbor(node)) {
                 res.hidden = true;
                 return res;
               }
             }
 
+            // label strategy
             res.label = "";
             const isFocus = (node === hoveredNode || node === pinnedNode);
             if (isFocus) {
@@ -420,7 +449,9 @@
             return res;
           });
 
+          // ----------------------------
           // Hover/click labels
+          // ----------------------------
           renderer.on("enterNode", ({ node }) => { hoveredNode = node; renderer.refresh(); });
           renderer.on("leaveNode", () => { hoveredNode = null; renderer.refresh(); });
           renderer.on("clickNode", ({ node }) => {
@@ -429,7 +460,9 @@
           });
           renderer.on("clickStage", () => { pinnedNode = null; renderer.refresh(); });
 
-          // Filters
+          // ----------------------------
+          // Filters wiring
+          // ----------------------------
           document.querySelectorAll("#filters input").forEach(cb => {
             if (cb.value === "Project") cb.disabled = true;
             cb.addEventListener("change", () => {
@@ -439,7 +472,9 @@
             });
           });
 
-          // Year slider
+          // ----------------------------
+          // Year slider wiring
+          // ----------------------------
           const yearSlider = document.getElementById("yearSlider");
           const yearValue = document.getElementById("yearValue");
 
@@ -447,28 +482,39 @@
             currentYear = parseInt(yearSlider.value, 10);
             yearValue.textContent = String(currentYear);
 
-            // NEW: prevent immediate stacking when new nodes emerge
+            // help avoid immediate stacking on emergence
             nudgeProjectNeighborhoods();
 
             renderer.refresh();
           });
 
-          // Snapshot (composite layers)
+          // ----------------------------
+          // Snapshot (composite layers in correct order)
+          // ----------------------------
           function takeSnapshot({ pixelRatio = 2 } = {}) {
+            // Pause so layout doesn't change mid-export
             running = false;
             btn.textContent = "▶ Resume";
 
             const canvases = renderer.getCanvases();
-            const layers = Object.values(canvases)
-              .map(l => l instanceof HTMLCanvasElement ? l : l?.canvas)
+            const layersObj = canvases?.layers || canvases;
+
+            const ordered = [
+              layersObj.edges,
+              layersObj.nodes,
+              layersObj.labels,
+              layersObj.hovers
+            ]
+              .filter(Boolean)
+              .map(l => (l instanceof HTMLCanvasElement ? l : l.canvas))
               .filter(Boolean);
 
-            if (!layers.length) {
-              alert("Snapshot failed: no canvas layers found.");
+            if (!ordered.length) {
+              alert("Snapshot failed: no drawable canvas layers found.");
               return;
             }
 
-            const base = layers[0];
+            const base = ordered[0];
             const w = base.width;
             const h = base.height;
 
@@ -479,17 +525,21 @@
             const ctx = out.getContext("2d");
             ctx.scale(pixelRatio, pixelRatio);
 
+            // white background
             ctx.fillStyle = "#ffffff";
             ctx.fillRect(0, 0, w, h);
 
-            for (const layer of layers) ctx.drawImage(layer, 0, 0);
+            // draw layers
+            for (const layer of ordered) ctx.drawImage(layer, 0, 0);
 
             downloadURI(out.toDataURL("image/png"), `graph_${currentYear}.png`);
           }
 
           snapshotBtn.onclick = () => takeSnapshot({ pixelRatio: 2 });
 
+          // ----------------------------
           // Layout (movement + spacing)
+          // ----------------------------
           const fa2Settings = {
             linLogMode: true,
             outboundAttractionDistribution: true,
@@ -511,7 +561,7 @@
           }
           requestAnimationFrame(loop);
 
-          // Option A: stronger periodic noverlap (prevents project-neighbor stacking)
+          // Stronger periodic noverlap (prevents stacking around projects)
           setInterval(() => {
             if (running) {
               noverlap.assign(g, { margin: 10, ratio: 1.10, speed: 1 });
@@ -529,10 +579,8 @@
           noBtn.onclick = () => {
             running = false;
             btn.textContent = "▶ Resume";
-
             nudgeProjectNeighborhoods();
             noverlap.assign(g, { margin: 18, ratio: 1.35, speed: 4 });
-
             renderer.refresh();
           };
         });
