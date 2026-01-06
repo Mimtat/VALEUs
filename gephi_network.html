@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Interactive Gephi Diagram</title>
   <style>
     html, body {
@@ -28,21 +28,23 @@
     }
     #controls { top: 10px; left: 10px; }
     #filters { top: 60px; left: 10px; }
-    #yearControl { top: 220px; left: 10px; width: 200px; }
+    #yearControl { top: 220px; left: 10px; width: 220px; }
     label { display: block; margin: 2px 0; }
     input[type="checkbox"] { margin-right: 6px; }
     input[type="range"] { width: 100%; }
     button { margin: 2px 0; padding: 6px 10px; cursor: pointer; }
+    .hint { font-size: 12px; opacity: 0.75; margin-top: 6px; }
   </style>
 </head>
 <body>
   <div id="controls">
     <button id="toggle">⏸ Pause layout</button>
     <button id="noverlap">✨ De-overlap</button>
+    <div class="hint">Tip: De-overlap pauses the layout first.</div>
   </div>
 
   <div id="filters">
-    <strong>Filter by type:</strong><br>
+    <strong>Filter by type:</strong><br />
     <label><input type="checkbox" value="Country" checked> Country</label>
     <label><input type="checkbox" value="Project" checked disabled> Project</label>
     <label><input type="checkbox" value="Addressee" checked> Addressee</label>
@@ -53,7 +55,10 @@
 
   <div id="yearControl">
     <strong>Year:</strong> <span id="yearValue">2010</span>
-    <input type="range" id="yearSlider" min="2010" max="2025" value="2010" step="1">
+    <input type="range" id="yearSlider" min="2010" max="2025" value="2010" step="1" />
+    <div class="hint">
+      Non-project nodes appear when linked to projects started by the selected year.
+    </div>
   </div>
 
   <div id="container"></div>
@@ -70,77 +75,117 @@
         .then(data => {
           const g = new Graph();
 
+          // ----------------------------
+          // Helpers
+          // ----------------------------
+          function truncateLabel(s, n = 20) {
+            if (!s) return "";
+            return s.length > n ? s.slice(0, n - 1) + "…" : s;
+          }
+
+          // ----------------------------
           // Color map
+          // ----------------------------
           const colorMap = {
-  Country: "rgb(102, 255, 255)",
-  Project: "rgb(255, 102, 102)",
-  Organization: "rgb(102, 102, 255)",
-  Addressee: "rgb(255, 255, 102)",
-  "Action Domain": "rgb(255, 102, 255)",
-  "Kind of Action": "rgb(102, 255, 102)" // ✅ New unified color
-};
+            Country: "rgb(102, 255, 255)",
+            Project: "rgb(255, 102, 102)",
+            Organization: "rgb(102, 102, 255)",
+            Addressee: "rgb(255, 255, 102)",
+            "Action Domain": "rgb(255, 102, 255)",
+            "Kind of Action": "rgb(102, 255, 102)"
+          };
 
-          // Add nodes
+          // Nodes that should be grouped under "Kind of Action"
           const actionTypes = new Set([
-  "Research", "Monitoring", "Capacity Building", "Advocacy",
-  "Protest", "Education/Literacy", "engaged art"
-]);
+            "Research", "Monitoring", "Capacity Building", "Advocacy",
+            "Protest", "Education/Literacy", "engaged art"
+          ]);
 
-data.nodes.forEach(n => {
-  let m = n.attributes.metaType || "";
-  if (actionTypes.has(m)) m = "Kind of Action";
+          // ----------------------------
+          // Add nodes
+          // ----------------------------
+          data.nodes.forEach(n => {
+            let m = n.attributes.metaType || "";
+            if (actionTypes.has(m)) m = "Kind of Action";
 
-  const col = colorMap[m] || "rgb(0,0,0)";
+            const col = colorMap[m] || "rgb(0,0,0)";
 
-  // ✅ compute scaled size BEFORE addNode
-  const rawSize = Number(n.attributes.size);
-  const safeRawSize = Number.isFinite(rawSize) ? rawSize : 1;
-  const scaledSize = Math.max(2, Math.min(18, Math.sqrt(safeRawSize) * 2));
+            const rawSize = Number(n.attributes.size);
+            const safeRawSize = Number.isFinite(rawSize) ? rawSize : 1;
+            const scaledSize = Math.max(2, Math.min(18, Math.sqrt(safeRawSize) * 2));
 
-  g.addNode(n.key, {
-    label: n.attributes.label,
-    x: Number(n.attributes.x),
-    y: Number(n.attributes.y),
-    size: scaledSize,          // ✅ only the property changes
-    color: col,
-    metaType: m,
-    startYear: n.attributes.startYear || null,
-    endYear: n.attributes.endYear || null
-  });
-});
+            // Parse years defensively (avoid string comparisons)
+            const sY = Number(n.attributes.startYear);
+            const eY = Number(n.attributes.endYear);
 
+            g.addNode(n.key, {
+              label: n.attributes.label,
+              x: Number(n.attributes.x),
+              y: Number(n.attributes.y),
+              size: scaledSize,
+              color: col,
+              metaType: m,
+              startYear: Number.isFinite(sY) ? sY : null,
+              endYear: Number.isFinite(eY) ? eY : null
+            });
+          });
 
-          // ➕ Edges
-data.edges.forEach((e, i) => {
-  const edgeKey = e.key || "e" + i;
-  const edgeAttrs = {
-    size: Number(e.attributes?.weight) || 1,
-    color: e.attributes?.color || "#ccc",
-    label: e.attributes?.relation || ""
-  };
+          // ----------------------------
+          // Add edges (force grey)
+          // ----------------------------
+          data.edges.forEach((e, i) => {
+            const edgeKey = e.key || "e" + i;
+            const edgeAttrs = {
+              size: Number(e.attributes?.weight) || 1,
+              color: "#bdbdbd", // ✅ always grey
+              label: e.attributes?.relation || ""
+            };
 
-  if (e.undirected) {
-    if (!g.hasUndirectedEdge(e.source, e.target)) {
-      g.addUndirectedEdgeWithKey(edgeKey, e.source, e.target, edgeAttrs);
-    }
-  } else {
-    if (!g.hasEdge(e.source, e.target)) {
-      g.addEdgeWithKey(edgeKey, e.source, e.target, edgeAttrs);
-    }
-  }
-});
+            if (e.undirected) {
+              if (!g.hasUndirectedEdge(e.source, e.target)) {
+                g.addUndirectedEdgeWithKey(edgeKey, e.source, e.target, edgeAttrs);
+              }
+            } else {
+              if (!g.hasEdge(e.source, e.target)) {
+                g.addEdgeWithKey(edgeKey, e.source, e.target, edgeAttrs);
+              }
+            }
+          });
 
-
+          // ----------------------------
+          // Renderer
+          // ----------------------------
           const container = document.getElementById("container");
           const renderer = new Sigma(g, container);
-renderer.getCamera().animatedReset({ duration: 600 });
 
-          // ForceAtlas2 continuous
+          // ✅ Edge appearance
+          renderer.setSetting("defaultEdgeColor", "#bdbdbd");
+          renderer.setSetting("edgeColor", "color");
+
+          // (Optional) keep edges visible but light
+          // renderer.setSetting("edgeLabelSize", 10);
+
+          renderer.getCamera().animatedReset({ duration: 600 });
+
+          // ----------------------------
+          // Layout (ForceAtlas2 tuned)
+          // ----------------------------
           let running = true;
-          const settings = { slowDown: 50 };
+
+          const fa2Settings = {
+            linLogMode: true,
+            outboundAttractionDistribution: true,
+            adjustSizes: true,
+            strongGravityMode: false,
+            gravity: 0.2,
+            scalingRatio: 25,  // ✅ increase for more spacing
+            slowDown: 5        // ✅ lower = more responsive
+          };
+
           function loop() {
             if (running) {
-              forceAtlas2.assign(g, { iterations: 1, settings });
+              forceAtlas2.assign(g, { iterations: 1, settings: fa2Settings });
+              renderer.refresh();
             }
             requestAnimationFrame(loop);
           }
@@ -153,15 +198,22 @@ renderer.getCamera().animatedReset({ duration: 600 });
             btn.textContent = running ? "⏸ Pause layout" : "▶ Resume layout";
           };
 
-          // De-overlap
+          // De-overlap (pause first so it "sticks")
           const noBtn = document.getElementById("noverlap");
           noBtn.onclick = () => {
-            noverlap.assign(g, { margin: 5, ratio: 1.0 });
+            running = false;
+            btn.textContent = "▶ Resume layout";
+            noverlap.assign(g, { margin: 8, ratio: 1.2, speed: 3 });
             renderer.refresh();
           };
 
-          // Filtering
-          let activeTypes = new Set(["Country","Project","Addressee","Organization","Action Domain","Kind of Action"]);
+          // ----------------------------
+          // Filtering controls
+          // ----------------------------
+          let activeTypes = new Set([
+            "Country", "Project", "Addressee", "Organization", "Action Domain", "Kind of Action"
+          ]);
+
           document.querySelectorAll("#filters input").forEach(cb => {
             if (cb.value === "Project") cb.disabled = true;
             cb.addEventListener("change", () => {
@@ -171,7 +223,9 @@ renderer.getCamera().animatedReset({ duration: 600 });
             });
           });
 
+          // ----------------------------
           // Year slider
+          // ----------------------------
           let currentYear = 2010;
           const yearSlider = document.getElementById("yearSlider");
           const yearValue = document.getElementById("yearValue");
@@ -182,18 +236,69 @@ renderer.getCamera().animatedReset({ duration: 600 });
             renderer.refresh();
           });
 
-          // Reducers
+          // ----------------------------
+          // Emergence logic
+          // ----------------------------
+          // CUMULATIVE emergence: show neighbors if linked to any project started by currentYear
+          function isProjectStarted(nodeId) {
+            const t = g.getNodeAttribute(nodeId, "metaType");
+            if (t !== "Project") return false;
+            const sY = g.getNodeAttribute(nodeId, "startYear");
+            return Number.isFinite(sY) && sY <= currentYear;
+          }
+
+          function isProjectActive(nodeId) {
+            const t = g.getNodeAttribute(nodeId, "metaType");
+            if (t !== "Project") return false;
+            const sY = g.getNodeAttribute(nodeId, "startYear");
+            const eY = g.getNodeAttribute(nodeId, "endYear");
+            if (!Number.isFinite(sY) || !Number.isFinite(eY)) return false;
+            return sY <= currentYear && currentYear <= eY;
+          }
+
+          function hasVisibleProjectNeighbor(nodeId) {
+            const useCumulative = true; // set false if you want "active-only"
+            const neighbors = g.neighbors(nodeId);
+            for (const nb of neighbors) {
+              if (useCumulative ? isProjectStarted(nb) : isProjectActive(nb)) return true;
+            }
+            return false;
+          }
+
+          function projectVisibleByYear(nodeId) {
+            const sY = g.getNodeAttribute(nodeId, "startYear");
+            const eY = g.getNodeAttribute(nodeId, "endYear");
+            return Number.isFinite(sY) && Number.isFinite(eY) && sY <= currentYear && currentYear <= eY;
+          }
+
+          // ----------------------------
+          // Reducers (labels + types + year + emergence)
+          // ----------------------------
           renderer.setSetting("nodeReducer", (node, data) => {
             const res = { ...data };
 
+            // ✅ short labels
+            res.label = truncateLabel(data.label, 20);
+
+            // Type filter
             if (!activeTypes.has(data.metaType)) {
               res.hidden = true;
+              return res;
             }
 
+            // Project visibility (year filter)
             if (data.metaType === "Project") {
-              if (!(data.startYear <= currentYear && currentYear <= data.endYear)) {
+              if (!projectVisibleByYear(node)) {
                 res.hidden = true;
+                return res;
               }
+              return res;
+            }
+
+            // Emergence: non-project nodes appear only if linked to relevant projects
+            if (!hasVisibleProjectNeighbor(node)) {
+              res.hidden = true;
+              return res;
             }
 
             return res;
@@ -201,28 +306,46 @@ renderer.getCamera().animatedReset({ duration: 600 });
 
           renderer.setSetting("edgeReducer", (edge, data) => {
             const res = { ...data };
+            res.color = "#bdbdbd"; // ✅ always grey
+
             const src = g.source(edge);
             const tgt = g.target(edge);
+
             const srcType = g.getNodeAttribute(src, "metaType");
             const tgtType = g.getNodeAttribute(tgt, "metaType");
 
+            // Type filter
             if (!activeTypes.has(srcType) || !activeTypes.has(tgtType)) {
               res.hidden = true;
+              return res;
             }
 
-            if (srcType === "Project") {
-              const sY = g.getNodeAttribute(src, "startYear");
-              const eY = g.getNodeAttribute(src, "endYear");
-              if (!(sY <= currentYear && currentYear <= eY)) res.hidden = true;
+            // Project year filter (if either endpoint is a project)
+            if (srcType === "Project" && !projectVisibleByYear(src)) {
+              res.hidden = true;
+              return res;
             }
-            if (tgtType === "Project") {
-              const sY = g.getNodeAttribute(tgt, "startYear");
-              const eY = g.getNodeAttribute(tgt, "endYear");
-              if (!(sY <= currentYear && currentYear <= eY)) res.hidden = true;
+            if (tgtType === "Project" && !projectVisibleByYear(tgt)) {
+              res.hidden = true;
+              return res;
+            }
+
+            // Emergence: if an endpoint is non-project but not connected to visible projects, hide
+            if (srcType !== "Project" && !hasVisibleProjectNeighbor(src)) {
+              res.hidden = true;
+              return res;
+            }
+            if (tgtType !== "Project" && !hasVisibleProjectNeighbor(tgt)) {
+              res.hidden = true;
+              return res;
             }
 
             return res;
           });
+
+          // Optional: auto-stop layout after a few seconds (more "Gephi-like")
+          // setTimeout(() => { running = false; btn.textContent = "▶ Resume layout"; }, 5000);
+
         });
     });
   </script>
