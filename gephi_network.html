@@ -16,16 +16,26 @@
       height: 100vh;
       background: #ffffff;
     }
-    #controls, #filters, #yearControl {
-      position: fixed;
-      z-index: 9999;
-      background: rgba(255,255,255,0.95);
-      padding: 8px 12px;
-      border-radius: 6px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      font-family: sans-serif;
-      font-size: 14px;
-    }
+   #sidebar {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 9999;
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.panel {
+  background: rgba(255,255,255,0.95);
+  padding: 10px 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
     #controls { top: 10px; left: 10px; }
     #filters { top: 60px; left: 10px; }
     #yearControl { top: 220px; left: 10px; width: 220px; }
@@ -37,15 +47,15 @@
   </style>
 </head>
 <body>
-  <div id="controls">
+ <div id="sidebar">
+  <div id="controls" class="panel">
     <button id="toggle">⏸ Pause layout</button>
     <button id="noverlap">✨ De-overlap</button>
     <button id="snapshot">📸 Snapshot</button>
-    <div class="hint">Tip: De-overlap pauses the layout first.</div>
   </div>
 
-  <div id="filters">
-    <strong>Filter by type:</strong><br />
+  <div id="filters" class="panel">
+    <strong>Filter by type:</strong><br>
     <label><input type="checkbox" value="Country" checked> Country</label>
     <label><input type="checkbox" value="Project" checked disabled> Project</label>
     <label><input type="checkbox" value="Addressee" checked> Addressee</label>
@@ -54,13 +64,14 @@
     <label><input type="checkbox" value="Kind of Action" checked> Kind of Action</label>
   </div>
 
-  <div id="yearControl">
+  <div id="yearControl" class="panel">
     <strong>Year:</strong> <span id="yearValue">2010</span>
-    <input type="range" id="yearSlider" min="2010" max="2025" value="2010" step="1" />
-    <div class="hint">
-      Non-project nodes appear when linked to projects started by the selected year.
+    <input type="range" id="yearSlider" min="2010" max="2025" value="2010" step="1">
+    <div style="font-size:12px; opacity:.75; margin-top:6px;">
+      Non-project nodes appear only if linked to active projects in that year.
     </div>
   </div>
+</div>
 
   <div id="container"></div>
 
@@ -156,34 +167,6 @@
         // ----------------------------
         const container = document.getElementById("container");
         const renderer = new Sigma(g, container);
-        const snapshotBtn = document.getElementById("snapshot");
-
-snapshotBtn.onclick = () => {
-  running = false;
-  btn.textContent = "▶ Resume layout";
-
-  const pixelRatio = 2; // try 3 for very high res
-
-  const canvas = renderer.getCanvases().layers.nodes;
-  const tmpCanvas = document.createElement("canvas");
-  tmpCanvas.width = canvas.width * pixelRatio;
-  tmpCanvas.height = canvas.height * pixelRatio;
-
-  const ctx = tmpCanvas.getContext("2d");
-  ctx.scale(pixelRatio, pixelRatio);
-  ctx.drawImage(canvas, 0, 0);
-
-  const dataURL = tmpCanvas.toDataURL("image/png");
-
-  const link = document.createElement("a");
-  link.href = dataURL;
-  link.download = `graph_${currentYear}_hires.png`;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-};
-
-
         renderer.setSetting("defaultEdgeColor", "#bdbdbd");
         renderer.setSetting("edgeColor", "color");
 
@@ -193,6 +176,62 @@ snapshotBtn.onclick = () => {
         renderer.setSetting("labelRenderedSizeThreshold", 10);
 
         renderer.getCamera().animatedReset({ duration: 600 });
+       
+        let currentYear = 2010;
+        let running = true; 
+        
+        const btn = document.getElementById("toggle");
+       const snapshotBtn = document.getElementById("snapshot");
+
+function downloadURI(uri, name) {
+  const link = document.createElement("a");
+  link.href = uri;
+  link.download = name;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+function takeSnapshot({ pixelRatio = 2 } = {}) {
+  // Pause so it doesn't change mid-export
+  running = false;
+  btn.textContent = "▶ Resume layout";
+
+  const canvases = renderer.getCanvases();
+  const layers = Object.values(canvases)
+    .map(l => l instanceof HTMLCanvasElement ? l : l?.canvas)
+    .filter(Boolean);
+
+  if (!layers.length) {
+    alert("Snapshot failed: no canvas layers found.");
+    return;
+  }
+
+  const base = layers[0];
+  const w = base.width;
+  const h = base.height;
+
+  const out = document.createElement("canvas");
+  out.width = w * pixelRatio;
+  out.height = h * pixelRatio;
+
+  const ctx = out.getContext("2d");
+  ctx.scale(pixelRatio, pixelRatio);
+
+  // white background
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, w, h);
+
+  // draw all layers
+  for (const layer of layers) ctx.drawImage(layer, 0, 0);
+
+  downloadURI(out.toDataURL("image/png"), `graph_${currentYear}.png`);
+}
+
+snapshotBtn.onclick = () => takeSnapshot({ pixelRatio: 2 });
+
+
+        
 
         // ----------------------------
         // UI state
@@ -200,8 +239,6 @@ snapshotBtn.onclick = () => {
         let activeTypes = new Set([
           "Country", "Project", "Addressee", "Organization", "Action Domain", "Kind of Action"
         ]);
-
-        let currentYear = 2010;
 
         // Hover/click label state
         let hoveredNode = null;
