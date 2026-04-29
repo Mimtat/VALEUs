@@ -516,10 +516,14 @@ This diagram illustrates the connections between different organizations, Action
   return data.count ?? data.Count ?? data.value ?? data.Value ?? "-";
 }
 
+function extractCount(data) {
+  return data?.data?.up_count ?? data?.value ?? "-";
+}
+
 async function incrementCounter(key, elementId) {
   try {
     const response = await fetch(
-      `https://counterapi.dev/api/valeus-project/${key}/up`
+      `https://api.counterapi.dev/v2/valeus-project/${key}/up`
     );
 
     const data = await response.json();
@@ -536,7 +540,7 @@ async function incrementCounter(key, elementId) {
 async function getCounter(key, elementId) {
   try {
     const response = await fetch(
-      `https://counterapi.dev/api/valeus-project/${key}/`
+      `https://api.counterapi.dev/v2/valeus-project/${key}`
     );
 
     const data = await response.json();
