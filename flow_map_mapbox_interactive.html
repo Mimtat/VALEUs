@@ -4,14 +4,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Flow Map – Organizations by Category (Clustered)</title>
+
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <link rel="icon" href="data:,">
+
   <style>
     html, body { height: 100%; margin: 0; }
     #map { height: 100%; width: 100%; }
+
     .control-panel {
       position: absolute;
       top: 12px;
@@ -26,6 +28,7 @@
       overflow: auto;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
     }
+
     .legend-list { list-style: none; margin: 0; padding: 0; font-size: 13px; }
     .legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
     .swatch { width: 14px; height: 14px; border-radius: 4px; border: 1px solid rgba(0,0,0,.15); }
@@ -35,10 +38,9 @@
     .leaflet-control.custom-fit { background: #fff; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,.12); }
     .fit-btn { display:block; padding:8px 10px; font-size:12px; cursor:pointer; border:none; background:transparent; }
     .fit-btn:hover { background:#f5f5f5; }
-
-    
   </style>
 </head>
+
 <body>
   <div id="map"></div>
 
@@ -48,23 +50,21 @@
 
     <h3>Filter & Legend</h3>
     <div class="search-box">
-      <input type="text" id="search" placeholder="Search organization…"
-        style="width:100%; padding:6px; border-radius:8px; border:1px solid #ccc;"/>
+      <input type="text" id="search" placeholder="Search organization…" style="width:100%; padding:6px; border-radius:8px; border:1px solid #ccc;"/>
     </div>
     <ul class="legend-list" id="legend"></ul>
     <div class="footer-note">Pin color = Primary category. Filtering applies to any of an org's categories. Use the ⤢ button to zoom to all pins.</div>
-
   </div>
 
-  <script>
-    // ── Map setup ─────────────────────────────────────────────────────────
-    const map = L.map('map', { zoomSnap: 0.25, zoomDelta: 0.5 }).setView([48.5, 12.0], 4);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
-    // ── Categories + colors ────────────────────────────────────────────────
+  <script>
+    // Map
+    const map = L.map('map', { zoomSnap: 0.25, zoomDelta: 0.5 }).setView([48.5, 12.0], 4);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
+
+    // Categories + colors
     const CAT_COLORS = {
       'Democracy': '#2F6BFF',
       'Human/Fundamental rights': '#7A3FF2',
@@ -79,7 +79,7 @@
       'other': '#000000'
     };
 
-    // ── City → lat,lng ─────────────────────────────────────────────────────
+    // City → lat,lng
     const CITY_LL = {
       'Ankara,Turkey':[39.9255,32.8663],'Istanbul,Turkey':[41.0151,28.9795],'Brussels,Belgium':[50.8505,4.3488],
       'Arlington,United States of America':[38.8810,-77.1043],'Alexandria,Egypt':[31.2058,29.9245],'Paris,France':[48.8647,2.3490],
@@ -95,10 +95,9 @@
       'Santiago,Chile':[-33.4569,-70.6483],'Kyoto,Japan':[35.0211,135.7539],'Zagreb,Croatia':[45.8144,15.9780],
       'Astana (Nur-Sultan),Kazakhstan':[51.1694,71.4491],'Belgrade,Serbia':[44.8040,20.4651],'Firenze (dup of Florence),Italy':[43.7793,11.2463],
       'Barcelona,Spain':[41.3888,2.1590],'Campi Bisenzio,Italy':[43.8245,11.1303],'Pittsburgh,United States of America':[40.4406,-79.9959],
-      'Frankfurt (Oder),Germany':[52.3472,14.5506],'Bogotá,Colombia':[4.5981,-74.0799],'Medellín,Colombia':[6.2502,-75.5676]
+      'Frankfurt (Oder),Germany': [52.3472, 14.5506],'Bogotá,Colombia':[4.5981, -74.0799],'Medellín,Colombia':[6.2502, -75.5676]
     };
 
-    // ── Normalizers ────────────────────────────────────────────────────────
     const normalize = {
       city(c){
         if(!c) return c;
@@ -147,7 +146,7 @@
       }
     };
 
-    // ── Inline CSV data ────────────────────────────────────────────────────
+    // Build data from inline CSV
     const CSV = `Name of Organization;City;Country;Website;Primary Category;Secondary Category;Third Category
 The Association of Civil Society Development Center ;Ankara;Turkey;https://www.sivilsesler.org/;Trade/Economy;;
 Turkish Economic and Social Studies Foundation ;Istanbul;Turkey;https://www.tesev.org.tr/en/home/;Democracy;;
@@ -185,7 +184,7 @@ Casa della Donna Firenze;Pisa;Italy;https://casadelledonnefirenze.it/;Human/Fund
 Nosotras para Ellas A.C.;Florence;Italy;https://www.girlsnotbrides.org/our-partnership/member-directory/nosotras-para-ellas-ac/;Human/Fundamental rights;;
 EuropaNow;Rome;Italy; https://www.europanow.eu/;Conflict/War;Democracy;Human/Fundamental rights
 Europe Must Act;Athens;Greece;https://www.europemustact.org/;Migration;;
-From the Sea to the City – "A consortium of civil society organizations for a welcoming Europe";Palermo;Italy;https://fromseatocity.eu/;Human/Fundamental rights;Migration;
+From the Sea to the City – “A consortium of civil society organizations for a welcoming Europe”;Palermo;Italy;https://fromseatocity.eu/;Human/Fundamental rights;Migration;
 Recosol (Rete dei Comuni Solidali Italy);Carmagnola;Italy;https://www.comunitasolidali.org/;other;;
 Eastern Partnership Civil Society Forum;Brussels;Belgium; https://eap-csf.eu/;other;;
 Legal Policy Research Center;Almaty;Kazakhestan;https://lprc.kz/en/home/;Human/Fundamental rights;;
@@ -225,7 +224,7 @@ Save the Children Denmark (Red Barnet);Copenhagen;Denmark;https://redbarnet.dk/s
 South-East Europe Media Organization (SEEMO);Vienna;Austria;https://seemo.org/;digital media;Human/Fundamental rights;
 International Press Institute (IPI);Vienna;Austria;https://ipi.media/;digital media;Human/Fundamental rights;
 Spanish federation of journalists' association (FAPE);Madrid;Spain;https://fape.es/;digital media;Human/Fundamental rights;
-Swedish Federation for Lesbian Gay Bisexual and Transgender Rights (Riksförbundet för homosexuellas bisexuellas transpersoners queeras och intersexpersoners rättigheter RFSL);Stockholm;Sweden;https://www.rfsl.se/en/;Human/Fundamental rights;;
+Swedish Federation for Lesbian Gay Bisexual and Transgender Rights (Riksförbundet für homosexuellas bisexuellas transpersoners queeras och intersexpersoners rättigheter RFSL);Stockholm;Sweden;https://www.rfsl.se/en/;Human/Fundamental rights;;
 Stockholm Pride;Stockholm;Sweden;https://www.stockholmpride.org/en/;Human/Fundamental rights;;
 The Nobel Foundation (Nobelstiftelsen);Stockholm;Sweden;https://www.nobelprize.org/the-nobel-prize-organisation/the-nobel-foundation/;Human/Fundamental rights;;
 Themis Judges' Association (Stowarzyszenie Sędziów Themis);Warsaw;Poland;https://themis-sedziowie.eu/statut/;Human/Fundamental rights;;
@@ -255,7 +254,7 @@ COSPE ETS;Firenze (dup of Florence);Italy;https://www.cospe.org/;Migration;Confl
 Research & Degrowth International;Barcelona;Spain;https://degrowth.org;Energy/Climate/Sustainability;;
 Collettivo Di Fabbrica - Lavoratori Gkn Firenze;Campi Bisenzio;Italy;https://insorgiamo.org;Energy/Climate/Sustainability;Trade/economy;
 DiEM25;Brussels;Belgium;https://diem25.org/;Energy/Climate/Sustainability;Trade/economy;
-YUCOM: Lawyers' Committee for Human Rights;Belgrade;Serbia;https://yucom.org.rs/en/home/;Human/Fundamental rights;;
+YUCOM: Lawyers’ Committee for Human Rights;Belgrade;Serbia;https://yucom.org.rs/en/home/;Human/Fundamental rights;;
 Kazakhstan International Bureau for Human Rights and Rule of Law;Almaty;Kazakhestan;https://bureau.kz/en/;Human/Fundamental rights;;
 VoxUkraine;Kyiv;Ukraine;https://voxukraine.org/en/;Democracy;Human/Fundamental rights;Digital Technology
 The "New Europe Center";Kyiv;Ukraine;https://neweurope.org.ua/en/;Democracy;Human/Fundamental rights;Conflict/War
@@ -268,24 +267,34 @@ Fundación Lazos de Dignidad;Bogotá;Colombia;https://www.lazosdedignidad.org/;C
 Conciudadanía;Medellín;Colombia;https://conciudadania.org/;Energy/Climate/Sustainability;Democracy;Human/Fundamental rights
 Europe without Barriers;Kyiv;Ukraine;https://english.europewb.org.ua/;Democracy;Human/Fundamental rights;Trade/economy`;
 
-    // ── Parse CSV ──────────────────────────────────────────────────────────
+    // Parse and build org objects
     const organizations = [];
     const lines = CSV.split(/\n/).filter(Boolean);
-    lines.shift(); // remove header
+    lines.shift();
+
     lines.forEach(line => {
       const parts = line.split(/;|\t/).map(x => x.trim());
       const [name, rawCity, rawCountry, website, p, s, t] = parts;
-      const city    = normalize.city(rawCity);
+      const city = normalize.city(rawCity);
       const country = normalize.country(rawCountry);
-      const key     = `${city},${country}`;
-      const ll      = CITY_LL[key];
-      if (!ll) return;
-      const cats    = [normalize.cat(p), normalize.cat(s), normalize.cat(t)].filter(Boolean);
+      const key = `${city},${country}`;
+      const ll = CITY_LL[key];
+      if(!ll) return;
+
+      const cats = [normalize.cat(p), normalize.cat(s), normalize.cat(t)].filter(Boolean);
       const primary = cats[0] || 'other';
-      organizations.push({ name, city, country, latlng: ll, website: normalize.url(website), categories: cats, primary });
+
+      organizations.push({
+        name,
+        city,
+        country,
+        latlng: ll,
+        website: normalize.url(website),
+        categories: cats,
+        primary
+      });
     });
 
-    // ── Marker factory ─────────────────────────────────────────────────────
     function makeDivIcon(color){
       const div = document.createElement('div');
       div.className = 'marker-dot';
@@ -293,51 +302,66 @@ Europe without Barriers;Kyiv;Ukraine;https://english.europewb.org.ua/;Democracy;
       return L.divIcon({ className: '', html: div.outerHTML, iconSize: [16,16], iconAnchor: [8,8] });
     }
 
-    // ── Cluster group ──────────────────────────────────────────────────────
-    const cluster = L.markerClusterGroup({ spiderfyOnMaxZoom: true, showCoverageOnHover: false, maxClusterRadius: 45 });
+    const cluster = L.markerClusterGroup({
+      spiderfyOnMaxZoom:true,
+      showCoverageOnHover:false,
+      maxClusterRadius: 45
+    });
+
     map.addLayer(cluster);
 
-    // ── Render markers ─────────────────────────────────────────────────────
     let allMarkers = [];
+
     function render(data){
       cluster.clearLayers();
+
       allMarkers = data.map(o => {
         const icon = makeDivIcon(CAT_COLORS[o.primary] || CAT_COLORS['other']);
         const m = L.marker(o.latlng, { icon });
         m.bindTooltip(o.name);
+
         const catsText = o.categories.join(', ') || 'other';
         const link = o.website
           ? `<a href="${o.website}" target="_blank" rel="noopener">${o.website}</a>`
           : '<em>No website</em>';
+
         m.bindPopup(`
           <div style="font-weight:700; font-size:14px; margin-bottom:4px;">${o.name}</div>
           <div style="margin-bottom:6px; font-size:12px; color:#444;">${o.city}, ${o.country}</div>
           <div style="margin-bottom:6px;">${link}</div>
-          <div style="font-size:12px; color:#333;"><strong>Categories:</strong> ${catsText}</div>`);
+          <div style="font-size:12px; color:#333;"><strong>Categories:</strong> ${catsText}</div>
+        `);
+
         m.__data = o;
         return m;
       });
+
       cluster.addLayers(allMarkers);
       fitAll();
     }
 
-    // ── Legend + filters ───────────────────────────────────────────────────
     const legendEl = document.getElementById('legend');
-    const ALL_CATS = Array.from(new Set(organizations.flatMap(o => o.categories.length ? o.categories : ['other']))).sort();
+    const ALL_CATS = Array.from(new Set(
+      organizations.flatMap(o => o.categories.length ? o.categories : ['other'])
+    )).sort();
 
     ALL_CATS.forEach(cat => {
       const li = document.createElement('li');
       li.className = 'legend-item';
+
       const cb = document.createElement('input');
       cb.type = 'checkbox';
       cb.checked = true;
       cb.dataset.cat = cat;
       cb.addEventListener('change', applyFilters);
+
       const sw = document.createElement('span');
       sw.className = 'swatch';
       sw.style.background = CAT_COLORS[cat] || CAT_COLORS['other'];
+
       const label = document.createElement('span');
       label.textContent = ' ' + cat;
+
       li.appendChild(sw);
       li.prepend(cb);
       li.appendChild(label);
@@ -348,17 +372,21 @@ Europe without Barriers;Kyiv;Ukraine;https://english.europewb.org.ua/;Democracy;
 
     function applyFilters(){
       const q = document.getElementById('search').value.trim().toLowerCase();
-      const activeCats = Array.from(document.querySelectorAll('#legend input[type="checkbox"]:checked')).map(x => x.dataset.cat);
+      const activeCats = Array.from(document.querySelectorAll('#legend input[type="checkbox"]:checked'))
+        .map(x => x.dataset.cat);
+
       const filtered = organizations.filter(o =>
         (!q || o.name.toLowerCase().includes(q)) &&
-        (o.categories.length ? o.categories.some(c => activeCats.includes(c)) : activeCats.includes('other'))
+        (o.categories.length
+          ? o.categories.some(c => activeCats.includes(c))
+          : activeCats.includes('other'))
       );
+
       render(filtered);
     }
 
-    // ── Fit-all control ────────────────────────────────────────────────────
     function fitAll(){
-      if (!allMarkers.length) return;
+      if(!allMarkers.length) return;
       const fg = L.featureGroup(allMarkers);
       try { map.fitBounds(fg.getBounds().pad(0.15)); } catch(e) {}
     }
@@ -371,32 +399,35 @@ Europe without Barriers;Kyiv;Ukraine;https://english.europewb.org.ua/;Democracy;
         btn.type = 'button';
         btn.title = 'Zoom to show all organizations';
         btn.innerHTML = '⤢ Show all';
-        L.DomEvent.on(btn, 'click', (e) => { L.DomEvent.stop(e); fitAll(); });
+        L.DomEvent.on(btn, 'click', (e) => {
+          L.DomEvent.stop(e);
+          fitAll();
+        });
         return div;
       }
     });
+
     map.addControl(new FitControl());
 
-    // ── Initial render ─────────────────────────────────────────────────────
     render(organizations);
 
-    // ── Collapse / expand filter panel ─────────────────────────────────────
-    const panel     = document.querySelector('.control-panel');
+    const panel = document.querySelector('.control-panel');
     const toggleBtn = document.getElementById('toggle-panel');
-    let collapsed   = false;
+    let collapsed = false;
+
     toggleBtn.addEventListener('click', () => {
       collapsed = !collapsed;
+
       if (collapsed) {
-        panel.style.height   = '40px';
+        panel.style.height = '40px';
         panel.style.overflow = 'hidden';
         toggleBtn.textContent = '+';
       } else {
-        panel.style.height   = '';
+        panel.style.height = '';
         panel.style.overflow = 'auto';
         toggleBtn.textContent = '−';
       }
     });
-      ();
   </script>
 </body>
 </html>
