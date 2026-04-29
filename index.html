@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ValEUs – Civil Society EU Engagement Visualisations</title>
-
+<link rel="icon" href="data:,">
   <style>
     :root{
       /* ValEUs palette (from identity manual) */
@@ -512,16 +512,21 @@ This diagram illustrates the connections between different organizations, Action
       btn.textContent = isOpen ? 'More' : 'Less';
     });
   });
-  async function incrementCounter(key, elementId) {
+  function extractCount(data) {
+  return data.count ?? data.Count ?? data.value ?? data.Value ?? "-";
+}
+
+async function incrementCounter(key, elementId) {
   try {
     const response = await fetch(
       `https://counterapi.dev/api/valeus-project/${key}/up`
     );
 
     const data = await response.json();
+    const count = extractCount(data);
 
     document.getElementById(elementId).textContent =
-      data.count.toLocaleString();
+      count === "-" ? "-" : Number(count).toLocaleString();
 
   } catch (error) {
     document.getElementById(elementId).textContent = "-";
@@ -535,9 +540,10 @@ async function getCounter(key, elementId) {
     );
 
     const data = await response.json();
+    const count = extractCount(data);
 
     document.getElementById(elementId).textContent =
-      data.count.toLocaleString();
+      count === "-" ? "-" : Number(count).toLocaleString();
 
   } catch (error) {
     document.getElementById(elementId).textContent = "-";
