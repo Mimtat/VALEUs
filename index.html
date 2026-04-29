@@ -512,24 +512,43 @@ This diagram illustrates the connections between different organizations, Action
       btn.textContent = isOpen ? 'More' : 'Less';
     });
   });
-   async function updateCounter(namespace, key, elementId) {
-      try {
-        const url = `https://api.countapi.xyz/hit/${namespace}/${key}`;
-        const response = await fetch(url);
-        const data = await response.json();
+  async function incrementCounter(key, elementId) {
+  try {
+    const response = await fetch(
+      `https://counterapi.dev/api/valeus-project/${key}/up`
+    );
 
-        document.getElementById(elementId).textContent =
-          data.value.toLocaleString();
-      } catch (error) {
-        document.getElementById(elementId).textContent = "-";
-      }
-    }
-   const ns = "valeus-project";
+    const data = await response.json();
 
-    updateCounter(ns, "landing-page", "landing-count");
-    updateCounter(ns, "flow-map", "flow-count");
-    updateCounter(ns, "sankey-map", "sankey-count");
-    updateCounter(ns, "network-map", "network-count");
+    document.getElementById(elementId).textContent =
+      data.count.toLocaleString();
+
+  } catch (error) {
+    document.getElementById(elementId).textContent = "-";
+  }
+}
+
+async function getCounter(key, elementId) {
+  try {
+    const response = await fetch(
+      `https://counterapi.dev/api/valeus-project/${key}/`
+    );
+
+    const data = await response.json();
+
+    document.getElementById(elementId).textContent =
+      data.count.toLocaleString();
+
+  } catch (error) {
+    document.getElementById(elementId).textContent = "-";
+  }
+}
+
+incrementCounter("landing-page", "landing-count");
+
+getCounter("flow-map", "flow-count");
+getCounter("sankey-map", "sankey-count");
+getCounter("gephi-map", "network-count");
 </script>
 
 </body>
