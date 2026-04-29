@@ -142,18 +142,6 @@
       opacity: 0.70;
       line-height: 1.25;
     }
-    .view-counter{
-  margin-top: 8px;
-  font-size: 12px;
-  color: #555;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.view-counter .eye{
-  font-size: 14px;
-}
   </style>
 </head>
 
@@ -192,11 +180,6 @@
         Non-project nodes appear only if linked to projects active in that year.
       </div>
     </div>
-    <div class="panel view-counter">
-  <span class="eye">👁</span>
-  <span id="gephi-count">...</span>
-  <span>views</span>
-</div>
   </div>
 
   <div id="container"></div>
@@ -206,23 +189,6 @@
     import Graph from "https://cdn.jsdelivr.net/npm/graphology@0.25.4/+esm";
     import forceAtlas2 from "https://cdn.jsdelivr.net/npm/graphology-layout-forceatlas2/+esm";
     import noverlap from "https://cdn.jsdelivr.net/npm/graphology-layout-noverlap/+esm";
-async function updateGephiCounter() {
-  try {
-    const response = await fetch(
-      "https://api.countapi.xyz/hit/valeus-project/gephi-map"
-    );
-
-    const data = await response.json();
-
-    document.getElementById("gephi-count").textContent =
-      data.value.toLocaleString();
-
-  } catch (error) {
-    document.getElementById("gephi-count").textContent = "-";
-  }
-}
-
-updateGephiCounter();
     document.addEventListener("DOMContentLoaded", () => {
       fetch("PrjAdd-2509.json")
         .then(r => r.json())
