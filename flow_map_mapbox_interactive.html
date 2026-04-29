@@ -417,18 +417,27 @@ Europe without Barriers;Kyiv;Ukraine;https://english.europewb.org.ua/;Democracy;
     // ── View counter ───────────────────────────────────────────────────────
     // Increment this page's counter and display the new total
     const NS = 'valeus-eu-2025';
-    (async function trackView(){
-      try {
-        const res  = await fetch(`https://api.counterapi.dev/v1/${NS}/flow-map/up`);
-        if (!res.ok) throw new Error(res.status);
-        const data = await res.json();
-        const n    = data?.count ?? data?.value ?? null;
-        document.getElementById('flow-count').textContent =
-          (n !== null && !isNaN(Number(n))) ? Number(n).toLocaleString() : '–';
-      } catch {
-        document.getElementById('flow-count').textContent = '–';
-      }
-    })();
+const BASE = 'https://api.counterapi.dev/v1';
+
+function displayCount(elementId, data) {
+  const n = data?.count ?? data?.value ?? null;
+  document.getElementById(elementId).textContent =
+    (n !== null && !isNaN(Number(n))) ? Number(n).toLocaleString() : '–';
+}
+
+async function increment(key, elementId) {
+  try {
+    const res = await fetch(`${BASE}/${NS}/${key}/up`);
+    if (!res.ok) throw new Error(res.status);
+    const data = await res.json();
+    displayCount(elementId, data);
+  } catch {
+    document.getElementById(elementId).textContent = '–';
+  }
+}
+
+increment('flow-map', 'flow-count');
+      ();
   </script>
 </body>
 </html>
