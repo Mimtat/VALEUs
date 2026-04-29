@@ -281,12 +281,7 @@
         contestations to EU values — freedom, democracy, equality, rule of law, and human rights — across domains
         such as peacebuilding, fundamental rights, sustainability, migration, trade, digitalization, conflict, and climate change.
       </p>
-      <!-- Landing page view counter -->
-      <div class="view-counter hero-counter">
-        <span class="eye">👁</span>
-        <span id="landing-count">…</span>
-        <span>page views</span>
-      </div>
+
     </section>
 
     <section class="section">
@@ -307,11 +302,7 @@
           </a>
           <div class="card-body" style="padding-top:0;">
             <p>Overview of organisations, their action domains, and links to their websites; filter by action domains.</p>
-            <div class="view-counter">
-              <span class="eye">👁</span>
-              <span id="flow-count">…</span>
-              <span>views</span>
-            </div>
+           
             <button class="more-toggle" type="button" aria-expanded="false" aria-controls="more-flow-map">More</button>
             <div class="card-more" id="more-flow-map" hidden>
               <p>The flow map provides an overview of the geographical spread of the civil society organisations, their action domains, and a link to their website. The map can be filtered by selecting action domains which are distinguished from each other through their colour schemes.</p>
@@ -332,11 +323,7 @@
           </a>
           <div class="card-body" style="padding-top:0;">
             <p>Visualises connections between organisations, action domains, and addressees; wider flows indicate stronger ties.</p>
-            <div class="view-counter">
-              <span class="eye">👁</span>
-              <span id="sankey-count">…</span>
-              <span>views</span>
-            </div>
+            
             <button class="more-toggle" type="button" aria-expanded="false" aria-controls="more-sankey-map">More</button>
             <div class="card-more" id="more-sankey-map" hidden>
               <p>This diagram illustrates the connections between different organizations, Action Domains, and Addressees through the flow of engagement. Each node represents an actor or category, while the arrows linking them are drawn with widths proportional to their value. These values originate from the underlying dataset: whenever an organization is connected to a domain, the connection is counted or weighted. If multiple records exist for the same link, their values are summed, meaning that thicker arrows represent stronger or more frequent ties. The algorithm then scales these values into pixel widths, so that the diagram fits neatly within the page while preserving the proportions of the flows. This makes it possible to see at a glance where engagement is concentrated, which pathways dominate, and how activity branches or converges across the network. The Sankey diagram emphasizes the magnitude of relationships and the distribution of connections across stages.</p>
@@ -452,10 +439,6 @@
     // Landing page: increment on every visit
     increment('landing-page', 'landing-count');
 
-    // Sub-pages: only READ counts here (each sub-page increments its own counter when opened)
-    read('flow-map',   'flow-count');
-    read('sankey-map', 'sankey-count');
-    read('gephi-map',  'network-count');
   </script>
 
 </body>
