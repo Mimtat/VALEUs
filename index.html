@@ -4,153 +4,140 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ValEUs – Civil Society EU Engagement Visualisations</title>
-<link rel="icon" href="data:,">
+  <link rel="icon" href="data:,">
   <style>
     :root{
-      /* ValEUs palette (from identity manual) */
       --valeus-blue: #5555FF;
       --valeus-green: #7CCF19;
       --valeus-yellow: #FFDF00;
       --valeus-red: #FF5955;
       --valeus-black: #000000;
       --valeus-white: #FFFFFF;
-
       --bg: #FFFFFF;
       --surface: #FFFFFF;
       --text: #111111;
       --muted: #4b5563;
       --border: rgba(0,0,0,0.10);
-
       --radius: 14px;
       --shadow: 0 8px 24px rgba(0,0,0,0.08);
       --maxw: 1040px;
     }
 
-    html, body { height: 100%; margin: 0;}
-    body{
+    html, body { height: 100%; margin: 0; }
+    body {
       min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+      display: flex;
+      flex-direction: column;
       margin: 0;
-       padding: 0;
-      font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif; /* identity manual */
+      padding: 0;
+      font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.45;
     }
 
-    .wrap{
+    .wrap {
       max-width: var(--maxw);
       margin: 0 auto;
       padding: 28px 18px 40px;
     }
-/* Header container */
-.site-header {
-  background-color: #ffffff;          /* or #f4f7fa if your page uses that */
-  border-bottom: 1px solid #e5e5e5;
-}
 
-/* Center content and control width */
-.site-header-inner {
-  max-width: 1100px;                  /* match your main layout width */
-  margin: 0 auto;
-  padding: 20px 24px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-}
-
-/* Logo + title block */
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-/* Keep logo in proportion */
-.brand-logo {
-  height: 95px;       /* tweak this if you want it bigger/smaller */
-  width: auto;
-  display: block;
-}
-
-/* Title & subtitle */
-.brand-text h1 {
-  margin: 0 0 4px;
-  font-size: 1.3rem;
-}
-
-.brand-text p {
-  margin: 0;
-  font-size: 1rem;
-  color: #444;
-}
-
-/* Call-to-action button */
-.header-cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 22px;
-  border-radius: 999px;
-  border: 1px solid #ddd;
-  background: #ffffff;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: #5555FF;      /* pick one of your VALEUS purples */
-}
-
-.header-cta:hover {
-  border-color: #5555FF;
-}
-
-/* Mobile: stack elements nicely */
-@media (max-width: 720px) {
-  .site-header-inner {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .header-cta {
-    align-self: stretch;
-    justify-content: center;
-  }
-}
-    .hero{
-      padding: 26px 0 10px;
+    .site-header {
+      background-color: #ffffff;
+      border-bottom: 1px solid #e5e5e5;
     }
-    h1{
+
+    .site-header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand-logo {
+      height: 95px;
+      width: auto;
+      display: block;
+    }
+
+    .brand-text h1 {
+      margin: 0 0 4px;
+      font-size: 1.3rem;
+    }
+
+    .brand-text p {
+      margin: 0;
+      font-size: 1rem;
+      color: #444;
+    }
+
+    .header-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 22px;
+      border-radius: 999px;
+      border: 1px solid #ddd;
+      background: #ffffff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #5555FF;
+    }
+
+    .header-cta:hover { border-color: #5555FF; }
+
+    @media (max-width: 720px) {
+      .site-header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .header-cta {
+        align-self: stretch;
+        justify-content: center;
+      }
+    }
+
+    .hero { padding: 26px 0 10px; }
+
+    h1 {
       margin: 0 0 10px;
       font-size: 30px;
       letter-spacing: 0.2px;
       color: var(--valeus-black);
     }
-    .lede{
+
+    .lede {
       margin: 0;
       color: var(--muted);
       max-width: 78ch;
       font-size: 15.5px;
     }
 
-    .section{
-      margin-top: 26px;
-    }
-    .section h2{
+    .section { margin-top: 26px; }
+
+    .section h2 {
       margin: 0 0 12px;
       font-size: 18px;
       color: var(--valeus-black);
     }
 
-    .grid{
+    .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 16px;
     }
 
-    .card{
+    .card {
       background: var(--surface);
       border-radius: var(--radius);
       border: 1px solid var(--border);
@@ -158,24 +145,24 @@
       overflow: hidden;
       transition: transform 0.16s ease, box-shadow 0.16s ease;
     }
-    .card:hover{
+
+    .card:hover {
       transform: translateY(-3px);
       box-shadow: 0 12px 30px rgba(0,0,0,0.10);
     }
 
-    .thumb{
+    .thumb {
       width: 100%;
       height: 190px;
       object-fit: cover;
-      display:block;
+      display: block;
       background: rgba(85,85,255,0.08);
     }
 
-    .card-body{
-      padding: 14px 14px 16px;
-    }
-    .tag{
-      display:inline-block;
+    .card-body { padding: 14px 14px 16px; }
+
+    .tag {
+      display: inline-block;
       font-size: 12px;
       padding: 4px 10px;
       border-radius: 999px;
@@ -184,33 +171,22 @@
       background: rgba(0,0,0,0.03);
       margin-bottom: 10px;
     }
-    .card h3{
-      margin: 0 0 8px;
-      font-size: 16px;
-    }
-    .card p{
-      margin: 0;
-      color: var(--muted);
-      font-size: 13.5px;
-    }
 
-    .card a{
-      text-decoration: none;
-      color: inherit;
-      display:block;
-    }
+    .card h3 { margin: 0 0 8px; font-size: 16px; }
+    .card p  { margin: 0; color: var(--muted); font-size: 13.5px; }
+    .card a  { text-decoration: none; color: inherit; display: block; }
 
-    .btnrow{
-      display:flex;
+    .btnrow {
+      display: flex;
       flex-wrap: wrap;
       gap: 10px;
       margin-top: 14px;
     }
 
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       padding: 10px 12px;
       border-radius: 10px;
       border: 1px solid transparent;
@@ -220,116 +196,83 @@
       text-decoration: none;
       user-select: none;
     }
-    .btn-primary{
-      background: var(--valeus-blue);
-      color: var(--valeus-white);
-    }
-    .btn-primary:hover{ filter: brightness(0.96); }
 
-    .btn-ghost{
-      background: transparent;
-      border-color: var(--border);
-      color: var(--valeus-black);
-    }
-main {
-  flex: 1;          /* your main content */
-}
+    .btn-primary { background: var(--valeus-blue); color: var(--valeus-white); }
+    .btn-primary:hover { filter: brightness(0.96); }
+    .btn-ghost { background: transparent; border-color: var(--border); color: var(--valeus-black); }
 
-    footer{
+    main { flex: 1; }
+
+    footer {
       margin-top: 34px;
       padding-top: 18px;
       border-top: 1px solid var(--border);
-      color: var(--muted);
-   
-  background-color: #f4f4f4;
-  color: #222;
-
+      background-color: #f4f4f4;
+      color: #222;
       font-size: 12.5px;
-      display:flex;
+      display: flex;
       flex-direction: column;
       gap: 10px;
     }
-    .eu{
-      display:flex;
-      align-items:flex-start;
-      gap: 10px;
-    }
-    .eu img{
-      width: 270px;
-      height: auto;
-      display:block;
-    }
-.more-toggle {
-  margin-top: 0.5rem;
-  border: none;
-  background: none;
-  padding: 0;
-  font: inherit;
-  color:  #5555FF; /* adjust to your VALEUS blue */
-  cursor: pointer;
-  text-decoration: underline;
-}
 
-.more-toggle:hover,
-.more-toggle:focus {
-  text-decoration: none;
-}
+    .eu { display: flex; align-items: flex-start; gap: 10px; }
+    .eu img { width: 270px; height: auto; display: block; }
 
-.card-more {
-  margin-top: 0.75rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid #e2e6ea;
-  font-size: 0.95rem;
-  line-height: 1.5;
-}
-.view-counter{
-  margin-top: 10px;
-  font-size: 13px;
-  color: #666;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.view-counter .eye{
-  font-size: 14px;
-}
-     .hero-counter{
-      margin-top: 14px;
+    .more-toggle {
+      margin-top: 0.5rem;
+      border: none;
+      background: none;
+      padding: 0;
+      font: inherit;
+      color: #5555FF;
+      cursor: pointer;
+      text-decoration: underline;
     }
 
+    .more-toggle:hover,
+    .more-toggle:focus { text-decoration: none; }
+
+    .card-more {
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid #e2e6ea;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* ── View counter ───────────────────────────────────────────── */
+    .view-counter {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+      font-size: 12.5px;
+      color: #888;
+    }
+
+    .view-counter .eye { font-size: 14px; }
+
+    .hero-counter { margin-top: 14px; }
   </style>
 </head>
 
 <body>
   <div class="wrap">
-<header class="site-header">
-  <div class="site-header-inner">
-    <!-- Left: logo + text -->
-    <div class="brand">
-      <img
-        src="assets/img/values logo.png"
-        alt="ValEUs logo"
-        class="brand-logo"
-      />
 
-      <div class="brand-text">
-        <h1>ValEUs Interactive Database</h1>
-        <p>Civil society initiatives counteracting contestations of EU values</p>
+    <header class="site-header">
+      <div class="site-header-inner">
+        <div class="brand">
+          <img src="assets/img/values logo.png" alt="ValEUs logo" class="brand-logo" />
+          <div class="brand-text">
+            <h1>ValEUs Interactive Database</h1>
+            <p>Civil society initiatives counteracting contestations of EU values</p>
+          </div>
+        </div>
+        <a href="https://valeus.eu" target="_blank" rel="noopener" class="header-cta">
+          Go to ValEUs
+        </a>
       </div>
-    </div>
-
-    <!-- Right: button -->
-    <a
-      href="https://valeus.eu"
-      target="_blank"
-      rel="noopener"
-      class="header-cta"
-    >
-      Go to ValEUs
-    </a>
-  </div>
-</header>
+    </header>
 
     <section class="hero">
       <h1>Civil Society EU Engagement Visualisations</h1>
@@ -338,11 +281,11 @@ main {
         contestations to EU values — freedom, democracy, equality, rule of law, and human rights — across domains
         such as peacebuilding, fundamental rights, sustainability, migration, trade, digitalization, conflict, and climate change.
       </p>
-      
-     <div class="view-counter hero-counter">
+      <!-- Landing page view counter -->
+      <div class="view-counter hero-counter">
         <span class="eye">👁</span>
-        <span id="landing-count">...</span>
-        <span>landing page views</span>
+        <span id="landing-count">…</span>
+        <span>page views</span>
       </div>
     </section>
 
@@ -351,120 +294,79 @@ main {
 
       <div class="grid">
 
+        <!-- Flow Map card -->
         <div class="card">
-  <!-- keep the link to open the visualisation -->
-  <a href="flow_map_mapbox_interactive.html"
-     target="_blank"
-     rel="noopener">
-    <img class="thumb"
-         src="assets/img/Flow-preview.png"
-         alt="Flow Map Preview">
-  
+          <a href="flow_map_mapbox_interactive.html" target="_blank" rel="noopener">
+            <img class="thumb" src="assets/img/Flow-preview.png" alt="Flow Map Preview">
+            <div class="card-body">
+              <span class="tag" style="background: rgba(124,207,25,0.18); border-color: rgba(124,207,25,0.45);">
+                Flow Map
+              </span>
+              <h3>Geographical Spread and Action Domains</h3>
+            </div>
+          </a>
+          <div class="card-body" style="padding-top:0;">
+            <p>Overview of organisations, their action domains, and links to their websites; filter by action domains.</p>
+            <div class="view-counter">
+              <span class="eye">👁</span>
+              <span id="flow-count">…</span>
+              <span>views</span>
+            </div>
+            <button class="more-toggle" type="button" aria-expanded="false" aria-controls="more-flow-map">More</button>
+            <div class="card-more" id="more-flow-map" hidden>
+              <p>The flow map provides an overview of the geographical spread of the civil society organisations, their action domains, and a link to their website. The map can be filtered by selecting action domains which are distinguished from each other through their colour schemes.</p>
+            </div>
+          </div>
+        </div>
 
-  <div class="card-body">
-    <span class="tag"
-          style="background: rgba(124,207,25,0.18); border-color: rgba(124,207,25,0.45);">
-      Flow Map
-    </span>
-  
-    <h3>Geographical Spread and Action Domains</h3>
-  </a>
-    <p>
-      Overview of organisations, their action domains, and links to their
-      websites; filter by action domains.
-    </p>
-<div class="view-counter">
-                <span class="eye">👁</span>
-                <span id="flow-count">...</span>
-                <span>views</span>
-              </div>
-    <!-- NEW: More / Less toggle -->
-    <button class="more-toggle"
-            type="button"
-            aria-expanded="false"
-            aria-controls="more-flow-map">
-      More
-    </button>
-
-    <!-- NEW: hidden extra text -->
-    <div class="card-more" id="more-flow-map" hidden>
-      <p>
-        The flow map provides an overview of the geographical spread of the civil society organisations, their action domains, and a link to their website. The map can be filtered by selecting action domains which are distinguished from each other through their colour schemes. 
-      </p>
-    </div>
-  </div>
-</div>
-
-
+        <!-- Sankey card -->
         <div class="card">
           <a href="sankey_new.html" target="_blank" rel="noopener">
             <img class="thumb" src="assets/img/Sanky-preview.png" alt="Sankey Diagram Preview">
-            
             <div class="card-body">
               <span class="tag" style="background: rgba(255,223,0,0.22); border-color: rgba(255,223,0,0.55);">
                 Sankey Diagram
               </span>
               <h3>Flows of Engagement Across Actors</h3>
-              </a>
-              <p>
-                Visualises connections between organisations, action domains, and addressees; wider flows indicate stronger ties.
-              </p>
-              <div class="view-counter">
-                <span class="eye">👁</span>
-                <span id="sankey-count">...</span>
-                <span>views</span>
-              </div>
-              <!-- NEW: More / Less toggle -->
-    <button class="more-toggle"
-            type="button"
-            aria-expanded="false"
-            aria-controls="more-sankey-map">
-      More
-    </button>
-
-    <!-- NEW: hidden extra text -->
-    <div class="card-more" id="more-sankey-map" hidden>
-      <p>
-This diagram illustrates the connections between different organizations, Action Domains, and Addressees through the flow of engagement. Each node represents an actor or category, while the arrows linking them are drawn with widths proportional to their value. These values originate from the underlying dataset: whenever an organization is connected to a domain, the connection is counted or weighted. If multiple records exist for the same link, their values are summed, meaning that thicker arrows represent stronger or more frequent ties. The algorithm then scales these values into pixel widths, so that the diagram fits neatly within the page while preserving the proportions of the flows. This makes it possible to see at a glance where engagement is concentrated, which pathways dominate, and how activity branches or converges across the network. The Sankey diagram emphasizes the magnitude of relationships and the distribution of connections across stages.
-    </div>
             </div>
-          
+          </a>
+          <div class="card-body" style="padding-top:0;">
+            <p>Visualises connections between organisations, action domains, and addressees; wider flows indicate stronger ties.</p>
+            <div class="view-counter">
+              <span class="eye">👁</span>
+              <span id="sankey-count">…</span>
+              <span>views</span>
+            </div>
+            <button class="more-toggle" type="button" aria-expanded="false" aria-controls="more-sankey-map">More</button>
+            <div class="card-more" id="more-sankey-map" hidden>
+              <p>This diagram illustrates the connections between different organizations, Action Domains, and Addressees through the flow of engagement. Each node represents an actor or category, while the arrows linking them are drawn with widths proportional to their value. These values originate from the underlying dataset: whenever an organization is connected to a domain, the connection is counted or weighted. If multiple records exist for the same link, their values are summed, meaning that thicker arrows represent stronger or more frequent ties. The algorithm then scales these values into pixel widths, so that the diagram fits neatly within the page while preserving the proportions of the flows. This makes it possible to see at a glance where engagement is concentrated, which pathways dominate, and how activity branches or converges across the network. The Sankey diagram emphasizes the magnitude of relationships and the distribution of connections across stages.</p>
+            </div>
+          </div>
         </div>
 
+        <!-- Gephi Network card -->
         <div class="card">
           <a href="gephi_network.html" target="_blank" rel="noopener">
             <img class="thumb" src="assets/img/Gephi-Preview.png" alt="Interactive network preview">
-            
-           
-          <div class="card-body">
+            <div class="card-body">
               <span class="tag" style="background: rgba(255,89,85,0.18); border-color: rgba(255,89,85,0.45);">
                 Interactive Network
               </span>
               <h3>Network Structure and Collaboration Clusters</h3>
-             </a>
-              <p>
-                ForceAtlas-based network of projects, organisations, addressees, and domains; reveals hubs, clusters, and bridges. 
-              </p>
-          <div class="view-counter">
-                <span class="eye">👁</span>
-                <span id="network-count">...</span>
-                <span>views</span>
-              </div>
-               <!-- NEW: More / Less toggle -->
-    <button class="more-toggle"
-            type="button"
-            aria-expanded="false"
-            aria-controls="more-gephi-map">
-      More
-    </button>
-
-    <!-- NEW: hidden extra text -->
-    <div class="card-more" id="more-gephi-map" hidden>
-      <p>
-      This diagram utilizes the ForceAtlas layout algorithm to visualize the connections between projects, action domains, addressees, and organizations in the VALEUs dataset. It highlights clusters and communities. ForceAtlas simulates a physical system where edges act like springs pulling related nodes closer, while nodes themselves repel one another. As a result, groups of highly connected actors cluster together, while less connected ones are pushed outward (countries with only one connection are examples of this). Larger, more central nodes represent key hubs — projects or organizations with many ties — while smaller nodes at the edges reflect actors with fewer connections. The clusters, displayed in different colors, represent communities of engagement. Within each cluster, nodes are positioned according to the strength and number of their relationships, making collaboration patterns visible. Some nodes appear between clusters, demonstrating their bridging role in linking otherwise separate groups, such as EU institutions. Moreover, specific relations are defined for each edge: an organization implements a project, a project engages with a country or cause, and targets other addresses,  countries, or institutions. This provides a bird’s-eye view of how EU civil society engagement is structured: dense cores → strong collaboration networks, and Sparse branches → isolated actors.  Country →  Light blue, Addressee →  yellow, Organization →  Purple, Action Domain→  Magenta </div>
-          </p> 
             </div>
-        
+          </a>
+          <div class="card-body" style="padding-top:0;">
+            <p>ForceAtlas-based network of projects, organisations, addressees, and domains; reveals hubs, clusters, and bridges.</p>
+            <div class="view-counter">
+              <span class="eye">👁</span>
+              <span id="network-count">…</span>
+              <span>views</span>
+            </div>
+            <button class="more-toggle" type="button" aria-expanded="false" aria-controls="more-gephi-map">More</button>
+            <div class="card-more" id="more-gephi-map" hidden>
+              <p>This diagram utilizes the ForceAtlas layout algorithm to visualize the connections between projects, action domains, addressees, and organizations in the VALEUs dataset. It highlights clusters and communities. ForceAtlas simulates a physical system where edges act like springs pulling related nodes closer, while nodes themselves repel one another. As a result, groups of highly connected actors cluster together, while less connected ones are pushed outward. Larger, more central nodes represent key hubs — projects or organizations with many ties — while smaller nodes at the edges reflect actors with fewer connections. The clusters, displayed in different colors, represent communities of engagement. Country → Light blue, Addressee → yellow, Organization → Purple, Action Domain → Magenta.</p>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -474,11 +376,9 @@ This diagram illustrates the connections between different organizations, Action
       <h2>Contribute an initiative</h2>
       <p class="lede" style="max-width: 78ch;">
         This database is an ongoing attempt. If you are aware of initiatives that should be added, please submit them via the form below.
-        New entries will be moderated and added regularly. 
+        New entries will be moderated and added regularly.
       </p>
-
       <div class="btnrow">
-        <!-- Replace with your actual Tally (or other) form link -->
         <a class="btn btn-primary" href="https://tally.so/r/gDdlpK" target="_blank" rel="noopener">
           Submit an initiative
         </a>
@@ -487,7 +387,6 @@ This diagram illustrates the connections between different organizations, Action
 
     <footer>
       <div class="eu">
-        <!-- If you have the EU emblem asset, place it here -->
         <img src="assets/img/cofoundeu.png" alt="EU flag">
         <div>
           Funded by the European Union. Views and opinions expressed are however those of the author(s) only and do not necessarily reflect
@@ -498,68 +397,66 @@ This diagram illustrates the connections between different organizations, Action
       </div>
     </footer>
 
-  </div>
- <script>
-  document.querySelectorAll('.more-toggle').forEach(function (btn) {
-    btn.addEventListener('click', function (event) {
-      event.stopPropagation(); // just in case
-      const id = btn.getAttribute('aria-controls');
-      const box = document.getElementById(id);
-      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+  </div><!-- /.wrap -->
 
-      btn.setAttribute('aria-expanded', String(!isOpen));
-      box.hidden = isOpen;
-      btn.textContent = isOpen ? 'More' : 'Less';
+  <script>
+    // ── More / Less toggles ────────────────────────────────────────────────
+    document.querySelectorAll('.more-toggle').forEach(function (btn) {
+      btn.addEventListener('click', function (event) {
+        event.stopPropagation();
+        const id    = btn.getAttribute('aria-controls');
+        const box   = document.getElementById(id);
+        const isOpen = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!isOpen));
+        box.hidden       = isOpen;
+        btn.textContent  = isOpen ? 'More' : 'Less';
+      });
     });
-  });
-  function extractCount(data) {
-  return data.count ?? data.Count ?? data.value ?? data.Value ?? "-";
-}
 
-function extractCount(data) {
-  return data?.data?.up_count ?? data?.value ?? "-";
-}
+    // ── View counters ──────────────────────────────────────────────────────
+    // Namespace — change this string if you ever want to reset all counts.
+    const NS = 'valeus-eu-2025';
+    const BASE = 'https://api.counterapi.dev/v1';
 
-async function incrementCounter(key, elementId) {
-  try {
-    const response = await fetch(
-      `https://api.counterapi.dev/v2/valeus-project/${key}/up`
-    );
+    function displayCount(elementId, data) {
+      // counterapi.dev v1 returns { count: N }
+      const n = data?.count ?? data?.value ?? null;
+      document.getElementById(elementId).textContent =
+        (n !== null && !isNaN(Number(n))) ? Number(n).toLocaleString() : '–';
+    }
 
-    const data = await response.json();
-    const count = extractCount(data);
+    // Hit a counter (increment) and show the new value
+    async function increment(key, elementId) {
+      try {
+        const res  = await fetch(`${BASE}/${NS}/${key}/up`);
+        if (!res.ok) throw new Error(res.status);
+        const data = await res.json();
+        displayCount(elementId, data);
+      } catch {
+        document.getElementById(elementId).textContent = '–';
+      }
+    }
 
-    document.getElementById(elementId).textContent =
-      count === "-" ? "-" : Number(count).toLocaleString();
+    // Read a counter without incrementing
+    async function read(key, elementId) {
+      try {
+        const res  = await fetch(`${BASE}/${NS}/${key}`);
+        if (!res.ok) throw new Error(res.status);
+        const data = await res.json();
+        displayCount(elementId, data);
+      } catch {
+        document.getElementById(elementId).textContent = '–';
+      }
+    }
 
-  } catch (error) {
-    document.getElementById(elementId).textContent = "-";
-  }
-}
+    // Landing page: increment on every visit
+    increment('landing-page', 'landing-count');
 
-async function getCounter(key, elementId) {
-  try {
-    const response = await fetch(
-      `https://api.counterapi.dev/v2/valeus-project/${key}`
-    );
-
-    const data = await response.json();
-    const count = extractCount(data);
-
-    document.getElementById(elementId).textContent =
-      count === "-" ? "-" : Number(count).toLocaleString();
-
-  } catch (error) {
-    document.getElementById(elementId).textContent = "-";
-  }
-}
-
-incrementCounter("landing-page", "landing-count");
-
-getCounter("flow-map", "flow-count");
-getCounter("sankey-map", "sankey-count");
-getCounter("gephi-map", "network-count");
-</script>
+    // Sub-pages: only READ counts here (each sub-page increments its own counter when opened)
+    read('flow-map',   'flow-count');
+    read('sankey-map', 'sankey-count');
+    read('gephi-map',  'network-count');
+  </script>
 
 </body>
 </html>
