@@ -1,85 +1,245 @@
-Flow Map – Organizations by Category (Clustered)
-=================================================
+# README – Organization Category Flow Map
 
-Overview
---------
-This interactive map visualizes civil society organizations by city and thematic category (e.g., Democracy, Human Rights, Environment).
-It uses Leaflet and Leaflet.markercluster, allowing users to explore organizations geographically, filter by category, search by name,
-and view detailed information in map popups.
+## Overview
 
-Core Functionalities
---------------------
-1. Map Initialization
-   Initializes a Leaflet map centered over Europe using OpenStreetMap as the base tile layer.
+This interactive page displays organizations on a map by location and category.
 
-2. City Coordinates
-   Defines a lookup table assigning latitude and longitude to each city/country pair.
+Each organization appears as a colored pin. Users can:
 
-3. Category Color Coding
-   Assigns unique colors to each primary category for visual distinction.
+* View organizations geographically
+* Click pins for details
+* Search organizations by name
+* Filter by category
+* Zoom to all visible pins
+* Collapse or expand the control panel
 
-4. Data Normalization
-   Cleans messy input (e.g., corrects misspellings, normalizes URLs, categories).
+The page uses:
 
-5. Data Parsing
-   Reads inline CSV data, splits it, normalizes it, and converts to structured organization objects.
+* Leaflet.js
+* OpenStreetMap tiles
+* Leaflet MarkerCluster
 
-6. Marker Creation
-   Creates circular div-based markers colored by primary category.
-   Each has a tooltip (name) and popup (details and website).
+---
 
-7. Marker Clustering
-   Groups nearby organizations into clusters to reduce clutter.
-   Expands when zoomed in.
+## How the Page Works
 
-8. Filtering & Search
-   Filters visible organizations by name and category based on user inputs.
+The file contains three main data sections:
 
-9. Zoom to All
-   Adjusts map bounds to show all current visible markers using a “⤢ Show all” button.
+1. Category colors (`CAT_COLORS`)
+2. City coordinates (`CITY_LL`)
+3. Organization dataset (`CSV`)
 
-10. Collapsible Control Panel
-    The panel on the right can be collapsed or expanded to show/hide filters.
+---
 
-User Interface Elements
------------------------
-- Colored pins: represent organizations; color = primary category
-- Tooltip: displays organization name
-- Popup: shows organization info and categories
-- Filter checkboxes: toggle categories
-- Search box: filters by name
-- Legend box: lists color/category mapping
-- ⤢ button: zooms to all
-- +/− toggle: collapses/expands filter panel
+## 1. Category Colors
 
-Dependencies
-------------
-- Leaflet v1.9.4
-- Leaflet.markercluster v1.5.3 (loaded via CDN)
+This section controls the color of pins.
 
-File Structure
---------------
-flow_map_orgs_by_category.html
-│
-├── <head> : CSS links and map styles
-├── <body> : map container + control panel
-└── <script> : map logic, CSV data, filters, markers, etc.
+```javascript
+const CAT_COLORS = {
+  'Democracy': '#2F6BFF',
+  'Migration': '#FF5A7A'
+};
+```
 
-Usage Notes
------------
-1. Run via local server (recommended):
-   python -m http.server 8000
-   Then open http://localhost:8000/flow_map_orgs_by_category.html
+The **Primary Category** determines the pin color.
 
-2. If opened as file://, browser may block map tiles. Use localhost instead.
+---
 
-3. To add new organizations, edit the CSV string and ensure city exists in CITY_LL.
+## 2. City Coordinates
 
-4. To change colors, edit CAT_COLORS in script.
+This section stores map coordinates.
 
-Possible Extensions
--------------------
-- Add regional zoom controls
-- Visualize category connections (flows)
-- Add country statistics sidebar
-- Add timeline filter for project years
+```javascript
+const CITY_LL = {
+  'Berlin,Germany':[52.5200,13.4050],
+  'Warsaw,Poland':[52.2370,21.0175]
+};
+```
+
+Format:
+
+```text
+'City,Country':[Latitude,Longitude]
+```
+
+If a city is missing here, organizations in that city will not appear.
+
+---
+
+## 3. Organization Data
+
+Organizations are stored in the CSV block.
+
+```javascript
+const CSV = `
+Name of Organization;City;Country;Website;Primary Category;Secondary Category;Third Category
+...`;
+```
+
+Each line = one organization.
+
+---
+
+# How to Add a New Organization
+
+Add a new line inside the `CSV` section.
+
+Format:
+
+```text
+Organization Name;City;Country;Website;Primary Category;Secondary Category;Third Category
+```
+
+Example:
+
+```text
+Example Organization;Berlin;Germany;https://example.org/;Democracy;Human/Fundamental rights;
+```
+
+---
+
+## Column Meaning
+
+| Column               | Meaning                        |
+| -------------------- | ------------------------------ |
+| Name of Organization | Full organization name         |
+| City                 | City name                      |
+| Country              | Country name                   |
+| Website              | Full website URL               |
+| Primary Category     | Main category (controls color) |
+| Secondary Category   | Optional                       |
+| Third Category       | Optional                       |
+
+---
+
+## Important Rules
+
+### Rule 1: City Must Exist in `CITY_LL`
+
+If the city is new, first add coordinates.
+
+Example:
+
+```javascript
+'Lisbon,Portugal':[38.7223,-9.1393],
+```
+
+Then add the organization row:
+
+```text
+Open Europe Lisbon;Lisbon;Portugal;https://example.pt/;Democracy;;
+```
+
+---
+
+### Rule 2: Use Existing Category Names
+
+Use only these values:
+
+* Democracy
+* Human/Fundamental rights
+* International/intercultural Understanding
+* Energy/Climate/Sustainability
+* Trade/Economy
+* Migration
+* Conflict/War
+* Digital Technology
+* Digital Media
+* European Integration
+* other
+
+---
+
+### Rule 3: Primary Category Controls Color
+
+Example:
+
+```text
+Example NGO;Berlin;Germany;https://example.org/;Migration;Democracy;
+```
+
+This organization will use the Migration color.
+
+---
+
+## Search Function
+
+Typing in the search box filters by organization name.
+
+Example:
+
+```text
+Amnesty
+```
+
+Shows organizations with “Amnesty” in their name.
+
+---
+
+## Category Filtering
+
+Checkboxes filter visible organizations.
+
+If an organization belongs to multiple categories, selecting any of them will show it.
+
+---
+
+## Common Problems
+
+### Organization Does Not Appear
+
+Usually caused by missing city coordinates.
+
+Check `CITY_LL`.
+
+### Wrong Pin Color
+
+Category name is misspelled.
+
+Use the approved category names.
+
+### Website Not Clickable
+
+Use full URLs:
+
+```text
+https://example.org
+```
+
+---
+
+## Quick Example
+
+### Step 1 – Add City
+
+```javascript
+'Lisbon,Portugal':[38.7223,-9.1393]
+```
+
+### Step 2 – Add Organization
+
+```text
+Open Europe Lisbon;Lisbon;Portugal;https://openeurope.pt/;Democracy;European Integration;
+```
+
+---
+
+## Final Checklist
+
+Before saving:
+
+* [ ] New row added to CSV
+* [ ] Correct semicolon format used
+* [ ] City exists in CITY_LL
+* [ ] Category names are correct
+* [ ] Website starts with https://
+* [ ] File tested in browser
+
+---
+
+## Notes for Non-Coders
+
+Most updates only require editing the `CSV` section.
+
+Only edit `CITY_LL` when adding a new city.
