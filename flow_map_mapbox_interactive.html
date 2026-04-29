@@ -62,10 +62,10 @@
     <div class="footer-note">Pin color = Primary category. Filtering applies to any of an org's categories. Use the ⤢ button to zoom to all pins.</div>
   </div>
 <div class="view-counter">
-    <span class="eye">👁</span>
-    <span id="flow-count">...</span>
-    <span>views</span>
-  </div>
+  <span class="eye">👁</span>
+  <span id="flow-count">...</span>
+  <span>views</span>
+</div>
   </div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
@@ -399,7 +399,7 @@ let collapsed = false;
 toggleBtn.addEventListener('click', () => {
   collapsed = !collapsed;
   if (collapsed) {
-    panel.height = '40px';
+    panel.style.height = '40px';
     panel.style.overflow = 'hidden';
     toggleBtn.textContent = '+';
   } else {
